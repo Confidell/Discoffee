@@ -1,0 +1,46 @@
+/* /Views/Shared/_Layout.cshtml.rz.scp.css */
+*[b-scjidw2geo]{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  list-style: none;
+}
+
+header[b-scjidw2geo]{
+  width: 100%;
+  height: 80px;
+  background-color: #1e1e1e;
+  position: fixed;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+header .titulo[b-scjidw2geo]{
+  font-size: 3rem;
+  color: #fff;
+}
+header nav[b-scjidw2geo]{
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+header nav ul[b-scjidw2geo]{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+header nav ul li a[b-scjidw2geo]{
+  font-size: 1rem;
+  color: #fff;
+}
+
+.main[b-scjidw2geo]{
+  width: 100%;
+  /* height: 100vh; */
+}
