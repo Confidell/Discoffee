@@ -1,14 +1,246 @@
+/* SESSAO INICIAL */
 .banner-inicial{
     width: 100%;
-    height: 80vh;
+    height: 100vh;
     position: relative;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    background-image: url("../Assets/Imagens/Banner_1.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.overlay{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, #000000af, transparent 60%);
+    position: absolute;
+    z-index: 1;
+}
+.banner-inicial .slogan{
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--branco);
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 10%;
+}
+
+/* SESSAO DE INTRODUÇÃO */
+.sessao-intro{
+    gap: 6rem;
+    padding: 0 6rem;
+    height: 100vh;
+}
+
+.sessao-intro article{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+.sessao-intro article div{
+    line-height: 1;
+}
+.sessao-intro article div .subtitulo{
+    color: var(--vermelho);
+}
+.subtitulo{
+    font-weight: 600;
+    margin-left: 1rem;
+    font-size: 1.3rem;
+    letter-spacing: 1px;
+}
+.sessao-intro article div .titulo-sessao{
+    color: var(--laranja);
+}
+.titulo-sessao{
+    /* color: var(--laranja); */
+    font-weight: 700;
+    font-size: 2.3rem;
+    letter-spacing: 1px;
+    flex-wrap: nowrap;
+}
+.sessao-intro article .texto{
+    text-align: justify;
+}
+.texto{
+    font-size: 1.3rem;
+    font-weight: 500;
+    width: 100%;
+}
+.sessao-intro article .botao{
+    background-color: var(--laranja);
+    color: var(--branco);
+}
+.sessao-intro img{
+    width: 350px;
+    height: 500px;
+}
+
+/* SESSAO PRODUTOS */
+.sessao-produtos{
+    height: 150vh;
+    flex-direction: column;
+    gap: 2.5rem;
+    padding-bottom: 8rem;
+}
+.sessao-produtos article{
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: beige;
+    flex-direction: column;
+    gap: 2rem;
+}
+.sessao-produtos article .titulo-sessao{
+    color: var(--vermelho);
+}
+.sessao-produtos article .texto{
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+.sessao-produtos .grid-cards{
+    width: 85%;
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+.sessao-produtos .grid-cards .card{
+    width: 35%;
+    height: 100%;
+    position: relative;
+    /* overflow: hidden; */
+    perspective: 2000px;
+    border: none;
+}
+.sessao-produtos .grid-cards .card-interno{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    /* overflow: hidden; */
+    transform-style: preserve-3d;
+    transition: all .5s ease;
+    border: none;
+}
+.sessao-produtos .grid-cards .card-interno .card-traseiro{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--branco-escuro);
+    transform: rotateY(180deg);
+    z-index: 3;
+    top: 0;
+    border: none;
+}
+.sessao-produtos .grid-cards .card-interno img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.sessao-produtos .grid-cards .card-interno::after{
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: #000;
+    opacity: 40%;
+}
+.sessao-produtos .grid-cards .card-interno h3, .seta-card{
+    position: absolute;
+    z-index: 2;
+    color: var(--branco);
+}
+.sessao-produtos .grid-cards .card-interno h3{
+    bottom: 5%;
+    left: 5%;
+    font-weight: 800;
+    font-size: 2.5rem;
+    line-height: 1.2;
+}
+.sessao-produtos .grid-cards .card-interno .seta-card{
+    width: 2.5rem;
+    height: 2.5rem;
+    bottom: 6%;
+    right: 5%;
+}
+.sessao-produtos .grid-cards .card:hover .card-interno{
+    transform: rotateY(180deg);
 }
 
-.banner-inicial img{
+/* SESSAO DE MUSICA */
+.sessao-musica{
+    height: 100vh;
+    flex-direction: column;
+    gap: 2rem;
+}
+.sessao-musica .banner{
     width: 100%;
-    object-fit: cover;
+    height: 35%;
+    background-image: url("../Assets/Imagens/Imagem_MS.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-attachment: fixed; */
+}
+.sessao-musica article{
+    width: 100%;
+    height: 65%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+.sessao-musica .grupo-titulo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.sessao-musica .grupo-titulo .subtitulo{
+    color: var(--roxo);
+}
+.sessao-musica .grupo-titulo .titulo-sessao{
+    color: var(--azul);
+}
+.sessao-musica .textos{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+.sessao-musica .textos .texto {
+    text-align: center;
+    font-size: 1.5rem;
+}
+.sessao-musica .textos hr{
+    width: 60%;
+    height: 2px;
+    background-color: var(--azul);
+    opacity: 1; 
+    justify-self: center;
+}
+.sessao-musica .cto{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+.sessao-musica .cto .botao{
+    width: 250px;
+    background-color: var(--azul);
+    color: var(--branco);
+    font-weight: 500;
 }
