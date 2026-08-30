@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\luizh\\Desktop\\TCC\\Discoffee\\Discoffee\\Discoffee.csproj": {}
+    "C:\\Users\\Laura Xavier\\OneDrive\\Área de Trabalho\\Discoffee\\Discoffee.csproj": {}
   },
   "projects": {
-    "C:\\Users\\luizh\\Desktop\\TCC\\Discoffee\\Discoffee\\Discoffee.csproj": {
+    "C:\\Users\\Laura Xavier\\OneDrive\\Área de Trabalho\\Discoffee\\Discoffee.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\luizh\\Desktop\\TCC\\Discoffee\\Discoffee\\Discoffee.csproj",
+        "projectUniqueName": "C:\\Users\\Laura Xavier\\OneDrive\\Área de Trabalho\\Discoffee\\Discoffee.csproj",
         "projectName": "Discoffee",
-        "projectPath": "C:\\Users\\luizh\\Desktop\\TCC\\Discoffee\\Discoffee\\Discoffee.csproj",
-        "packagesPath": "C:\\Users\\luizh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\luizh\\Desktop\\TCC\\Discoffee\\Discoffee\\obj\\",
+        "projectPath": "C:\\Users\\Laura Xavier\\OneDrive\\Área de Trabalho\\Discoffee\\Discoffee.csproj",
+        "packagesPath": "C:\\Users\\Laura Xavier\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Laura Xavier\\OneDrive\\Área de Trabalho\\Discoffee\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\luizh\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Laura Xavier\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
