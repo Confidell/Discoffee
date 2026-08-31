@@ -6,11 +6,13 @@ wwwroot\Assets\Icons\Icon_Youtube.svg
 wwwroot\Assets\Icons\Logo.svg
 wwwroot\Assets\Imagens\Acompanhamentos.jpg
 wwwroot\Assets\Imagens\Banner_1.jpg
+wwwroot\Assets\Imagens\Barra_Titulo.png
 wwwroot\Assets\Imagens\Drinks.jpg
+wwwroot\Assets\Imagens\Fundo_Cadastro.png
 wwwroot\Assets\Imagens\Imagem_MS.jpg
 wwwroot\Assets\Imagens\Imagem_QS.jpg
+wwwroot\Assets\Imagens\seta.png
 wwwroot\Assets\Imagens\Tradicionais.jpg
-wwwroot\css\cadastrar.css
 wwwroot\css\global.css
 wwwroot\css\home.css
 wwwroot\favicon.ico
@@ -75,6 +77,7 @@ wwwroot\lib\jquery\dist\jquery.slim.js
 wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\css\cadastrar.css
 C:\Users\Laura Xavier\OneDrive\Área de Trabalho\Discoffee\wwwroot\Assets\Icons\Icon_Instagram.svg
 C:\Users\Laura Xavier\OneDrive\Área de Trabalho\Discoffee\wwwroot\Assets\Icons\Icon_Linkedin.svg
 C:\Users\Laura Xavier\OneDrive\Área de Trabalho\Discoffee\wwwroot\Assets\Icons\Icon_Spotify.svg

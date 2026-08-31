@@ -209,4 +209,4 @@ C:\Users\Laura Xavier\OneDrive\Área de Trabalho\Discoffee\obj\Debug\net10.0\ref
 C:\Users\Laura Xavier\OneDrive\Área de Trabalho\Discoffee\obj\Debug\net10.0\Discoffee.pdb
 C:\Users\Laura Xavier\OneDrive\Área de Trabalho\Discoffee\obj\Debug\net10.0\Discoffee.genruntimeconfig.cache
 C:\Users\Laura Xavier\OneDrive\Área de Trabalho\Discoffee\obj\Debug\net10.0\ref\Discoffee.dll
-C:\Users\Laura Xavier\OneDrive\Área de Trabalho\Discoffee\obj\Debug\net10.0\compressed\5c9581wm1x-{0}-dyjx89twm7-dyjx89twm7.gz
+C:\Users\Laura Xavier\OneDrive\Área de Trabalho\Discoffee\obj\Debug\net10.0\compressed\5c9581wm1x-{0}-3lv2kk9ia9-3lv2kk9ia9.gz

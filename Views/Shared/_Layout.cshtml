@@ -7,7 +7,6 @@
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/cadastrar.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Discoffee.styles.css" asp-append-version="true" />
 
@@ -25,7 +24,7 @@
                     <a href="">ENTRAR</a>
                 </button>
                 <button class="cadastrar">
-                    <a href="">CADASTRAR</a>
+                    <a asp-controller="Cadastrar" asp-action="Index" style="text-decoration: none; color: white;" >CADASTRAR</a>
                 </button>
             </div>
         </div>
