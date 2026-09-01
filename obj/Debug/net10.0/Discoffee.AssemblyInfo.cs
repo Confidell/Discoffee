@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Discoffee")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+29c005750a785dd751c4784958c661fabc100b64")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1b60963ac9cff5147c84651127f233df3b9b3d70")]
 [assembly: System.Reflection.AssemblyProductAttribute("Discoffee")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Discoffee")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
