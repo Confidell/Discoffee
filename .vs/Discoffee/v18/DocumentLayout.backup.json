@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|c:\\users\\sam12\\desktop\\tcc-codigo\\discoffee\\models\\cartao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|solutionrelative:models\\cartao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|c:\\users\\sam12\\desktop\\tcc-codigo\\discoffee\\models\\perfil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|solutionrelative:models\\perfil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|c:\\users\\sam12\\desktop\\tcc-codigo\\discoffee\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|solutionrelative:models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -39,19 +47,45 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "Cartao.cs",
+              "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Cartao.cs",
+              "RelativeDocumentMoniker": "Models\\Cartao.cs",
+              "ToolTip": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Cartao.cs",
+              "RelativeToolTip": "Models\\Cartao.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-01T11:18:30.697Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Perfil.cs",
+              "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Perfil.cs",
+              "RelativeDocumentMoniker": "Models\\Perfil.cs",
+              "ToolTip": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Perfil.cs",
+              "RelativeToolTip": "Models\\Perfil.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-01T10:57:37.75Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Usuario.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Usuario.cs",
               "RelativeDocumentMoniker": "Models\\Usuario.cs",
               "ToolTip": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Usuario.cs",
               "RelativeToolTip": "Models\\Usuario.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB8AAAA3AAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABsAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-09-01T10:03:18.258Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "CadastrarController.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Controllers\\CadastrarController.cs",
               "RelativeDocumentMoniker": "Controllers\\CadastrarController.cs",
@@ -59,12 +93,11 @@
               "RelativeToolTip": "Controllers\\CadastrarController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-01T10:00:35.614Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-01T10:00:35.614Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "cadastrar.css",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\wwwroot\\css\\cadastrar.css",
               "RelativeDocumentMoniker": "wwwroot\\css\\cadastrar.css",
@@ -76,7 +109,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Views\\Cadastrar\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Cadastrar\\Index.cshtml",
@@ -84,12 +117,11 @@
               "RelativeToolTip": "Views\\Cadastrar\\Index.cshtml",
               "ViewState": "AgIAAC0AAAAAAAAAAAAAAI0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-08-30T20:59:10.178Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-08-30T20:59:10.178Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "home.css",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\wwwroot\\css\\home.css",
               "RelativeDocumentMoniker": "wwwroot\\css\\home.css",
@@ -101,7 +133,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Index.cshtml",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Views\\Home\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
