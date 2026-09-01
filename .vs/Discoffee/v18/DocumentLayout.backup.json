@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|c:\\users\\sam12\\desktop\\tcc-codigo\\discoffee\\models\\opcaopersonalizacao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|solutionrelative:models\\opcaopersonalizacao.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|c:\\users\\sam12\\desktop\\tcc-codigo\\discoffee\\models\\categoria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|solutionrelative:models\\categoria.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|c:\\users\\sam12\\desktop\\tcc-codigo\\discoffee\\models\\notafiscal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}|Discoffee.csproj|solutionrelative:models\\notafiscal.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -55,6 +63,32 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "OpcaoPersonalizacao.cs",
+              "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\OpcaoPersonalizacao.cs",
+              "RelativeDocumentMoniker": "Models\\OpcaoPersonalizacao.cs",
+              "ToolTip": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\OpcaoPersonalizacao.cs",
+              "RelativeToolTip": "Models\\OpcaoPersonalizacao.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-01T14:31:42.129Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Categoria.cs",
+              "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Categoria.cs",
+              "RelativeDocumentMoniker": "Models\\Categoria.cs",
+              "ToolTip": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Categoria.cs",
+              "RelativeToolTip": "Models\\Categoria.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-09-01T14:30:20.769Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "NotaFiscal.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\NotaFiscal.cs",
               "RelativeDocumentMoniker": "Models\\NotaFiscal.cs",
@@ -67,7 +101,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "Cupom.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Cupom.cs",
               "RelativeDocumentMoniker": "Models\\Cupom.cs",
@@ -75,12 +109,11 @@
               "RelativeToolTip": "Models\\Cupom.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-01T14:26:42.355Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-01T14:26:42.355Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Pagamento.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Pagamento.cs",
               "RelativeDocumentMoniker": "Models\\Pagamento.cs",
@@ -88,12 +121,11 @@
               "RelativeToolTip": "Models\\Pagamento.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-01T14:25:05.902Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-01T14:25:05.902Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "Pedido.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Pedido.cs",
               "RelativeDocumentMoniker": "Models\\Pedido.cs",
@@ -101,12 +133,11 @@
               "RelativeToolTip": "Models\\Pedido.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAwwBQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-09-01T14:21:48.121Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-09-01T14:21:48.121Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "Carrinho.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Carrinho.cs",
               "RelativeDocumentMoniker": "Models\\Carrinho.cs",
@@ -118,7 +149,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "Produto.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Produto.cs",
               "RelativeDocumentMoniker": "Models\\Produto.cs",
@@ -130,7 +161,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "Avaliacao.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Avaliacao.cs",
               "RelativeDocumentMoniker": "Models\\Avaliacao.cs",
@@ -142,7 +173,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "Cartao.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Cartao.cs",
               "RelativeDocumentMoniker": "Models\\Cartao.cs",
@@ -154,7 +185,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "Perfil.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Perfil.cs",
               "RelativeDocumentMoniker": "Models\\Perfil.cs",
@@ -166,7 +197,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "Usuario.cs",
               "DocumentMoniker": "C:\\Users\\sam12\\Desktop\\tcc-codigo\\Discoffee\\Models\\Usuario.cs",
               "RelativeDocumentMoniker": "Models\\Usuario.cs",
