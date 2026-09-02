@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Discoffee")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b9bb29a56d2d7fe807f9bb441548dae5d0fe9f67")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02d633a8941e6987a9f0445222bdacd88972b541")]
 [assembly: System.Reflection.AssemblyProductAttribute("Discoffee")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Discoffee")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

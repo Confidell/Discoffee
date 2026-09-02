@@ -5,13 +5,11 @@
   text-decoration: none;
   list-style: none;
   font-family: "Raleway", sans-serif;
-  color: var(--cinza-claro);
 }
 
 header{
   width: 100%;
-  height: 80px;
-  /* background-color: var(--cinza-escuro); */
+  height: 100px;
   background: linear-gradient(180deg, #000, #000000a5, transparent 100%);
   position: fixed;
   z-index: 1000;
@@ -19,8 +17,15 @@ header{
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
+  transition: all .3s ease-in-out;
 }
-
+.hidden{
+  transform: translateY(-100%);
+}
+.scroll{
+  background: var(--cinza-escuro);
+  height: 70px;
+}
 header .titulo{
   font-size: 3rem;
   color: var(--branco);
@@ -35,8 +40,8 @@ header .login-btns{
   gap: 1rem;
 }
 header .login-btns button{
-  width: fit-content;
-  padding: 0.3rem 1.5rem;
+  width: fit-content;;
+  padding: 0.15rem 1.5rem;
   background-color: transparent;
   border: 2px solid var(--laranja);
   border-radius: 2px;
@@ -96,8 +101,7 @@ header nav ul li a::after{
 header nav ul li a:hover::after{
   width: 100%;
 }
-header nav ul .icon-sacola{
-  color: var(--branco);
+header nav ul a .icon-sacola{
   margin-bottom: 20%;
 }
 header nav hr{

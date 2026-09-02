@@ -16,7 +16,8 @@
     <header>
         <div style="display: flex; align-items: center; gap: 2rem;">
             <h1 class="titulo">
-                DIS<span style="color: var(--amarelo);">C</span><span style="color: var(--laranja);">O</span><span style="color: var(--vermelho);">F</span><span style="color: var(--azul);">F</span><span style="color: var(--roxo);">E</span><span style="color: var(--rosa);">E</span>
+                DISCOFFEE
+                @* <span style="color: var(--amarelo);">C</span><span style="color: var(--laranja);">O</span><span style="color: var(--vermelho);">F</span><span style="color: var(--azul);">F</span><span style="color: var(--roxo);">E</span><span style="color: var(--rosa);">E</span> *@
             </h1>
 
             <div class="login-btns">
@@ -37,8 +38,8 @@
                 <li><a href="">PERFIL</a></li>
                 <li><a href="">COLEÇÃO</a></li>
                 <li><a href="">CONTATO</a></li>
-                <a href="">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-fill icon-sacola" viewBox="0 0 16 16">
+                <a href="" style="color: var(--branco);">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-fill icon-sacola" style="color: var(--branco);" viewBox="0 0 16 16">
                         <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
                     </svg>
                 </a>
@@ -127,7 +128,7 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/global.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
