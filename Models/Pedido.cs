@@ -19,7 +19,7 @@ namespace Discoffee.Models
         [Required]
         public int QuantidadeProduto { get; set; }
 
-        public StatusPedido Status { get; set; }
-        public TipoPedido Tipo { get; set; }
+        // public StatusPedido Status { get; set; }
+        // public TipoPedido Tipo { get; set; }
     }
 }

@@ -6,7 +6,7 @@ namespace Discoffee.Models
     {
         public int IdPagamento { get; set; }
 
-        public FormaPagamento FormaPagamento { get; set; }
+        // public FormaPagamento FormaPagamento { get; set; }
 
         [Required]
         public DateTime DataHora { get; set; }

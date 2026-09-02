@@ -1,11 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Cadastrar";
-    Layout = null;
 }
 
 <link rel="stylesheet" href="~/css/cadastrar.css" />
 
-<main class="sessao-inicial">
+<section class="sessao-conta">
     <a id="btn-voltar" asp-controller="Home" asp-action="Index" style="text-decoration: none; display: inline-flex; align-items: center;">
         <img src="~/Assets/Imagens/seta.png" alt="seta" />
         Voltar
@@ -15,74 +14,80 @@
     <form asp-controller="Cadastrar" asp-action="Cadastrar" method="post" class="form">
         <h2 class="titulo-principal">Informe seus dados para cadastrar-se.</h2>
         <hr class="linha-divisoria"/>
-            <div class="card-info">
-                <div class="card-acesso">
-                    <h4>
-                        Informações de <span style="color: #FF7900;">Acesso</span>
-                    </h4>
-                    <div class="card">
-                        <label for="email">
-                            E-mail:
-                            <input type="email" class="input-form" name="email" placeholder="Digite seu e-mail..." />
-                        </label>
 
-                        <label for="conf-email">
-                            Confirmar E-mail:
-                            <input type="email" class="input-form" name="conf-email" placeholder="Repita o e-mail..." />
-                        </label>
+            <div class="inputs">
 
-                        <label for="senha">
-                            Senha:
-                            <input type="password" class="input-form" name="senha" placeholder="Crie uma senha..." />
-                        </label>
+                <div class="inputs-usuario">
 
-                        <label for="senha">
-                            Confirmar Senha:
-                            <input type="password" class="input-form" name="conf-senha" placeholder="Repita a senha..." />
-                        </label>
+                    <div class="card-acesso card-usuario">
+                        <h4>
+                            Informações de <span style="color: #FF7900;">Acesso</span>
+                        </h4>
+                        <div class="card">
+                            <label for="email">
+                                E-mail:
+                                <input type="email" class="input-form" name="email" placeholder="Digite seu e-mail..." />
+                            </label>
+
+                            <label for="conf-email">
+                                Confirmar E-mail:
+                                <input type="email" class="input-form" name="conf-email" placeholder="Repita o e-mail..." />
+                            </label>
+
+                            <label for="senha">
+                                Senha:
+                                <input type="password" class="input-form" name="senha" placeholder="Crie uma senha..." />
+                            </label>
+
+                            <label for="senha">
+                                Confirmar Senha:
+                                <input type="password" class="input-form" name="conf-senha" placeholder="Repita a senha..." />
+                            </label>
+                        </div>
                     </div>
-                </div>
-              
-                <div class="card-pessoais">
-                    <h4>
-                        Informações <span style="color: #FF7900;">Pessoais</span>
-                    </h4>
-
-                    <div class="card">
-                        <label for="nome">
-                            Nome:
-                            <input type="text" class="input-form" name="nome" placeholder="Digite seu nome..." />
-                        </label>
-        
-                        <label for="sobrenome">
-                            Sobrenome:
-                            <input type="text" class="input-form" name="sobrenome" placeholder="Digite seu sobrenome..." />
-                        </label>
-                        
-                        <label for="cpf">
-                            CPF:
-                            <input type="text" class="input-form" name="cpf" placeholder="Digite seu cpf..." />
-                        </label>
-        
-                        <label for="telefone">
-                            Telefone:
-                            <input type="text" class="input-form" name="telefone" placeholder="Ex: (11) 99245-4543" />
-                        </label>
-
-                        
-                        <label for="data-nasc">
-                            Data de Nascimento:
-                            <input type="text" class="input-form" name="data-nasc" placeholder= "Ex: 07/04/2003" />
-                        </label>
-        
-                        <label for="restricoes">
-                            Restrições Alimentares:
-                            <input type="text" class="input-form" name="restricoes" placeholder="Ex: lactose, glúten, etc." />
-                        </label>
-                    </div>
-                </div>
                 
+                    <div class="card-pessoais card-usuario">
+                        <h4>
+                            Informações <span style="color: #FF7900;">Pessoais</span>
+                        </h4>
 
+                        <div class="card">
+                            <label for="nome">
+                                Nome:
+                                <input type="text" class="input-form" name="nome" placeholder="Digite seu nome..." />
+                            </label>
+            
+                            <label for="sobrenome">
+                                Sobrenome:
+                                <input type="text" class="input-form" name="sobrenome" placeholder="Digite seu sobrenome..." />
+                            </label>
+                            
+                            <label for="cpf">
+                                CPF:
+                                <input type="text" class="input-form" name="cpf" placeholder="Digite seu cpf..." />
+                            </label>
+            
+                            <label for="telefone">
+                                Telefone:
+                                <input type="text" class="input-form" name="telefone" placeholder="Ex: (11) 99245-4543" />
+                            </label>
+
+                            
+                            <label for="data-nasc">
+                                Data de Nascimento:
+                                <input type="text" class="input-form" name="data-nasc" placeholder= "Ex: 07/04/2003" />
+                            </label>
+            
+                            <label for="restricoes">
+                                Restrições Alimentares:
+                                <input type="text" class="input-form" name="restricoes" placeholder="Ex: lactose, glúten, etc." />
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                @* INPUTS ENDEREÇO *@
                 <div class="card-endereco">
                     <h4 id="txt-end">
                         Informações de <span style="color: #FF7900;">Endereço</span>
@@ -121,21 +126,24 @@
                     </div>
                 </div>
             </div>
-            <label class="termos">
-                <input type="checkbox" name="termos" value="sim">
-                Concordo com os termos
+
+            <label class="textos">
+                <span style="display: flex; align-items: center; justify-content: center;">
+                    <input type="checkbox" name="termos" value="sim">
+                    Concordo com os termos
+                </span>
+                <a href="">Já tenho conta.</a>
             </label>
         
             <div class="btn">
-                <button type="submit" id="criar">
+                <button type="submit" id="criar" class="botao">
                     Criar
                 </button>
-                <button type="reset" id="limpar">
+                <button type="reset" id="limpar" class="botao">
                     Limpar
                 </button>
             </div>
 
     </form>
     <img src="~/Assets/Icons/Logo.svg" alt="Logo" id="logo" />
-</main>
-
+</section>

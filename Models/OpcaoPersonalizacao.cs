@@ -6,8 +6,8 @@ namespace Discoffee.Models
     {
         public int IdOpcao { get; set; }
 
-        [Required]
-        public TipoOpcao Tipo { get; set; }
+        // [Required]
+        // public TipoOpcao Tipo { get; set; }
 
         [Required]
         public string Opcao { get; set; }
