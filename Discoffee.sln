@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11822.322 stable
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discoffee", "Discoffee.csproj", "{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5D4BBBA-1E57-3A64-FBC1-7FE9E8A7783F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {25CF13E6-7638-45A5-9E4E-DCDBAEC8DBEF}
+	EndGlobalSection
+EndGlobal

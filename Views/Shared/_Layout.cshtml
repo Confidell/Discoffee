@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var action = ViewContext.RouteData.Values["action"]?.ToString();
+
+    bool ocultarLayout = controller == "Cadastrar" && action == "Index";
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,47 +19,51 @@
 </head>
 <body>
 
-    <header>
-        <div style="display: flex; align-items: center; gap: 2rem;">
-            <h1 class="titulo">
-                DIS<span style="color: var(--amarelo);">C</span><span style="color: var(--laranja);">O</span><span style="color: var(--vermelho);">F</span><span style="color: var(--azul);">F</span><span style="color: var(--roxo);">E</span><span style="color: var(--rosa);">E</span>
-            </h1>
+    @if(!ocultarLayout)
+    {
+        <header>
+            <div style="display: flex; align-items: center; gap: 2rem;">
+                <h1 class="titulo">
+                    DISCOFFEE
+                    @* <span style="color: var(--amarelo);">C</span><span style="color: var(--laranja);">O</span><span style="color: var(--vermelho);">F</span><span style="color: var(--azul);">F</span><span style="color: var(--roxo);">E</span><span style="color: var(--rosa);">E</span> *@
+                </h1>
 
-            <div class="login-btns">
-                <button class="entrar">
-                    <a href="">ENTRAR</a>
-                </button>
-                <button class="cadastrar">
-                    <a href="">CADASTRAR</a>
-                </button>
+                <div class="login-btns">
+                    <button class="entrar">
+                        <a href="">ENTRAR</a>
+                    </button>
+                    <button class="cadastrar">
+                        <a asp-controller="Cadastrar" asp-action="Index" style="text-decoration: none; color: white;" >CADASTRAR</a>
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <nav>
-            <ul>
-                <li><a href="">INÍCIO</a></li>
-                <li><a href="">CARDÁPIO</a></li>
-                <li><a href="">MEUS PEDIDOS</a></li>
-                <li><a href="">PERFIL</a></li>
-                <li><a href="">COLEÇÃO</a></li>
-                <li><a href="">CONTATO</a></li>
-                <a href="">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-fill icon-sacola" viewBox="0 0 16 16">
-                        <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
-                    </svg>
-                </a>
-            </ul>
+            <nav>
+                <ul>
+                    <li><a href="">INÍCIO</a></li>
+                    <li><a href="">CARDÁPIO</a></li>
+                    <li><a href="">MEUS PEDIDOS</a></li>
+                    <li><a href="">PERFIL</a></li>
+                    <li><a href="">COLEÇÃO</a></li>
+                    <li><a href="">CONTATO</a></li>
+                    <a href="" style="color: var(--branco);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-fill icon-sacola" style="color: var(--branco);" viewBox="0 0 16 16">
+                            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
+                        </svg>
+                    </a>
+                </ul>
 
-            <hr>
+                <hr>
 
-            <div class="redes-sociais">
-                <a class="icon" href=""><img src="~/Assets/Icons/Icon_Instagram.svg" alt="Instagram"/></a>
-                <a class="icon" href=""><img src="~/Assets/Icons/Icon_Linkedin.svg" alt="LinkedIn"/></a>
-                <a class="icon" href=""><img src="~/Assets/Icons/Icon_Spotify.svg" alt="Spotify"/></a>
-                <a class="icon" href=""><img src="~/Assets/Icons/Icon_YouTube.svg" alt="YouTube"/></a>
-            </div>
-        </nav>
-    </header>
+                <div class="redes-sociais">
+                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_Instagram.svg" alt="Instagram"/></a>
+                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_Linkedin.svg" alt="LinkedIn"/></a>
+                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_Spotify.svg" alt="Spotify"/></a>
+                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_YouTube.svg" alt="YouTube"/></a>
+                </div>
+            </nav>
+        </header>
+    }
 
     <div class="main">
         <main role="main" class="">
@@ -61,73 +71,76 @@
         </main>
     </div>
 
-    <footer>
-        <section class="footer-superior">
+    @if(!ocultarLayout)
+    {
+        <footer>
+            <section class="footer-superior">
 
-            <div class="logo-footer">
-                <img class="logo" src="~/Assets/Icons/Logo.svg" alt="Discoffee"/>
-            </div>
-
-            <div class="grid-footer">
-                <ul>
-                    <h4>CARDÁPIO</h4>
-                    <li><a href="">Cafés</a></li>
-                    <li><a href="" style="font-weight: 400; margin-left: 15px;">Tradicionais</a></li>
-                    <li><a href="" style="font-weight: 400; margin-left: 15px;">Drinks</a></li>
-                    <li><a href="">Acompanhamentos</a></li>
-                    <li><a href="" style="font-weight: 400; margin-left: 15px;">Doces</a></li>
-                    <li><a href="" style="font-weight: 400; margin-left: 15px;">Salgados</a></li>
-                    <li><a href="">Bebidas</a></li>
-                    <li><a href="" style="font-weight: 400; margin-left: 15px;">Sucos & Refrescos</a></li>
-                    <li><a href="" style="font-weight: 400; margin-left: 15px;">Shakes</a></li>
-                </ul>
-                <ul>
-                    <h4>COLEÇÃO</h4>
-                    <li><a href="">Exclusivos</a></li>
-                    <li><a href="">Eventos</a></li>
-                    <li><a href="">Parcerias</a></li>
-                    <li><a href="">Personalizáveis</a></li>
-                </ul>
-                <ul>
-                    <h4>CONHEÇA</h4>
-                    <li><a href="">Quem Somos</a></li>
-                    <li><a href="">Nossa Equipe</a></li>
-                    <li><a href="">Nossos Pilares</a></li>
-                    <li><a href="">Estilo</a></li>
-                    <li><a href="">Produção</a></li>
-                </ul>
-                <ul>
-                    <h4>CONTATO</h4>
-                    <li><a href="">Suporte</a></li>
-                    <li><a href="">Reembolso</a></li>
-                    <li><a href="">Ouvidoria</a></li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="footer-inferior">
-            <div class="footer-redes">
-                <h5>SIGA A DISCOFFEE EM:</h5>
-                <div class="redes-sociais">
-                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_Instagram.svg" alt="Instagram"/></a>
-                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_Linkedin.svg" alt="LinkedIn"/></a>
-                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_Spotify.svg" alt="Spotify"/></a>
-                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_YouTube.svg" alt="YouTube"/></a>
+                <div class="logo-footer">
+                    <img class="logo" src="~/Assets/Icons/Logo.svg" alt="Discoffee"/>
                 </div>
-            </div>
 
-            <p>©2026 | Todos os direitos reservados.</p>
+                <div class="grid-footer">
+                    <ul>
+                        <h4>CARDÁPIO</h4>
+                        <li><a href="">Cafés</a></li>
+                        <li><a href="" style="font-weight: 400; margin-left: 15px;">Tradicionais</a></li>
+                        <li><a href="" style="font-weight: 400; margin-left: 15px;">Drinks</a></li>
+                        <li><a href="">Acompanhamentos</a></li>
+                        <li><a href="" style="font-weight: 400; margin-left: 15px;">Doces</a></li>
+                        <li><a href="" style="font-weight: 400; margin-left: 15px;">Salgados</a></li>
+                        <li><a href="">Bebidas</a></li>
+                        <li><a href="" style="font-weight: 400; margin-left: 15px;">Sucos & Refrescos</a></li>
+                        <li><a href="" style="font-weight: 400; margin-left: 15px;">Shakes</a></li>
+                    </ul>
+                    <ul>
+                        <h4>COLEÇÃO</h4>
+                        <li><a href="">Exclusivos</a></li>
+                        <li><a href="">Eventos</a></li>
+                        <li><a href="">Parcerias</a></li>
+                        <li><a href="">Personalizáveis</a></li>
+                    </ul>
+                    <ul>
+                        <h4>CONHEÇA</h4>
+                        <li><a href="">Quem Somos</a></li>
+                        <li><a href="">Nossa Equipe</a></li>
+                        <li><a href="">Nossos Pilares</a></li>
+                        <li><a href="">Estilo</a></li>
+                        <li><a href="">Produção</a></li>
+                    </ul>
+                    <ul>
+                        <h4>CONTATO</h4>
+                        <li><a href="">Suporte</a></li>
+                        <li><a href="">Reembolso</a></li>
+                        <li><a href="">Ouvidoria</a></li>
+                    </ul>
+                </div>
+            </section>
 
-            <div class="footer-links">
-                <a href="">Termos e Condições</a>
-                <a href="">Privacidade</a>
-            </div>
-        </section>
-    </footer>
+            <section class="footer-inferior">
+                <div class="footer-redes">
+                    <h5>SIGA A DISCOFFEE EM:</h5>
+                    <div class="redes-sociais">
+                        <a class="icon" href=""><img src="~/Assets/Icons/Icon_Instagram.svg" alt="Instagram"/></a>
+                        <a class="icon" href=""><img src="~/Assets/Icons/Icon_Linkedin.svg" alt="LinkedIn"/></a>
+                        <a class="icon" href=""><img src="~/Assets/Icons/Icon_Spotify.svg" alt="Spotify"/></a>
+                        <a class="icon" href=""><img src="~/Assets/Icons/Icon_YouTube.svg" alt="YouTube"/></a>
+                    </div>
+                </div>
+
+                <p>©2026 | Todos os direitos reservados.</p>
+
+                <div class="footer-links">
+                    <a href="">Termos e Condições</a>
+                    <a href="">Privacidade</a>
+                </div>
+            </section>
+        </footer>
+    }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/global.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
