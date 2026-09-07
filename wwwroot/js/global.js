@@ -15,3 +15,33 @@ window.addEventListener('scroll', () => {
 
         header.classList.toggle('scroll', window.scrollY > 10)
 })
+
+//Login/Cadastro
+
+document.addEventListener("DOMContentLoaded", function () {
+    const boxLogin = document.getElementById("box-login");
+    const boxCadastro = document.getElementById("box-cadastro");
+
+    const linkIrCadastro = document.getElementById("link-ir-cadastro");
+    const linkIrLogin = document.getElementById("link-ir-login");
+
+    if (linkIrCadastro) {
+        linkIrCadastro.addEventListener("click", function (e) {
+            e.preventDefault(); // Impede o recarregamento da página
+            if (boxLogin && boxCadastro) {
+                boxLogin.style.display = "none";
+                boxCadastro.style.display = "block";
+            }
+        });
+    }
+
+    if (linkIrLogin) {
+        linkIrLogin.addEventListener("click", function (e) {
+            e.preventDefault(); // Impede o recarregamento da página
+            if (boxLogin && boxCadastro) {
+                boxCadastro.style.display = "none";
+                boxLogin.style.display = "block";
+            }
+        });
+    }
+});
