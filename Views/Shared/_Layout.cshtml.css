@@ -64,6 +64,7 @@ header .login-btns button a {
   color: var(--branco);
   font-size: 1rem;
   font-weight: 500;
+  text-decoration: none;
 }
 
 header nav{
@@ -150,19 +151,14 @@ footer .footer-superior{
   position: relative;
 }
 footer .footer-superior .logo-footer{
-  width: 35%;
+  width: 30%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-/* footer .footer-superior  img{
-  width: 10px;
-  height: 10px;
-  object-fit: cover;
-} */
 footer .footer-superior .grid-footer{
-  width: 65%;
+  width: 70%;
   height: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);

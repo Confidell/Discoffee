@@ -1,16 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Entrar / Cadastrar";
+
+    string formulario = Context.Request.Query["form"];
 }
 
 <section class="sessao-conta">
 
     <a id="btn-voltar" asp-controller="Home" asp-action="Index" style="text-decoration: none; display: inline-flex; align-items: center;">
-        <img src="~/Assets/Imagens/seta.png" alt="seta" />
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right seta" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+        </svg>
         Voltar
     </a>
 
     <!-- Form de Login -->
-    <form id="form-login" asp-controller="Cadastrar" asp-action="Index" method="post">
+    <form 
+        id="form-login" 
+        asp-controller="Cadastrar" 
+        asp-action="Index" 
+        method="post"
+        class="form-login form-conta @(formulario == "cadastrar" ? "form-oculto" : "")"
+    >
 
         <h2 class="titulo-login">
             Entre ou Crie sua <br />
@@ -53,12 +63,13 @@
 
         <div class="links-login">
 
-            <a class="link-cadastro" id="link-cadastro">
+            <a
+                asp-controller="Cadastrar" 
+                asp-action="Index" 
+                asp-route-form="cadastrar"
+                class="link-form" 
+            >
                 Ainda não possui conta?
-            </a>
-
-            <a href="javascript:void(0)" class="link-funcionario">
-                Sou Funcionario
             </a>
 
         </div>
@@ -66,7 +77,13 @@
     </form>
 
     <!-- Form de Cadastro -->
-    <form id="form-cadastro" asp-controller="Cadastrar" asp-action="Cadastrar" method="post" class="form">
+    <form 
+        id="form-cadastro" 
+        asp-controller="Cadastrar" 
+        asp-action="Cadastrar" 
+        method="post" 
+        class="form form-conta @(formulario == "login" ? "form-oculto" : "")"
+    >
         <h2 class="titulo-principal">Informe seus dados para cadastrar-se.</h2>
         <hr class="linha-divisoria"/>
 
@@ -76,7 +93,7 @@
 
                     <div class="card-acesso card-usuario">
                         <h4>
-                            Informações de <span style="color: #FF7900;">Acesso</span>
+                            Informações de <span style="color: var(--rosa);">Acesso</span>
                         </h4>
                         <div class="card">
                             <label for="email">
@@ -103,7 +120,7 @@
                 
                     <div class="card-pessoais card-usuario">
                         <h4>
-                            Informações <span style="color: #FF7900;">Pessoais</span>
+                            Informações <span style="color: var(--rosa);">Pessoais</span>
                         </h4>
 
                         <div class="card">
@@ -145,7 +162,7 @@
                 @* INPUTS ENDEREÇO *@
                 <div class="card-endereco">
                     <h4 id="txt-end">
-                        Informações de <span style="color: #FF7900;">Endereço</span>
+                        Informações de <span style="color: var(--rosa);">Endereço</span>
                     </h4>
                     <div class="conteudo-card">
                         <label for="cep">CEP:</label>
@@ -182,15 +199,23 @@
                 </div>
             </div>
 
-            <label class="textos">
-                <span style="display: flex; align-items: center; justify-content: center; color: var(--azul);">
+            <div class="textos">
+                <span style="display: flex; align-items: center; justify-content: center; color: var(--azul); gap: .3rem;">
                     <input type="checkbox" name="termos" value="sim">
                     Concordo com os termos
                 </span>
-                <a id="link-login" style="cursor: pointer; text-decoration: underline;">
-                    Já tenho conta.
-                </a>
-            </label>
+
+                <span>
+                    <a 
+                        asp-controller="Cadastrar" 
+                        asp-action="Index" 
+                        asp-route-form="login"
+                        class="link-form"
+                    >
+                        Já tenho conta.
+                    </a>
+                </span>
+            </div>
         
             <div class="btns-form">
 
@@ -206,5 +231,7 @@
 
     </form>
 
-    <img src="~/Assets/Icons/Logo.svg" alt="Logo" id="logo" />
+    <a asp-controller="home" asp-action="index">
+        <img src="~/Assets/Icons/Logo.svg" alt="Logo" id="logo" />
+    </a>
 </section>

@@ -4,27 +4,34 @@
     align-items: center;
     width: 100%;
     height: 100vh;
-    background-image: url('/Assets/Imagens/Fundo_Cadastro.png');
-    background-position: center;
+    background-image: url('/Assets/Imagens/Fundo_Cadastro.jpg');
+    background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
 }
 
-#form-cadastro {
+.form-oculto {
+    display: none !important;
+}
+.form-conta {
     background-color: var(--branco);
+    display: flex;
     flex-direction: column;
-    display: none;
-    width: 75%;
-    justify-content: center;
     align-items: center;
-    padding: 1rem 2rem;
+    justify-content: center;
     border-radius: 8px;
-    gap: .5rem;
+    box-shadow: -1px 1px 3px #0000003a;
+}
+
+#form-cadastro {
+    width: 75%;
+    padding: 1rem 2rem;
+    gap: .8rem;
 }
 
 .linha-divisoria {
     width: 95%;
-    height: 2px;
+    height: 4px;
     margin: 3px;
     border: none; 
     background-color: var(--azul);
@@ -60,16 +67,18 @@
     gap: 2.2rem;
 }
 
-.card-usuario {
+.card-usuario,
+.card-endereco {
     display: flex;
     flex-direction: column;
+}
+
+.card-usuario {
     width: 100%;
     gap: .5rem;
 }
 
 .card-endereco {
-    display: flex;
-    flex-direction: column;
     height: 80%;
 }
 
@@ -83,7 +92,7 @@
 }
 
 .conteudo-card {
-    border: 2px solid var(--amarelo);
+    border: 2px solid var(--rosa);
     display: flex;
     flex-direction: column;
     padding: 8px;
@@ -109,6 +118,14 @@
     grid-row: 1;
 }
 
+.input-form {
+    width: 100%;
+    height: 36px;
+    padding: 8px;
+    border-radius: 2px;
+    border: 1px solid var(--cinza-claro);
+}
+
 #endereco-grid .input-form {
     width: 100%;
     height: 36px;
@@ -120,16 +137,8 @@
     gap: 2px;
 }
 
-.input-form {
-    width: 100%;
-    height: 36px;
-    padding: 8px;
-    border-radius: 2px;
-    border: 1px solid var(--cinza-claro);
-}
-
 .textos input {
-    transform: scale(0.8);
+    transform: scale(1);
 }
 
 .textos {
@@ -139,25 +148,27 @@
     flex-direction: column;
     align-items: center;
     margin-top: 1.5rem;
+    gap: .5rem;
 }
 
 #btn-voltar {
     position: absolute;
     display: flex;
     align-items: center;
-    top: 50px;
-    left: 28px;
+    bottom: 5%;
+    left: 5%;
     gap: 1rem;
     text-decoration: none;
-    color: var(--preto);
+    color: var(--branco);
     font-weight:400;
-    font-size:1.3rem;
+    font-size:1.2rem;
 }
 
-#btn-voltar img{
+#btn-voltar .seta{
     display:flex;
-    width:40%;
-    height: 40%
+    width: 25px;
+    height: 25px;
+    transform: rotate(180deg);
 }
 
 #logo {
@@ -165,7 +176,7 @@
     display: flex;
     bottom: 10px;
     right: 20px;
-    width: 4.5rem;
+    width: 4.8rem;
 }
 
 .btns-form {
@@ -183,36 +194,29 @@
     padding: 0 6rem;
 }
 
-#criar {
-    background-color: var(--azul);
+#criar,
+#limpar {
     border: 2.3px solid var(--azul);
-    color: var(--branco)
 }
 
-#criar #limpar{
-    gap: 4rem;
+#criar {
+    background-color: var(--azul);
+    color: var(--branco);
 }
 
 #limpar {
     background-color: var(--branco);
-    border: 2.3px solid var(--azul);
     color: var(--preto);
 }
 
 /* FORM LOGIN */
 #form-login {
     position: absolute;
-    left: 15%;
+    right: 15%;
     width: 35%;
     height: 90%;
-    background-color: var(--branco);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    gap: 2.5rem;
     padding: 0 5rem;
+    gap: 2.5rem;
 }
 
 .titulo-login {
@@ -224,7 +228,7 @@
     text-align: center;
 }
 .titulo-conta {
-    color: var(--laranja);
+    color: var(--rosa);
     font-weight: 600;
     font-size: 1.5rem;
 }
@@ -252,7 +256,7 @@
 }
 
 .link-esqueci-senha {
-    color: var(--laranja);
+    color: var(--rosa);
     font-size: 0.8rem;
     text-decoration: underline;
     text-align: left;
@@ -275,16 +279,9 @@
     text-align: center;
 }
 
-.link-cadastro {
-    color: var(--laranja);
+.link-form {
+    color: var(--rosa);
     font-weight: 500;
-    font-size: .8rem;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.link-funcionario {
-    color: var(--laranja);
     font-size: .8rem;
     text-decoration: underline;
     cursor: pointer;

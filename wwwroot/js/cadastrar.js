@@ -1,41 +1,33 @@
-//Login/Cadastro
+// document.addEventListener("DOMContentLoaded", function () {
 
-document.addEventListener("DOMContentLoaded", function () {
+//     const formLogin = document.getElementById("form-login");
+//     const formCadastro = document.getElementById("form-cadastro");
 
-    const formLogin = document.getElementById("form-login");
-    const formCadastro = document.getElementById("form-cadastro");
+//     const linkIrCadastro = document.getElementById("link-cadastro");
+//     const linkIrLogin = document.getElementById("link-login");
 
-    const linkIrCadastro = document.getElementById("link-cadastro");
-    const linkIrLogin = document.getElementById("link-login");
+//     // IR PARA CADASTRO
+//     if (linkIrCadastro) {
 
+//         linkIrCadastro.addEventListener("click", function(e) {
 
-    // Ir para o cadastro
-    if (linkIrCadastro) {
-        linkIrCadastro.addEventListener("click", function (e) {
+//             e.preventDefault();
 
-            e.preventDefault();
+//             formLogin.classList.add('form-oculto');
+//             formCadastro.classList.remove('form-oculto');
+//         });
+//     }
 
-            if (formLogin && formCadastro) {
-                formLogin.style.display = "none";
-                formCadastro.style.display = "flex";
-            }
+//     // IR PARA LOGIN
+//     if (linkIrLogin) {
 
-        });
-    }
+//         linkIrLogin.addEventListener("click", function(e) {
 
+//             e.preventDefault();
 
-    // Voltar para o login
-    if (linkIrLogin) {
-        linkIrLogin.addEventListener("click", function (e) {
+//             formCadastro.classList.remove('form-oculto');
+//             formLogin.classList.add('form-oculto');
 
-            e.preventDefault();
-
-            if (formLogin && formCadastro) {
-                formCadastro.style.display = "none";
-                formLogin.style.display = "flex";
-            }
-
-        });
-    }
-
-});
+//         });
+//     }
+// });
