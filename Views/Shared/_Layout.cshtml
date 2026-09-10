@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Discoffee.styles.css" asp-append-version="true" />
-
+    <link rel="stylesheet" href="~/css/cadastrar.css" asp-append-version="true" />
 </head>
 <body>
 
@@ -30,18 +30,18 @@
 
                 <div class="login-btns">
                     <button class="entrar">
-                        <a href="">ENTRAR</a>
+                        <a asp-controller="Cadastrar" asp-action="Index" asp-route-form="login">ENTRAR</a>
                     </button>
                     <button class="cadastrar">
-                        <a asp-controller="Cadastrar" asp-action="Index" style="text-decoration: none; color: white;" >CADASTRAR</a>
+                        <a asp-controller="Cadastrar" asp-action="Index" asp-route-form="cadastrar">CADASTRAR</a>
                     </button>
                 </div>
             </div>
 
             <nav>
                 <ul>
-                    <li><a href="">INÍCIO</a></li>
-                    <li><a href="">CARDÁPIO</a></li>
+                    <li><a asp-controller="home" asp-action="index">INÍCIO</a></li>
+                    <li><a asp-controller="cardapio" asp-action="index">CARDÁPIO</a></li>
                     <li><a href="">MEUS PEDIDOS</a></li>
                     <li><a href="">PERFIL</a></li>
                     <li><a href="">COLEÇÃO</a></li>
@@ -77,7 +77,7 @@
             <section class="footer-superior">
 
                 <div class="logo-footer">
-                    <img class="logo" src="~/Assets/Icons/Logo.svg" alt="Discoffee"/>
+                    <img src="~/Assets/Icons/Logo.svg" alt="Discoffee" style="width: 45%; height: 45%; object-fit: cover;"/>
                 </div>
 
                 <div class="grid-footer">
@@ -141,6 +141,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/global.js" asp-append-version="true"></script>
+    <script src="~/js/cadastrar.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

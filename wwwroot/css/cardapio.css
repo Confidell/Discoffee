@@ -1,0 +1,161 @@
+﻿header {
+    display:flex;
+    width: 100%;
+    height: 100vh;
+    background-image: url('/Assets/Imagens/Banner_cardapio.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.drinks-especiais {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 37%;
+    height: 100%;
+    margin-top: 5%;
+}
+
+.drinks-especiais img{
+    width: 30%;
+    height: 23%;
+}
+
+.drinks-especiais h2{
+    font-size: 2.3rem;
+    color: var(--laranja);
+    font-weight: 800;
+}
+
+.drinks-especiais p{
+    width: 66%;
+    text-align: justify
+}
+
+.imagens{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5%;
+    gap: 2rem;
+}
+
+.formas-pedido{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.pedidos-card{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.pedidos-card h2{
+    font-weight: 700;
+}
+
+.escolha-produtos {
+    padding: 0px 50px;
+    justify-content: center;
+    width: 40%;
+    margin-top: 3%;
+}
+
+.card-pedido{
+    padding: 0px 100px;
+    justify-content: center;
+    width: 40%;
+}
+
+.card-pedido p{
+    justify-content: center;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.titulo-lista{
+    color: var(--laranja);
+}
+
+.subtitulo h3 {
+    font-size: 1.2rem;
+}
+
+.lista-produtos{
+    padding: 15px;
+}
+.produtos {
+    display: flex;
+    width: 100%;
+    padding: 50px;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-externo{
+    display: flex; 
+    flex-direction: column;
+}
+
+.banner-cafe {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    margin-top: 6%;
+}
+
+.banner-cafe img {
+    width: 60%;
+    border-radius: 8px;
+}
+
+.card-prod{
+    flex-direction: row;
+    display: flex;
+    background-color: var(--offwhite);
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+}
+
+.nome-preco {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+}
+
+.card-prod article {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex: 1;
+    max-width: 55%;
+}
+
+.nome-preco h4{
+    font-size: 1.6rem;
+}
+
+.nome-preco span {
+    font-size: 1.2rem;
+}
+
+.prod-img{
+    width: 10%;
+    height: 100%
+}
+
+.carrinho-info {
+    width: 10%;
+    display: flex;
+    margin-left: auto;
+    gap: 1rem;
+}
