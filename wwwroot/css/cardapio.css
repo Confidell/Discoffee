@@ -82,20 +82,57 @@
     display: flex;
     width: 100%;
     padding: 50px;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.card-externo{
+    display: flex; 
+    flex-direction: column;
 }
 
 .banner-cafe {
     display: flex;
-    border-radius: 8px;
-    width: 50%;
     justify-content: center;
     align-content: center;
+    margin-top: 6%;
 }
 
-.lista-produtos{
+.banner-cafe img {
+    width: 60%;
+    border-radius: 8px;
+}
+
+.card-prod{
+    flex-direction: row;
     display: flex;
+    background-color: var(--offwhite);
 }
 
-.card-prod img{
-    width: 15%;
+.nome-preco {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-left: 30px;
+}
+
+
+
+.nome-preco h4{
+    font-size: 1.6rem;
+}
+
+.nome-preco span {
+    font-size: 1.2rem;
+}
+
+.prod-img{
+    width: 10%;
+    height: 100%
+}
+
+.carrinho-info {
+    width: 30%;
 }
