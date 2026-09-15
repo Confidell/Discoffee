@@ -148,7 +148,7 @@ CONSTRAINT fk_NF_tbPagamento FOREIGN KEY (Id_Pagamento) REFERENCES tbPagamento(I
 
 /*
 --------------------------------------------------------------------------------------------
--------------------------------------- PROCEDURES ------------------------------------------
+------------------------------ PROCEDURES DE INSERÇÃO --------------------------------------
 --------------------------------------------------------------------------------------------
 */
 
@@ -366,7 +366,7 @@ end;
 $$
 delimiter ;
  
-CALL insertTbAvaliacao('Café muito bom, cremoso e encorpado.', 5, 1, 1,);
+CALL insertTbAvaliacao('Café muito bom, cremoso e encorpado.', 5, 1, 1);
 SELECT @idAvaliacao;
 
 select * from tbAvaliacao;
@@ -380,3 +380,60 @@ select * from tbAvaliacao;
     INSERIR PAGAMENTO
     INSERIR NF
  */
+ 
+/*
+--------------------------------------------------------------------------------------------
+--------------------------------- PROCEDURES DE BUSCA --------------------------------------
+--------------------------------------------------------------------------------------------
+*/
+
+DELIMITER $$
+CREATE PROCEDURE selectUsuario(
+	vId_Usuario INT
+    -- IN vFiltro VARCHAR(150) -- FILTRO DE QUALQUER DADO DO USUARIO
+)
+BEGIN
+
+    SELECT
+        u.NomeCompleto,
+        u.Email,
+        u.CPF,
+        u.Telefone,
+        u.DataNasc,
+        u.Stats,
+        u.Numero_Casa,
+        u.Complemento,
+        c.CEP,
+        p.Tipo AS Perfil
+    FROM tbUsuario u
+    LEFT JOIN tbPerfil p ON p.Id_Perfil = u.Id_Perfil
+    LEFT JOIN tbCEP c ON c.Id_CEP = u.Id_CEP
+    WHERE u.Id_Usuario = vId_Usuario;
+
+	/*
+		SELECT
+			u.NomeCompleto,
+			u.Email,
+			u.CPF,
+			u.Telefone,
+			u.DataNasc,
+			u.Stats,
+			u.Numero_Casa,
+			u.Complemento,
+			c.CEP,
+			p.Tipo AS Perfil
+		FROM tbUsuario u
+		LEFT JOIN tbPerfil p ON p.Id_Perfil = u.Id_Perfil
+		LEFT JOIN tbCEP c ON c.Id_CEP = u.Id_CEP
+		WHERE
+			vFiltro IS NULL
+			OR vFiltro = ''
+			OR u.NomeCompleto LIKE CONCAT('%', vFiltro, '%')
+			OR u.CPF LIKE CONCAT('%', vFiltro, '%')
+			OR u.Email LIKE CONCAT('%', vFiltro, '%')
+		ORDER BY u.NomeCompleto;
+    */
+END $$
+DELIMITER ;
+
+call selectUsuario(1);
