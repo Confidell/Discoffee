@@ -60,3 +60,57 @@ a{
 .texto-padrao{
   color: var(--cinza-claro);
 }
+
+/* POPUP DE ERROS */
+.popup-erros {
+  width: 100%;
+  height: 18%;
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background: rgba(0, 0, 0, 0.5); */
+  z-index: 9999;
+  transition: all .5s;
+  opacity: 0;
+}
+.popup-erros.ativo {
+  opacity: 1;
+}
+.popup-conteudo {
+  background: linear-gradient(135deg, var(--branco) 70%, var(--roxo) 30%);
+  border-radius: 4px;
+  width: 25%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.266);
+  transform: translateY(-50%);
+  transition: all .5s ease-in;
+}
+.popup-erros.ativo .popup-conteudo {
+    transform: translateY(0);
+}
+.popup-texto{
+  display: flex;
+  gap: 1rem;
+  align-items: start;
+  flex-direction: column;
+  position: absolute;
+  top: 10%;
+  left: 5%;
+  width: 65%;
+}
+.popup-conteudo .botao-fechar {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  position: absolute;
+  top: 10%;
+  right: 3%;
+  color: var(--branco);
+}

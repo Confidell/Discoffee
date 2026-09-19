@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Discoffee.Models.Constants;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace Discoffee.Models
@@ -14,7 +15,7 @@ namespace Discoffee.Models
 
         [Display(Name = "Email")]
         [Required(ErrorMessage = "Email é obrigatório!")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Insira um email válido!")]
         public string Email { get; set; }
 
         [Display(Name = "Senha")]
@@ -29,7 +30,7 @@ namespace Discoffee.Models
 
         [Display(Name = "Telefone")]
         [Required(ErrorMessage = "Telefone é obrigatório!")]
-        [RegularExpression(@"^(\d{2}) (\d{5}-\d{4})$", ErrorMessage = "Telefone deve estar no formato (11) 99999-9999")]
+        [StringLength(11, MinimumLength = 11, ErrorMessage = "O telefone deve possuir 11 números.")]
         public string Telefone { get; set; }
 
         [Display(Name = "Data de Nascimento")]
@@ -37,14 +38,19 @@ namespace Discoffee.Models
         public DateTime DataNascimento { get; set; }
 
         [Display(Name = "Status")]
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         [Display(Name = "Complemento")]
-        [Required(ErrorMessage = "Complemento é obrigatório!")]
-        public string Complemento { get; set; }
+        public string? Complemento { get; set; }
 
         [Display(Name = "Numero da Casa")]
         [Required(ErrorMessage = "Numero da casa é obrigatório!")]
         public string NumeroCasa { get; set; }
+
+        [Display(Name = "CEP")]
+        [Required(ErrorMessage = "CEP é obrigatório!")]
+        public string CEP { get; set; }
+        
+        public EnumPerfil Perfil { get; set; }
     }
 }
