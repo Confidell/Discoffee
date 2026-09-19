@@ -57,7 +57,7 @@
     font-weight: 400;
 }
 
-.inputs label{
+.inputs label, .campos-login label{
     font-size: 0.8rem;
     position: relative;
 }
@@ -240,8 +240,8 @@
 }
 .titulo-conta {
     color: var(--rosa);
-    font-weight: 600;
-    font-size: 1.5rem;
+    font-weight: 700;
+    font-size: 1.8rem;
 }
 
 .texto-conta-existente {

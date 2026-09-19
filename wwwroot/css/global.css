@@ -66,21 +66,25 @@ a{
   width: 100%;
   height: 18%;
   position: fixed;
-  inset: 0;
+  left: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background: rgba(0, 0, 0, 0.5); */
   z-index: 9999;
-  transition: all .5s;
-  opacity: 0;
+  transform: translateY(-100%);
+  transition: all .5s ease-in;
+  opacity: 1;
 }
 .popup-erros.ativo {
   opacity: 1;
+  transform: translateY(0);
 }
 .popup-conteudo {
   background: linear-gradient(135deg, var(--branco) 70%, var(--roxo) 30%);
-  border-radius: 4px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
   width: 25%;
   height: 100%;
   display: flex;
@@ -89,11 +93,7 @@ a{
   flex-direction: column;
   position: relative;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.266);
-  transform: translateY(-50%);
-  transition: all .5s ease-in;
-}
-.popup-erros.ativo .popup-conteudo {
-    transform: translateY(0);
+
 }
 .popup-texto{
   display: flex;
@@ -104,6 +104,10 @@ a{
   top: 10%;
   left: 5%;
   width: 65%;
+}
+.popup-texto h3{
+  font-size: 1.5rem;
+  color: var(--roxo);
 }
 .popup-conteudo .botao-fechar {
   width: 25px;

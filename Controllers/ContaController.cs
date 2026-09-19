@@ -1,8 +1,11 @@
 ﻿using System.Globalization;
+using System.Security.Claims;
 using Discoffee.Models;
 using Discoffee.Models.Constants;
 using Discoffee.Repository.Contract;
 using Discoffee.ViewModels;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,9 +19,12 @@ namespace Discoffee.Controllers
         {
             _repositorio = repositorio;
         }
-        public IActionResult Index()
+        
+        [HttpGet]
+        public IActionResult Index(string form)
         {
-            return View();
+            ViewData["Formulario"] = form;
+            return View(new ContaViewModel());
         }
 
         [HttpPost]
@@ -98,7 +104,10 @@ namespace Discoffee.Controllers
 
                 ViewData["Formulario"] = form;
 
-                return View("Index", usuarioViewModel);
+                return View("Index", new ContaViewModel
+                {
+                    Cadastrar = usuarioViewModel
+                });
             }
 
             // CRIA O OBJETO DO NOVO USUÁRIO
@@ -123,6 +132,81 @@ namespace Discoffee.Controllers
             );
 
             _repositorio.CadastrarUsuario(usuario);
+
+            return RedirectToAction("Index", "Conta", new { form = "login" });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel, string form)
+        {
+            Usuario? usuario = _repositorio.BuscarUsuarioPorEmail(loginViewModel.Email);
+
+            // USUÁRIO NÃO ENCONTRADO
+            if (usuario is null)
+            {
+                ModelState.AddModelError(
+                    "Login",
+                    "Nenhum usuário encontrado para este email."
+                );
+
+                ViewData["Formulario"] = "login";
+                return View("Index", new ContaViewModel
+                {
+                    Login = loginViewModel
+                });
+            }
+
+            // COMPARA SENHA ENVIADA COM A SENHA CRIPTOGRAFADA NO BANCO
+            var senhaVerificada = _passwordHasher.VerifyHashedPassword(
+                usuario,
+                usuario.Senha,
+                loginViewModel.Senha
+            );
+
+            if (senhaVerificada == PasswordVerificationResult.Failed)
+            {
+                ModelState.AddModelError(
+                    "Login",
+                    "E-mail ou senha inválidos."
+                );
+
+                ViewData["Formulario"] = "login";
+                return View("Index", new ContaViewModel
+                {
+                    Login = loginViewModel
+                });
+            }
+            
+            // CRIANDO COOKIES PARA SALVAR SESSÃO DO USUARIO
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()), // SALVA O ID
+                new Claim(ClaimTypes.Name, usuario.NomeCompleto), // SALVA O NOME
+                new Claim(ClaimTypes.Email, usuario.Email), // SALVA O EMAIL
+                new Claim(ClaimTypes.Role, usuario.Perfil.ToString()) // SALVA O PERFIL PARA LIMITAR AS AÇÕES
+            };
+
+            var identidade = new ClaimsIdentity(
+                claims,
+                CookieAuthenticationDefaults.AuthenticationScheme
+            );
+
+            var principal = new ClaimsPrincipal(identidade);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                principal
+            );
+
+            return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme
+            );
 
             return RedirectToAction("Index", "Home");
         }

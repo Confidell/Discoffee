@@ -17,12 +17,20 @@ window.addEventListener('scroll', () => {
 })
 
 // POPUP DE ERRROS
-function fecharPopup() {
-    const popup = document.getElementById("popup-erros");
+window.addEventListener("load", () => {
+    const popups = document.querySelectorAll(".popup-erros");
+
+    popups.forEach(popup => {
+        popup.classList.add("ativo");
+    });
+});
+
+function fecharPopup(botao) {
+    const popup = botao.closest(".popup-erros");
 
     popup.classList.remove("ativo");
 
     setTimeout(() => {
         popup.remove();
-    }, 300);
+    }, 500);
 }
