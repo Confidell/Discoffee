@@ -3,13 +3,20 @@ CREATE DATABASE dbDiscoffee;
 USE dbDiscoffee;
 
 CREATE TABLE tbPerfil(
-Id_Perfil INT PRIMARY KEY,
-Tipo ENUM('CLiente', 'Funcionario', 'Administrador')
+Id_Perfil INT PRIMARY KEY auto_increment,
+Tipo ENUM('Cliente', 'Funcionario', 'Administrador') UNIQUE
 );
 
-CREATE TABLE CEP(
-Id_CEP INT PRIMARY KEY,
-CEP VARCHAR(15)
+select * from tbPerfil;
+
+/* CRIA OS 3 TIPOS DE PERFIS NA TABELA PERFIL */
+insert into tbPerfil(Tipo) values(1);
+insert into tbPerfil(Tipo) values(2);
+insert into tbPerfil(Tipo) values(3);
+
+CREATE TABLE tbCEP(
+Id_CEP INT PRIMARY KEY auto_increment,
+CEP VARCHAR(15) UNIQUE
 );
 
 CREATE TABLE tbCupom(
@@ -21,23 +28,25 @@ DataValidade DATETIME
 );
 
 CREATE TABLE tbCategoria(
-Id_Categoria INT PRIMARY KEY,
+Id_Categoria INT PRIMARY KEY auto_increment,
 Categoria VARCHAR(50)
 );
 
 CREATE TABLE tbUsuario(
 Id_Usuario INT PRIMARY KEY auto_increment,
-NomeComple VARCHAR(30),
-Email VARCHAR(100) UNIQUE,
+NomeCompleto VARCHAR(150) NOT NULL,
+Email VARCHAR(100) NOT NULL UNIQUE,
 Senha VARCHAR(100) NOT NULL,
 CPF VARCHAR(15) NOT NULL UNIQUE,
-Stats ENUM('Ativo','Inativo'),
+Stats ENUM('Ativo','Inativo') default 'Ativo',
 Telefone VARCHAR(15),
 DataNasc DATE,
-Numero_Casa VARCHAR(10),
-Complemento VARCHAR(50),
+Numero_Casa VARCHAR(10) NOT NULL,
+Complemento VARCHAR(50) NOT NULL,
 Id_Perfil INT,
-CONSTRAINT FK_Id_Perfil FOREIGN KEY(Id_Perfil) REFERENCES tbPerfil(Id_Perfil) 
+Id_CEP INT,
+CONSTRAINT FK_Id_Perfil FOREIGN KEY(Id_Perfil) REFERENCES tbPerfil(Id_Perfil),
+CONSTRAINT FK_Id_CEP FOREIGN KEY(Id_CEP) REFERENCES tbCEP(Id_CEP) 
 );
 
 CREATE TABLE tbPedido(
@@ -46,19 +55,19 @@ Tipo ENUM('Retirada','Entrega') NOT NULL,
 Stats ENUM('Finalizado','Preparando','Cancelado') NOT NULL,
 SubTotal DECIMAL(10,2),
 Total DECIMAL(10,2),
-DataHora DATETIME,
+DataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
 Frete DECIMAL(10,2),
 Id_Usuario INT,
 CONSTRAINT FK_Id_USusario_Pedido FOREIGN KEY(Id_Usuario) REFERENCES tbUsuario(Id_Usuario)
 );
 
 CREATE TABLE tbProduto(
-CodProduto INT PRIMARY KEY,-- Tem que confirmar esse CodProduto, pois se for o codigo de barra do produto tudo bem o codigo que esta, agora se for o id do produto, faz mais sentido tem um auto_increment
-Nome VARCHAR(15),	
-Preco DECIMAL(10,2),
-Descricao VARCHAR(200),
-Tamanho VARCHAR(5),
-Imagem VARCHAR(100),
+Id_Produto INT PRIMARY KEY auto_increment,
+Nome VARCHAR(50) NOT NULL,	
+Preco DECIMAL(10,2) NOT NULL,
+Descricao VARCHAR(200) NOT NULL,
+Tamanho VARCHAR(5) NOT NULL,
+Imagem VARCHAR(100) NOT NULL,
 Disponibilidade BOOLEAN,
 Id_Categoria INT,
 CONSTRAINT FK_Id_Categoria_Produto FOREIGN KEY(Id_Categoria) REFERENCES tbCategoria(Id_Categoria)
@@ -66,59 +75,59 @@ CONSTRAINT FK_Id_Categoria_Produto FOREIGN KEY(Id_Categoria) REFERENCES tbCatego
 
 CREATE TABLE tbAvaliacao(
 Id_Avaliacao INT PRIMARY KEY auto_increment,
-Comentario VARCHAR(100),
-Nota INT CHECK (Nota BETWEEN 1 AND 5),
-DataAval DATETIME NOT NULL,
-CodProduto INT,
+Comentario VARCHAR(100) NOT NULL,
+Nota INT CHECK (Nota BETWEEN 1 AND 5) NOT NULL,
+DataAval DATETIME DEFAULT CURRENT_TIMESTAMP,
+Id_Produto INT,
 Id_Usuario INT,
 CONSTRAINT fk_Avaliacao_tbUsuario FOREIGN KEY (Id_Usuario) REFERENCES tbUsuario(Id_Usuario),
-CONSTRAINT fk_Avaliacao_tbProduto FOREIGN KEY (CodProduto) REFERENCES tbProduto(CodProduto)
+CONSTRAINT fk_Avaliacao_tbProduto FOREIGN KEY (Id_Produto) REFERENCES tbProduto(Id_Produto)
 );
 
 CREATE TABLE tbCartao(
-Id_Cartao INT PRIMARY KEY,
-Nome_Titular VARCHAR(75),
+Id_Cartao INT PRIMARY KEY auto_increment,
+Nome_Titular VARCHAR(75) NOT NULL,
 Apelido VARCHAR(50),
-Numero_Mascarado VARCHAR(100),
-DataVal DATE,
+Numero_Mascarado VARCHAR(100) NOT NULL,
+DataVal DATE NOT NULL,
 Id_Usuario INT,
 CONSTRAINT FK_Cartao_tbUsuario FOREIGN KEY (Id_Usuario) REFERENCES tbUsuario(Id_Usuario)
 );
 
 CREATE TABLE tbItem_Pedido(
-Id_Item INT PRIMARY KEY,
+Id_Item INT PRIMARY KEY auto_increment,
 Preco_Unitario DECIMAL(10,2),
 Quantidade SMALLINT,
 Id_Pedido INT,
-CodProduto INT,
+Id_Produto INT,
 CONSTRAINT FK_Item_Pedido_tbPedido FOREIGN KEY (Id_Pedido) REFERENCES tbPedido(Id_Pedido),
-CONSTRAINT FK_Item_Pedido_tbProduto FOREIGN KEY (CodProduto) REFERENCES tbProduto(CodProduto)
+CONSTRAINT FK_Item_Pedido_tbProduto FOREIGN KEY (Id_Produto) REFERENCES tbProduto(Id_Produto)
 );
 
 CREATE TABLE tbOpcao_Personalizacao(
-Id_Opcao INT PRIMARY KEY,
-Tipo ENUM('Leite', 'Açucar', 'Adicionais'),
-Opcao VARCHAR(50),
-Preco_Extra DECIMAL(10,2),
+Id_Opcao INT PRIMARY KEY auto_increment,
+Tipo ENUM('Leite', 'Açucar', 'Adicionais') NOT NULL,
+Opcao VARCHAR(50) NOT NULL UNIQUE,
+Preco_Extra DECIMAL(10,2) NOT NULL,
 Id_Categoria INT,
 CONSTRAINT fk_Opcao_Personalizacao FOREIGN KEY (Id_Categoria) REFERENCES tbCategoria(Id_Categoria)
 );
 
-CREATE TABLE tbItemCarrinho_Opcao(
+CREATE TABLE tbItemPedido_Opcao(
 Id_Opcao INT,
 Id_Item INT,
 Preco DECIMAL(10,2),
 PRIMARY KEY(Id_Opcao, Id_Item),
-CONSTRAINT FK_ItemCarrinho_Opcao_tbOpcao_Personalizacao FOREIGN KEY (Id_Opcao) REFERENCES tbOpcao_Personalizacao(Id_Opcao),
-CONSTRAINT FK_ItemCarrinho_Opcao_tbItem_Pedido FOREIGN KEY (Id_Item) REFERENCES tbItem_Pedido(Id_Item)
+CONSTRAINT FK_ItemPedido_Opcao_tbOpcao_Personalizacao FOREIGN KEY (Id_Opcao) REFERENCES tbOpcao_Personalizacao(Id_Opcao),
+CONSTRAINT FK_ItemPedido_Opcao_tbItem_Pedido FOREIGN KEY (Id_Item) REFERENCES tbItem_Pedido(Id_Item)
 );
 
 CREATE TABLE tbPagamento(
 Id_Pagamento INT PRIMARY KEY auto_increment,
 ValorPago DECIMAL(10,2) NOT NULL,
-DataHora DATETIME NOT NULL,
+DataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
 FormaPagamento ENUM('PIX','Débito','Crédito') NOT NULL,
-Status ENUM('Fnaliazado', 'Em andamento', '´Á Pagar'),
+Status ENUM('Fnaliazado', 'Em andamento', 'Á Pagar') NOT NULL,
 Id_Pedido INT,
 Id_Cupom INT,
 Id_Cartao INT,
@@ -131,154 +140,300 @@ CREATE TABLE tbNF(
 Id_NF INT PRIMARY KEY auto_increment,
 Numeracao INT NOT NULL,	
 ValorTotal DECIMAL(10,2) NOT NULL,
-DataEmissao DATETIME NOT NULL,
+DataEmissao DATETIME DEFAULT CURRENT_TIMESTAMP,
 CNPJ_Discoffe VARCHAR(15) NOT NULL,
 Id_Pagamento INT,
 CONSTRAINT fk_NF_tbPagamento FOREIGN KEY (Id_Pagamento) REFERENCES tbPagamento(Id_Pagamento)
 );
 
+/*
+--------------------------------------------------------------------------------------------
+------------------------------ PROCEDURES DE INSERÇÃO --------------------------------------
+--------------------------------------------------------------------------------------------
+*/
 
-DROP PROCEDURE IF EXISTS insertTbUsuario;
+-- CADASTRA O CEP DO USUÁRIO
+delimiter $$
+create procedure insertTbCEP(
+	vCEP VARCHAR(15),
+    out vId_CEP int -- VARIÁVEL PARA RETORNAR O ID DO CEP CADASTRADO OU ENCONTRADO APÓS O FIM DA PROCEDURE
+)
+begin
+    
+    -- CADASTRA CASO AINDA NÃO ESTEJA REGISTRADO
+    if(not exists( select * from tbCEP where CEP = vCEP limit 1 ))
+    then
+		insert into tbCEP(CEP)
+			values(vCEP);
+    end if;
+    
+    -- BUSCA O ID DO CEP CADASTRADO OU JÁ EXISTENTE E O SALVA NA VARIAVEL CRIADA ACIMA
+    select Id_CEP into vId_CEP from tbCEP where CEP = vCEP limit 1;
+    
+end;
+$$
 
+-- CADASTRA O USUÁRIO
 delimiter $$ 
-create procedure insertTbUsuario(vNomeComple VARCHAR(30), vEmail VARCHAR(100), vSenha VARCHAR(100), vCPF VARCHAR(15), vStats ENUM('Ativo','Inativo'), vTelefone VARCHAR(15), vDataNasc DATE, vRestricoes ENUM('Celiaco','Lactose','Caseina','Diabete'))
+create procedure insertTbUsuario(
+	vNomeCompleto VARCHAR(150),
+	vEmail VARCHAR(100),
+	vSenha VARCHAR(100),
+	vCPF VARCHAR(15),
+	vTelefone VARCHAR(15),
+	vDataNasc DATE,
+	vNumero_Casa VARCHAR(10),
+	vComplemento VARCHAR(50),
+    vCEP VARCHAR(15),
+	vPerfil INT
+)
 begin
-	insert into tbUsuario(NomeComple, Email, Senha, CPF, Stats, Telefone, DataNasc, Restricoes)
-	values (vNomeComple, vEmail, vSenha, vCPF, vStats, vTelefone, vDataNasc, vRestricoes);
+	declare vId_CEP int; -- VARIÁVEL PARA RECEBER O ID DO CEP
+    declare vId_Perfil int; -- VARIÁVEL PARA RECEBER O ID DO PERFIL
+    
+    if(not exists(select * from tbUsuario where Email = vEmail limit 1))
+    then
+		call insertTbCEP(vCEP, vId_CEP); -- CHAMA A PROCEDURE DE CADASTRO DE CEP E ATRIBUI O NOVO CEP À VARIÁVEL "vId_CEP"
+        select Id_Perfil into vId_Perfil from tbPerfil where Tipo = vPerfil limit 1;
+    
+		insert into tbUsuario(NomeCompleto, Email, Senha, CPF, Telefone, DataNasc, Numero_Casa, Complemento, Id_Perfil, Id_CEP)
+			values (vNomeCompleto, vEmail, vSenha, vCPF, vTelefone, vDataNasc, vNumero_Casa, vComplemento, vId_Perfil, vId_CEP);
+    end if;
+
 end;
 $$
 
+CALL insertTbUsuario('Samuel', 'sam1219barbosa@gmail.com', 'Teste01', '49381583889', '11981863899', '2008-10-30', 'AMD-6767', 'Sem Complemento', '05274110', 1);
 
-DROP PROCEDURE IF EXISTS insertTbPedido;
+select * from tbCEP;
+select * from tbPerfil;
+select * from tbUsuario;
 
 delimiter $$
-create procedure insertTbPedido(vTipo ENUM('Retirada','Entrega'), vStats ENUM('Finalizado','Preparando','Cancelado'), vSubTotal DECIMAL(10,2), vTotal DECIMAL(10,2))
+create procedure insertTbCategoria(
+    vCategoria VARCHAR(50),
+    out vId_Categoria INT
+)
 begin
-	insert into tbPedido(Tipo, Stats, SubTotal, Total, DataHora)
-    values (vTipo, vStats, vSubTotal, vTotal, CURRENT_TIMESTAMP);
+	declare vId_Categoria INT;
+ 
+	-- CADASTRA CASO O ID AINDA NÃO EXISTA
+	if(not exists(select * from tbCategoria where Categoria = vCategoria limit 1))
+    then
+		insert into tbCategoria(Categoria)
+			values(vCategoria);
+    end if;
+    
+    select Id_Categoria into vId_Categoria from tbCategoria where Categoria = vCategoria limit 1;
+ 
 end;
 $$
-
-
-DROP PROCEDURE IF EXISTS insertTbProduto;
+delimiter ;
+ 
+CALL insertTbCategoria('Café');
+ 
+select * from tbCategoria;
+ 
+ 
+delimiter $$
+create procedure insertTbCupom(
+	vNome VARCHAR(50),
+    vCodigo_Cupom VARCHAR(10),
+    vDesconto DECIMAL(10,2),
+    vDataValidade DATETIME
+)
+begin
+ 
+	-- CADASTRA CASO O CÓDIGO AINDA NÃO ESTEJA REGISTRADO
+	if(not exists(select * from tbCupom where Codigo_Cupom = vCodigo_Cupom limit 1))
+    then
+		insert into tbCupom(Nome, Codigo_Cupom, Desconto, DataValidade)
+			values(vNome, vCodigo_Cupom, vDesconto, STR_TO_DATE(vDataValidade, '%d/%m/%Y %H:%i:%s'));
+    end if;
+ 
+end;
+$$
+delimiter ;
+ 
+CALL insertTbCupom('Descontaço', 'DESC15', 15.00, '2026-11-09 23:59:59');
+ 
+select * from tbCupom;
+ 
 
 delimiter $$
-create procedure insertTbProduto(vCodProduto INT, vNome VARCHAR(15), vPreco DECIMAL(10,2), vDescricao VARCHAR(200), vQuantidade SMALLINT, vCategoria ENUM('Drink','Salgado','Doce','Refresco','Shake') )
+create procedure insertTbProduto(
+	vNome VARCHAR(50),
+    vPreco DECIMAL(10,2),
+    vDescricao VARCHAR(200),
+    vTamanho VARCHAR(5),
+    vImagem VARCHAR(100),
+    vDisponibilidade BOOLEAN,
+    vCategoria VARCHAR(50)
+    -- out vId_Produto int -- VARIÁVEL PARA RETORNAR O ID DO PRODUTO CADASTRADO
+)
 begin
-	insert into tbProduto (CodProduto, Nome, Preco, Descricao, Quantidade, Categoria)
-    values (vCodProduto, vNome, vPreco, vDescricao, vQuantidade, vCategoria);
+	declare vId_Categoria INT;
+ 
+	if(not exists(select * from tbProduto where Nome = vNome and Tamanho = vTamanho limit 1))
+    then
+		
+        call insertTbCategoria(vCategoria, vId_Categoria);
+        
+		insert into tbProduto(Nome, Preco, Descricao, Tamanho, Imagem, Disponibilidade, Id_Categoria)
+			values(vNome, vPreco, vDescricao, vTamanho, vImagem, vDisponibilidade, vId_Categoria);
+    end if;
+    
 end;
 $$
-
-
-DROP PROCEDURE IF EXISTS insertTbEndereco;
+delimiter ;
+ 
+CALL insertTbProduto('Macchiatto', 29.99, 'Café extremamente cremoso', 'G', 'Img_Macchiatto', 1, 'Tradicional');
+SELECT @idProduto;
+ 
+select * from tbProduto;
+ 
 
 delimiter $$
-create procedure insertTbEndereco(vCEP VARCHAR(12), vBairro VARCHAR(50), vCidade VARCHAR(30), vEstado CHAR(2), vRua VARCHAR(50), vComplemento VARCHAR(10), vNumero VARCHAR(7), vId_Usuario INT)
+create procedure insertTbOpcao_Personalizacao(
+	vTipo INT,
+    vOpcao VARCHAR(50),
+    vPreco_Extra DECIMAL(10,2),
+    vCategoria INT
+    -- out vId_Opcao int -- VARIÁVEL PARA RETORNAR O ID DA OPÇÃO CADASTRADA OU ENCONTRADA
+)
 begin
-    insert into tbEndereco(CEP, Bairro, Cidade, Estado, Rua, Complemento, Numero, Id_Usuario)
-    values(vCEP, vBairro, vCidade, vEstado, vRua, vComplemento, vNumero, vId_Usuario); -- Aqui teria que pensar em uma logica pra linkar esse id_Usuario com o cadastro do usuario (Pelo menos na minha mente seria isso)
+	declare vId_Categoria INT;
+ 
+	-- CADASTRA CASO A OPÇÃO AINDA NÃO EXISTA (Opcao É UNIQUE)
+	if(not exists(select * from tbOpcao_Personalizacao where Opcao = vOpcao limit 1))
+    then
+    
+		call insertTbCategoria(vCategoria, vId_Categoria);
+    
+		insert into tbOpcao_Personalizacao(Tipo, Opcao, Preco_Extra, Id_Categoria)
+			values(vTipo, vOpcao, vPreco_Extra, vId_Categoria);
+    end if;
+ 
 end;
 $$
+delimiter ;
+ 
+CALL insertTbOpcao_Personalizacao(1, 'Mascavo', 2.59, 1);
+SELECT @idOpcao;
+ 
+select * from tbOpcao_Personalizacao;
+ 
+ 
+delimiter $$
+create procedure insertTbCartao(
+	vNome_Titular VARCHAR(75),
+    vApelido VARCHAR(50),
+    vNumero_Mascarado VARCHAR(100),
+    vDataVal DATE,
+    vId_Usuario INT
+    -- out vId_Cartao int -- VARIÁVEL PARA RETORNAR O ID DO CARTÃO CADASTRADO
+)
+begin
+	
+    if(not exists(select * from tbCartao where Numero_Mascarado = vNumero_Mascarado limit 1))
+	then
+		insert into tbCartao(Nome_Titular, Apelido, Numero_Mascarado, DataVal, Id_Usuario)
+			values(vNome_Titular, vApelido, vNumero_Mascarado, vDataVal, vId_Usuario);
+    end if;
+ 
+	-- set vId_Cartao = last_insert_id();
+ 
+end;
+$$
+delimiter ;
 
-
-DROP PROCEDURE IF EXISTS insertTbFuncionario;
+CALL insertTbCartao('Guilherme', 'Sarue', '9090 8908 0900', '2027-09-29', 1);
+SELECT @idCartao;
 
 delimiter $$
-create procedure insertTbFuncionario(vCargo ENUM('Administrador','Gerente','Cozinheiro','Entregador'), vDataAdmissao DATE, vId_Usuario INT)
+create procedure insertTbAvaliacao(
+	vComentario VARCHAR(100),
+    vNota INT,
+    vId_Produto INT,
+    vId_Usuario INT
+)
 begin
-    insert into tbFuncionario (Cargo, DataAdmissao, Id_Usuario)
-    values (vCargo, vDataAdmissao, vId_Usuario); -- nessa parte pra mim não faz sentido ser referenciado com o usuario
+	
+	insert into tbAvaliacao(Comentario, Nota, Id_Produto, Id_Usuario)
+		values(vComentario, vNota, vId_Produto, vId_Usuario);
+ 
 end;
 $$
+delimiter ;
+ 
+CALL insertTbAvaliacao('Café muito bom, cremoso e encorpado.', 5, 1, 1);
+SELECT @idAvaliacao;
 
+select * from tbAvaliacao;
 
-DROP PROCEDURE IF EXISTS insertTbCarrinho;
-
-delimiter $$
-create procedure insertTbCarrinho(vSubTotal DECIMAL(10,2), vTotal DECIMAL(10,2), vId_Usuario INT)
-begin
-    insert into tbCarrinho (SubTotal, Total, Id_Usuario)
-    values (vSubTotal, vTotal, vId_Usuario);
-end;
-$$
-
-
-DROP PROCEDURE IF EXISTS insertTbAvaliacao;
-
-delimiter $$
-create procedure insertTbAvaliacao(vComentario VARCHAR(100), vNota INT, vCodProduto INT, vId_Usuario INT)
-begin
-    insert into tbAvaliacao (Comentario, Nota, DataAvaliacao, CodProduto, Id_Usuario)
-    values (vComentario, vNota, CURRENT_TIMESTAMP, vCodProduto, vId_Usuario);
-end;
-$$
-
-
-DROP PROCEDURE IF EXISTS insertTbCarrinhoProduto;
-
-delimiter $$
-create procedure insertTbCarrinhoProduto(vPreco_Unitario DECIMAL(10,2), vQuantidade SMALLINT, vId_Carrinho INT, vCodProduto INT)
-begin
-    insert into tbCarrinho_Produto (Preco_Unitario, Quantidade, Id_Carrinho, CodProduto)
-    values (vPreco_Unitario, vQuantidade, vId_Carrinho, vCodProduto);
-end;
-$$
-
-
-DROP PROCEDURE IF EXISTS insertTbCupom;
-
-delimiter $$
-create procedure insertTbCupom(vNome VARCHAR(10), vCodigo_Cupom VARCHAR(10), vDesconto DECIMAL(10,2), vDataValidade DATETIME)
-begin
-    insert into tbCupom (Nome, Codigo_Cupom, Desconto, DataValidade)
-    values (vNome, vCodigo_Cupom, vDesconto, vDataValidade);
-end;
-$$
-
-
-DROP PROCEDURE IF EXISTS insertTbPagamento;
-
-delimiter $$
-create procedure insertTbPagamento(vValorPago DECIMAL(10,2), vFormaPagamento ENUM('PIX','Débito','Crédito'), vId_Pedido INT, vId_Cupom INT)
-begin
-    insert into tbPagamento (ValorPago, DataHora, FormaPagamento, Id_Pedido, Id_Cupom)
-    values (vValorPago, CURRENT_TIMESTAMP, vFormaPagamento, vId_Pedido, vId_Cupom);
-end;
-$$
-
-
-DROP PROCEDURE IF EXISTS insertTbNF;
+ 
+ /* FAZER POR ÚLTIMO 
+	
+    INSERIR PEDIDO
+    INSERIR PEDIDO_PRODUTO
+    INSERIR OPÇÃO_PEDIDO
+    INSERIR PAGAMENTO
+    INSERIR NF
+ */
+ 
+/*
+--------------------------------------------------------------------------------------------
+--------------------------------- PROCEDURES DE BUSCA --------------------------------------
+--------------------------------------------------------------------------------------------
+*/
 
 DELIMITER $$
-create procedure insertTbNF(vValorTotal DECIMAL(10,2), vId_Pagamento INT)
-begin
-    insert into tbNF (ValorTotal, DataEmissao, Id_Pagamento)
-    values (vValorTotal, CURRENT_TIMESTAMP, vId_Pagamento);
-end;
-$$
+CREATE PROCEDURE selectUsuario(
+	vId_Usuario INT
+    -- IN vFiltro VARCHAR(150) -- FILTRO DE QUALQUER DADO DO USUARIO
+)
+BEGIN
 
+    SELECT
+        u.NomeCompleto,
+        u.Email,
+        u.CPF,
+        u.Telefone,
+        u.DataNasc,
+        u.Stats,
+        u.Numero_Casa,
+        u.Complemento,
+        c.CEP,
+        p.Tipo AS Perfil
+    FROM tbUsuario u
+    LEFT JOIN tbPerfil p ON p.Id_Perfil = u.Id_Perfil
+    LEFT JOIN tbCEP c ON c.Id_CEP = u.Id_CEP
+    WHERE u.Id_Usuario = vId_Usuario;
 
-DROP PROCEDURE IF EXISTS insertTbPedidoProduto;
+	/*
+		SELECT
+			u.NomeCompleto,
+			u.Email,
+			u.CPF,
+			u.Telefone,
+			u.DataNasc,
+			u.Stats,
+			u.Numero_Casa,
+			u.Complemento,
+			c.CEP,
+			p.Tipo AS Perfil
+		FROM tbUsuario u
+		LEFT JOIN tbPerfil p ON p.Id_Perfil = u.Id_Perfil
+		LEFT JOIN tbCEP c ON c.Id_CEP = u.Id_CEP
+		WHERE
+			vFiltro IS NULL
+			OR vFiltro = ''
+			OR u.NomeCompleto LIKE CONCAT('%', vFiltro, '%')
+			OR u.CPF LIKE CONCAT('%', vFiltro, '%')
+			OR u.Email LIKE CONCAT('%', vFiltro, '%')
+		ORDER BY u.NomeCompleto;
+    */
+END $$
+DELIMITER ;
 
-delimiter $$
-create procedure insertTbPedidoProduto(vPreco_Unitario DECIMAL(10,2), vQuantidade SMALLINT, vId_Pedido INT, vCodProduto INT)
-begin
-    insert into tbPedido_Produto (Preco_Unitario, Total, Quantidade, Id_Pedido, CodProduto)
-    VALUES (vPreco_Unitario, vPreco_Unitario * vQuantidade, vQuantidade, vId_Pedido, vCodProduto);
-end;
-$$
-
-
-CALL insertTbUsuario('Samuel', 'sam1219barbosa@gmail.com', 'Teste01', '49381583889', 'Ativo', '11981863899', '2008-10-30', 'Celiaco');
-CALL insertTbPedido('Retirada', 'Finalizado', 12.99, 12.99);
-CALL insertTbProduto(1, 'Café Coado', 24.99, 'Café Coado', 35, 'Doce');
-CALL insertTbEndereco('12345-678', 'Centro', 'São Paulo', 'SP', 'Rua das Flores', 'Apto 12', '150', 1);
-CALL insertTbFuncionario('Cozinheiro', '2026-04-30', 1);
-CALL insertTbCarrinho(35.90, 39.90, 1);
-CALL insertTbAvaliacao('Muito bom, entrega rápida!', 5, 1, 1);
-CALL insertTbCarrinhoProduto(12.99, 2, 1, 1);
-CALL insertTbCupom('PROMO10', 'DESC10', 10.00, '2026-12-31 23:59:59');
-CALL insertTbPagamento(59.90, 'PIX', 1, 1);
-CALL insertTbNF(59.90, 1);
-CALL insertTbPedidoProduto(12.99, 2, 1, 1);
+call selectUsuario(1);

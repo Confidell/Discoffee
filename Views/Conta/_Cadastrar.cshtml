@@ -1,0 +1,200 @@
+@model Discoffee.ViewModels.CadastrarUsuarioViewModel
+
+<form 
+    id="form-cadastro" 
+    asp-controller="Conta" 
+    asp-action="Cadastrar" 
+    asp-route-form="cadastrar"
+    method="post" 
+    class="form form-conta"
+>
+    <h2 class="titulo-principal">Informe seus dados para cadastrar-se.</h2>
+    <hr class="linha-divisoria"/>
+
+        <div class="inputs">
+
+            <div class="inputs-usuario">
+
+                <div class="card-acesso card-usuario">
+                    <h4>
+                        Informações de <span style="color: var(--rosa);">Acesso</span>
+                    </h4>
+                    <div class="card">
+                        <label for="email">
+                            E-mail:
+                            <input type="email" class="input-form" asp-for="Email" placeholder="Digite seu e-mail..." />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </label>
+
+                        <label for="conf-email">
+                            Confirmar E-mail:
+                            <input type="email" class="input-form" asp-for="ConfirmarEmail" placeholder="Repita o e-mail..." />
+                            <span asp-validation-for="ConfirmarEmail" class="text-danger"></span>
+                        </label>
+
+                        <label for="senha">
+                            Senha:
+                            <input id="senha" type="password" class="input-form" asp-for="Senha" placeholder="Crie uma senha..." />
+                            <span asp-validation-for="Senha" class="text-danger"></span>
+                            
+                            <button type="button"
+                                    class="mostrar-senha"
+                                    onclick="mostrarSenha('senha', this)">
+
+                                <svg class="icone-senha icone-olho-fechado" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                                    <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+                                    <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
+                                </svg>
+
+                                <svg class="icone-senha icone-olho-aberto" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                </svg>
+
+                            </button>
+                        </label>
+
+                        <label for="senha">
+                            Confirmar Senha:
+                            <input id="confirmar-senha" type="password" class="input-form" asp-for="ConfirmarSenha" placeholder="Repita a senha..." />
+                            <span asp-validation-for="ConfirmarSenha" class="text-danger"></span>
+
+
+                            <button type="button"
+                                    class="mostrar-senha"
+                                    onclick="mostrarSenha('confirmar-senha', this)">
+
+                                <svg class="icone-senha icone-olho-fechado" style="display: none;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
+                                    <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
+                                    <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
+                                </svg>
+
+                                <svg class="icone-senha icone-olho-aberto" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                </svg>
+
+                            </button>
+                        </label>
+                    </div>
+                </div>
+            
+                <div class="card-pessoais card-usuario"> 
+                    <h4> Informações <span style="color: var(--rosa);">Pessoais</span> </h4> 
+                    
+                    <div class="card"> 
+                        <label for="nome"> 
+                            Nome completo: 
+                            <input type="text" id="nome" class="input-form" asp-for="NomeCompleto" placeholder="Digite seu nome completo..." />
+                            <span asp-validation-for="NomeCompleto" class="text-danger"></span>
+                        </label> 
+
+                        <label for="cpf"> 
+                            CPF: 
+                            <input type="text" id="cpf" class="input-form" asp-for="CPF" placeholder="Digite seu CPF..." maxlength="14" />
+                            <span asp-validation-for="CPF" class="text-danger"></span>
+                        </label> 
+                        
+                        <label for="telefone"> 
+                            Telefone: 
+                            <input type="text" id="tel" class="input-form" asp-for="Telefone" placeholder="Ex: (11) 99245-4543" maxlength="15" />
+                            <span asp-validation-for="Telefone" class="text-danger"></span>
+                        </label> 
+                        
+                        <label for="dataNasc"> 
+                            Data de Nascimento: 
+                            <input type="text" id="dataNasc" class="input-form" asp-for="DataNascimento" placeholder="Ex: 07/04/2003" maxlength="10" />
+                            <span asp-validation-for="DataNascimento" class="text-danger"></span> 
+                        </label> 
+                    </div> 
+                </div>
+
+            </div>
+
+            @* INPUTS ENDEREÇO *@
+            <div class="card-endereco">
+                <h4 id="txt-end">
+                    Informações de <span style="color: var(--rosa);">Endereço</span>
+                </h4>
+                <div class="conteudo-card">
+                    <label for="cep">
+                        CEP:
+                        <input type="text" id="cep" class="input-form" asp-for="CEP" placeholder="Digite seu CEP..." />
+                        <span asp-validation-for="CEP" class="text-danger"></span>
+                    </label>
+                    
+                    <div id="endereco-grid">
+                        <div class="end-grid-1">
+                            <label for="numero">
+                                Número:
+                                <input type="text" class="input-form" asp-for="NumeroCasa" placeholder="Nº da casa..." />
+                                <span asp-validation-for="NumeroCasa" class="text-danger"></span>
+                            </label>
+                        </div>
+
+                        <div class="end-grid-2">
+                            <label for="complemento">
+                                Complemento:
+                                <input type="text" class="input-form" asp-for="Complemento" placeholder="Ex: Apto, Bloco, etc..." />
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <label for="rua">
+                        Rua:
+                        <input type="text" class="input-form" disabled id="rua" placeholder="Nome da rua..." />
+                    </label>
+                    
+                    <label for="estado">
+                        Estado:
+                        <input type="text" class="input-form" disabled id="estado" placeholder="UF..." />    
+                    </label>
+                    
+                    <label for="cidade">
+                        Cidade:
+                        <input type="text" class="input-form" disabled id="cidade"  placeholder="Sua Cidade..." />
+                    </label>
+                    
+                    <label for="bairro">
+                        Bairro:
+                        <input type="text" class="input-form" disabled id="bairro" placeholder="Seu Bairro..." />
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="textos" id="textos">
+            <span style="display: flex; align-items: center; justify-content: center; color: var(--azul); gap: .3rem;">
+
+                <input asp-for="AceitouTermos" id="termos" type="checkbox">
+                <label asp-for="AceitouTermos">
+                    Aceito os termos de uso
+                </label>
+                <span asp-validation-for="AceitouTermos" class="text-danger"></span>
+            </span>
+
+            <span>
+                <a 
+                    asp-controller="Conta" 
+                    asp-action="Index" 
+                    asp-route-form="login"
+                    class="link-form"
+                >
+                    Já tenho conta.
+                </a>
+            </span>
+        </div>
+    
+        <div class="btns-form">
+
+            <button type="submit" id="criar" class="botao">
+                Criar
+            </button>
+
+            <button type="reset" id="limpar" class="botao">
+                Limpar
+            </button>
+
+        </div>
+
+</form>

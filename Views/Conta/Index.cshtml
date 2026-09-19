@@ -1,0 +1,41 @@
+﻿@model Discoffee.ViewModels.ContaViewModel
+
+@{
+    string formulario = Context.Request.Query["form"].ToString();
+
+    ViewData["Title"] =
+        char.ToUpper(formulario[0]) + formulario.Substring(1);
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/conta.css" asp-append-version="true" />
+}
+
+<section class="sessao-conta">
+
+    <a id="btn-voltar" asp-controller="Home" asp-action="Index" style="text-decoration: none; display: inline-flex; align-items: center;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right seta" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+        </svg>
+        Voltar
+    </a>
+
+    @if (formulario == "login")
+    {
+        @* CHAMA A VIEW PARCIAL DO FORM DE LOGIN *@
+        <partial name="_Login" model="Model.Login" />
+    }
+    else
+    {
+        @* CHAMA A VIEW PARCIAL DO FORM DE CADASTRO *@
+        <partial name="_Cadastrar" model="Model.Cadastrar" />
+    }
+
+    <a asp-controller="home" asp-action="index">
+        <img src="~/Assets/Icons/Logo.svg" alt="Logo" id="logo" />
+    </a>
+</section>
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}

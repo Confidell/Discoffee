@@ -15,3 +15,22 @@ window.addEventListener('scroll', () => {
 
         header.classList.toggle('scroll', window.scrollY > 10)
 })
+
+// POPUP DE ERRROS
+window.addEventListener("load", () => {
+    const popups = document.querySelectorAll(".popup-erros");
+
+    popups.forEach(popup => {
+        popup.classList.add("ativo");
+    });
+});
+
+function fecharPopup(botao) {
+    const popup = botao.closest(".popup-erros");
+
+    popup.classList.remove("ativo");
+
+    setTimeout(() => {
+        popup.remove();
+    }, 500);
+}

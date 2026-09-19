@@ -1,21 +1,24 @@
 ﻿@{
-    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
-    var action = ViewContext.RouteData.Values["action"]?.ToString();
+    @* PEGA O USUARIO AUTENTICADO DO COOKIE *@
+    var autenticado = User.Identity.IsAuthenticated;
 
-    bool ocultarLayout = controller == "Cadastrar" && action == "Index";
+    @* PEGA CONTROLLER DA ROTA *@
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+
+    @* ESONDE O LAYOUT QUANDO A CONTROLLER FOR "CONTA" *@
+    bool ocultarLayout = controller == "Conta";
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Discoffee</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Discoffee.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/cadastrar.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
 </head>
 <body>
 
@@ -25,17 +28,33 @@
             <div style="display: flex; align-items: center; gap: 2rem;">
                 <h1 class="titulo">
                     DISCOFFEE
-                    @* <span style="color: var(--amarelo);">C</span><span style="color: var(--laranja);">O</span><span style="color: var(--vermelho);">F</span><span style="color: var(--azul);">F</span><span style="color: var(--roxo);">E</span><span style="color: var(--rosa);">E</span> *@
                 </h1>
 
-                <div class="login-btns">
-                    <button class="entrar">
-                        <a asp-controller="Cadastrar" asp-action="Index" asp-route-form="login">ENTRAR</a>
-                    </button>
-                    <button class="cadastrar">
-                        <a asp-controller="Cadastrar" asp-action="Index" asp-route-form="cadastrar">CADASTRAR</a>
-                    </button>
-                </div>
+
+                @if(autenticado){
+                    <div class="perfil">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill icone-perfil" viewBox="0 0 16 16">
+                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                        </svg>
+
+                        <div class="textos">
+                            <span class="boas-vindas">@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</span>
+                            <a asp-controller="Conta" asp-action="Logout" asp class="logout" style="  color: var(--laranja);font-size: .8rem;">
+                                Sair
+                            </a>
+                        </div>
+                    </div>
+                }
+                else{
+                    <div class="login-btns">
+                        <button class="entrar">
+                            <a asp-controller="Conta" asp-action="Index" asp-route-form="login">ENTRAR</a>
+                        </button>
+                        <button class="cadastrar">
+                            <a asp-controller="Conta" asp-action="Index" asp-route-form="cadastrar">CADASTRAR</a>
+                        </button>
+                    </div>
+                }
             </div>
 
             <nav>
@@ -44,6 +63,10 @@
                     <li><a asp-controller="cardapio" asp-action="index">CARDÁPIO</a></li>
                     <li><a href="">MEUS PEDIDOS</a></li>
                     <li><a href="">PERFIL</a></li>
+                    @* @if(autenticado){
+                        <li><a href="">MEUS PEDIDOS</a></li>
+                        <li><a href="">PERFIL</a></li>
+                    } *@
                     <li><a href="">COLEÇÃO</a></li>
                     <li><a href="">CONTATO</a></li>
                     <a href="" style="color: var(--branco);">
@@ -63,6 +86,40 @@
                 </div>
             </nav>
         </header>
+    }
+
+    @* EXIBE UM POPUP PARA CADA ERRO *@
+    @if (!ViewData.ModelState.IsValid)
+    {
+        foreach (var item in ViewData.ModelState)
+        {
+            foreach (var erro in item.Value.Errors)
+            {
+                <div class="popup-erros ">
+
+                    <div class="popup-conteudo">
+
+                        <article class="popup-texto">
+                            <h3>ATENÇÃO!</h3>
+                            <p>@erro.ErrorMessage</p>
+                        </article>
+
+                        <svg onclick="fecharPopup(this)"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="currentColor"
+                            class="bi bi-x botao-fechar"
+                            viewBox="0 0 16 16">
+
+                            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+
+                        </svg>
+
+                    </div>
+                </div>
+            }
+        }
     }
 
     <div class="main">

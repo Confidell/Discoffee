@@ -57,8 +57,9 @@
     font-weight: 400;
 }
 
-.inputs label{
+.inputs label, .campos-login label{
     font-size: 0.8rem;
+    position: relative;
 }
 .inputs-usuario{
     width: 55%;
@@ -66,7 +67,17 @@
     flex-direction: column;
     gap: 2.2rem;
 }
-
+.mostrar-senha{
+    position: absolute;
+    top: 0%;
+    right: 2%;
+    z-index: 100;
+    background-color: transparent;
+    border: none;
+}
+.mostrar-senha .icone-senha{
+    color: var(--azul);
+}
 .card-usuario,
 .card-endereco {
     display: flex;
@@ -155,7 +166,7 @@
     position: absolute;
     display: flex;
     align-items: center;
-    bottom: 5%;
+    bottom: 6%;
     left: 5%;
     gap: 1rem;
     text-decoration: none;
@@ -229,8 +240,8 @@
 }
 .titulo-conta {
     color: var(--rosa);
-    font-weight: 600;
-    font-size: 1.5rem;
+    font-weight: 700;
+    font-size: 1.8rem;
 }
 
 .texto-conta-existente {

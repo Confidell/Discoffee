@@ -33,6 +33,35 @@ header .titulo{
   gap: 0;
 }
 
+.perfil{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+.perfil .icone-perfil{
+  width: 25px;
+  height: 25px;
+  color: var(--branco);
+  border: 1px solid var(--laranja);
+  border-radius: 100%;
+  padding: 4px;
+  cursor: pointer;
+}
+.perfil .textos{
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-direction: column;
+  line-height: 1.1rem;
+}
+.perfil .boas-vindas{
+  color: var(--branco);
+  font-weight: 600;
+}
+
+
 header .login-btns{
   display: flex;
   align-items: center;
