@@ -21,14 +21,22 @@ namespace Discoffee.Controllers
         }
         
         [HttpGet]
-        public IActionResult Index(string form)
+        public IActionResult Index(string? form, string? returnUrl)
         {
             ViewData["Formulario"] = form;
+            ViewBag.ReturnUrl = returnUrl;
+
             return View(new ContaViewModel());
         }
 
+        // [HttpGet]
+        public IActionResult AcessoNegado()
+        {
+            return View();
+        }
+
         [HttpPost]
-        public IActionResult Cadastrar(CadastrarUsuarioViewModel usuarioViewModel, string form)
+        public IActionResult Cadastrar(CadastrarUsuarioViewModel usuarioViewModel, string? form)
         {
             Usuario usuarioExistente = _repositorio.BuscarUsuarioPorEmail(usuarioViewModel.Email);
 
@@ -137,7 +145,7 @@ namespace Discoffee.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel, string form)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel, string? form, string? returnUrl)
         {
             Usuario? usuario = _repositorio.BuscarUsuarioPorEmail(loginViewModel.Email);
 
@@ -197,6 +205,11 @@ namespace Discoffee.Controllers
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 principal
             );
+
+            if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
 
             return RedirectToAction("Index", "Home");
         }

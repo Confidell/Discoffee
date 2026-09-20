@@ -70,9 +70,37 @@ namespace Discoffee.Repository
             return null;
         }
 
-        public Usuario BuscarUsuarioPorId(int id)
+        public Usuario? BuscarUsuarioPorId(int Id)
         {
-            throw new NotImplementedException();
+            using var conexao = new MySqlConnection(_conexaoMySql);
+            conexao.Open();
+
+            using var comando = new MySqlCommand("selectUsuario", conexao);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("vId_Usuario", Id);
+
+            using var reader = comando.ExecuteReader();
+            if (reader.Read())
+            {
+                return new Usuario
+                {
+                    // IdUsuario = reader.GetInt32("Id_Usuario"),
+                    NomeCompleto = reader.GetString("NomeCompleto"),
+                    Email = reader.GetString("Email"),
+                    // Senha = reader.GetString("Senha"),
+                    CPF = reader.GetString("CPF"),
+                    Telefone = reader.GetString("Telefone"),
+                    DataNascimento = reader.GetDateTime("DataNasc"),
+                    Status = reader.GetString("Stats"),
+                    Complemento = reader.GetString("Complemento"),
+                    NumeroCasa = reader.GetString("Numero_Casa"),
+                    CEP = reader.GetString("CEP"),
+                    Perfil = Enum.Parse<EnumPerfil>(reader.GetString("Perfil"))
+                };
+            }
+
+            return null;
         }
 
         public bool BuscaUsuarioPorCPF(string CPF)

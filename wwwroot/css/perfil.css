@@ -1,0 +1,188 @@
+.sessao-perfil{
+    height: 200vh;
+    justify-content: start;
+    flex-direction: column;
+    gap: 5rem;
+    padding-top: 10rem;
+}
+
+.titulo-perfil{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: .5rem;
+    width: 50%;
+    height: fit-content;
+}
+.titulo-perfil .logo{
+    width: 16rem;
+    object-fit: cover;
+    margin-top: 5%;
+}
+.titulo-perfil h3{
+    font-weight: 600;
+    color: var(--cinza-claro);
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 5%;
+}
+.titulo-perfil article{
+    width: 100%;
+    height: 6rem;
+    background-color: var(--roxo);
+    color: var(--branco);
+    /* padding: 1rem */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+.titulo-perfil article .texto{
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.5;
+    margin-top: 1.5%;
+}
+
+.dados-usuario{
+    width: 100%;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+.dados-usuario form{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    gap: 8rem;
+}
+
+.dados-pessoais,
+.dados-endereco{
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    border-radius: 8px;
+    padding: 1rem;
+}
+.conteudo-card {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1rem;
+    gap: 5px;
+}
+.dados-pessoais{
+    border-left: 4px solid var(--rosa);
+    border-bottom: 4px solid var(--rosa);
+    animation: borda 10s infinite alternate;
+    /* box-shadow: -2px 2px 0px var(--rosa); */
+}
+.dados-endereco{
+    border-right: 4px solid var(--rosa);
+    border-bottom: 4px solid var(--rosa);
+    animation: borda 10s infinite alternate;
+    /* box-shadow: 2px 2px 0px var(--rosa); */
+}
+
+#endereco-grid,
+.usuario-grid-1,
+.usuario-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.end-grid-1 {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.end-grid-2 {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+.input-form {
+    width: 100%;
+    height: 36px;
+    padding: 8px;
+    border-radius: 2px;
+    border: 1px solid var(--branco-escuro);
+}
+
+#endereco-grid .input-form,
+.usuario-grid-1 .input-form,
+.usuario-grid-2 .input-form {
+    width: 100%;
+    height: 36px;
+}
+
+#endereco-grid label {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+@keyframes borda {
+    0%{
+        border-color: var(--rosa);
+        /* color: var(--rosa); */
+    }
+    50%{
+        border-color: var(--roxo);
+        /* color: var(--roxo); */
+    }
+    100%{
+        border-color: var(--azul);
+        /* color: var(--azul); */
+    }
+}
+
+.sessao-forma-pagamento{
+    height: 30vh;
+    justify-content: start;
+    flex-direction: column;
+}
+
+.titulo-formas-pagamento{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+.titulo-formas-pagamento h3{
+    font-size: 2rem;
+    font-weight: 600;
+}
+.titulo-formas-pagamento .btn-adicionar-cartao{
+    box-shadow: 2px 4px 0px var(--roxo);
+    background-color: transparent;
+    gap: 1rem;
+}
+.titulo-formas-pagamento .btn-adicionar-cartao:hover{
+    background-color: var(--roxo);
+    box-shadow: 0px 0px 0px var(--roxo);
+    color: var(--branco);
+}
+.titulo-formas-pagamento .btn-adicionar-cartao .icone{
+    width: 50px;
+    height: 50px;
+    color: var(--roxo);
+    stroke-width: .5px;
+    padding: 5px;
+}
+.titulo-formas-pagamento .btn-adicionar-cartao:hover .icone{
+    color: var(--branco);
+}

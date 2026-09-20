@@ -19,13 +19,47 @@ a{
   color: var(--branco);
 }
 
+header .login-btns{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+header .login-btns .link-btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 8rem;
+  height: 2rem;
+  background-color: transparent;
+  border: 2px solid var(--laranja);
+  border-radius: 2px;
+  transition: all .3s ease, color .3s ease;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--branco);
+}
+header .login-btns .link-btn:nth-child(1){
+background-color: var(--laranja);
+scale: 1.05;
+}
+header .login-btns:has(.link-btn:nth-child(2):hover) .link-btn:nth-child(1) {
+  background-color: transparent;
+  scale: 1;
+}
+header .login-btns:has(.link-btn:nth-child(2):hover) .link-btn:nth-child(2) {
+  background-color: var(--laranja);
+  scale: 1.05;
+}
+
 .sessao-padrao{
-    width: 100%;
-    /* height: 100vh; */
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  width: 100%;
+  /* height: 100vh; */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .botao{
@@ -59,6 +93,33 @@ a{
 
 .texto-padrao{
   color: var(--cinza-claro);
+}
+
+header nav ul{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+header nav ul li a{
+  font-size: 15px;
+  color: var(--branco);
+  position: relative;
+}
+header nav ul li a::after{
+  content: '';
+  position: absolute;
+  width: 0%;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--laranja);
+  transition: all .3s ease-in-out;
+}
+header nav ul li a:hover::after{
+  width: 100%;
 }
 
 /* POPUP DE ERROS */

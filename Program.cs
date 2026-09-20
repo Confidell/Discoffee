@@ -9,11 +9,25 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+// Autenticação
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Conta?form=login";
-        options.AccessDeniedPath = "/Conta?form=login";
+        options.LoginPath = "/Conta";
+        options.AccessDeniedPath = "/Conta/AcessoNegado";
+
+        options.Events.OnRedirectToLogin = context =>
+        {
+            var returnUrl = context.Request.Path + context.Request.QueryString;
+
+            context.Response.Redirect(
+                "/Conta?form=login&ReturnUrl=" +
+                Uri.EscapeDataString(returnUrl)
+            );
+
+            return Task.CompletedTask;
+        };
     });
 
 builder.Services.AddAuthorization();
