@@ -2,6 +2,7 @@
 using Discoffee.Models;
 using Discoffee.Models.Constants;
 using Discoffee.Repository.Contract;
+using Discoffee.ViewModels;
 using MySql.Data.MySqlClient;
 
 namespace Discoffee.Repository
@@ -88,12 +89,12 @@ namespace Discoffee.Repository
                     // IdUsuario = reader.GetInt32("Id_Usuario"),
                     NomeCompleto = reader.GetString("NomeCompleto"),
                     Email = reader.GetString("Email"),
-                    // Senha = reader.GetString("Senha"),
+                    Senha = reader.GetString("Senha"),
                     CPF = reader.GetString("CPF"),
                     Telefone = reader.GetString("Telefone"),
                     DataNascimento = reader.GetDateTime("DataNasc"),
                     Status = reader.GetString("Stats"),
-                    Complemento = reader.GetString("Complemento"),
+                    Complemento = reader.IsDBNull(reader.GetOrdinal("Complemento")) ? null : reader.GetString("Complemento"),
                     NumeroCasa = reader.GetString("Numero_Casa"),
                     CEP = reader.GetString("CEP"),
                     Perfil = Enum.Parse<EnumPerfil>(reader.GetString("Perfil"))
@@ -143,9 +144,27 @@ namespace Discoffee.Repository
             comando.ExecuteNonQuery();
         }
 
-        public void EditarUsuario(Usuario usuario)
+        public void EditarUsuario(EditarUsuarioViewModel usuario)
         {
-            throw new NotImplementedException();
+            using var conexao = new MySqlConnection(_conexaoMySql);
+
+            using var comando = new MySqlCommand("updateTbUsuario", conexao);
+
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("vId_Usuario", usuario.IdUsuario);
+            comando.Parameters.AddWithValue("vNomeCompleto", (object?)usuario.NomeCompleto ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vEmail", (object?)usuario.Email ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vSenha", (object?)usuario.Senha ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vCPF", (object?)usuario.CPF ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vTelefone",(object?)usuario.Telefone ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vDataNasc",(object?)usuario.DataNascimento ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vNumero_Casa",(object?)usuario.NumeroCasa ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vComplemento",(object?)usuario.Complemento ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vCEP",(object?)usuario.CEP ?? DBNull.Value);
+
+            conexao.Open();
+            comando.ExecuteNonQuery();
         }
 
         public Usuario LoginUsuario(string email, string senha)

@@ -1,4 +1,5 @@
 ﻿using Discoffee.Models;
+using Discoffee.ViewModels;
 
 namespace Discoffee.Repository.Contract
 {
@@ -8,7 +9,7 @@ namespace Discoffee.Repository.Contract
         Usuario LoginUsuario(string Email, string Senha);
         Usuario BuscarUsuarioPorId(int Id);
         List<Usuario> BuscarTodos();
-        void EditarUsuario(Usuario Usuario);
+        void EditarUsuario(EditarUsuarioViewModel Usuario);
         Usuario BuscarUsuarioPorEmail(string Email);
         bool BuscaUsuarioPorCPF(string CPF);
     }

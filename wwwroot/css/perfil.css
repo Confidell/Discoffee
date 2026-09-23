@@ -60,7 +60,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: row;
-    gap: 8rem;
+    gap: 1rem;
 }
 
 .dados-pessoais,
@@ -149,6 +149,52 @@
     }
 }
 
+.controles-perfil{
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 2rem;
+}
+.controles-perfil article,
+.controles-perfil .botoes{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    flex-direction: column;
+    gap: 1rem;
+}
+.controles-perfil article .icone-editar{
+    width: 25px;
+    height: 25px;
+    transition: all .3s;
+    color: var(--azul);
+    cursor: pointer;
+}
+.controles-perfil article .icone-editar.ocultar{
+    display: none;
+}
+.controles-perfil .botoes{
+    display: none;
+}
+.controles-perfil .botoes.exibir{
+    display: flex;
+}
+.controles-perfil .botoes .btn-editar,
+.controles-perfil .botoes .icone-cancelar{
+    width: 90%;
+    height: 35px;
+    transition: all .3s;
+}
+.controles-perfil .botoes .icone-cancelar{
+    width: 25px;
+    height: 25px;
+    color: var(--vermelho);
+    cursor: pointer;
+}
+
 .sessao-forma-pagamento{
     height: 30vh;
     justify-content: start;
@@ -166,12 +212,14 @@
     font-size: 2rem;
     font-weight: 600;
 }
-.titulo-formas-pagamento .btn-adicionar-cartao{
+.titulo-formas-pagamento .btn-adicionar-cartao,
+.controles-perfil .btn-editar{
     box-shadow: 2px 4px 0px var(--roxo);
     background-color: transparent;
     gap: 1rem;
 }
-.titulo-formas-pagamento .btn-adicionar-cartao:hover{
+.titulo-formas-pagamento .btn-adicionar-cartao:hover,
+.controles-perfil .btn-editar:hover{
     background-color: var(--roxo);
     box-shadow: 0px 0px 0px var(--roxo);
     color: var(--branco);
