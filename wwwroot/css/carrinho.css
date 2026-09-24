@@ -1,0 +1,40 @@
+﻿body {
+}
+
+main{
+    padding: 8% 40px;
+    display: flex;
+    gap: 4rem;
+}
+
+.sacola-produtos{
+    display: flex;
+    flex-direction: column;
+}
+
+.minha-sacola {
+    display: flex;
+    background-color: var(--roxo);
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 8px;
+}
+
+.minha-sacola h1{
+    color: var(--branco);
+    margin: 10px;
+    font-weight: 700;
+}
+
+.minha-sacola img{
+    width: 40px;
+    height: 50px;
+    margin-left: 5%;
+    cursor: pointer;
+}
+
+.produto-carrinho{
+
+}

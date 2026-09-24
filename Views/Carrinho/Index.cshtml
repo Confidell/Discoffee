@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Carrinho";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/carrinho.css" asp-append-version="true" />
+}
+
+<main>
+    <section class="sacola-produtos">
+        <div class="minha-sacola">
+            <img src="~/Assets/Icons/Icon_SetaBranca.png" />
+            <h1>MINHA SACOLA</h1>
+        </div>
+
+        <div class="produto-carrinho">
+            <h3>Produto</h3>
+            <h3>Quantidade</h3>
+            <h3>Preço</h3>
+            <h3>Ação</h3>
+        </div>
+
+        <div class="item-produto">
+            <img src="~/Assets/Imagens/Prod1.png" />
+            <span>Nome do produto</span>
+
+            <div class="seletor-quantidade">
+                <button onclick="mudar(-1)">−</button>
+                <span id="quantidade">1</span>
+                <button onclick="mudar(1)">+</button>
+            </div>
+
+            <span>R$ 8,90</span>
+            <button> <img src="~/Assets/Icons/Icon_lixo.png" /></button>
+        </div>
+    </section>
+
+    <section class="resumo-compra">
+        <div class="header-resumo">
+
+            <div class="txt-resumo">
+                <h2>Resumo da sua compra</h2>
+                <h3>Selecione:</h3>
+            </div>
+
+            <div class="buttons-radio">
+                <input type="radio" name="tipo-pedido" value="entrega">
+                <label>Entrega</label>
+
+                <input type="radio" name="tipo-pedido" value="retirada">
+                <label>Retirada</label>
+            </div>  
+        </div>
+
+        <div class="body-resumo">
+            <div class="inputs">
+                <label for="frete">
+                    Frete:
+                    <input type="text" class="input-form" placeholder="Insira seu CEP" />
+                </label>
+
+                <label for="cupom">
+                    Cupom:
+                    <input type="text" class="input-form" placeholder="Insira o cupom" />
+                </label>
+
+                <label for="observacoes">
+                    Observações:
+                    <input type="text" class="input-form" placeholder="Insira suas observações" />
+                </label>
+            </div>
+            
+            <div class="total">
+                <div class="txt-total">
+                    <h2>Total produtos</h2>
+                    <span>R$ 56,30</span>
+                </div>
+
+                <div class="txt-total">
+                    <h2>Total do frete</h2>
+                    <span>R$ 15,90</span>
+                </div>
+
+                <div class="txt-total">
+                    <h2>Pagamento total</h2>
+                    <span>R$ 72,20</span>
+                </div>
+                
+                <button id="realizar-pedido">
+                    Realizar Pedido
+                </button>
+
+            </div>
+        </div>
+    </section>
+</main>
