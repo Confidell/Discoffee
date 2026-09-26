@@ -10,29 +10,31 @@
     <section class="sacola-produtos">
         <div class="minha-sacola">
             <img src="~/Assets/Icons/Icon_SetaBranca.png" />
-            <h1>MINHA SACOLA</h1>
+            <h2>MINHA SACOLA</h2>
         </div>
 
-        <div class="produto-carrinho">
-            <h3>Produto</h3>
-            <h3>Quantidade</h3>
-            <h3>Preço</h3>
-            <h3>Ação</h3>
-        </div>
-
-        <div class="item-produto">
-            <img src="~/Assets/Imagens/Prod1.png" />
-            <span>Nome do produto</span>
-
-            <div class="seletor-quantidade">
-                <button onclick="mudar(-1)">−</button>
-                <span id="quantidade">1</span>
-                <button onclick="mudar(1)">+</button>
+        <div class="card-externo">
+            <div class="produto-carrinho">
+                <h4>Produto</h4>
+                <h4>Quantidade</h4>
+                <h4>Preço</h4>
             </div>
+              
+            <div class="item-produto">
+                <img src="~/Assets/Imagens/Prod1.png" class="prod-img"/>
+                <span id="nome-prod">Nome do produto</span>
 
-            <span>R$ 8,90</span>
-            <button> <img src="~/Assets/Icons/Icon_lixo.png" /></button>
+                <div class="seletor-quantidade">
+                    <button onclick="mudar(-1)"><img src="~/Assets/Icons/Icon_Mais.png" /></button>
+                    <span id="quantidade">1</span>
+                    <button onclick="mudar(1)"><img src="~/Assets/Icons/Icon_Menos.png" /></button>
+                </div>
+
+                <span id="preco">R$ 8,90</span>
+                <button class="btn-lixo"><img src="~/Assets/Icons/Icon_lixo.png" /></button>
+            </div>
         </div>
+
     </section>
 
     <section class="resumo-compra">
@@ -40,15 +42,19 @@
 
             <div class="txt-resumo">
                 <h2>Resumo da sua compra</h2>
-                <h3>Selecione:</h3>
+                <h5>Selecione:</h5>
             </div>
 
             <div class="buttons-radio">
-                <input type="radio" name="tipo-pedido" value="entrega">
-                <label>Entrega</label>
-
-                <input type="radio" name="tipo-pedido" value="retirada">
-                <label>Retirada</label>
+                <div class="btn-tipo">
+                    <input type="radio" name="tipo-pedido" value="entrega">
+                    <label>Entrega</label>
+                </div>
+                
+                <div class="btn-tipo">
+                    <input type="radio" name="tipo-pedido" value="retirada">
+                    <label>Retirada</label>
+                </div>
             </div>  
         </div>
 
@@ -69,20 +75,22 @@
                     <input type="text" class="input-form" placeholder="Insira suas observações" />
                 </label>
             </div>
-            
+
+            <hr/>
+
             <div class="total">
                 <div class="txt-total">
-                    <h2>Total produtos</h2>
+                    <h4>Total produtos</h4>
                     <span>R$ 56,30</span>
                 </div>
 
                 <div class="txt-total">
-                    <h2>Total do frete</h2>
+                    <h4>Total do frete</h4>
                     <span>R$ 15,90</span>
                 </div>
 
                 <div class="txt-total">
-                    <h2>Pagamento total</h2>
+                    <h4>Pagamento total</h4>
                     <span>R$ 72,20</span>
                 </div>
                 
