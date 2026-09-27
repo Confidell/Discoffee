@@ -1,4 +1,7 @@
 ﻿@{
+    @*PEGA A ÁREA DA ROTA*@
+    var area = ViewContext.RouteData.Values["area"]?.ToString();
+
     @* PEGA O USUARIO AUTENTICADO DO COOKIE *@
     var autenticado = User.Identity.IsAuthenticated;
 
@@ -7,6 +10,9 @@
 
     @* ESONDE O LAYOUT QUANDO A CONTROLLER FOR "CONTA" *@
     bool ocultarLayout = controller == "Conta";
+
+    @* DEFINE SE A PÁGINA ATUAL É DA ÁREA GERENCIA PARA EXIBIR *@
+    bool isGerencia = area == "Gerencia";
 }
 <!DOCTYPE html>
 <html lang="pt-br">
