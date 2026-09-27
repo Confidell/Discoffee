@@ -1,16 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Discoffee.Models.Constants;
+using System.ComponentModel.DataAnnotations;
 
 namespace Discoffee.Models
 {
-    public enum TipoOpcao
-    {
-        Tamanho = 1,
-        Adicional = 2,
-        Remocao = 3,
-        Substituicao = 4,
-        NivelAcucar = 5
-    }
-
     public class OpcaoPersonalizacao
     {
         [Display(Name = "IdOpcao", Description = "Código da opção de personalização.")]

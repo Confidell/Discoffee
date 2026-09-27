@@ -1,3 +1,188 @@
+@model Discoffee.ViewModels.EditarUsuarioViewModel
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Perfil";
+}
+
+@section Styles
+{
+    <link rel="stylesheet" href="~/css/perfil.css" asp-append-version="true">
+}
+
+<section class="sessao-padrao sessao-perfil">
+
+    <div class="titulo-perfil">
+        <img class="logo" src="~/Assets/Icons/Logo.svg" alt="Logo">
+        <h3>Confira e Gerencie sua conta <br> DISCOFFEE</h3>
+
+        <article>
+            <p class="texto">Aqui seus dados são armazenados e protegidos com <br> segurança seguindo as normas da LGPD</p>
+        </article>
+    </div>
+
+    <div class="dados-usuario">
+
+        <form class="formulario-js" asp-area="Cliente" asp-controller="Perfil" asp-action="EditarCliente" method="post" >
+
+            <div class="dados-pessoais">
+                <h4 id="txt-end">
+                    Dados <span style="color: var(--rosa);">Pessoais</span>
+                </h4>
+                <div class="conteudo-card">
+                    <label for="NomeCompleto">
+                        Nome Completo:
+                        <input type="text" class="input-form edit-input" disabled asp-for="NomeCompleto" placeholder="Nome Completo" value="@Model.NomeCompleto" />
+                        <span asp-validation-for="NomeCompleto" class="text-danger"></span>
+                    </label>
+                    
+                    <label for="Cpf">
+                        CPF:
+                        <input type="text" class="input-form edit-input cpf" disabled asp-for="CPF" placeholder="CPF" value="@Model.CPF" />
+                        <span asp-validation-for="CPF" class="text-danger"></span>
+                    </label>
+                    
+                    <div class="usuario-grid-1">
+                        <div class="end-grid-1">
+                            <label for="Telefone">
+                                Telefone
+                                <input type="text" class="input-form edit-input tel" disabled asp-for="Telefone" placeholder="Telefone" value="@Model.Telefone" />
+                                <span asp-validation-for="Telefone" class="text-danger"></span>
+                            </label>
+                        </div>
+
+                        <div class="end-grid-2">
+                            <label for="Nascimento">
+                                Nascimento:
+                                <input type="text" class="input-form edit-input dataNasc" disabled asp-for="DataNascimento" placeholder="Nascimento" value="@Model.DataNascimento" />
+                                <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <label for="Email">
+                        Email:
+                        <input type="text" class="input-form edit-input" disabled asp-for="Email" placeholder="Email" value="@Model.Email" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </label>
+
+                    <label for="Senha">
+                        Senha:
+                        <input type="password" class="input-form" disabled asp-for="Senha" placeholder="Senha" value="@Model.Senha" />
+                        <span asp-validation-for="Senha" class="text-danger"></span>
+                    </label>
+
+                    <div class="usuario-grid-2">
+                        <div class="end-grid-1">
+                            <label for="Status">
+                                Status:
+                                <input type="text" class="input-form" disabled asp-for="Status" placeholder="Status" value="@Model.Status" />
+                                <span asp-validation-for="Status" class="text-danger"></span>
+                            </label>
+                        </div>
+
+                        <div class="end-grid-2">
+                            <label for="Perfil">
+                                Perfil:
+                                <input type="text" class="input-form" disabled asp-for="Perfil" placeholder="Perfil" value="@Model.Perfil" />
+                                <span asp-validation-for="Perfil" class="text-danger"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="controles-perfil">
+
+                <article>
+                    <h4>Editar Perfil</h4>
+                    
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square icone-editar" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+                    </svg>
+                </article>
+
+                <div class="botoes">
+                    <button type="submit" class="btn-editar botao">
+                        Alterar
+                    </button>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-circle-fill icone-cancelar" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="dados-endereco">    
+                <h4 id="txt-end">
+                    <span style="color: var(--rosa);">Endereço</span>
+                </h4>
+                <div class="conteudo-card">
+                    <label for="cep">
+                        CEP:
+                        <input type="text" class="input-form edit-input cep" disabled asp-for="CEP" placeholder="Digite seu CEP..." value="@Model.CEP" />
+                        <span asp-validation-for="CEP" class="text-danger"></span>
+                    </label>
+                    
+                    <div id="endereco-grid">
+                        <div class="end-grid-1">
+                            <label for="numero">
+                                Número:
+                                <input type="text" class="input-form edit-input" disabled asp-for="NumeroCasa" placeholder="Nº da casa..." value="@Model.NumeroCasa" />
+                                <span asp-validation-for="NumeroCasa" class="text-danger"></span>
+                            </label>
+                        </div>
+
+                        <div class="end-grid-2">
+                            <label for="complemento">
+                                Complemento:
+                                <input type="text" class="input-form edit-input" disabled asp-for="Complemento" placeholder="Ex: Apto, Bloco, etc..." value="@Model.Complemento" />
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <label for="rua">
+                        Rua:
+                        <input type="text" class="input-form rua" disabled placeholder="Nome da rua..." />
+                    </label>
+                    
+                    <label for="estado">
+                        Estado:
+                        <input type="text" class="input-form estado" disabled placeholder="UF..." />    
+                    </label>
+                    
+                    <label for="cidade">
+                        Cidade:
+                        <input type="text" class="input-form cidade" disabled placeholder="Sua Cidade..." />
+                    </label>
+                    
+                    <label for="bairro">
+                        Bairro:
+                        <input type="text" class="input-form bairro" disabled placeholder="Seu Bairro..." />
+                    </label>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+<section class="sessao-padrao sessao-forma-pagamento">
+
+    <div class="titulo-formas-pagamento">
+        <h3>FORMAS DE PAGAMENTO</h3>
+
+        <button type="button" class="botao btn-adicionar-cartao">
+            Adcionar Cartão
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus icone" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+            </svg>
+        </button>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/js/formulario.js" asp-append-version="true"></script>
+    <script src="~/js/perfil.js" asp-append-version="true"></script>
+    <partial name="_ValidationScriptsPartial" />
 }

@@ -1,0 +1,62 @@
+﻿@model IEnumerable<Discoffee.Models.Pedido>
+
+@{
+    ViewData["Title"] = "Meus Pedidos";
+    var ptBR = new System.Globalization.CultureInfo("pt-BR");
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Pedido.css" />
+}
+
+@functions {
+    (string Texto, string Classe) InfoStatus(Discoffee.Models.StatusPedido status)
+    {
+        switch (status)
+        {
+            case Discoffee.Models.StatusPedido.Entregue:
+                return ("FINALIZADO", "status-finalizado");
+            case Discoffee.Models.StatusPedido.Cancelado:
+                return ("CANCELADO", "status-cancelado");
+            default:
+                return ("PREPARANDO", "status-preparando");
+        }
+    }
+}
+
+<main class="pedidos">
+    <h1 class="titulo-pedidos">MEUS PEDIDOS</h1>
+
+    <div class="lista-pedidos">
+        @foreach (var pedido in Model)
+        {
+            var st = InfoStatus(pedido.Status);
+
+            <div class="card-pedido">
+                <div class="card-topo">
+                    <div class="pedido-numero">#@pedido.IdPedido</div>
+
+                    <div class="pedido-info">
+                        <span class="rotulo">Total</span>
+                        <span class="valor">@pedido.Total.ToString("C2", ptBR)</span>
+                    </div>
+
+                    <div class="pedido-info">
+                        <span class="rotulo">Status</span>
+                        <span class="valor @st.Classe">● @st.Texto</span>
+                    </div>
+                </div>
+
+                <div class="card-meio">
+                    <span>@pedido.QuantidadeProduto Produtos inclusos</span>
+                    <a href="#" title="Ver detalhes">👁</a>
+                </div>
+
+                <div class="card-rodape">
+                    <span class="pedido-pagamento"><!-- ícone do pagamento --></span>
+                    <span>@pedido.DataHora.ToString("dd/MM/yy")</span>
+                </div>
+            </div>
+        }
+    </div>
+</main>

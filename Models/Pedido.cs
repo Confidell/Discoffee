@@ -1,24 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Discoffee.Models.Constants;
+using System.ComponentModel.DataAnnotations;
 
 namespace Discoffee.Models
 {
-    public enum StatusPedido
-    {
-        Pendente = 1,
-        EmPreparo = 2,
-        Pronto = 3,
-        EmEntrega = 4,
-        Entregue = 5,
-        Cancelado = 6
-    }
-
-    public enum TipoPedido
-    {
-        Local = 1,
-        Retirada = 2,
-        Delivery = 3
-    }
-
     public class Pedido
     {
         [Display(Name = "IdPedido", Description = "Identificador do pedido.")]

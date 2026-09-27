@@ -32,7 +32,7 @@ namespace Discoffee.ViewModels
 
         [Display(Name = "Telefone")]
         [Required(ErrorMessage = "Telefone é obrigatório!")]
-        [StringLength(11, MinimumLength = 11, ErrorMessage = "O telefone deve possuir 11 números.")]
+        [StringLength(15, MinimumLength = 11, ErrorMessage = "O telefone deve possuir no máximo 11 números.")]
         public string Telefone { get; set; }
 
         [Display(Name = "Data de Nascimento")]

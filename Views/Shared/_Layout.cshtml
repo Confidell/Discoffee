@@ -8,6 +8,8 @@
     @* PEGA CONTROLLER DA ROTA *@
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
 
+    var area = ViewContext.RouteData.Values["area"]?.ToString();
+
     @* ESONDE O LAYOUT QUANDO A CONTROLLER FOR "CONTA" *@
     bool ocultarLayout = controller == "Conta";
 
@@ -22,15 +24,15 @@
     <title>@ViewData["Title"] - Discoffee</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Discoffee.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/global.css" asp-append-version="true" />
     @RenderSection("Styles", required: false)
 </head>
 <body>
 
     @if(!ocultarLayout)
     {
-        <header>
+        <header style="@(area == "Cliente" ? "background: var(--cinza-escuro)" : "")">
             <div style="display: flex; align-items: center; gap: 2rem;">
                 <h1 class="titulo">
                     DISCOFFEE
@@ -45,7 +47,7 @@
 
                         <div class="textos">
                             <span class="boas-vindas">@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</span>
-                            <a asp-controller="Conta" asp-action="Logout" asp class="logout" style="  color: var(--laranja);font-size: .8rem;">
+                            <a asp-area="" asp-controller="Conta" asp-action="Logout" asp class="logout" style="  color: var(--laranja);font-size: .8rem;">
                                 Sair
                             </a>
                         </div>
@@ -53,22 +55,23 @@
                 }
                 else{
                     <div class="login-btns">
-                        <button class="entrar">
-                            <a asp-controller="Conta" asp-action="Index" asp-route-form="login">ENTRAR</a>
-                        </button>
-                        <button class="cadastrar">
-                            <a asp-controller="Conta" asp-action="Index" asp-route-form="cadastrar">CADASTRAR</a>
-                        </button>
+
+                        <a class="link-btn" asp-controller="Conta" asp-action="Index" asp-route-form="login">
+                            ENTRAR
+                        </a>
+                        <a class="link-btn" asp-controller="Conta" asp-action="Index" asp-route-form="cadastrar">
+                            CADASTRAR
+                        </a>
                     </div>
                 }
             </div>
 
             <nav>
                 <ul>
-                    <li><a asp-controller="home" asp-action="index">INÍCIO</a></li>
-                    <li><a asp-controller="cardapio" asp-action="index">CARDÁPIO</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">INÍCIO</a></li>
+                    <li><a asp-area="" asp-controller="Cardapio" asp-action="Index">CARDÁPIO</a></li>
                     <li><a href="">MEUS PEDIDOS</a></li>
-                    <li><a href="">PERFIL</a></li>
+                    <li><a asp-area="Cliente" asp-controller="Perfil" asp-action="Index">PERFIL</a></li>
                     @* @if(autenticado){
                         <li><a href="">MEUS PEDIDOS</a></li>
                         <li><a href="">PERFIL</a></li>
@@ -204,7 +207,6 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/global.js" asp-append-version="true"></script>
-    <script src="~/js/cadastrar.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

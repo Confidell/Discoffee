@@ -16,7 +16,7 @@ insert into tbPerfil(Tipo) values(3);
 
 CREATE TABLE tbCEP(
 Id_CEP INT PRIMARY KEY auto_increment,
-CEP VARCHAR(15) UNIQUE
+CEP VARCHAR(9) UNIQUE
 );
 
 CREATE TABLE tbCupom(
@@ -42,12 +42,13 @@ Stats ENUM('Ativo','Inativo') default 'Ativo',
 Telefone VARCHAR(15),
 DataNasc DATE,
 Numero_Casa VARCHAR(10) NOT NULL,
-Complemento VARCHAR(50) NOT NULL,
+Complemento VARCHAR(50) default 'Sem Complemento',
 Id_Perfil INT,
 Id_CEP INT,
 CONSTRAINT FK_Id_Perfil FOREIGN KEY(Id_Perfil) REFERENCES tbPerfil(Id_Perfil),
 CONSTRAINT FK_Id_CEP FOREIGN KEY(Id_CEP) REFERENCES tbCEP(Id_CEP) 
 );
+
 
 CREATE TABLE tbPedido(
 Id_Pedido INT PRIMARY KEY auto_increment,
@@ -184,7 +185,7 @@ create procedure insertTbUsuario(
 	vDataNasc DATE,
 	vNumero_Casa VARCHAR(10),
 	vComplemento VARCHAR(50),
-    vCEP VARCHAR(15),
+    vCEP VARCHAR(9),
 	vPerfil INT
 )
 begin
@@ -208,6 +209,8 @@ CALL insertTbUsuario('Samuel', 'sam1219barbosa@gmail.com', 'Teste01', '493815838
 select * from tbCEP;
 select * from tbPerfil;
 select * from tbUsuario;
+
+
 
 delimiter $$
 create procedure insertTbCategoria(
@@ -397,6 +400,7 @@ BEGIN
     SELECT
         u.NomeCompleto,
         u.Email,
+        u.Senha,
         u.CPF,
         u.Telefone,
         u.DataNasc,
@@ -436,4 +440,58 @@ BEGIN
 END $$
 DELIMITER ;
 
-call selectUsuario(1);
+call selectUsuario(2);
+
+/*
+--------------------------------------------------------------------------------------------
+--------------------------------- PROCEDURES DE EDIÇÃO --------------------------------------
+--------------------------------------------------------------------------------------------
+*/
+
+DELIMITER $$
+CREATE PROCEDURE updateTbUsuario(
+	vId_Usuario INT,
+	vNomeCompleto VARCHAR(150),
+	vEmail VARCHAR(100),
+	vSenha VARCHAR(100),
+	vCPF VARCHAR(15),
+	vTelefone VARCHAR(15),
+	vDataNasc DATE,
+	vNumero_Casa VARCHAR(10),
+	vComplemento VARCHAR(50),
+	vCEP VARCHAR(9)
+)
+BEGIN
+    DECLARE vId_CEP INT;
+
+    -- VERIFICA SE JA EXISTE UM USUARIO
+    IF (EXISTS (SELECT 1 FROM tbUsuario WHERE Id_Usuario = vId_Usuario))
+    THEN
+
+        -- PROCURA OU CADASTRA O CEP CASO UM TENHA SIDO ENVIADO
+        IF vCEP IS NOT NULL AND vCEP <> '' THEN
+
+            SELECT Id_CEP INTO vId_CEP FROM tbCEP WHERE CEP = vCEP LIMIT 1;
+
+            -- CADASTRA CASO  O CEP AINDA NÃO EXISTA
+            IF vId_CEP IS NULL THEN
+                CALL insertTbCEP(vCEP, vId_CEP);
+            END IF;
+        END IF;
+
+        UPDATE tbUsuario
+        SET
+            NomeCompleto = COALESCE(vNomeCompleto, NomeCompleto),
+            Email = COALESCE(vEmail, Email),
+            Senha = COALESCE(vSenha, Senha),
+            CPF = COALESCE(vCPF, CPF),
+            Telefone = COALESCE(vTelefone, Telefone),
+            DataNasc = COALESCE(vDataNasc, DataNasc),
+            Numero_Casa = COALESCE(vNumero_Casa, Numero_Casa),
+            Complemento = COALESCE(vComplemento, Complemento),
+            Id_CEP = COALESCE(vId_CEP, Id_CEP)
+        WHERE Id_Usuario = vId_Usuario;
+
+    END IF;
+END $$
+DELIMITER 
