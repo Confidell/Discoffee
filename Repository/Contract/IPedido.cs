@@ -1,4 +1,4 @@
-﻿using Discoffee.Models;
+﻿using Discoffee.Models.Constants;
 
 namespace Discoffee.Repository.Contract
 {

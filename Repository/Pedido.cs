@@ -1,9 +1,8 @@
-﻿using Discoffee.Models;
-using Discoffee.Repository.Contract;
+﻿using Discoffee.Models.Constants;
 
 namespace Discoffee.Repository
 {
-    public class Pedido : IPedido
+    public class Pedido
     {
         public Pedido BuscarPedidoPorId(int id)
         {
