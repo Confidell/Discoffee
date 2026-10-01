@@ -234,3 +234,8 @@
 .titulo-formas-pagamento .btn-adicionar-cartao:hover .icone{
     color: var(--branco);
 }
+
+.adicionar-cartao{
+    width: 100%;
+    height: 40%;
+}

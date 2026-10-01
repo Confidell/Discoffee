@@ -179,6 +179,65 @@
             </svg>
         </button>
     </div>
+
+    <div class="adicionar-cartao">
+
+        <div class="card-externo">
+
+            <div class="card-interno">
+
+                <div class="cartao">
+
+                </div>
+
+                <form method="post" class="form-cartao">
+
+                    <label for="rua">
+                        Rua:
+                        <input type="text" class="input-form rua" disabled placeholder="Nome da rua..." />
+                    </label>
+                    
+                    <label for="estado">
+                        Estado:
+                        <input type="text" class="input-form estado" disabled placeholder="UF..." />    
+                    </label>
+                    
+                    <label for="cidade">
+                        Cidade:
+                        <input type="text" class="input-form cidade" disabled placeholder="Sua Cidade..." />
+                    </label>
+
+                    <div id="endereco-grid">
+                        <div class="end-grid-1">
+                            <label for="numero">
+                                Número:
+                                <input type="text" class="input-form edit-input" disabled asp-for="NumeroCasa" placeholder="Nº da casa..." value="@Model.NumeroCasa" />
+                                <span asp-validation-for="NumeroCasa" class="text-danger"></span>
+                            </label>
+                        </div>
+
+                        <div class="end-grid-2">
+                            <label for="complemento">
+                                Complemento:
+                                <input type="text" class="input-form edit-input" disabled asp-for="Complemento" placeholder="Ex: Apto, Bloco, etc..." value="@Model.Complemento" />
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <label for="bairro">
+                        Bairro:
+                        <input type="text" class="input-form bairro" disabled placeholder="Seu Bairro..." />
+                    </label>
+                </form>
+            </div>
+
+            <div>
+                <button class="botao btn-adicionar"  type="submit">Adicionar</button>
+                <button class="botao btn-cancelar" >Cancelar</button>
+            </div>
+        </div>
+
+    </div>
 </section>
 
 @section Scripts{
