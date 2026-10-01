@@ -2,29 +2,29 @@
 
 namespace Discoffee.Repository
 {
-    public class Pagamento : IPagamento
+    public class ProdutoRepository : IProdutoRepository
     {
-        public void EditarPagamento(Pagamento pagamento)
+        public void AdicionarProduto(ProdutoRepository produto)
         {
             throw new NotImplementedException();
         }
 
-        public void EfetuarPagamento(Pagamento pagamento)
+        public ProdutoRepository BuscarProdutoPorId(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void ExcluirPagamento(int id)
+        public List<ProdutoRepository> BuscarTodos()
         {
             throw new NotImplementedException();
         }
 
-        public List<Pagamento> VerPagamentosPorUsuario(int usuarioId)
+        public void EditarProduto(ProdutoRepository produto)
         {
             throw new NotImplementedException();
         }
 
-        public List<Pagamento> VerTodos()
+        public void ExcluirProduto(int id)
         {
             throw new NotImplementedException();
         }

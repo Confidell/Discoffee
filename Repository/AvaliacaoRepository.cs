@@ -2,29 +2,29 @@
 
 namespace Discoffee.Repository
 {
-    public class Avaliacao : IAvaliacao
+    public class AvaliacaoRepository : IAvaliacaoRepository
     {
-        public void AdicionarAvaliacao(Avaliacao avaliacao)
+        public void AdicionarAvaliacao(AvaliacaoRepository avaliacao)
         {
             throw new NotImplementedException();
         }
 
-        public List<Avaliacao> BuscarAvaliacoes()
+        public List<AvaliacaoRepository> BuscarAvaliacoes()
         {
             throw new NotImplementedException();
         }
 
-        public List<Avaliacao> BuscarAvaliacoesPorProduto(int produtoId)
+        public List<AvaliacaoRepository> BuscarAvaliacoesPorProduto(int produtoId)
         {
             throw new NotImplementedException();
         }
 
-        public List<Avaliacao> BuscarAvaliacoesPorUsuario(int usuarioId)
+        public List<AvaliacaoRepository> BuscarAvaliacoesPorUsuario(int usuarioId)
         {
             throw new NotImplementedException();
         }
 
-        public void EditarAvaliacao(Avaliacao avaliacao)
+        public void EditarAvaliacao(AvaliacaoRepository avaliacao)
         {
             throw new NotImplementedException();
         }

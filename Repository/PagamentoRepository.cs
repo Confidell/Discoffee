@@ -2,29 +2,29 @@
 
 namespace Discoffee.Repository
 {
-    public class NotaFiscal : INotaFiscal
+    public class PagamentoRepository : IPagamentoRepository
     {
-        public List<NotaFiscal> BuscarNotas()
+        public void EditarPagamento(PagamentoRepository pagamento)
         {
             throw new NotImplementedException();
         }
 
-        public List<NotaFiscal> BuscarNotasPorUsuario(int usuarioId)
+        public void EfetuarPagamento(PagamentoRepository pagamento)
         {
             throw new NotImplementedException();
         }
 
-        public void EditarNota(NotaFiscal nota)
+        public void ExcluirPagamento(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void EmitirNota(NotaFiscal nota)
+        public List<PagamentoRepository> VerPagamentosPorUsuario(int usuarioId)
         {
             throw new NotImplementedException();
         }
 
-        public void ExcluirNota(int id)
+        public List<PagamentoRepository> VerTodos()
         {
             throw new NotImplementedException();
         }

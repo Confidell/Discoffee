@@ -2,24 +2,24 @@
 
 namespace Discoffee.Repository
 {
-    public class Carrinho : ICarrinho
+    public class CartaoRepository : ICartaoRepository
     {
-        public void AdicionarProduto(int usuarioId, int produtoId, int quantidade)
+        public void AdicionarCartao(CartaoRepository cartao)
         {
             throw new NotImplementedException();
         }
 
-        public decimal CalcularTotal(int usuarioId)
+        public CartaoRepository BuscarCartaoPorId(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void EditarProdutoCarrinho(int carrinhoId, int quantidade)
+        public List<CartaoRepository> BuscarTodos()
         {
             throw new NotImplementedException();
         }
 
-        public void ExcluirProdutoCarrinho(int carrinhoId)
+        public void EditarCartao(CartaoRepository cartao)
         {
             throw new NotImplementedException();
         }

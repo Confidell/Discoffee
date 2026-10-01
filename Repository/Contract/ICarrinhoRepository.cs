@@ -1,6 +1,6 @@
 ﻿namespace Discoffee.Repository.Contract
 {
-    public interface ICarrinho
+    public interface ICarrinhoRepository
     {
         void AdicionarProduto(int usuarioId, int produtoId, int quantidade);
         void EditarProdutoCarrinho(int carrinhoId, int quantidade);

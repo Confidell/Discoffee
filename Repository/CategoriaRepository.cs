@@ -2,24 +2,19 @@
 
 namespace Discoffee.Repository
 {
-    public class Cupom : ICupom
+    public class CategoriaRepository : ICategoriaRepository
     {
-        public void AdicionarCupom(Cupom cupom)
+        public CategoriaRepository BuscarCategoria(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Cupom BuscarCupomPorCodigo(string codigo)
+        public void CadastrarCategoria(CategoriaRepository categoria)
         {
             throw new NotImplementedException();
         }
 
-        public void EditarCupom(Cupom cupom)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ExcluirCupom(int id)
+        public void EditarCategoria(CategoriaRepository categoria)
         {
             throw new NotImplementedException();
         }

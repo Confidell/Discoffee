@@ -2,7 +2,7 @@
 
 namespace Discoffee.Repository.Contract
 {
-    public interface IOpcaoPersonalizacao
+    public interface IOpcaoPersonalizacaoRepository
     {
         void EditarOpcao(OpcaoPersonalizacao opcao);
         void ExcluirOpcao(int id);
