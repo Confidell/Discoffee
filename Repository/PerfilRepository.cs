@@ -2,19 +2,19 @@
 
 namespace Discoffee.Repository
 {
-    public class Perfil : IPerfil
+    public class PerfilRepository : IPerfilRepository
     {
-        public void AtualizarPerfil(Perfil perfil)
+        public void AtualizarPerfil(PerfilRepository perfil)
         {
             throw new NotImplementedException();
         }
 
-        public Perfil BuscarPerfil(int id)
+        public PerfilRepository BuscarPerfil(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void CadastrarPerfil(Perfil perfil)
+        public void CadastrarPerfil(PerfilRepository perfil)
         {
             throw new NotImplementedException();
         }

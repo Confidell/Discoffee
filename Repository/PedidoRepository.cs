@@ -2,29 +2,29 @@
 
 namespace Discoffee.Repository
 {
-    public class Pedido
+    public class PedidoRepository 
     {
-        public Pedido BuscarPedidoPorId(int id)
+        public PedidoRepository BuscarPedidoPorId(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<Pedido> BuscarPedidoPorStatus(StatusPedido status)
+        public List<PedidoRepository> BuscarPedidoPorStatus(StatusPedido status)
         {
             throw new NotImplementedException();
         }
 
-        public List<Pedido> BuscarPedidoPorTipo(TipoPedido tipo)
+        public List<PedidoRepository> BuscarPedidoPorTipo(TipoPedido tipo)
         {
             throw new NotImplementedException();
         }
 
-        public List<Pedido> BuscarPedidosPorUsuario(int usuarioId)
+        public List<PedidoRepository> BuscarPedidosPorUsuario(int usuarioId)
         {
             throw new NotImplementedException();
         }
 
-        public List<Pedido> BuscarTodos()
+        public List<PedidoRepository> BuscarTodos()
         {
             throw new NotImplementedException();
         }
@@ -34,12 +34,12 @@ namespace Discoffee.Repository
             throw new NotImplementedException();
         }
 
-        public void ConfirmarPedido(Pedido pedido)
+        public void ConfirmarPedido(PedidoRepository pedido)
         {
             throw new NotImplementedException();
         }
 
-        public void EditarPedido(Pedido pedido)
+        public void EditarPedido(PedidoRepository pedido)
         {
             throw new NotImplementedException();
         }

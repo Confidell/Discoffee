@@ -3,7 +3,7 @@ using Discoffee.Repository.Contract;
 
 namespace Discoffee.Repository
 {
-    public class OPcaoPersonalizacao : IOpcaoPersonalizacao
+    public class OPcaoPersonalizacaoRepository : IOpcaoPersonalizacaoRepository
     {
         public void AdicionarOpcao(OpcaoPersonalizacao opcao)
         {
