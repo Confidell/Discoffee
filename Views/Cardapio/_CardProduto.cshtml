@@ -1,0 +1,18 @@
+﻿@model Discoffee.Models.Produto
+@{
+    var ptBR = new System.Globalization.CultureInfo("pt-BR");
+}
+
+<div class="card-prod">
+    <img src="~/Assets/Imagens/@Model.Imagem" alt="@Model.Nome" class="prod-img" />
+    <div class="nome-preco">
+        <h4>@Model.Nome</h4>
+        <span>@Model.Preco.ToString("C2", ptBR)</span>
+    </div>
+    <article><p>@Model.Descricao</p></article>
+
+    <div class="carrinho-info">
+        <img src="~/Assets/Icons/Icon_Carrinho.png" />
+        <img src="~/Assets/Icons/Icon_Info.png" />
+    </div>
+</div>
