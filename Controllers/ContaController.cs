@@ -64,7 +64,7 @@ namespace Discoffee.Controllers
             }
 
             // VERIFICA SE JÁ EXISTE ALGUM USUÁRIO COM O CPF INFORMADO
-            if (_repositorio.BuscaUsuarioPorCPF(usuarioViewModel.CPF))
+            if (_repositorio.BuscaUsuarioPorCPF(usuarioViewModel.CPF) is not null)
             {
                 ModelState.AddModelError(
                     "CPF",

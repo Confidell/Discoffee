@@ -11,6 +11,6 @@ namespace Discoffee.Repository.Contract
         List<Usuario> BuscarTodos();
         void EditarUsuario(EditarUsuarioViewModel Usuario);
         Usuario BuscarUsuarioPorEmail(string Email);
-        bool BuscaUsuarioPorCPF(string CPF);
+        Usuario? BuscaUsuarioPorCPF(string CPF);
     }
 }
