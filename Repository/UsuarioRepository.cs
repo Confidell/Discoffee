@@ -104,7 +104,7 @@ namespace Discoffee.Repository
             return null;
         }
 
-        public bool BuscaUsuarioPorCPF(string CPF)
+        public Usuario? BuscaUsuarioPorCPF(string CPF)
         {
             using var conexao = new MySqlConnection(_conexaoMySql);
             conexao.Open();
@@ -116,10 +116,24 @@ namespace Discoffee.Repository
 
             if (dr.Read())
             {
-                return true;
+                return new Usuario
+                {
+                    IdUsuario = dr.GetInt32("Id_Usuario"),
+                    NomeCompleto = dr.GetString("NomeCompleto"),
+                    Email = dr.GetString("Email"),
+                    Senha = dr.GetString("Senha"),
+                    CPF = dr.GetString("CPF"),
+                    Telefone = dr.GetString("Telefone"),
+                    DataNascimento = dr.GetDateTime("DataNasc"),
+                    Status = dr.GetString("Stats"),
+                    Complemento = dr.IsDBNull(dr.GetOrdinal("Complemento")) ? null : dr.GetString("Complemento"),
+                    NumeroCasa = dr.GetString("Numero_Casa"),
+                    // CEP = dr.GetString("CEP"),
+                    // Perfil = Enum.Parse<EnumPerfil>(dr.GetString("Perfil"))
+                };
             }
 
-            return false;
+            return null;
         }
 
         public void CadastrarUsuario(Usuario usuario)

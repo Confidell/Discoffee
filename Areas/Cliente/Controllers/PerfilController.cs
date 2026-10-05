@@ -67,9 +67,11 @@ namespace Discoffee.Areas.Cliente.Controllers
 
                 return View("Index", usuario);
             }
+            
+            var usuarioCPF = _repositorio.BuscaUsuarioPorCPF(usuario.CPF);
 
             // VERIFICA SE JÁ EXISTE ALGUM USUÁRIO COM O CPF INFORMADO
-            if (_repositorio.BuscaUsuarioPorCPF(usuario.CPF))
+            if (usuarioCPF is not null && usuarioCPF.IdUsuario != usuario.IdUsuario)
             {
                 ModelState.AddModelError(
                     "CPF",

@@ -7,7 +7,6 @@ namespace Discoffee.Controllers
     public class CardapioController : Controller
     {
         private readonly IProdutoRepository _produtoRepository;
-
         public CardapioController(IProdutoRepository produtoRepository)
         {
             _produtoRepository = produtoRepository;
