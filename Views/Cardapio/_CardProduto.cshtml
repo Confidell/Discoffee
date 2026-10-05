@@ -12,7 +12,10 @@
     <article><p>@Model.Descricao</p></article>
 
     <div class="carrinho-info">
-        <img src="~/Assets/Icons/Icon_Carrinho.png" />
-        <img src="~/Assets/Icons/Icon_Info.png" />
+        <img src="~/Assets/Icons/Icon_Carrinho.png" class="img-carrinho-info"/>
+
+        <button type="button" class="btn-info" data-modal="modal-@Model.IdProduto">
+            <img src="~/Assets/Icons/Icon_Info.png" alt="Ver detalhes" class="img-carrinho-info" />
+        </button>
     </div>
 </div>

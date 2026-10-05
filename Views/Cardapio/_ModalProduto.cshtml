@@ -1,5 +1,49 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Discoffee.Models.Produto
+
+<div class="modalProduto" id=" modal- @Model.IdProduto">
+    <div class="modal">
+        <div class="fechar">
+            <img src="~/Assets/Icons/Icon_Fechar.png" class="btn-fechar" id="btn-fechar" />
+            <h3>Fechar</h3>
+        </div>
+
+        <img src="~/Assets/Imagens/@Model.Imagem" alt="@Model.Nome" class="prod-img"/>
+
+        <div class="avaliacoes">
+            <h2>Avaliações</h2>
+            <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" />
+        </div>
+
+        <div class="card-externo-prod">
+            <div class="card-produto">
+                <div class="header-prod">
+                    <h2>@Model.Nome</h2>
+                    <article><p>@Model.Descricao</p></article>
+                </div>
+                
+                <div class="escolha-item">
+                    <div class="tamanho-prod">
+                        <h2>Tamanho</h2>
+                        <h4>Obrigatório</h4>
+
+                    </div>
+
+                    <div class="leite-prod">
+                        <h2>Leite</h2>
+                        <h4>Obrigatório</h4>
+
+                    </div>
+                </div>
+
+                <div class="qtd-adicionar"> 
+                    <div class="seletor-quantidade">
+                        <button onclick="mudar(-1)"><img src="~/Assets/Icons/Icon_Mais.png" /></button>
+                        <span id="quantidade">1</span>
+                        <button onclick="mudar(1)"><img src="~/Assets/Icons/Icon_Menos.png" /></button>
+                    </div>
+                    <button id="add-carrinho">Adicionar ao carrinho</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

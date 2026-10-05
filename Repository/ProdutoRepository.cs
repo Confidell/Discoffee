@@ -1,25 +1,69 @@
 ﻿using Discoffee.Repository.Contract;
+using Discoffee.Models;
+using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace Discoffee.Repository
 {
     public class ProdutoRepository : IProdutoRepository
     {
-        public void AdicionarProduto(ProdutoRepository produto)
+        private readonly string _conexaoMySQL;
+        public ProdutoRepository(IConfiguration conf)
+        {
+            _conexaoMySQL = conf.GetConnectionString("ConexaoMySQL");
+        }
+
+        public void AdicionarProduto(Produto produto)
         {
             throw new NotImplementedException();
         }
 
-        public ProdutoRepository BuscarProdutoPorId(int id)
+        public Produto BuscarProdutoPorId(int id)
         {
             throw new NotImplementedException();
         }
 
-        public List<ProdutoRepository> BuscarTodos()
+        public List<Produto> BuscarTodos()
         {
-            throw new NotImplementedException();
+            var produtos = new List<Produto>();
+
+            using (var conexao = new MySqlConnection(_conexaoMySQL))
+            {
+                conexao.Open();
+
+                using (var cmd = new MySqlCommand("selectTbProdutos", conexao))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            produtos.Add(new Produto
+                            {
+                                IdProduto = reader.GetInt32("Id_Produto"),
+                                Nome = reader.GetString("Nome"),
+                                Preco = reader.GetDecimal("Preco"),
+                                Descricao = reader.GetString("Descricao"),
+                                Tamanho = reader.GetString("Tamanho"),
+                                Imagem = reader.GetString("Imagem"),
+                                Disponibilidade = reader.GetBoolean("Disponibilidade"),
+                                CategoriaId = reader.GetInt32("Id_Categoria"),
+                                Categoria = new Categoria
+                                {
+                                    IdCategoria = reader.GetInt32("Id_Categoria"),
+                                    NomeCategoria = reader.GetString("Categoria")
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+            return produtos;
         }
 
-        public void EditarProduto(ProdutoRepository produto)
+        public void EditarProduto(Produto produto)
         {
             throw new NotImplementedException();
         }
