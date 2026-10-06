@@ -1,17 +1,19 @@
 ﻿@model Discoffee.Models.Produto
 
-<div class="modalProduto" id=" modal- @Model.IdProduto">
+<div class="paiModal" id="modal-@Model.IdProduto">
     <div class="modal">
-        <div class="fechar">
-            <img src="~/Assets/Icons/Icon_Fechar.png" class="btn-fechar" id="btn-fechar" />
-            <h3>Fechar</h3>
-        </div>
+        <div class="btn-imagem">
+            <div class="fechar">
+                <img src="~/Assets/Icons/Icon_Fechar.png" class="btn-fechar" id="btn-fechar" />
+                <h3>Fechar</h3>
+            </div>
 
-        <img src="~/Assets/Imagens/@Model.Imagem" alt="@Model.Nome" class="prod-img"/>
+            <img src="~/Assets/Imagens/@Model.Imagem" alt="@Model.Nome" class="prod-img" />
 
-        <div class="avaliacoes">
-            <h2>Avaliações</h2>
-            <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" />
+            <div class="avaliacoes">
+                <h2>Avaliações</h2>
+                <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" />
+            </div>
         </div>
 
         <div class="card-externo-prod">
@@ -25,14 +27,59 @@
                     <div class="tamanho-prod">
                         <h2>Tamanho</h2>
                         <h4>Obrigatório</h4>
-
+                        <div class="buttons-radio">
+                            <div class="btn-tamanho">
+                                <label>Pequeno</label>
+                                <input type="radio" name="tamanho-pedido" value="pequeno">
+                            </div>
+                            <div class="btn-tamanho">
+                                <label>Médio</label>
+                                <span>R$ 5.90</span>
+                                <input type="radio" name="tamanho-pedido" value="medio">
+                            </div>
+                            <div class="btn-tamanho">
+                                <label>Grande</label>
+                                <span>R$ 9.90</span>
+                                <input type="radio" name="tamanho-pedido" value="grande"> 
+                            </div>
+                        </div>
                     </div>
 
                     <div class="leite-prod">
                         <h2>Leite</h2>
                         <h4>Obrigatório</h4>
-
+                        <div class="buttons-radio">
+                            <div class="btn-leite">
+                                <label>Inegral</label>
+                                <input type="radio" name="leite-pedido" value="integral">
+                            </div>
+                            <div class="btn-leite">
+                                <label>Zero Lactose</label>
+                                <span>R$ 3.00</span>
+                                <input type="radio" name="leite-pedido" value="zero-lactose">
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="adicionais-prod">
+                        <h2>Adicionais</h2>
+                        <div class="buttons-radio">
+                            <div class="btn-adicional">
+                                <label>Canela</label>
+                                <span>R$ 2.15</span>
+                                <input type="radio" name="adicional-pedido" value="canela">
+                            </div>
+                        </div>
+
+                        <div class="buttons-radio">
+                            <div class="btn-adicional">
+                                <label>Chantilly</label>
+                                <span>R$ 3.50</span>
+                                <input type="radio" name="adicional-pedido" value="chantilly">
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="qtd-adicionar"> 
@@ -45,5 +92,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </div>
+
