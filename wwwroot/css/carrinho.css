@@ -22,7 +22,7 @@ main{
     gap: 1rem;
     background-color: var(--roxo);
     border-radius: 15px;
-    min-height: 110px;
+    min-height: 100px;
     padding: 6px 0;
     flex-shrink: 0;
 }
@@ -30,13 +30,13 @@ main{
 .minha-sacola h2{
     color: var(--branco);
     margin: 10px;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
 }
 
 .minha-sacola img{
-    width: 45px;
-    height: 60px;
+    width: 30px;
+    height: 50px;
     margin-left: 40px;
     cursor: pointer;
 }
@@ -55,7 +55,7 @@ main{
     display: flex;
     justify-content: normal;
     border-radius: 10px;
-    height: 10vh;
+    height: 8vh;
     align-items: center;
     margin: 15px 30px;
 }
@@ -63,7 +63,7 @@ main{
 .produto-carrinho h4{
     margin: 20px;
     font-weight: 600;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 }
 
 .produto-carrinho h4:nth-child(1){
@@ -96,7 +96,7 @@ main{
 
 .prod-img{
     display: flex;
-    width: 12%;
+    width: 9%;
     height: 100%;
     border-radius: 20px;
 }
