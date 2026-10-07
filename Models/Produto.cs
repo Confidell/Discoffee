@@ -44,7 +44,7 @@ namespace Discoffee.Models
 
         [Display(Name = "Preço", Description = "Preço do produto.")]
         [Required(ErrorMessage = "O preço é obrigatório.")]
-        [RegularExpression(@"^\d+(\.\d{1,2})?$",ErrorMessage = "Preço inválido. Use até 2 casas decimais.")]
+        [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Preço inválido. Use até 2 casas decimais.")]
         public decimal Preco { get; set; }
 
         [Display(Name = "Categoria", Description = "Categoria do produto.")]
