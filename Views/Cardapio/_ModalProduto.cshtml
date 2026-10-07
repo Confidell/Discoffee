@@ -1,7 +1,7 @@
 ﻿@model Discoffee.Models.Produto
 
 <div class="paiModal" id="modal-@Model.IdProduto">
-    <div class="modal">
+    <div class="modal-produto">
         <div class="btn-imagem">
             <div class="fechar">
                 <img src="~/Assets/Icons/Icon_Fechar.png" class="btn-fechar" id="btn-fechar" />
@@ -25,57 +25,60 @@
                 
                 <div class="escolha-item">
                     <div class="tamanho-prod">
-                        <h2>Tamanho</h2>
-                        <h4>Obrigatório</h4>
+                        <div class="header-escolhas">
+                            <h2>Tamanho</h2>
+                            <h4>Obrigatório</h4>
+                        </div>
                         <div class="buttons-radio">
                             <div class="btn-tamanho">
                                 <label>Pequeno</label>
-                                <input type="radio" name="tamanho-pedido" value="pequeno">
+                                <input type="radio" name="tamanho-pedido" value="pequeno" class="btn-escolha">
                             </div>
                             <div class="btn-tamanho">
-                                <label>Médio</label>
-                                <span>R$ 5.90</span>
-                                <input type="radio" name="tamanho-pedido" value="medio">
+                                <label>Médio + <span>R$ 5.90</span></label>
+                                
+                                <input type="radio" name="tamanho-pedido" value="medio" class="btn-escolha">
                             </div>
                             <div class="btn-tamanho">
-                                <label>Grande</label>
-                                <span>R$ 9.90</span>
-                                <input type="radio" name="tamanho-pedido" value="grande"> 
+                                <label>Grande + <span>R$ 9.90</span></label>
+                                
+                                <input type="radio" name="tamanho-pedido" value="grande" class="btn-escolha">
                             </div>
                         </div>
                     </div>
 
                     <div class="leite-prod">
-                        <h2>Leite</h2>
-                        <h4>Obrigatório</h4>
+                        <div class="header-escolhas">
+                            <h2>Leite</h2>
+                            <h4>Obrigatório</h4>
+                        </div>
                         <div class="buttons-radio">
                             <div class="btn-leite">
                                 <label>Inegral</label>
-                                <input type="radio" name="leite-pedido" value="integral">
+                                <input type="radio" name="leite-pedido" value="integral" class="btn-escolha">
                             </div>
                             <div class="btn-leite">
-                                <label>Zero Lactose</label>
-                                <span>R$ 3.00</span>
-                                <input type="radio" name="leite-pedido" value="zero-lactose">
+                                <label>Zero Lactose + <span>R$ 3.00</span></label>
+                                
+                                <input type="radio" name="leite-pedido" value="zero-lactose" class="btn-escolha">
                             </div>
                         </div>
                     </div>
 
                     <div class="adicionais-prod">
-                        <h2>Adicionais</h2>
-                        <div class="buttons-radio">
-                            <div class="btn-adicional">
-                                <label>Canela</label>
-                                <span>R$ 2.15</span>
-                                <input type="radio" name="adicional-pedido" value="canela">
-                            </div>
+                        <div class="header-escolhas">
+                            <h2>Adicionais</h2>
+                            <h4>Opcionais</h4>
                         </div>
-
                         <div class="buttons-radio">
                             <div class="btn-adicional">
-                                <label>Chantilly</label>
-                                <span>R$ 3.50</span>
-                                <input type="radio" name="adicional-pedido" value="chantilly">
+                                <label>Canela + <span>R$ 2.15</span></label>  
+                                <input type="checkbox" name="adicional-pedido" value="canela" >
+                            </div>
+
+                            <div class="btn-adicional">
+                                <label>Chantilly + <span>R$ 3.50</span></label>
+                                <input type="checkbox" name="adicional-pedido" value="chantilly" >
                             </div>
                         </div>
                     </div>
