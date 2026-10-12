@@ -93,6 +93,7 @@
     /* box-shadow: 2px 2px 0px var(--rosa); */
 }
 
+#cartao-grid,
 #endereco-grid,
 .usuario-grid-1,
 .usuario-grid-2 {
@@ -103,11 +104,13 @@
     box-sizing: border-box;
 }
 
+.cartao-grid-1,
 .end-grid-1 {
     grid-column: 1;
     grid-row: 1;
 }
 
+.cartao-grid-2,
 .end-grid-2 {
     grid-column: 2;
     grid-row: 1;
@@ -266,7 +269,7 @@
     padding: 1rem;
     align-items: center;
 }
-.card-interno .cartao{
+.card-interno .cartao {
     width: 100%;
     height: 80%;
     display: flex;
@@ -277,6 +280,51 @@
     border-radius: 8px;
     margin-top: 1rem;
     position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.card-interno .cartao::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    transform: translateX(-150%);
+    transition: all 1.5s ease;
+}
+
+/* VISA */
+#cartao.cartao-visa::before {
+    background: linear-gradient(135deg, #1a4b8c 40%, #172b4d);
+    transform: translateX(0);
+}
+
+/* MASTERCARD */
+#cartao.cartao-mastercard::before {
+    background: linear-gradient(135deg, #111111 , #292929 80%);
+    transform: translateX(0);
+}
+
+/* ELO */
+#cartao.cartao-elo::before {
+    background: linear-gradient(135deg, #292929, #454545);
+    transform: translateX(0);
+}
+
+/* AMERICAN EXPRESS */
+#cartao.cartao-amex::before {
+    background: linear-gradient(135deg, #1685a9, #07516f);
+    transform: translateX(0);
+}
+
+#cartao.cartao-visa,
+#cartao.cartao-mastercard,
+#cartao.cartao-elo,
+#cartao.cartao-amex {
+    color: var(--branco);
+}
+.card-interno .cartao .header-cartao{
+    padding-top: 1rem;
 }
 .card-interno .cartao .header-cartao,
 .card-interno .cartao .footer-cartao,
@@ -288,7 +336,6 @@
     gap: 1rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    padding-top: 1rem;
 }
 .card-interno .cartao .header-cartao p{
     font-size: 1rem;
