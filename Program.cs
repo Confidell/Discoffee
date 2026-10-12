@@ -8,15 +8,32 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
+builder.Services.AddScoped<IOpcaoPersonalizacaoRepository, OpcaoPersonalizacaoRepository>();
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+// Autenticação
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Conta?form=login";
-        options.AccessDeniedPath = "/Conta?form=login";
+        options.LoginPath = "/Conta";
+        options.AccessDeniedPath = "/Conta/AcessoNegado";
+
+        options.Events.OnRedirectToLogin = context =>
+        {
+            var returnUrl = context.Request.Path + context.Request.QueryString;
+
+            context.Response.Redirect(
+                "/Conta?form=login&ReturnUrl=" +
+                Uri.EscapeDataString(returnUrl)
+            );
+
+            return Task.CompletedTask;
+        };
     });
 
 builder.Services.AddAuthorization();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 

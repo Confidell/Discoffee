@@ -2,6 +2,7 @@
 using Discoffee.Models;
 using Discoffee.Models.Constants;
 using Discoffee.Repository.Contract;
+using Discoffee.ViewModels;
 using MySql.Data.MySqlClient;
 
 namespace Discoffee.Repository
@@ -70,12 +71,40 @@ namespace Discoffee.Repository
             return null;
         }
 
-        public Usuario BuscarUsuarioPorId(int id)
+        public Usuario? BuscarUsuarioPorId(int Id)
         {
-            throw new NotImplementedException();
+            using var conexao = new MySqlConnection(_conexaoMySql);
+            conexao.Open();
+
+            using var comando = new MySqlCommand("selectUsuario", conexao);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("vId_Usuario", Id);
+
+            using var reader = comando.ExecuteReader();
+            if (reader.Read())
+            {
+                return new Usuario
+                {
+                    // IdUsuario = reader.GetInt32("Id_Usuario"),
+                    NomeCompleto = reader.GetString("NomeCompleto"),
+                    Email = reader.GetString("Email"),
+                    Senha = reader.GetString("Senha"),
+                    CPF = reader.GetString("CPF"),
+                    Telefone = reader.GetString("Telefone"),
+                    DataNascimento = reader.GetDateTime("DataNasc"),
+                    Status = reader.GetString("Stats"),
+                    Complemento = reader.IsDBNull(reader.GetOrdinal("Complemento")) ? null : reader.GetString("Complemento"),
+                    NumeroCasa = reader.GetString("Numero_Casa"),
+                    CEP = reader.GetString("CEP"),
+                    Perfil = Enum.Parse<EnumPerfil>(reader.GetString("Perfil"))
+                };
+            }
+
+            return null;
         }
 
-        public bool BuscaUsuarioPorCPF(string CPF)
+        public Usuario? BuscaUsuarioPorCPF(string CPF)
         {
             using var conexao = new MySqlConnection(_conexaoMySql);
             conexao.Open();
@@ -87,10 +116,24 @@ namespace Discoffee.Repository
 
             if (dr.Read())
             {
-                return true;
+                return new Usuario
+                {
+                    IdUsuario = dr.GetInt32("Id_Usuario"),
+                    NomeCompleto = dr.GetString("NomeCompleto"),
+                    Email = dr.GetString("Email"),
+                    Senha = dr.GetString("Senha"),
+                    CPF = dr.GetString("CPF"),
+                    Telefone = dr.GetString("Telefone"),
+                    DataNascimento = dr.GetDateTime("DataNasc"),
+                    Status = dr.GetString("Stats"),
+                    Complemento = dr.IsDBNull(dr.GetOrdinal("Complemento")) ? null : dr.GetString("Complemento"),
+                    NumeroCasa = dr.GetString("Numero_Casa"),
+                    // CEP = dr.GetString("CEP"),
+                    // Perfil = Enum.Parse<EnumPerfil>(dr.GetString("Perfil"))
+                };
             }
 
-            return false;
+            return null;
         }
 
         public void CadastrarUsuario(Usuario usuario)
@@ -115,14 +158,27 @@ namespace Discoffee.Repository
             comando.ExecuteNonQuery();
         }
 
-        public void EditarUsuario(Usuario usuario)
+        public void EditarUsuario(EditarUsuarioViewModel usuario)
         {
-            throw new NotImplementedException();
-        }
+            using var conexao = new MySqlConnection(_conexaoMySql);
 
-        public Usuario LoginUsuario(string email, string senha)
-        {
-            throw new NotImplementedException();
+            using var comando = new MySqlCommand("updateTbUsuario", conexao);
+
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("vId_Usuario", usuario.IdUsuario);
+            comando.Parameters.AddWithValue("vNomeCompleto", (object?)usuario.NomeCompleto ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vEmail", (object?)usuario.Email ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vSenha", (object?)usuario.Senha ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vCPF", (object?)usuario.CPF ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vTelefone",(object?)usuario.Telefone ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vDataNasc",(object?)usuario.DataNascimento ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vNumero_Casa",(object?)usuario.NumeroCasa ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vComplemento",(object?)usuario.Complemento ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vCEP",(object?)usuario.CEP ?? DBNull.Value);
+
+            conexao.Open();
+            comando.ExecuteNonQuery();
         }
     }
 }

@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Discoffee.Models.Constants;
 using System.ComponentModel.DataAnnotations;
 
 namespace Discoffee.Models
 {
-    public enum FormaPagamento
-    {
-        Dinheiro = 1,
-        CartaoCredito = 2,
-        CartaoDebito = 3,
-        Pix = 4,
-        ValeAlimentacao = 5
-    }
     public class Pagamento
     {
         [Display(Name = "IdPagamento", Description = "Código do pagamento.")]

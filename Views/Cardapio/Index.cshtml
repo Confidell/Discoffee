@@ -1,82 +1,173 @@
-﻿@{
+﻿@model IEnumerable<Discoffee.Models.Produto>
+@{
     ViewData["Title"] = "Cardápio";
+
+    IEnumerable<Discoffee.Models.Produto> De(string categoria) =>
+        Model.Where(p => p.Disponibilidade && p.Categoria.NomeCategoria == categoria);
 }
-@section Styles{
+
+@section Styles {
     <link rel="stylesheet" href="~/css/cardapio.css" asp-append-version="true" />
 }
 
-<main>
-    <header>
-        <div class="drinks-especiais">
-            <img src="~/Assets/Icons/Logo.svg" />
-            <h2>DRINKS ESPECIAIS</h2>
-            <p>Aproveite nossos melhore drinks e sinta a melodia da sua alegria vibrar!</p>
-        </div>
-    </header>
 
-    <section class="sessao-imagens">
-        <div class="imagens">
-            <img src="~/Assets/Imagens/sessao_img1.png" />
-            <img src="~/Assets/Imagens/sessao_img2.png" />
-            <img src="~/Assets/Imagens/sessao_img3.png" />
-            <img src="~/Assets/Imagens/sessao_img4.png" />
-            <img src="~/Assets/Imagens/sessao_img5.png" />
-        </div>
-        <div class="pedidos-card">
-            <div class="formas-pedido">
-                <div class="card-pedido">
-                    <h2>PEÇA ONLINE</h2>
-                    <p>Escolha o desejado e receba no conforto de sua casa.</p>
-                </div>
+<section class="banner">
 
-                <div class="card-pedido">
-                    <h2>RETIRE NO LOCAL</h2>
-                    <p>Faça seu pedido pelo site e retire pessoalmente em nosso estabelecimento.</p>
-                </div>
+    <article class="drinks-especiais">
+        <img src="~/Assets/Icons/Logo.svg" />
+        <h2>DRINKS ESPECIAIS</h2>
+        <p>Aproveite nossos melhore drinks e sinta a melodia da sua alegria vibrar!</p>
+    </article>
+</section class="banner">
 
-            </div>
+<section class="sessao-imagens">
+    <div class="imagens">
+        <img src="~/Assets/Imagens/sessao_img1.png" />
+        <img src="~/Assets/Imagens/sessao_img2.png" />
+        <img src="~/Assets/Imagens/sessao_img3.png" />
+        <img src="~/Assets/Imagens/sessao_img4.png" />
+        <img src="~/Assets/Imagens/sessao_img5.png" />
+    </div>
 
-            <div class="escolha-produtos">
-                <h2>FAÇA SUA ESCOLHA</h2>
-                <p>Oferecemos uma variedades de cafés, acompanhamentos, bebidas e muitos outros para satisfazer a sua vontade</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="produtos">
-
-        <div class="card-externo">
-
-            <div class="titulo-lista">
-                <h2>CAFÉS</h2>
-            </div>
-
-                <div class="subtitulo">
-                    <h3>Tradicionais</h3>
-                    <hr />
-                </div>
+    <div class="pedidos-card">
+        <div class="formas-pedido">
             
+            <div class="card-pedido">
+                <h2>PEÇA ONLINE</h2>
+                <p>Escolha o desejado e receba no conforto de sua casa.</p>
+            </div>
 
-            <div class="lista-produtos">
-                <div class="card-prod">
-                    <img src="~/Assets/Imagens/Prod1.png" alt="Produto 1" class="prod-img" />
-                    <div class="nome-preco">
-                        <h4>Nome</h4>
-                        <span>R$ 9,98</span>
-                    </div>
-                    <article><p>Café gelado com caramelo</p></article>
-
-                    <div class="carrinho-info">
-                        <img src="~/Assets/Icons/Icon_Carrinho.png" />
-                        <img src="~/Assets/Icons/Icon_Info.png" />
-                    </div>
-                </div>
+            <div class="card-pedido">
+                <h2>RETIRE NO LOCAL</h2>
+                <p>Faça seu pedido pelo site e retire pessoalmente em nosso estabelecimento.</p>
             </div>
 
         </div>
-        <div class="banner-cafe">
-            <img src="~/Assets/Imagens/Banner_Cafe.jpg" />
+
+        <div class="escolha-produtos">
+            <h2>FAÇA SUA ESCOLHA</h2>
+            <p>Oferecemos uma variedades de cafés, acompanhamentos, bebidas e muitos outros para satisfazer a sua vontade</p>
         </div>
-    </section>
-    
-</main>
+    </div>
+</section>
+
+<section class="produtos">
+
+    <div class="card-externo">
+
+        <div class="titulo-lista">
+            <h2>CAFÉS</h2>
+        </div>
+
+        <div class="subtitulo">
+            <h3>Tradicionais</h3>
+            <hr />
+        </div>
+
+        <div class="lista-produtos">
+            @foreach (var p in De("Tradicional"))
+            {
+                <partial name="_CardProduto" model="p" />
+                <partial name="_ModalProduto" model="p" />
+            }
+        </div>
+
+        <div class="subtitulo">
+            <h3>Drinks</h3>
+            <hr />
+        </div>
+
+        <div class="lista-produtos">
+            @foreach (var p in De("Drink"))
+            {
+                <partial name="_CardProduto" model="p" />
+                <partial name="_ModalProduto" model="p" />
+            }
+        </div>
+
+    </div>
+
+    <div class="banner-listas">
+        <img src="~/Assets/Imagens/Banner_Cafe.jpg" />
+    </div>
+
+    <div class="card-externo">
+
+        <div class="titulo-lista">
+            <h2>ACOMPANHAMENTOS</h2>
+        </div>
+
+        <div class="subtitulo">
+            <h3>Doces</h3>
+            <hr />
+        </div>
+
+        
+        <div class="lista-produtos">
+            @foreach (var p in De("Doce"))
+            {
+                <partial name="_CardProduto" model="p" />
+                <partial name="_ModalProduto" model="p" />
+            }
+        </div>
+
+        <div class="subtitulo">
+            <h3>Salgados</h3>
+            <hr />
+        </div>
+
+        
+        <div class="lista-produtos">
+            @foreach (var p in De("Salgado"))
+            {
+                <partial name="_CardProduto" model="p" />
+                <partial name="_ModalProduto" model="p" />
+            }
+        </div>
+
+    </div>
+
+    <div class="banner-listas">
+        <img src="~/Assets/Imagens/Banner_Cafe.jpg" />
+    </div>
+
+    <div class="card-externo">
+
+        <div class="titulo-lista">
+            <h2>BEBIDAS</h2>
+        </div>
+
+        <div class="subtitulo">
+            <h3>Refrescos</h3>
+            <hr />
+        </div>
+
+        <div class="lista-produtos">
+            @foreach (var p in De("Refresco"))
+            {
+                <partial name="_CardProduto" model="p" />
+                <partial name="_ModalProduto" model="p" />
+            }
+        </div>
+
+        <div class="subtitulo">
+            <h3>Shakes</h3>
+            <hr />
+        </div>
+
+        
+        <div class="lista-produtos">
+            @foreach (var p in De("Shake"))
+            {
+                <partial name="_CardProduto" model="p" />
+                <partial name="_ModalProduto" model="p" />
+            }
+        </div>
+
+    </div>
+</section>
+
+<script src="~/js/cardapio.js"></script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

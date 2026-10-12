@@ -1,0 +1,80 @@
+﻿@model Discoffee.Models.Produto;
+
+<div class="paiModal" id="modal-@Model.IdProduto">
+    <div class="modal-produto">
+
+        <div class="btn-imagem">
+
+            <div class="fechar">
+                <img src="~/Assets/Icons/Icon_Fechar.png" class="btn-fechar" id="btn-fechar" />
+                <h3>Fechar</h3>
+            </div>
+
+            <img src="~/Assets/Imagens/@Model.Imagem" alt="@Model.Nome" class="prod-img" />
+
+            <div class="avaliacoes">
+                <h2>Avaliações</h2>
+                <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" />
+            </div>
+        </div>
+
+        <div class="card-externo-prod">
+            <div class="card-produto">
+
+                <div class="header-prod">
+                    <h2>@Model.Nome</h2>
+                    <article><p>@Model.Descricao aaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaa aaaaaaaaa</p></article>
+                </div>
+                
+                <div class="escolha-item">
+                    <div class="tamanho-prod">
+
+                        <div class="header-escolhas">
+                            <h2>Tamanho</h2>
+                            <h4>Obrigatório</h4>
+                        </div>
+
+                        <div class="buttons-radio">
+                            <div class="btn-tamanho">
+                                <label>Pequeno</label>
+                                <input type="radio" name="tamanho-pedido" value="pequeno" class="btn-escolha">
+                            </div>
+                            <div class="btn-tamanho">
+                                <label>Médio + <span>R$ 5.90</span></label>
+                                
+                                <input type="radio" name="tamanho-pedido" value="medio" class="btn-escolha">
+                            </div>
+                            <div class="btn-tamanho">
+                                <label>Grande + <span>R$ 9.90</span></label>
+                                
+                                <input type="radio" name="tamanho-pedido" value="grande" class="btn-escolha">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container-opcoes"
+                        data-id-categoria="@Model.CategoriaId"
+                        data-url="@Url.Action(
+                            "BuscarOpcoesProduto",
+                            "Cardapio",
+                            new { idCategoria = Model.CategoriaId })">
+
+                        <p>As opções serão carregadas ao abrir o produto.</p>
+
+                    </div>
+
+                </div>
+
+                <div class="qtd-adicionar"> 
+                    <div class="seletor-quantidade">
+                        <button onclick="mudar(-1)"><img src="~/Assets/Icons/Icon_Mais.png" /></button>
+                        <span id="quantidade">1</span>
+                        <button onclick="mudar(1)"><img src="~/Assets/Icons/Icon_Menos.png" /></button>
+                    </div>
+                    <button id="add-carrinho">Adicionar ao carrinho</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
