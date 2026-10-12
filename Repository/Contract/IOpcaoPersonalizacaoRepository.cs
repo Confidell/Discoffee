@@ -8,6 +8,7 @@ namespace Discoffee.Repository.Contract
         void ExcluirOpcao(int id);
         void AdicionarOpcao(OpcaoPersonalizacao opcao);
         OpcaoPersonalizacao BuscarOpcaoPorId(int id);
+        List<OpcaoPersonalizacao> BuscarOpcoesPorCategoria(int idCategoria);
         List<OpcaoPersonalizacao> BuscarOpcao();
     }
 }

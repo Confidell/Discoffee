@@ -1,0 +1,55 @@
+
+@model IEnumerable<Discoffee.Models.OpcaoPersonalizacao>
+
+@using Discoffee.Models.Constants
+@using System.Globalization
+
+@{
+    var ptBR = new CultureInfo("pt-BR");
+}
+
+@foreach (var grupo in Model.GroupBy(o => o.Tipo))
+{
+    <div class="opcoes-prod">
+
+        <div class="header-escolhas">
+            <h2>@grupo.Key</h2>
+        </div>
+
+        <div class="buttons-radio">
+
+            @foreach (var opcao in grupo)
+            {
+                <div class="btn-opcao">
+
+                    <label>
+                        @opcao.Opcao
+
+                        @if (opcao.PrecoExtra > 0)
+                        {
+                            <span>
+                                + @opcao.PrecoExtra.ToString("C2", ptBR)
+                            </span>
+                        }
+                    </label>
+
+                    @if (grupo.Key == TipoOpcao.Adicional)
+                    {
+                        <input
+                            type="checkbox"
+                            name="opcoes-@grupo.Key"
+                            value="@opcao.IdOpcao" />
+                    }
+                    else
+                    {
+                        <input
+                            type="radio"
+                            name="opcoes-@grupo.Key"
+                            value="@opcao.IdOpcao" />
+                    }
+
+                </div>
+            }
+        </div>
+    </div>
+}

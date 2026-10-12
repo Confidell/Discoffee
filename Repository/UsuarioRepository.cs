@@ -180,10 +180,5 @@ namespace Discoffee.Repository
             conexao.Open();
             comando.ExecuteNonQuery();
         }
-
-        public Usuario LoginUsuario(string email, string senha)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
