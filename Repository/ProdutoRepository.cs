@@ -31,7 +31,7 @@ namespace Discoffee.Repository
                     cmd.Parameters.AddWithValue("@vDisponibilidade", produto.Disponibilidade);
                     cmd.Parameters.AddWithValue("@vCategoria", produto.Categoria?.NomeCategoria);
 
-                    cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();  
                 }
             }
         }
