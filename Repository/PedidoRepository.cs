@@ -14,35 +14,166 @@ namespace Discoffee.Repository
         {
             _conexaoMySql = config.GetConnectionString("ConexaoMySQL");
         }
-        
-        public Pedido BuscarPedidoPorId(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public List<Pedido> BuscarPedidoPorStatus(StatusPedido status)
+        public List<Pedido> BuscarPedidosPorUsuario(int IdPedido)
         {
-            throw new NotImplementedException();
-        }
+            var pedidos = new List<Pedido>();
 
-        public List<Pedido> BuscarPedidoPorTipo(TipoPedido tipo)
-        {
-            throw new NotImplementedException();
-        }
+            using var conexao = new MySqlConnection(_conexaoMySql);
+            conexao.Open();
 
-        public List<Pedido> BuscarPedidosPorUsuario(int usuarioId)
-        {
-            throw new NotImplementedException();
+            using var comando = new MySqlCommand("buscarPedidosPorUsuario", conexao);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("@vId_Usuario", IdPedido);
+
+            using var reader = comando.ExecuteReader();
+
+            while (reader.Read())
+            {
+                // OBTÉM O ID DO PEDIDO DA LINHA ATUAL
+                int idPedido = Convert.ToInt32(reader["Id_Pedido"]);
+
+                // VERIFICA SE ESSE PEDIDO JÁ FOI CRIADO NA LISTA
+                var pedido = pedidos.FirstOrDefault(p => p.IdPedido == idPedido);
+
+                // SE O PEDIDO AINDA NÃO EXISTIR, CRIA UM NOVO OBJETO
+                if (pedido == null)
+                {
+                    pedido = new Pedido
+                    {
+                        IdPedido = idPedido,
+                        Subtotal = Convert.ToDecimal(reader["SubTotal"]),
+                        Frete = Convert.ToDecimal(reader["Frete"]),
+                        Total = Convert.ToDecimal(reader["Total"]),
+                        UsuarioId = Convert.ToInt32(reader["Id_Usuario"]),
+                        Tipo = (TipoPedido)Convert.ToInt32(reader["Tipo"]),
+                        Status = (StatusPedido)Convert.ToInt32(reader["Stats"])
+                    };
+
+                    // ADICIONA O NOVO PEDIDO À LISTA PRINCIPAL
+                    pedidos.Add(pedido);
+                }
+
+                // OBTÉM O ID DO ITEM DO PEDIDO NA LINHA ATUAL
+                int idItem = Convert.ToInt32(reader["Id_Item"]);
+
+                // PROCURA ESSE ITEM DENTRO DO PEDIDO ATUAL
+                var item = pedido.Itens.FirstOrDefault(i => i.IdItem == idItem);
+
+                // SE O ITEM AINDA NÃO EXISTIR, CRIA UM NOVO OBJETO
+                if (item == null)
+                {
+                    item = new ItemPedido
+                    {
+                        IdItem = idItem,
+                        PedidoId = idPedido,
+                        ProdutoId = Convert.ToInt32(reader["Id_Produto"]),
+                        Quantidade = Convert.ToInt32(reader["Quantidade"]),
+                        PrecoUnitario = Convert.ToDecimal(reader["Preco_Unitario"]),
+                    };
+
+                    // ADICIONA O ITEM À LISTA DE ITENS DO PEDIDO
+                    pedido.Itens.Add(item);
+                }
+
+                // VERIFICA SE A LINHA POSSUI UMA OPÇÃO DE PERSONALIZAÇÃO
+                if (reader["Id_Opcao"] != DBNull.Value)
+                {
+                    // CRIA A PERSONALIZAÇÃO E A ADICIONA AO ITEM CORRESPONDENTE
+                    item.Opcoes.Add(new OpcaoPersonalizacao
+                    {
+                        IdOpcao = Convert.ToInt32(reader["Id_Opcao"]),
+                        Opcao = reader["Nome_Opcao"]?.ToString(),
+                        Tipo = Enum.Parse<TipoOpcao>(reader["Tipo_Personalizacao"].ToString()!),
+                        PrecoExtra = Convert.ToDecimal(reader["Preco_Personalizacao"])
+                    });
+                }
+            }
+
+            return pedidos;
         }
 
         public List<Pedido> BuscarTodos()
         {
-            throw new NotImplementedException();
+            var pedidos = new List<Pedido>();
+
+            using var conexao = new MySqlConnection(_conexaoMySql);
+            conexao.Open();
+
+            using var comando = new MySqlCommand("selectTbPedidos", conexao);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            using var reader = comando.ExecuteReader();
+
+            while (reader.Read())
+            {
+                // OBTÉM O ID DO PEDIDO DA LINHA ATUAL
+                int idPedido = Convert.ToInt32(reader["Id_Pedido"]);
+
+                // VERIFICA SE ESSE PEDIDO JÁ FOI CRIADO NA LISTA
+                var pedido = pedidos.FirstOrDefault(p => p.IdPedido == idPedido);
+
+                // SE O PEDIDO AINDA NÃO EXISTIR, CRIA UM NOVO OBJETO
+                if (pedido == null)
+                {
+                    pedido = new Pedido
+                    {
+                        IdPedido = idPedido,
+                        Subtotal = Convert.ToDecimal(reader["SubTotal"]),
+                        Frete = Convert.ToDecimal(reader["Frete"]),
+                        Total = Convert.ToDecimal(reader["Total"]),
+                        UsuarioId = Convert.ToInt32(reader["Id_Usuario"]),
+                        Tipo = (TipoPedido)Convert.ToInt32(reader["Tipo"]),
+                        Status = (StatusPedido)Convert.ToInt32(reader["Stats"])
+                    };
+
+                    // ADICIONA O NOVO PEDIDO À LISTA PRINCIPAL
+                    pedidos.Add(pedido);
+                }
+
+                // OBTÉM O ID DO ITEM DO PEDIDO NA LINHA ATUAL
+                int idItem = Convert.ToInt32(reader["Id_Item"]);
+
+                // PROCURA ESSE ITEM DENTRO DO PEDIDO ATUAL
+                var item = pedido.Itens.FirstOrDefault(i => i.IdItem == idItem);
+
+                // SE O ITEM AINDA NÃO EXISTIR, CRIA UM NOVO OBJETO
+                if (item == null)
+                {
+                    item = new ItemPedido
+                    {
+                        IdItem = idItem,
+                        PedidoId = idPedido,
+                        ProdutoId = Convert.ToInt32(reader["Id_Produto"]),
+                        Quantidade = Convert.ToInt32(reader["Quantidade"]),
+                        PrecoUnitario = Convert.ToDecimal(reader["Preco_Unitario"]),
+                    };
+
+                    // ADICIONA O ITEM À LISTA DE ITENS DO PEDIDO
+                    pedido.Itens.Add(item);
+                }
+
+                // VERIFICA SE A LINHA POSSUI UMA OPÇÃO DE PERSONALIZAÇÃO
+                if (reader["Id_Opcao"] != DBNull.Value)
+                {
+                    // CRIA A PERSONALIZAÇÃO E A ADICIONA AO ITEM CORRESPONDENTE
+                    item.Opcoes.Add(new OpcaoPersonalizacao
+                    {
+                        IdOpcao = Convert.ToInt32(reader["Id_Opcao"]),
+                        Opcao = reader["Nome_Opcao"]?.ToString(),
+                        Tipo = Enum.Parse<TipoOpcao>(reader["Tipo_Personalizacao"].ToString()!),
+                        PrecoExtra = Convert.ToDecimal(reader["Preco_Personalizacao"])
+                    });
+                }
+            }
+
+            return pedidos;
         }
 
-        public void CancelarPedido(int id)
+        public void CancelarPedido(int IdPedido)
         {
-            throw new NotImplementedException();
+            
         }
 
         public int CriarPedido(Pedido pedido)
@@ -107,7 +238,6 @@ namespace Discoffee.Repository
                 "atualizarTotalPedido", conexao);
 
             comando.CommandType = CommandType.StoredProcedure;
-
             comando.Parameters.AddWithValue("@vId_Pedido", IdPedido);
 
             comando.ExecuteNonQuery();

@@ -1,5 +1,4 @@
 ﻿using Discoffee.Models;
-using Discoffee.Models.Constants;
 using Discoffee.ViewModels;
 
 namespace Discoffee.Repository.Contract
@@ -8,14 +7,11 @@ namespace Discoffee.Repository.Contract
     {   
         int CriarPedido(Pedido pedido);
         void EditarPedido(Pedido pedido);
-        void CancelarPedido(int id);
+        void CancelarPedido(int IdPedido);
         int InserirItemPedido(ItemPedidoViewModel itemPedido);
         public void InserirOpcaoItemPedido(OpcaoPedidoViewModel opcaoPedido);
         public void AtualizarTotalPedido(int IdPedido);
-        Pedido BuscarPedidoPorId(int id);
-        List<Pedido> BuscarPedidosPorUsuario(int usuarioId);
+        List<Pedido> BuscarPedidosPorUsuario(int IdUsuario);
         List<Pedido> BuscarTodos();
-        List<Pedido> BuscarPedidoPorTipo(TipoPedido tipo);
-        List<Pedido> BuscarPedidoPorStatus(StatusPedido status);
     }
 }
