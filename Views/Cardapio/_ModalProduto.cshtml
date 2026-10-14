@@ -1,4 +1,5 @@
-﻿@model Discoffee.Models.Produto;
+﻿@*EXIBE O MODAL DE DETALHES DO PRODUTO*@
+@model Discoffee.Models.Produto;
 
 <div class="paiModal" id="modal-@Model.IdProduto">
     <div class="modal-produto">
@@ -23,7 +24,7 @@
 
                 <div class="header-prod">
                     <h2>@Model.Nome</h2>
-                    <article><p>@Model.Descricao aaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaa aaaaaaaaaa aaaaaaaaa</p></article>
+                    <article><p>@Model.Descricao</p></article>
                 </div>
                 
                 <div class="escolha-item">
@@ -52,6 +53,7 @@
                         </div>
                     </div>
 
+                    @*CARREGA AS OPÇÕES DISPONÍVEIS POR CATEGORIA*@
                     <div class="container-opcoes"
                         data-id-categoria="@Model.CategoriaId"
                         data-url="@Url.Action(

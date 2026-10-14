@@ -13,10 +13,6 @@ namespace Discoffee.Models
         [RegularExpression(@"^\d{2}\/\d{2}\/\d{4}\s\d{2}:\d{2}$", ErrorMessage = "Data e hora inválidas. Use o formato dd/MM/aaaa HH:mm.")]
         public DateTime DataHora { get; set; }
 
-        [Display(Name = "IdProduto", Description = "Identificador do produto.")]
-        [Required(ErrorMessage = "O identificador do produto é obrigatório.")]
-        public int ProdutoId { get; set; }
-
         [Display(Name = "Subtotal", Description = "Subtotal do pedido.")]
         [Required(ErrorMessage = "O subtotal é obrigatório.")]
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Subtotal inválido. Use até 2 casas decimais.")]
@@ -40,5 +36,12 @@ namespace Discoffee.Models
 
         [Display(Name = "IdUsuario", Description = "Identificador do usuário.")]
         public int UsuarioId { get; set; }
+
+        [Display(Name = "IdProduto", Description = "Identificador do produto.")]
+        [Required(ErrorMessage = "O identificador do produto é obrigatório.")]
+        public int ProdutoId { get; set; }
+
+        // DADOS DO PEDIDO COMPLETO
+        public List<ItemPedido> Itens { get; set; } = new();
     }
 }
