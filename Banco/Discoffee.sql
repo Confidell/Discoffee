@@ -2,19 +2,18 @@ DROP DATABASE IF EXISTS dbDiscoffee;
 CREATE DATABASE dbDiscoffee;
 USE dbDiscoffee;
 
-
 -- TABELAS
 CREATE TABLE tbPerfil(
 Id_Perfil INT PRIMARY KEY auto_increment,
 Tipo ENUM('Cliente', 'Funcionario', 'Administrador') NOT NULL UNIQUE
 );
 
-select * from tbPerfil;
-
 /* CRIA OS 3 TIPOS DE PERFIS NA TABELA PERFIL */
 insert into tbPerfil(Tipo) values(1);
 insert into tbPerfil(Tipo) values(2);
 insert into tbPerfil(Tipo) values(3);
+
+select * from tbPerfil;
 
 CREATE TABLE tbCEP(
 Id_CEP INT PRIMARY KEY auto_increment,
@@ -55,7 +54,7 @@ CONSTRAINT FK_Id_CEP FOREIGN KEY(Id_CEP) REFERENCES tbCEP(Id_CEP)
 CREATE TABLE tbPedido(
 Id_Pedido INT PRIMARY KEY auto_increment,
 Tipo ENUM('Retirada','Entrega') NOT NULL,
-Stats ENUM('Finalizado','Preparando','Cancelado') NOT NULL,
+Stats ENUM('Pendente', 'Preparando', 'Finalizado', 'Em Entrega', 'Entregue', 'Cancelado') NOT NULL,
 SubTotal DECIMAL(10,2),
 Total DECIMAL(10,2),
 DataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -304,6 +303,245 @@ CALL insertTbOpcao_Personalizacao(3, 'Achocolatado', 4.90, 'Tradicional');
 
 select * from tbOpcao_Personalizacao;
 
+-- PEDIDOS
+delimiter $$
+create procedure criarPedido(
+    vTipo enum('Retirada', 'Entrega'),
+    vStats varchar(75),
+    vFrete decimal(10,2),
+    vId_Usuario int
+)
+begin
+
+    -- CRIAR O PEDIDO COM OS VALORES INICIAIS
+    insert into tbPedido(Tipo, Stats, SubTotal, Total, Frete, Id_Usuario)
+		values(vTipo, vStats, 0, vFrete, vFrete, vId_Usuario);
+
+    -- RETORNAR O ID DO PEDIDO CRIADO
+    select last_insert_id() as Id_Pedido;
+end $$
+delimiter ;
+
+delimiter $$
+create procedure inserirItemPedido(
+    vId_Pedido int,
+    vId_Produto int,
+    vQuantidade smallint
+)
+begin
+    declare vPreco decimal(10,2);
+
+    -- BUSCAR O PREÇO-BASE DO PRODUTO
+    select Preco into vPreco from tbProduto where Id_Produto = vId_Produto;
+
+    -- INSERIR O ITEM NO PEDIDO
+    insert into tbItem_Pedido(Preco_Unitario, Quantidade, Id_Pedido, Id_Produto)
+		values (vPreco, vQuantidade, vId_Pedido, vId_Produto);
+        
+	-- RETORNAR O ID DO ITEM CRIADO
+    select last_insert_id() as Id_Item;
+end $$
+delimiter ;
+
+delimiter $$
+create procedure atualizarTotalPedido(
+    vId_Pedido int
+)
+begin
+
+    -- CALCULAR O SUBTOTAL DOS ITENS E PERSONALIZAÇÕES
+    update tbPedido
+    set SubTotal = (
+        select coalesce(sum(
+            (ip.Preco_Unitario + coalesce(op.Extras, 0))
+            * ip.Quantidade
+        ), 0)
+        from tbItem_Pedido as ip
+        left join (
+            select
+                Id_Item,
+                sum(Preco) as Extras
+            from tbItemPedido_Opcao
+            group by Id_Item
+        )
+        as op
+            on op.Id_Item = ip.Id_Item
+        where ip.Id_Pedido = vId_Pedido
+    )
+    where Id_Pedido = vId_Pedido;
+
+    -- CALCULAR O TOTAL COM O FRETE
+    update tbPedido set Total = SubTotal + Frete where Id_Pedido = vId_Pedido;
+end $$
+delimiter ;
+
+delimiter $$
+create procedure inserirOpcaoItemPedido(
+    vId_Item int,
+    vId_Opcao int
+)
+begin
+    declare vPreco decimal(10,2) default null;
+
+    -- BUSCAR O PREÇO E VALIDAR A CATEGORIA
+    select op.Preco_Extra into vPreco from tbOpcao_Personalizacao as op
+    inner join tbItem_Pedido as ip
+        on ip.Id_Item = vId_Item
+    inner join tbProduto as p
+        on p.Id_Produto = ip.Id_Produto
+    where op.Id_Opcao = vId_Opcao
+      and op.Id_Categoria = p.Id_Categoria;
+
+    -- IMPEDIR OPÇÕES INEXISTENTES OU DE OUTRA CATEGORIA
+    if vPreco is null then
+        signal sqlstate '45000'
+            set message_text = 'Opcao invalida para a categoria do produto.';
+    end if;
+
+    -- REGISTRAR A OPÇÃO ESCOLHIDA
+    insert into tbItemPedido_Opcao(Id_Opcao, Id_Item, Preco)
+		values(vId_Opcao, vId_Item, vPreco);
+        
+
+end $$
+delimiter ;
+
+
+-- ==========================================
+-- 1. CONSULTAR OS PRODUTOS E SUAS CATEGORIAS
+-- ==========================================
+select
+    Id_Produto,
+    Nome,
+    Preco,
+    Id_Categoria
+from tbProduto;
+
+
+-- ==========================================
+-- 2. CONSULTAR AS OPÇÕES E SUAS CATEGORIAS
+-- ==========================================
+select
+    Id_Opcao,
+    Tipo,
+    Opcao,
+    Preco_Extra,
+    Id_Categoria
+from tbOpcao_Personalizacao;
+
+
+-- ==========================================
+-- 3. CRIAR UM PEDIDO DE TESTE
+-- ==========================================
+call criarPedido('Retirada', 'Pendente', 0.00, 1);
+
+
+-- ==========================================
+-- 4. CONSULTAR O ID DO PEDIDO CRIADO
+-- ==========================================
+select *
+from tbPedido;
+order by Id_Pedido desc
+limit 1;
+
+
+-- ==========================================
+-- 5. INSERIR UM ITEM NO PEDIDO
+-- SUBSTITUA OS IDS PELOS VALORES CORRETOS
+-- ==========================================
+call inserirItemPedido(2, 1, 1);
+call inserirItemPedido(2, 2, 1);
+
+-- ==========================================
+-- 6. CONSULTAR O ITEM INSERIDO
+-- ==========================================
+select *
+from tbItem_Pedido
+where Id_Pedido = 2
+order by Id_Item desc;
+
+
+-- ==========================================
+-- 7. INSERIR UMA OPÇÃO DE PERSONALIZAÇÃO
+-- USE UMA OPÇÃO DA MESMA CATEGORIA DO PRODUTO
+-- ==========================================
+call inserirOpcaoItemPedido(1, 3);
+call inserirOpcaoItemPedido(2, 6);
+call inserirOpcaoItemPedido(3, 6);
+
+-- ==========================================
+-- 8. CONFERIR A OPÇÃO VINCULADA AO ITEM
+-- ==========================================
+select
+    ip.Id_Item,
+    p.Nome as Produto,
+    op.Tipo,
+    op.Opcao as Personalizacao,
+    ipo.Preco as Preco_Extra
+from tbItemPedido_Opcao as ipo
+inner join tbItem_Pedido as ip
+    on ip.Id_Item = ipo.Id_Item
+inner join tbProduto as p
+    on p.Id_Produto = ip.Id_Produto
+inner join tbOpcao_Personalizacao as op
+    on op.Id_Opcao = ipo.Id_Opcao
+where ip.Id_Pedido = 2;
+
+-- ==========================================
+-- 9. TESTAR UMA OPÇÃO DE OUTRA CATEGORIA
+-- ESTA CHAMADA DEVE RETORNAR UM ERRO
+-- ==========================================
+
+
+-- ==========================================
+-- 10. ATUALIZAR O SUBTOTAL E O TOTAL DO PEDIDO
+-- ==========================================
+
+call atualizarTotalPedido(2);
+
+-- ==========================================
+-- 11. CONFERIR OS VALORES FINAIS
+-- ==========================================
+
+select
+    Id_Pedido,
+    SubTotal,
+    Frete,
+    Total
+from tbPedido
+where Id_Pedido = 2;
+
+
+-- ==========================================
+-- 12. CONFERIR TODOS OS ITENS DO PEDIDO
+-- ==========================================
+
+select
+    ip.Id_Item,
+    p.Nome as Produto,
+    ip.Preco_Unitario,
+    ip.Quantidade,
+    coalesce(sum(ipo.Preco), 0) as Total_Personalizacoes,
+    (ip.Preco_Unitario + coalesce(sum(ipo.Preco), 0))
+        * ip.Quantidade as Total_Item
+from tbItem_Pedido as ip
+inner join tbProduto as p
+    on p.Id_Produto = ip.Id_Produto
+left join tbItemPedido_Opcao as ipo
+    on ipo.Id_Item = ip.Id_Item
+where ip.Id_Pedido = 2
+group by
+    ip.Id_Item,
+    p.Nome,
+    ip.Preco_Unitario,
+    ip.Quantidade;
+
+ 
+select * from tbOpcao_Personalizacao;
+select * from tbProduto;
+select * from tbCategoria;
+select * from tbPedido;
+select * from tbItem_Pedido;
 
 
 
@@ -487,6 +725,70 @@ delimiter ;
 
 select * from tbOpcao_Personalizacao; 
 call buscarOpcoesPersonalizacaoPorProduto('1');
+
+
+DELIMITER $$
+CREATE PROCEDURE selectTbPedidos()
+BEGIN
+
+    SELECT
+        -- DADOS DO PEDIDO
+        pe.Id_Pedido,
+        pe.Tipo,
+        pe.Stats,
+        pe.SubTotal,
+        pe.Frete,
+        pe.Total,
+        -- pe.Id_Usuario,
+
+        -- DADOS DO ITEM DO PEDIDO
+        -- ip.Id_Item,
+        ip.Quantidade,
+        ip.Preco_Unitario,
+
+        -- DADOS DO PRODUTO
+        -- p.Id_Produto,
+        p.Nome AS Nome_Produto,
+        -- p.Descricao AS Descricao_Produto,
+        p.Tamanho,
+        p.Imagem,
+
+        -- DADOS DA CATEGORIA
+        -- c.Id_Categoria,
+        c.Categoria,
+
+        -- DADOS DA PERSONALIZACAO
+        -- op.Id_Opcao,
+        op.Opcao AS Nome_Opcao,
+        op.Tipo AS Tipo_Personalizacao,
+        ipo.Preco AS Preco_Personalizacao
+
+    FROM tbPedido AS pe
+
+    INNER JOIN tbItem_Pedido AS ip
+        ON pe.Id_Pedido = ip.Id_Pedido
+
+    INNER JOIN tbProduto AS p
+        ON ip.Id_Produto = p.Id_Produto
+
+    INNER JOIN tbCategoria AS c
+        ON p.Id_Categoria = c.Id_Categoria
+
+    LEFT JOIN tbItemPedido_Opcao AS ipo
+        ON ip.Id_Item = ipo.Id_Item
+
+    LEFT JOIN tbOpcao_Personalizacao AS op
+        ON ipo.Id_Opcao = op.Id_Opcao
+
+    ORDER BY
+        pe.Id_Pedido DESC,
+        ip.Id_Item,
+        op.Id_Opcao;
+
+END $$
+DELIMITER ;
+
+call selectTbPedidos();
 
 /*
 --------------------------------------------------------------------------------------------

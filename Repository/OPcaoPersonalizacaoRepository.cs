@@ -64,5 +64,10 @@ namespace Discoffee.Repository
         {
             throw new NotImplementedException();
         }
+
+        public void InserirOpcaoPedido(OpcaoPersonalizacao opcao, int idPedido)
+        {
+            
+        }
     }
 }

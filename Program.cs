@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// builder.Services.AddDistributedMemoryCache();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -47,7 +49,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+// app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 

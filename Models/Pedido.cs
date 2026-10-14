@@ -16,7 +16,6 @@ namespace Discoffee.Models
         [Display(Name = "IdProduto", Description = "Identificador do produto.")]
         [Required(ErrorMessage = "O identificador do produto é obrigatório.")]
         public int ProdutoId { get; set; }
-        public Produto Produto { get; set; }
 
         [Display(Name = "Subtotal", Description = "Subtotal do pedido.")]
         [Required(ErrorMessage = "O subtotal é obrigatório.")]
@@ -28,10 +27,10 @@ namespace Discoffee.Models
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Total inválido. Use até 2 casas decimais.")]
         public decimal Total { get; set; }
 
-        [Display(Name = "Quantidade", Description = "Quantidade de produtos.")]
-        [Required(ErrorMessage = "A quantidade de produtos é obrigatória.")]
-        [RegularExpression(@"^[1-9]\d*$", ErrorMessage = "Quantidade de produtos deve ser maior que zero.")]
-        public int QuantidadeProduto { get; set; }
+        [Display(Name = "Frete", Description = "Frete do pedido.")]
+        [Required(ErrorMessage = "O frete é obrigatório.")]
+        [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Frete inválido. Use até 2 casas decimais.")]
+        public decimal Frete { get; set; }
         
         [Display(Name = "Status", Description = "Status do pedido.")]
         public StatusPedido Status { get; set; }
@@ -41,14 +40,5 @@ namespace Discoffee.Models
 
         [Display(Name = "IdUsuario", Description = "Identificador do usuário.")]
         public int UsuarioId { get; set; }
-
-        [Display(Name = "Usuário", Description = "Usuário que fez o pedido.")]
-        public Usuario Usuario { get; set; }
-
-        [Display(Name = "IdPagamento", Description = "Identificador do pagamento.")]
-        public int PagamentoId { get; set; }
-
-        [Display(Name = "Pagamento", Description = "Pagamento do pedido.")]
-        public Pagamento Pagamento { get; set; }
     }
 }
