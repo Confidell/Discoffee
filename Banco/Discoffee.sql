@@ -78,7 +78,7 @@ CONSTRAINT FK_Id_Categoria_Produto FOREIGN KEY(Id_Categoria) REFERENCES tbCatego
 CREATE TABLE tbAvaliacao(
 Id_Avaliacao INT PRIMARY KEY auto_increment,
 Comentario VARCHAR(100) NOT NULL,
-Nota INT CHECK (Nota BETWEEN 1 AND 5) NOT NULL,
+Nota INT CHECK(Nota BETWEEN 1 AND 5) NOT NULL,
 DataAval DATETIME DEFAULT CURRENT_TIMESTAMP,
 Id_Produto INT,
 Id_Usuario INT,
@@ -730,35 +730,30 @@ call buscarOpcoesPersonalizacaoPorProduto('1');
 DELIMITER $$
 CREATE PROCEDURE selectTbPedidos()
 BEGIN
-
     SELECT
-        -- DADOS DO PEDIDO
-        pe.Id_Pedido,
+        -- PEDIDO
+        pe.Id_Pe
+        dido,
+        pe.DataHora,
         pe.Tipo,
         pe.Stats,
         pe.SubTotal,
         pe.Frete,
         pe.Total,
-        -- pe.Id_Usuario,
+        pe.Id_Usuario,
 
-        -- DADOS DO ITEM DO PEDIDO
-        -- ip.Id_Item,
+        -- ITEM
+        ip.Id_Item,
+        ip.Id_Produto,
         ip.Quantidade,
         ip.Preco_Unitario,
 
-        -- DADOS DO PRODUTO
-        -- p.Id_Produto,
+        -- PRODUTO
         p.Nome AS Nome_Produto,
-        -- p.Descricao AS Descricao_Produto,
         p.Tamanho,
-        p.Imagem,
 
-        -- DADOS DA CATEGORIA
-        -- c.Id_Categoria,
-        c.Categoria,
-
-        -- DADOS DA PERSONALIZACAO
-        -- op.Id_Opcao,
+        -- PERSONALIZAÇÃO
+        op.Id_Opcao,
         op.Opcao AS Nome_Opcao,
         op.Tipo AS Tipo_Personalizacao,
         ipo.Preco AS Preco_Personalizacao
@@ -771,9 +766,6 @@ BEGIN
     INNER JOIN tbProduto AS p
         ON ip.Id_Produto = p.Id_Produto
 
-    INNER JOIN tbCategoria AS c
-        ON p.Id_Categoria = c.Id_Categoria
-
     LEFT JOIN tbItemPedido_Opcao AS ipo
         ON ip.Id_Item = ipo.Id_Item
 
@@ -784,7 +776,6 @@ BEGIN
         pe.Id_Pedido DESC,
         ip.Id_Item,
         op.Id_Opcao;
-
 END $$
 DELIMITER ;
 

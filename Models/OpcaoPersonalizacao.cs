@@ -6,7 +6,7 @@ namespace Discoffee.Models
     public class OpcaoPersonalizacao
     {
         [Display(Name = "IdOpcao", Description = "Código da opção de personalização.")]
-        public int IdOpcao { get; set; }
+        public int? IdOpcao { get; set; }
 
         [Display(Name = "Tipo", Description = "Tipo da opção de personalização.")]
         public TipoOpcao Tipo { get; set; }
@@ -22,9 +22,6 @@ namespace Discoffee.Models
         public decimal PrecoExtra { get; set; }
 
         [Display(Name = "CategoriaId", Description = "Código da categoria.")]
-        public int CategoriaId { get; set; }
-
-        [Display(Name = "Categoria", Description = "Categoria associada à opção de personalização.")]
-        public Categoria Categoria { get; set; }
+        public int? CategoriaId { get; set; }
     }
 }
