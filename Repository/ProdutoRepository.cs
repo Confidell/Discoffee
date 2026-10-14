@@ -13,6 +13,7 @@ namespace Discoffee.Repository
             _conexaoMySQL = conf.GetConnectionString("ConexaoMySQL");
         }
 
+        // CADASTRA UM NOVO PRODUTO NO BANCO DE DADOS.
         public void AdicionarProduto(Produto produto)
         {
             using (var conexao = new MySqlConnection(_conexaoMySQL))
@@ -36,6 +37,7 @@ namespace Discoffee.Repository
             }
         }
 
+        // BUSCA UM PRODUTO PELO SEU ID E RETORNA SEUS DADOS.
         public Produto BuscarProdutoPorId(int id)
         {
             using (var conexao = new MySqlConnection(_conexaoMySQL))
@@ -88,6 +90,7 @@ namespace Discoffee.Repository
             return null;
         }
 
+        // BUSCA TODOS OS PRODUTOS CADASTRADOS NO BANCO DE DADOS.
         public List<Produto> BuscarTodos()
         {
             var produtos = new List<Produto>();
@@ -127,6 +130,7 @@ namespace Discoffee.Repository
             return produtos;
         }
 
+        // ATUALIZA OS DADOS DE UM PRODUTO EXISTENTE NO BANCO DE DADOS.
         public void EditarProduto(Produto produto)
         {
             using (var conexao = new MySqlConnection(_conexaoMySQL))
@@ -164,20 +168,25 @@ namespace Discoffee.Repository
 
         }
 
-        public void ExcluirProduto(int id)
-        {
-            using (var conexao = new MySqlConnection(_conexaoMySQL))
-            {
-                conexao.Open();
-                const string sql = "UPDATE tbProduto SET Disponibilidade = 0 WHERE Id_Produto = @Id;";
-                using (var cmd = new MySqlCommand(sql, conexao))
-                {
-                    cmd.Parameters.AddWithValue("@Id", id);
-                    cmd.ExecuteNonQuery();
-                }
-            }
-        }
+        //MODIFIQUEI DE EXCLUIR PARA DISPONIBILIDADE
 
+        // DESATIVA A DISPONIBILIDADE DO PRODUTO SEM REMOVÊ-LO DO BANCO DE DADOS.
+
+        //public void DisponibilidadeProduto(int id)
+        //{
+        //    using (var conexao = new MySqlConnection(_conexaoMySQL))
+        //    {
+        //        conexao.Open();
+        //        const string sql = "UPDATE tbProduto SET Disponibilidade = 0 WHERE Id_Produto = @Id;";
+        //        using (var cmd = new MySqlCommand(sql, conexao))
+        //        {
+        //            cmd.Parameters.AddWithValue("@Id", id);
+        //            cmd.ExecuteNonQuery();
+        //        }
+        //    }
+        //}
+
+        // OBTÉM O ID DE UMA CATEGORIA OU CRIA A CATEGORIA E RETORNA SEU ID.
         private int ObterOuCriarCategoriaId(string? nomeCategoria, MySqlConnection conexaoAberta)
         {
             using (var cmd = new MySqlCommand("insertTbCategoria", conexaoAberta))

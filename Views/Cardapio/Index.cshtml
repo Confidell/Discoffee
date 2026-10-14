@@ -1,7 +1,9 @@
-﻿@model IEnumerable<Discoffee.Models.Produto>
+﻿@* DEFINE A LISTA DE PRODUTOS RECEBIDA PELA PÁGINA. *@
+@model IEnumerable<Discoffee.Models.Produto>
 @{
     ViewData["Title"] = "Cardápio";
 
+    // RETORNA OS PRODUTOS DISPONÍVEIS DA CATEGORIA INFORMADA.
     IEnumerable<Discoffee.Models.Produto> De(string categoria) =>
         Model.Where(p => p.Disponibilidade && p.Categoria.NomeCategoria == categoria);
 }
@@ -64,9 +66,11 @@
             <hr />
         </div>
 
+        @*EXIBE OS PRODUTOS DA CATEGORIA TRADICIONAL.*@
         <div class="lista-produtos">
             @foreach (var p in De("Tradicional"))
             {
+                @*RENDERIZA O CARD E O MODAL DE CADA PRODUTO.*@
                 <partial name="_CardProduto" model="p" />
                 <partial name="_ModalProduto" model="p" />
             }
@@ -77,9 +81,11 @@
             <hr />
         </div>
 
+        @*EXIBE OS PRODUTOS DA CATEGORIA DRINK.*@
         <div class="lista-produtos">
             @foreach (var p in De("Drink"))
             {
+                @*RENDERIZA O CARD E O MODAL DE CADA PRODUTO.*@
                 <partial name="_CardProduto" model="p" />
                 <partial name="_ModalProduto" model="p" />
             }
@@ -102,10 +108,11 @@
             <hr />
         </div>
 
-        
+        @*EXIBE OS PRODUTOS DA CATEGORIA DOCE.*@
         <div class="lista-produtos">
             @foreach (var p in De("Doce"))
             {
+                @*RENDERIZA O CARD E O MODAL DE CADA PRODUTO.*@
                 <partial name="_CardProduto" model="p" />
                 <partial name="_ModalProduto" model="p" />
             }
@@ -116,10 +123,11 @@
             <hr />
         </div>
 
-        
+        @*EXIBE OS PRODUTOS DA CATEGORIA SALGADO.*@
         <div class="lista-produtos">
             @foreach (var p in De("Salgado"))
             {
+                @*RENDERIZA O CARD E O MODAL DE CADA PRODUTO.*@
                 <partial name="_CardProduto" model="p" />
                 <partial name="_ModalProduto" model="p" />
             }
@@ -142,9 +150,11 @@
             <hr />
         </div>
 
+        @*EXIBE OS PRODUTOS DA CATEGORIA REFRESCO.*@
         <div class="lista-produtos">
             @foreach (var p in De("Refresco"))
             {
+                @*RENDERIZA O CARD E O MODAL DE CADA PRODUTO.*@
                 <partial name="_CardProduto" model="p" />
                 <partial name="_ModalProduto" model="p" />
             }
@@ -155,10 +165,11 @@
             <hr />
         </div>
 
-        
+        @*EXIBE OS PRODUTOS DA CATEGORIA SHAKE.*@
         <div class="lista-produtos">
             @foreach (var p in De("Shake"))
             {
+                @*RENDERIZA O CARD E O MODAL DE CADA PRODUTO.*@
                 <partial name="_CardProduto" model="p" />
                 <partial name="_ModalProduto" model="p" />
             }

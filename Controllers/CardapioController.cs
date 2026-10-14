@@ -14,6 +14,7 @@ namespace Discoffee.Controllers
             _opcaoPersonalizacaoRepository = opcaoPersonalizacaoRepository;
         }
 
+        // EXIBE O CARDÁPIO COM TODOS OS PRODUTOS CADASTRADOS.
         public IActionResult Index()
         {
             var produtos = _produtoRepository.BuscarTodos();
@@ -21,7 +22,7 @@ namespace Discoffee.Controllers
         }
 
 
-
+        // BUSCA AS OPÇÕES DE PERSONALIZAÇÃO DE UMA CATEGORIA E RETORNA A VIEW PARCIAL.
         [HttpGet]
         public IActionResult BuscarOpcoesProduto(int idCategoria)
         {

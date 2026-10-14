@@ -29,6 +29,7 @@ namespace Discoffee.Repository
             throw new NotImplementedException();
         }
 
+        // BUSCA AS OPÇÕES DE PERSONALIZAÇÃO DISPONÍVEIS PARA UMA CATEGORIA.
         public List<OpcaoPersonalizacao> BuscarOpcoesPorCategoria(int idCategoria)
         {
             var opcoes = new List<OpcaoPersonalizacao>();
