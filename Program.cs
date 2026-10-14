@@ -1,10 +1,14 @@
 using Discoffee.Repository;
 using Discoffee.Repository.Contract;
+using Discoffee.Sessao;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// builder.Services.AddDistributedMemoryCache();
+// Configuração da Session
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -12,6 +16,9 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IOpcaoPersonalizacaoRepository, OpcaoPersonalizacaoRepository>();
+
+// Registra a classe que gernecia o carrinho
+builder.Services.AddScoped<SessaoItemPedido>();
 
 // Autenticação
 builder.Services
@@ -49,7 +56,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-// app.UseSession();
+
+// Sessions deve ir antes dos endpoints
+app.UseSession();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

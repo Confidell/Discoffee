@@ -39,7 +39,7 @@ namespace Discoffee.Repository
             throw new NotImplementedException();
         }
 
-        public List<Cartao> BuscarTodos()
+        public List<Cartao> BuscarTodosPorUsuario()
         {
             var cartao = new List<Cartao>();
 

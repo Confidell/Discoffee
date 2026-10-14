@@ -7,6 +7,6 @@ namespace Discoffee.Repository.Contract
         void AdicionarCartao(Cartao cartao);
         void EditarCartao(Cartao cartao);
         Cartao BuscarCartaoPorId(int id);
-        List<Cartao> BuscarTodos();
+        List<Cartao> BuscarTodosPorUsuario();
     }
 }
