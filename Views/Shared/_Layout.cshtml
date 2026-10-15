@@ -30,69 +30,98 @@
 
     @if(!ocultarLayout)
     {
-        <header style="@(area == "Cliente" ? "background: var(--cinza-escuro)" : "")">
-            <div style="display: flex; align-items: center; gap: 2rem;">
-                <h1 class="titulo">
-                    DISCOFFEE
-                </h1>
+        if (isGerencia)
+        {
+            <div class="container-gerencia"> 
+                <header class="header-gerencia">
+                    <h2>DISCOFFEE - Área do Administrador</h2>
+
+                    <div class="nome-funcao">
+                        <h3>@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</h3>
+                        <h4>Administrador</h4>
+                    </div>
+                    <button><img src="/Assets/Icons/Icon_SetaBaixo.png" /></button>
+                </header>
+
+                <div class="menu">
+                    <a asp-controller="Dashboard" asp-action="Index" class="@(controller == "Dashboard" ? "ativo" : "")">Dashboard</a>
+                    <a asp-controller="Produtos" asp-action="Index" class="@(controller == "Produtos" ? "ativo" : "")">Produtos</a>
+                    <a asp-controller="Pedidos" asp-action="Index" class="@(controller == "Pedidos" ? "ativo" : "")">Pedidos</a>
+                    <a asp-controller="Usuarios" asp-action="Index" class="@(controller == "Usuarios" ? "ativo" : "")">Usuários</a>
+                </div>
+            </div>
+            
+        }
+
+        else
+        {
+            <header style="@(area == "Cliente" ? "background: var(--cinza-escuro)" : "")">
+                <div style="display: flex; align-items: center; gap: 2rem;">
+                    <h1 class="titulo">
+                        DISCOFFEE
+                    </h1>
 
 
-                @if(autenticado){
-                    <div class="perfil">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill icone-perfil" viewBox="0 0 16 16">
-                            <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
-                        </svg>
+                    @if (autenticado)
+                    {
+                        <div class="perfil">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill icone-perfil" viewBox="0 0 16 16">
+                                <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                            </svg>
 
-                        <div class="textos">
-                            <span class="boas-vindas">@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</span>
-                            <a asp-area="" asp-controller="Conta" asp-action="Logout" asp class="logout" style="  color: var(--laranja);font-size: .8rem;">
-                                Sair
+                            <div class="textos">
+                                <span class="boas-vindas">@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</span>
+                                <a asp-area="" asp-controller="Conta" asp-action="Logout" asp class="logout" style="  color: var(--laranja);font-size: .8rem;">
+                                    Sair
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                    else
+                    {
+                        <div class="login-btns">
+
+                            <a class="link-btn" asp-controller="Conta" asp-action="Index" asp-route-form="login">
+                                ENTRAR
+                            </a>
+                            <a class="link-btn" asp-controller="Conta" asp-action="Index" asp-route-form="cadastrar">
+                                CADASTRAR
                             </a>
                         </div>
-                    </div>
-                }
-                else{
-                    <div class="login-btns">
+                    }
+                </div>
 
-                        <a class="link-btn" asp-controller="Conta" asp-action="Index" asp-route-form="login">
-                            ENTRAR
-                        </a>
-                        <a class="link-btn" asp-controller="Conta" asp-action="Index" asp-route-form="cadastrar">
-                            CADASTRAR
-                        </a>
-                    </div>
-                }
-            </div>
-
-            <nav>
-                <ul>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">INÍCIO</a></li>
-                    <li><a asp-area="" asp-controller="Cardapio" asp-action="Index">CARDÁPIO</a></li>
-                    <li><a asp-area="Cliente" asp-controller="Pedido" asp-action="Index">MEUS PEDIDOS</a></li>
-                    <li><a asp-area="Cliente" asp-controller="Perfil" asp-action="Index">PERFIL</a></li>
-                    @* @if(autenticado){
+                <nav>
+                    <ul>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">INÍCIO</a></li>
+                        <li><a asp-area="" asp-controller="Cardapio" asp-action="Index">CARDÁPIO</a></li>
+                        <li><a asp-area="Cliente" asp-controller="Pedido" asp-action="Index">MEUS PEDIDOS</a></li>
+                        <li><a asp-area="Cliente" asp-controller="Perfil" asp-action="Index">PERFIL</a></li>
+                        @* @if(autenticado){
                         <li><a href="">MEUS PEDIDOS</a></li>
                         <li><a href="">PERFIL</a></li>
                     } *@
-                    <li><a href="">COLEÇÃO</a></li>
-                    <li><a href="">CONTATO</a></li>
-                    <a asp-area="" asp-controller="Carrinho" asp-action="Index" style="color: var(--branco);">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-fill icon-sacola" style="color: var(--branco);" viewBox="0 0 16 16">
-                            <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z"/>
-                        </svg>
-                    </a>
-                </ul>
+                        <li><a href="">COLEÇÃO</a></li>
+                        <li><a href="">CONTATO</a></li>
+                        <a asp-area="" asp-controller="Carrinho" asp-action="Index" style="color: var(--branco);">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-bag-fill icon-sacola" style="color: var(--branco);" viewBox="0 0 16 16">
+                                <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4z" />
+                            </svg>
+                        </a>
+                    </ul>
 
-                <hr>
+                    <hr>
 
-                <div class="redes-sociais">
-                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_Instagram.svg" alt="Instagram"/></a>
-                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_Linkedin.svg" alt="LinkedIn"/></a>
-                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_Spotify.svg" alt="Spotify"/></a>
-                    <a class="icon" href=""><img src="~/Assets/Icons/Icon_YouTube.svg" alt="YouTube"/></a>
-                </div>
-            </nav>
-        </header>
+                    <div class="redes-sociais">
+                        <a class="icon" href=""><img src="~/Assets/Icons/Icon_Instagram.svg" alt="Instagram" /></a>
+                        <a class="icon" href=""><img src="~/Assets/Icons/Icon_Linkedin.svg" alt="LinkedIn" /></a>
+                        <a class="icon" href=""><img src="~/Assets/Icons/Icon_Spotify.svg" alt="Spotify" /></a>
+                        <a class="icon" href=""><img src="~/Assets/Icons/Icon_YouTube.svg" alt="YouTube" /></a>
+                    </div>
+                </nav>
+            </header>
+        }
     }
 
     @* EXIBE UM POPUP PARA CADA ERRO *@
@@ -135,7 +164,7 @@
         </main>
     </div>
 
-    @if(!ocultarLayout)
+    @if (!ocultarLayout && !isGerencia)
     {
         <footer>
             <section class="footer-superior">

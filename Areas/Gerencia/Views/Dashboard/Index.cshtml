@@ -1,65 +1,45 @@
 @{
     ViewData["Title"] = "Dashboard";
-    // Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <link rel="stylesheet" href="~/css/dashboard.css" />
 
+<section class="bem-vindo">
+    <img src="~/Assets/Icons/Logo.svg" id="logo">
 
-<header>
-    <h2>DISCOFFEE - Área do Administrador</h2>
-
-    <div class="nome-funcao">
-        <h3>@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</h3>
-        <h4>Administrador</h4>
+    <div class="nome">
+        <h3>Olá, bem-vindo(a) de volta!</h3>
+        <h2>@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</h2>
     </div>
-    <button><img src="/Assets/Icons/Icon_SetaBaixo.png" /></button>
-</header>
 
-<main>
-    <section class="menu">
-        <a asp-controller="Dashboard" asp-action="Index" class="ativo" @*class="(controller == "Dashboard" ? "ativo" : "")"*@>Dashboard</a>
-        <a asp-controller="Produtos" asp-action="Index" @*class="@(controller == "Produtos" ? "ativo" : "")"*@>Produtos</a>
-        <a asp-controller="Pedidos" asp-action="Index" @*@*class="@(controller == "Pedidos" ? "ativo" : "")" *@>Pedidos</a>
-        <a asp-controller="Usuarios" asp-action="Index" @*class="@(controller == "Usuarios" ? "ativo" : "")" *@>Usuários</a>
-    </section>
+    <div class="calendario">
+        <button class="seletor-data" id="btnSeletorData" type="button">
+            <img src="/Assets/Icons/Icon_Calendario.png" alt="" class="icone-calendario" />
+            <span id="textoDataSelecionada">Junho/2026</span>
+            <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
+        </button>
 
-    <section class="bem-vindo">
-        <img src="~/Assets/Icons/Logo.svg" id="logo">
+        @* <div class="dropdown-data" id="dropdownData">
+            <div class="dropdown-navegacao-ano">
+                <button type="button" id="btnAnoAnterior">&lt;</button>
+                <span id="anoAtual">2026</span>
+                <button type="button" id="btnProximoAno">&gt;</button>
+            </div>
+            <div class="dropdown-meses" id="dropdownMeses">
+                
 
-        <div class="nome">
-            <h3>Olá, bem-vindo(a) de volta!</h3>
-            <h2>@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</h2>
-        </div>
+            </div>
+        </div> *@
+    </div>
+</section>
 
-        <div class="calendario">
-            <button class="seletor-data" id="btnSeletorData" type="button">
-                <img src="/Assets/Icons/Icon_Calendario.png" alt="" class="icone-calendario" />
-                <span id="textoDataSelecionada">Junho/2026</span>
-                <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
-            </button>
+<section class="resumo-mensal">
+    <h2>Resumo do mês</h2>
 
-            @* <div class="dropdown-data" id="dropdownData">
-                <div class="dropdown-navegacao-ano">
-                    <button type="button" id="btnAnoAnterior">&lt;</button>
-                    <span id="anoAtual">2026</span>
-                    <button type="button" id="btnProximoAno">&gt;</button>
-                </div>
-                <div class="dropdown-meses" id="dropdownMeses">
-                    
-
-                </div>
-            </div> *@
-        </div>
-    </section>
-
-    <section class="resumo-mensal">
-        <h2>Resumo do mês</h2>
-
-        <div class="graficos">
-            <div class="grafico1"></div>
-            <div class="grafico2"></div>
-        </div>
-        
-    </section>
-</main>
+    <div class="graficos">
+        <div class="grafico1"></div>
+        <div class="grafico2"></div>
+    </div>
+    
+</section>

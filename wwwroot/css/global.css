@@ -25,6 +25,7 @@ header .login-btns{
   justify-content: center;
   gap: 1rem;
 }
+
 header .login-btns .link-btn{
   display: flex;
   align-items: center;
@@ -40,14 +41,17 @@ header .login-btns .link-btn{
   font-weight: 500;
   color: var(--branco);
 }
+
 header .login-btns .link-btn:nth-child(1){
 background-color: var(--laranja);
 scale: 1.05;
 }
+
 header .login-btns:has(.link-btn:nth-child(2):hover) .link-btn:nth-child(1) {
   background-color: transparent;
   scale: 1;
 }
+
 header .login-btns:has(.link-btn:nth-child(2):hover) .link-btn:nth-child(2) {
   background-color: var(--laranja);
   scale: 1.05;
@@ -77,15 +81,18 @@ header .login-btns:has(.link-btn:nth-child(2):hover) .link-btn:nth-child(2) {
   text-decoration: none;
   font-weight: 600;
 }
+
 .botao:hover{
   filter: brightness(120%);
 }
+
 .botao a{
   color: var(--preto);
   font-size: 1.3rem;
   text-decoration: none;
   font-weight: 600;
 }
+
 .botao .icone{
   width: 30px;
   height: 30px;
@@ -103,11 +110,13 @@ header nav ul{
   justify-content: center;
   gap: 1rem;
 }
+
 header nav ul li a{
   font-size: 15px;
   color: var(--branco);
   position: relative;
 }
+
 header nav ul li a::after{
   content: '';
   position: absolute;
@@ -118,6 +127,7 @@ header nav ul li a::after{
   background-color: var(--laranja);
   transition: all .3s ease-in-out;
 }
+
 header nav ul li a:hover::after{
   width: 100%;
 }
@@ -136,10 +146,12 @@ header nav ul li a:hover::after{
   transition: all .5s ease-in;
   opacity: 1;
 }
+
 .popup-erros.ativo {
   opacity: 1;
   transform: translateY(0);
 }
+
 .popup-conteudo {
   background: linear-gradient(135deg, var(--branco) 70%, var(--roxo) 30%);
   border-top-left-radius: 0;
@@ -154,8 +166,8 @@ header nav ul li a:hover::after{
   flex-direction: column;
   position: relative;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.266);
-
 }
+
 .popup-texto{
   display: flex;
   gap: 1rem;
@@ -166,10 +178,12 @@ header nav ul li a:hover::after{
   left: 5%;
   width: 65%;
 }
+
 .popup-texto h3{
   font-size: 1.5rem;
   color: var(--roxo);
 }
+
 .popup-conteudo .botao-fechar {
   width: 25px;
   height: 25px;
@@ -178,4 +192,85 @@ header nav ul li a:hover::after{
   top: 10%;
   right: 3%;
   color: var(--branco);
+}
+
+/*HEADER DA ÁREA GERENCIA*/
+.header-gerencia {
+    background: var(--cinza-claro);
+    color: var(--branco);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    margin: 0;
+    
+}
+
+.header-gerencia h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.nome-funcao {
+    text-align: right;
+    margin-left: auto;
+    margin-right: 0.8rem;
+}
+
+.nome-funcao h3 {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.nome-funcao h4 {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 400;
+    opacity: 0.6;
+}
+
+.header-gerencia button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.header-gerencia button img {
+    width: 16px;
+}
+
+.menu {
+    display: flex;
+    justify-content: space-between;
+    gap: 5rem;
+    width: 88%;
+    height: 80px;
+    background: var(--branco-escuro);
+    margin: 60px auto 0;
+    padding: 1rem 2rem;
+    align-items: center;
+    box-shadow: 0 0 5px 0px var(--cinza-claro);
+    border-radius: 20px;
+}
+
+.menu a.ativo {
+    text-decoration: none;
+    padding: 1.3rem 3.5rem;
+    border-radius: 20px;
+    background: var(--roxo);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+    display: flex;
+    height: 65px;
+}
+
+.menu a {
+    display: flex;
+    font-weight: 500;
+    font-size: 1.8rem;
+    color: var(--cinza-escuro);
+    text-align: center;
+    align-items: center;
 }
