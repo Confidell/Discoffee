@@ -4,6 +4,7 @@ using Discoffee.Repository.Contract;
 using Microsoft.AspNetCore.Mvc;
 using Discoffee.Sessao;
 using ZstdSharp.Unsafe;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Discoffee.Controllers
 {
@@ -50,31 +51,43 @@ namespace Discoffee.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // [HttpPost]
-        // public IActionResult FinalizarCompra(Pedido pedido)
-        // {
-        //     // 1. Criar o pedido
-        //     int idPedido = _pedidoRepository.CriarPedido(pedido);
+        [HttpPost]
+        public void FinalizarCompra([FromBody] Pedido pedido)
+        {
+            Console.WriteLine($"PEDIDO RECEBIDO: {pedido}");
+            // 1. Criar o pedido
+            int idPedido = _pedidoRepository.CriarPedido(pedido);
 
-        //     // 2. Percorrer os produtos do carrinho
-        //     foreach (var item in itens)
-        //     {
-        //         // 3. Inserir o produto e capturar seu Id_Item
-        //         int idItem = _pedidoRepository.InserirItemPedido(
-        //             idPedido,
-        //             item.IdProduto,
-        //             item.Quantidade
-        //         );
+            // 2. Percorrer os produtos do carrinho
+            foreach (var item in pedido.Itens)
+            {
+                var itemPedido = new ItemPedidoViewModel
+                {
+                    IdPedido = idPedido,
+                    IdProduto = item.IdProduto,
+                    Quantidade = item.Quantidade
+                };
 
-        //         // 4. Inserir as personalizações desse produto
-        //         foreach (var idOpcao in item.Opcoes)
-        //         {
-        //             _pedidoRepository.InserirOpcaoItemPedido(idItem, idOpcao);
-        //         }
-        //     }
+                // 3. Inserir o produto e capturar seu Id_Item
+                int idItem = _pedidoRepository.InserirItemPedido(
+                    itemPedido
+                );
 
-        //     // 5. Recalcular o subtotal e o total do pedido
-        //     _pedidoRepository.AtualizarTotalPedido(idPedido);
-        // }
+                // 4. Inserir as personalizações desse produto
+                foreach (var opcao in item.Opcoes)
+                {
+                    var opcaoItem = new OpcaoPedidoViewModel
+                    {
+                        IdItem = idItem,
+                        IdOpcao = opcao.IdOpcao
+                    };
+
+                    _pedidoRepository.InserirOpcaoItemPedido(opcaoItem);
+                }
+            }
+
+            // 5. Recalcular o subtotal e o total do pedido
+            _pedidoRepository.AtualizarTotalPedido(idPedido);
+        }
     }
 }

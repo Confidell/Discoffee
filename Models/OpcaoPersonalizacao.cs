@@ -6,7 +6,7 @@ namespace Discoffee.Models
     public class OpcaoPersonalizacao
     {
         [Display(Name = "IdOpcao", Description = "Código da opção de personalização.")]
-        public int? IdOpcao { get; set; }
+        public int IdOpcao { get; set; }
 
         [Display(Name = "Tipo", Description = "Tipo da opção de personalização.")]
         public TipoOpcao Tipo { get; set; }

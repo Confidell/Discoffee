@@ -306,8 +306,8 @@ select * from tbOpcao_Personalizacao;
 -- PEDIDOS
 delimiter $$
 create procedure criarPedido(
-    vTipo enum('Retirada', 'Entrega'),
-    vStats varchar(75),
+    vTipo int,
+    vStats int,
     vFrete decimal(10,2),
     vId_Usuario int
 )
@@ -457,7 +457,7 @@ call inserirItemPedido(2, 2, 1);
 -- ==========================================
 select *
 from tbItem_Pedido
-where Id_Pedido = 2
+where Id_Pedido = 3
 order by Id_Item desc;
 
 
@@ -485,7 +485,7 @@ inner join tbProduto as p
     on p.Id_Produto = ip.Id_Produto
 inner join tbOpcao_Personalizacao as op
     on op.Id_Opcao = ipo.Id_Opcao
-where ip.Id_Pedido = 2;
+where ip.Id_Pedido = 3;
 
 -- ==========================================
 -- 9. TESTAR UMA OPÇÃO DE OUTRA CATEGORIA
@@ -509,7 +509,7 @@ select
     Frete,
     Total
 from tbPedido
-where Id_Pedido = 2;
+where Id_Pedido = 3;
 
 
 -- ==========================================
@@ -529,7 +529,7 @@ inner join tbProduto as p
     on p.Id_Produto = ip.Id_Produto
 left join tbItemPedido_Opcao as ipo
     on ipo.Id_Item = ip.Id_Item
-where ip.Id_Pedido = 2
+where ip.Id_Pedido = 3
 group by
     ip.Id_Item,
     p.Nome,
@@ -727,38 +727,42 @@ select * from tbOpcao_Personalizacao;
 call buscarOpcoesPersonalizacaoPorProduto('1');
 
 
+
 DELIMITER $$
-CREATE PROCEDURE selectTbPedidos()
+CREATE PROCEDURE buscarTodosPedidos()
 BEGIN
     SELECT
+        -- USUARIO
+        pe.Id_Usuario,
+        us.NomeCompleto,
+        us.CPF,
+
         -- PEDIDO
-        pe.Id_Pe
-        dido,
+        pe.Id_Pedido,
         pe.DataHora,
-        pe.Tipo,
-        pe.Stats,
+        pe.Tipo AS Tipo_Pedido,
+        pe.Stats AS Status_Pedido,
         pe.SubTotal,
         pe.Frete,
         pe.Total,
-        pe.Id_Usuario,
 
         -- ITEM
         ip.Id_Item,
         ip.Id_Produto,
+        p.Nome AS Nome_Produto,
         ip.Quantidade,
         ip.Preco_Unitario,
 
-        -- PRODUTO
-        p.Nome AS Nome_Produto,
-        p.Tamanho,
-
-        -- PERSONALIZAÇÃO
-        op.Id_Opcao,
-        op.Opcao AS Nome_Opcao,
+        -- PERSONALIZACAO
+        ipo.Id_Opcao,
         op.Tipo AS Tipo_Personalizacao,
-        ipo.Preco AS Preco_Personalizacao
+        op.Opcao,
+        ipo.Preco AS Preco_Extra
 
     FROM tbPedido AS pe
+
+    INNER JOIN tbUsuario AS us
+        ON pe.Id_Usuario = us.Id_Usuario
 
     INNER JOIN tbItem_Pedido AS ip
         ON pe.Id_Pedido = ip.Id_Pedido
@@ -779,7 +783,49 @@ BEGIN
 END $$
 DELIMITER ;
 
-call selectTbPedidos();
+call buscarTodosPedidos();
+
+DELIMITER $$
+CREATE PROCEDURE buscarTodosPedidosPorUsuario(vId_Usuario int)
+BEGIN
+	SELECT
+        -- PEDIDO
+        pe.Id_Pedido,
+        pe.DataHora,
+        pe.Tipo AS Tipo_Pedido,
+        pe.Stats AS Status_Pedido,
+        pe.SubTotal,
+        pe.Frete,
+        pe.Total,
+
+        -- ITEM
+        p.Nome AS Nome_Produto,
+        ip.Quantidade,
+        ip.Preco_Unitario,
+
+        -- PERSONALIZACAO
+        op.Tipo AS Tipo_Personalizacao,
+        op.Opcao,
+        ipo.Preco AS Preco_Extra
+
+	FROM tbPedido AS pe
+	INNER JOIN tbItem_Pedido AS ip
+		ON pe.Id_Pedido = ip.Id_Pedido
+	INNER JOIN tbProduto AS p
+		ON ip.Id_Produto = p.Id_Produto
+	LEFT JOIN tbItemPedido_Opcao AS ipo
+		ON ip.Id_Item = ipo.Id_Item
+	LEFT JOIN tbOpcao_Personalizacao AS op
+		ON ipo.Id_Opcao = op.Id_Opcao
+	WHERE pe.Id_Usuario = vId_Usuario
+	ORDER BY
+		pe.Id_Pedido DESC,
+		ip.Id_Item,
+		op.Id_Opcao;
+END $$
+DELIMITER ;
+
+call buscarTodosPedidosPorUsuario(1);
 
 /*
 --------------------------------------------------------------------------------------------
