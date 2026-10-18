@@ -1,0 +1,114 @@
+@model Discoffee.ViewModels.PedidoClienteViewModel
+@{
+    var pt = new System.Globalization.CultureInfo("pt-BR");
+}
+
+<link rel="stylesheet" href="~/css/pop-up-ver-pedido.css" />
+
+<div class="modal-pedido-fundo" id="modalPedido" role="dialog" aria-modal="true" aria-labelledby="pedidoNumero">
+    <div class="modal-pedido">
+
+        <header class="modal-pedido__cabecalho">
+            <div class="pedido-numero" id="pedidoNumero">#@Model.IdPedido</div>
+
+            <div class="pedido-info">
+                <span class="pedido-info__rotulo">Status</span>
+                <span class="pedido-info__valor pedido-info__valor--@Model.Status.ToString().ToUpper()">
+                    <i class="pedido-info__ponto"></i>@Model.Status.ToString().ToUpper()
+                </span>
+            </div>
+
+            <div class="pedido-info">
+                <span class="pedido-info__rotulo">Tipo</span>
+                <span class="pedido-info__valor pedido-info__valor--@Model.Tipo.ToString().ToLower()">
+                    <i class="pedido-info__ponto"></i>@Model.Tipo.ToString().ToUpper()
+                </span>
+            </div>
+
+            <button type="button" class="modal-pedido__fechar" aria-label="Fechar" onclick="fecharModalPedido()">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M5 5l14 14M19 5L5 19" />
+                </svg>
+            </button>
+        </header>
+
+        <section class="modal-pedido__corpo">
+            @foreach (var item in Model.Itens)
+            {
+                <article class="item-pedido">
+                    @* <img class="item-pedido__imagem" src="@Url.Content(item.ImagemUrl)" alt="@item.Nome" /> *@
+
+                    <div class="item-pedido__detalhes">
+                        <h3 class="item-pedido__titulo">@item.NomeProduto</h3>
+                        <p class="item-pedido__preco">
+                            <span>@item.Quantidade x -</span>
+                            <strong>@item.PrecoUnitario.ToString()</strong>
+                        </p>
+
+                        <ul class="item-pedido__ingredientes">
+                            @foreach (var opcao in item.Opcoes)
+                            {
+                                <li>
+                                    <span>+ @opcao.Tipo</span>
+                                    <span>+ @opcao.Opcao</span>
+                                    <span>@opcao.PrecoExtra</span>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </article>
+            }
+        </section>
+
+        <footer class="modal-pedido__rodape">
+            <div class="rodape__valores">
+                <div class="rodape__valor">
+                    <span class="rodape__rotulo">Subtotal</span>
+                    <span class="rodape__numero">@Model.Subtotal.ToString("C", pt)</span>
+                </div>
+                <div class="rodape__valor">
+                    <span class="rodape__rotulo">Frete</span>
+                    <span class="rodape__numero">@Model.Frete.ToString("C", pt)</span>
+                </div>
+                <time class="rodape__data">@Model.DataHora.ToString("dd/MM/yy")</time>
+            </div>
+
+            <hr class="rodape__divisor" />
+
+            <div class="rodape__total-linha">
+                <div class="rodape__valor rodape__valor--total">
+                    <span class="rodape__rotulo">Total</span>
+                    <span class="rodape__total">@Model.Total.ToString("C", pt)</span>
+                </div>
+
+                @* <div class="rodape__pagamento">
+                    <span>Pago via @Model.FormaPagamento</span>
+                    @if (Model.FormaPagamento.ToUpper() == "PIX")
+                    {
+                        <svg class="rodape__icone-pix" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                            <g fill="#32BCAD">
+                                <path d="M12 1.9l4 4a1.4 1.4 0 0 1 0 2l-1.7 1.7a1 1 0 0 1-1.4 0L12 8.7a1.4 1.4 0 0 0-2 0l-.9.9a1 1 0 0 1-1.4 0L6 7.9a1.4 1.4 0 0 1 0-2l4-4a1.4 1.4 0 0 1 2 0z" />
+                                <path d="M12 22.1l-4-4a1.4 1.4 0 0 1 0-2l1.7-1.7a1 1 0 0 1 1.4 0l.9.9a1.4 1.4 0 0 0 2 0l.9-.9a1 1 0 0 1 1.4 0L18 16.1a1.4 1.4 0 0 1 0 2l-4 4a1.4 1.4 0 0 1-2 0z" />
+                                <path d="M1.9 12l1.6-1.6a1 1 0 0 1 1.4 0l1.7 1.7-1.7 1.7a1 1 0 0 1-1.4 0z" />
+                                <path d="M22.1 12l-1.6 1.6a1 1 0 0 1-1.4 0l-1.7-1.7 1.7-1.7a1 1 0 0 1 1.4 0z" />
+                            </g>
+                        </svg>
+                    }
+                </div> *@
+            </div>
+        </footer>
+    </div>
+</div>
+
+@* <script>
+    function fecharModalPedido() {
+        var modal = document.getElementById('modalPedido');
+        if (modal) modal.remove();
+    }
+    document.getElementById('modalPedido').addEventListener('click', function (e) {
+        if (e.target === this) fecharModalPedido();
+    });
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') fecharModalPedido();
+    });
+</script> *@

@@ -16,9 +16,13 @@
         switch (status)
         {
             case StatusPedido.Entregue:
-                return ("FINALIZADO", "status-finalizado");
+                return ("ENTREGUE", "status-finalizado");
             case StatusPedido.Cancelado:
                 return ("CANCELADO", "status-cancelado");
+            case StatusPedido.EmEntrega:
+                return ("EM ROTA", "status-cancelado");
+            case StatusPedido.Finalizado:
+                return ("FINALIZADO", "status-cancelado");
             default:
                 return ("PREPARANDO", "status-preparando");
         }
@@ -33,24 +37,34 @@
         {
             var st = InfoStatus(pedido.Status);
 
+            @*RENDERIZA O CARD E O MODAL DE CADA PRODUTO.*@
+            <partial name="_ModalPedido" model="pedido" />
+
             <div class="card-pedido">
                 <div class="card-topo">
                     <div class="pedido-numero">#@pedido.IdPedido</div>
 
-                    <div class="pedido-info">
-                        <span class="rotulo">Total</span>
-                        <span class="valor">@pedido.Total.ToString("C2")</span>
-                    </div>
+                    <div class="box-pedido-info">
+                        <div class="pedido-info">
+                            <span class="rotulo">Total</span>
+                            <span class="valor">@pedido.Total.ToString("C2")</span>
+                        </div>
 
-                    <div class="pedido-info">
-                        <span class="rotulo">Status</span>
-                        <span class="valor @st.Classe">● @st.Texto</span>
+                        <div class="pedido-info">
+                            <span class="rotulo">Status</span>
+                            <span class="valor @st.Classe">● @st.Texto</span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="card-meio">
-                    @*<span>@pedido.QuantidadeProduto Produtos inclusos</span>*@
-                    <a href="#" title="Ver detalhes">👁</a>
+                    <span>@pedido.Itens.Count Produtos inclusos no pedido</span>
+                    <button title="Ver detalhes">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                        </svg>
+                    </button>
                 </div>
 
                 <div class="card-rodape">

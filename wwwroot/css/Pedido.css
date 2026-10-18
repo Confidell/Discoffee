@@ -12,7 +12,6 @@
     margin-bottom: 40px;
 }
 
-
 .lista-pedidos {
     width: 65%;
     height: 80%;
@@ -33,38 +32,44 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
     overflow: hidden;
 }
-
-
 .card-topo {
     display: flex;
     align-items: center;
-    gap: 30px;
+    justify-content: space-between;
+    padding-right: 1rem;
     background: var(--branco-escuro);
     height: 30%;
 }
 
 .pedido-numero {
     height: 100%;
+    width: 35%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--azul);
     color: var(--branco);
     font-size: 1.3rem;
     font-weight: 600;
-    padding: 14px 34px 14px 16px;
     clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
 }
 
+.box-pedido-info{
+    display: flex;
+    gap: 2.5rem;
+}
 .pedido-info {
     display: flex;
     flex-direction: column;
 }
-
 .rotulo {
-    font-size: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
     color: var(--cinza-claro);
 }
-
 .valor {
-    font-size: 0.95rem;
+    font-size: 1rem;
+    font-weight: 400;
 }
 
 
@@ -85,12 +90,18 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    font-size: 0.9rem;
+    font-size: 1rem;
+    font-weight: 500;
     height: 50%;
 }
 
-.card-meio a {
-    color: var(--cinza-escuro);
+.card-meio button {
+    background: none;
+    border: none;
+}
+.card-meio button svg{
+    width: 25px;
+    height: 25px;
 }
 
 .card-rodape {
@@ -98,7 +109,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 16px 12px;
-    font-size: 0.75rem;
+    padding: 0 1rem;
+    font-size: 0.80rem;
+    font-weight: 700;
     color: var(--cinza-claro);
 }
+
+/* MODAL PEDIDO */
+
