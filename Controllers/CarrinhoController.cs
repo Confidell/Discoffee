@@ -54,11 +54,9 @@ namespace Discoffee.Controllers
         [HttpPost]
         public void FinalizarCompra([FromBody] Pedido pedido)
         {
-            Console.WriteLine($"PEDIDO RECEBIDO: {pedido}");
-            // 1. Criar o pedido
             int idPedido = _pedidoRepository.CriarPedido(pedido);
 
-            // 2. Percorrer os produtos do carrinho
+            // PASSA POR CADA UM DOS PRODUTOS NO CARRINHO
             foreach (var item in pedido.Itens)
             {
                 var itemPedido = new ItemPedidoViewModel
@@ -68,12 +66,12 @@ namespace Discoffee.Controllers
                     Quantidade = item.Quantidade
                 };
 
-                // 3. Inserir o produto e capturar seu Id_Item
+                // INSERE O PRODUTO E PEGA SEU ID
                 int idItem = _pedidoRepository.InserirItemPedido(
                     itemPedido
                 );
 
-                // 4. Inserir as personalizações desse produto
+                // INSERE AS PERSONALIZAÇÕES DESSE PRODUTO
                 foreach (var opcao in item.Opcoes)
                 {
                     var opcaoItem = new OpcaoPedidoViewModel
@@ -86,7 +84,7 @@ namespace Discoffee.Controllers
                 }
             }
 
-            // 5. Recalcular o subtotal e o total do pedido
+            // RECALCULA O TOTAL
             _pedidoRepository.AtualizarTotalPedido(idPedido);
         }
     }

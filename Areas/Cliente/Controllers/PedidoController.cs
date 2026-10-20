@@ -25,9 +25,10 @@ namespace Discoffee.Areas.Cliente.Controllers
         }
 
         [HttpPost]
-        public void CancelarPedido([FromBody] int IdPedido)
+        public IActionResult CancelarPedido(int IdPedido)
         {   
             _pedidoRepository.AlterarStatusPedido(IdPedido, StatusPedido.Cancelado);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

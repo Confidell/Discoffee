@@ -20,7 +20,7 @@ namespace Discoffee.Repository
             {
                 conexao.Open();
 
-                using (var cmd = new MySqlCommand("insertTbProduto", conexao))
+                using (var cmd = new MySqlCommand("cadastrarProduto", conexao))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -99,7 +99,7 @@ namespace Discoffee.Repository
             {
                 conexao.Open();
 
-                using (var cmd = new MySqlCommand("selectTbProdutos", conexao))
+                using (var cmd = new MySqlCommand("buscarTodosProdutos", conexao))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -189,7 +189,7 @@ namespace Discoffee.Repository
         // OBTÉM O ID DE UMA CATEGORIA OU CRIA A CATEGORIA E RETORNA SEU ID.
         private int ObterOuCriarCategoriaId(string? nomeCategoria, MySqlConnection conexaoAberta)
         {
-            using (var cmd = new MySqlCommand("insertTbCategoria", conexaoAberta))
+            using (var cmd = new MySqlCommand("cadastrarCategoria", conexaoAberta))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("vCategoria", nomeCategoria);

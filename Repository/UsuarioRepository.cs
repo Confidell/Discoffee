@@ -76,7 +76,7 @@ namespace Discoffee.Repository
             using var conexao = new MySqlConnection(_conexaoMySql);
             conexao.Open();
 
-            using var comando = new MySqlCommand("selectUsuario", conexao);
+            using var comando = new MySqlCommand("buscarUsuarioPorId", conexao);
             comando.CommandType = CommandType.StoredProcedure;
 
             comando.Parameters.AddWithValue("vId_Usuario", Id);
@@ -141,7 +141,7 @@ namespace Discoffee.Repository
             using var conexao = new MySqlConnection(_conexaoMySql);
             conexao.Open();
 
-            using var comando = new MySqlCommand("insertTbUsuario", conexao);
+            using var comando = new MySqlCommand("cadastrarUsuario", conexao);
             comando.CommandType = CommandType.StoredProcedure;
 
             comando.Parameters.AddWithValue("@vNomeCompleto", usuario.NomeCompleto);
@@ -162,7 +162,7 @@ namespace Discoffee.Repository
         {
             using var conexao = new MySqlConnection(_conexaoMySql);
 
-            using var comando = new MySqlCommand("updateTbUsuario", conexao);
+            using var comando = new MySqlCommand("atualizarUsuario", conexao);
 
             comando.CommandType = CommandType.StoredProcedure;
 

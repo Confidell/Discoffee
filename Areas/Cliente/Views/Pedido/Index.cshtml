@@ -37,7 +37,6 @@
         {
             var st = InfoStatus(pedido.Status);
 
-            @*RENDERIZA O CARD E O MODAL DE CADA PRODUTO.*@
             <partial name="_ModalPedido" model="pedido" />
 
             <div class="card-pedido">
@@ -59,8 +58,16 @@
 
                 <div class="card-meio">
                     <span>@pedido.Itens.Count Produtos inclusos no pedido</span>
-                    <button title="Ver detalhes">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+
+                    <button type="button"
+                            title="Ver detalhes"
+                            class="ver-detalhes"
+                            data-pedido-id="@pedido.IdPedido">
+                        
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            width="16" height="16"
+                            fill="currentColor"
+                            viewBox="0 0 16 16">
                             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
                             <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
                         </svg>
@@ -68,10 +75,14 @@
                 </div>
 
                 <div class="card-rodape">
-                    <span class="pedido-pagamento"><!-- ícone do pagamento --></span>
+                    <span class="pedido-pagamento"></span>
                     <span>@pedido.DataHora.ToString("dd/MM/yy")</span>
                 </div>
             </div>
         }
     </div>
 </section>
+
+@section Scripts{
+    <script src="~/js/pedido.js" asp-append-version="true"></script>
+}
