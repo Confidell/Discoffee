@@ -1,0 +1,40 @@
+@model Discoffee.ViewModels.ItemPedidoViewModel
+@{
+    var ptBR = new System.Globalization.CultureInfo("pt-BR");
+}
+
+<article class="item-pedido">
+    <img class="item-pedido-imagem" 
+        @* src="@Url.Content(item.ImagemUrl)" 
+        alt="@Model.Nome"  *@
+    />
+
+    <div class="item-pedido-detalhes">
+        <div class="box-titulo-preco">
+            <h3 class="model-pedido-titulo">@Model.NomeProduto</h3>
+            <p class="item-pedido-preco">
+                <span>@($"{Model.Quantidade}x") -</span>
+                <strong>@Model.PrecoUnitario.ToString()</strong>
+            </p>
+        </div>
+
+        <ul class="item-pedido-ingredientes">
+            @foreach (var grupo in Model.Opcoes.GroupBy(opcao => opcao.Tipo))
+            {
+                <li>
+                    <span class="tipo">@grupo.Key</span>
+
+                    <div class="linha-opcao-preco">
+                        @foreach (var opcao in grupo)
+                        {
+                            <div class="opcao-detalhe">
+                                <span>+ @opcao.Opcao</span>
+                                <span>@opcao.PrecoExtra.ToString("C2")</span>
+                            </div>
+                        }
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</article>

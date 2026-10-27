@@ -1,53 +1,58 @@
-﻿@{
+﻿@model List<Discoffee.ViewModels.ItemPedidoViewModel>
+@using Discoffee.Models
+@using System.Globalization
+
+@{
     ViewData["Title"] = "Carrinho";
+    var ptBR = new CultureInfo("pt-BR");
+
+    decimal subtotal = Model.Sum(item =>
+    (
+        item.PrecoUnitario.GetValueOrDefault() +
+        (item.Opcoes?.Sum(opcao => opcao.PrecoExtra) ?? 0)
+    ) 
+    * item.Quantidade.GetValueOrDefault());
+
+    decimal frete = 0;
+
+    decimal total = subtotal + frete;
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/carrinho.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Pedido.css" />
 }
 
-<main>
+<div class="box-carrinho">
     <section class="sacola-produtos">
         <div class="minha-sacola">
             <img src="~/Assets/Icons/Icon_SetaBranca.png" />
-            <h2>MINHA SACOLA</h2>
+            <h2>MEU CARRINHO</h2>
         </div>
 
         <div class="card-externo">
-            <div class="produto-carrinho">
-                <h4>Produto</h4>
-                <h4>Quantidade</h4>
-                <h4>Preço</h4>
-            </div>
-              
-            <div class="item-produto">
-                <img src="~/Assets/Imagens/Prod1.png" class="prod-img"/>
-                <span id="nome-prod">Nome do produto</span>
 
-                <div class="seletor-quantidade">
-                    <button onclick="mudar(-1)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="btn-qtd" viewBox="0 0 16 16">
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                        </svg>
-                    </button>
-                    <span id="quantidade">1</span>
-                    <button onclick="mudar(1)">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="btn-qtd" viewBox="0 0 16 16">
-                            <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8" />
-                        </svg>
-                    </button>
-                </div>
-
-                <span id="preco">R$ 8,90</span>
-                <button class="btn-lixo"><img src="~/Assets/Icons/Icon_lixo.png" /></button>
-            </div>
+            @if (Model == null || !Model.Any())
+            {
+                <p class="carrinho-vazio">
+                    Seu carrinho está vazio.
+                </p>
+            }
+            else
+            {
+                @foreach (var item in Model)
+                {
+                    @await Html.PartialAsync(
+                        "~/Areas/Cliente/Views/Pedido/_CardItemPedido.cshtml",
+                        item
+                    )
+                }
+            }
         </div>
-
     </section>
 
     <section class="resumo-compra">
         <div class="header-resumo">
-
             <div class="txt-resumo">
                 <h2>Resumo da sua compra</h2>
                 <h5>Selecione:</h5>
@@ -58,55 +63,57 @@
                     <input type="radio" name="tipo-pedido" value="entrega">
                     <label>Entrega</label>
                 </div>
-                
+
                 <div class="btn-tipo">
                     <input type="radio" name="tipo-pedido" value="retirada">
                     <label>Retirada</label>
                 </div>
-            </div>  
+            </div>
         </div>
 
         <div class="body-resumo">
             <div class="inputs">
                 <label for="frete">
                     Frete:
-                    <input type="text" class="input-form" placeholder="Insira seu CEP" />
+                    <input type="text" id="frete" class="input-form"
+                           placeholder="Insira seu CEP" />
                 </label>
 
                 <label for="cupom">
                     Cupom:
-                    <input type="text" class="input-form" placeholder="Insira o cupom" />
+                    <input type="text" id="cupom" class="input-form"
+                           placeholder="Insira o cupom" />
                 </label>
 
                 <label for="observacoes">
                     Observações:
-                    <input type="text" class="input-form" placeholder="Insira suas observações" />
+                    <input type="text" id="observacoes" class="input-form"
+                           placeholder="Insira suas observações" />
                 </label>
             </div>
 
-            <hr/>
+            <hr />
 
             <div class="total">
                 <div class="txt-total">
-                    <h4>Total produtos</h4>
-                    <span>R$ 56,30</span>
+                    <h4>Subtotal</h4>
+                    <span>R$ @subtotal</span>
                 </div>
 
                 <div class="txt-total">
                     <h4>Total do frete</h4>
-                    <span>R$ 15,90</span>
+                    <span>R$ @frete</span>
                 </div>
 
                 <div class="txt-total">
                     <h4>Pagamento total</h4>
-                    <span>R$ 72,20</span>
+                    <span>R$ @total</span>
                 </div>
-                
-                <button id="realizar-pedido">
+
+                <button class="botao botao-realizar-pedido">
                     Realizar Pedido
                 </button>
-
             </div>
         </div>
     </section>
-</main>
+</div>

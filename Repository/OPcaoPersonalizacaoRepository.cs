@@ -47,6 +47,7 @@ namespace Discoffee.Repository
             {
                 opcoes.Add(new OpcaoPersonalizacao
                 {
+                    IdOpcao = reader.GetInt32("Id_Opcao"),
                     Tipo = Enum.Parse<TipoOpcao>(reader.GetString("Tipo")),
                     Opcao = reader.GetString("Opcao"),
                     PrecoExtra = reader.GetDecimal("Preco_Extra")

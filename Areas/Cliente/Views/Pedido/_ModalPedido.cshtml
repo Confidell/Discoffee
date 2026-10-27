@@ -75,41 +75,7 @@
         <section class="modal-pedido-corpo">
             @foreach (var item in Model.Itens)
             {
-                <article class="item-pedido">
-                    <img class="item-pedido-imagem" 
-                        @* src="@Url.Content(item.ImagemUrl)" 
-                        alt="@item.Nome"  *@
-                    />
-
-                    <div class="item-pedido-detalhes">
-                        <div class="box-titulo-preco">
-                            <h3 class="item-pedido-titulo">@item.NomeProduto</h3>
-                            <p class="item-pedido-preco">
-                                <span>@($"{item.Quantidade}x") -</span>
-                                <strong>@item.PrecoUnitario.ToString()</strong>
-                            </p>
-                        </div>
-
-                        <ul class="item-pedido-ingredientes">
-                            @foreach (var grupo in item.Opcoes.GroupBy(opcao => opcao.Tipo))
-                            {
-                                <li>
-                                    <span class="tipo">@grupo.Key</span>
-
-                                    <div class="linha-opcao-preco">
-                                        @foreach (var opcao in grupo)
-                                        {
-                                            <div class="opcao-detalhe">
-                                                <span>+ @opcao.Opcao</span>
-                                                <span>@opcao.PrecoExtra.ToString("C2")</span>
-                                            </div>
-                                        }
-                                    </div>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </article>
+                <partial name="_CardItemPedido" model="item" />
             }
         </section>
 

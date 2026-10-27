@@ -1,76 +1,55 @@
 ﻿using Discoffee.ViewModels;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace Discoffee.Sessao
 {
     public class SessaoItemPedido
     {
-        // PERMITE ACESSAR O HTTP ATUAL, E POR MEIO DELE, A SESSION 
-        private readonly IHttpContextAccessor _httpContextAccessor;
-
-        // A CONSTANTE CHAVE SERVE PARA IDENTIFICAR ONDE ESTA A LISTA ARMEZANADA NA SESSION
         private const string Chave = "Pedido.Itens";
 
-       
-        public SessaoItemPedido(IHttpContextAccessor httpContextAccessor)
-        {
-            _httpContextAccessor = httpContextAccessor;
-        }
-        
-        // FACILITA O ACESSO À SESSION
-        private ISession Sessao =>
-            _httpContextAccessor.HttpContext!.Session;
-        
-        public void Cadastrar(ItemPedidoViewModel item)
-        {
-            // RECUPERA OS ITENS QUE JA ESTÃO NO CARRINHO
-            var itens = Consultar();
+        private readonly ISession _sessao;
 
-            // ADICIONA O NOVO PRODUTO A LISTA
-            itens.Add(item);
-
-            // GUARDA O JSON NA SESSION
-            Sessao.SetString(Chave, JsonSerializer.Serialize(itens));
+        public SessaoItemPedido(IHttpContextAccessor accessor)
+        {
+            _sessao = accessor.HttpContext!.Session;
         }
 
         public List<ItemPedidoViewModel> Consultar()
         {
-            // PROCURA O DADOS DA SESSION
-            var dados = Sessao.GetString(Chave);
+            string? json = _sessao.GetString(Chave);
 
+            if (string.IsNullOrEmpty(json))
+                return new List<ItemPedidoViewModel>();
 
-            return dados == null
-                ? new List<ItemPedidoViewModel>()
-                : JsonSerializer.Deserialize<List<ItemPedidoViewModel>>(dados)
-                    ?? new List<ItemPedidoViewModel>();
+            return JsonConvert.DeserializeObject<List<ItemPedidoViewModel>>(json)
+                   ?? new List<ItemPedidoViewModel>();
         }
 
-        public void Atualizar(ItemPedidoViewModel item)
+        public void AdicionarItem(ItemPedidoViewModel item)
         {
             var itens = Consultar();
 
-            var indice = itens.FindIndex(i =>
-                i.IdPedido == item.IdPedido &&
-                i.IdProduto == item.IdProduto
-            );
+            itens.Add(item);
 
-            if (indice != -1)
-            {
-                itens[indice] = item;
+            string json = JsonConvert.SerializeObject(itens);
 
-                Sessao.SetString(
-                    Chave,
-                    JsonSerializer.Serialize(itens)
-                );
-            }
+            _sessao.SetString(Chave, json);
         }
 
-        public void Remover(ItemPedidoViewModel item)
+        public void RemoverItem(int idItem)
         {
             var itens = Consultar();
-            itens.RemoveAll(i => i.IdPedido == item.IdPedido && i.IdProduto == item.IdProduto);
 
-            Sessao.SetString(Chave, JsonSerializer.Serialize(itens));
+            itens.RemoveAll(i => i.IdItem == idItem);
+
+            string json = JsonConvert.SerializeObject(itens);
+
+            _sessao.SetString(Chave, json);
+        }
+
+        public void Limpar()
+        {
+            _sessao.Remove(Chave);
         }
     }
 }
