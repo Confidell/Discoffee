@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<link rel="stylesheet" href="~/css/produtos.css" />
+<link rel="stylesheet" href="~/css/produtos.css" asp-append-version="true" />
 
 <section class="catalogo-header">
     <div class="prod-catalogo">
@@ -13,7 +13,7 @@
             <h4>Visualize, ative, inative ou cadastre novos produtos</h4>
         </div>
 
-        <button type="button" class="btn-cadastrar" data-modal="modal">
+        <button type="button" class="btn-cadastrar" data-modal="modal-cadastro">
             <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="btn-qtd" viewBox="0 0 16 16">
                 <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
             </svg>
@@ -76,3 +76,9 @@
         }
     </div>
 </div>
+
+<partial name="_ModalCadProduto" />
+
+@section Scripts {
+    <script src="~/js/produto.js" asp-append-version="true"></script>
+}
