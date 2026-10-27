@@ -95,8 +95,6 @@ document.addEventListener('drop', e => {
     input.dispatchEvent(new Event('change', { bubbles: true }));
 });
 
-
-
 // Bloqueia o envio se nenhuma imagem foi escolhida
 document.addEventListener('submit', e => {
     const form = e.target;
