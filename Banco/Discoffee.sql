@@ -320,7 +320,7 @@ begin
 	if(not exists(select * from tbOpcao_Personalizacao where Opcao = vOpcao limit 1))
     then
     
-		call insertTbCategoria(vCategoria, vId_Categoria);
+		call cadastrarCategoria(vCategoria, vId_Categoria);
     
 		insert into tbOpcao_Personalizacao(Tipo, Opcao, Preco_Extra, Id_Categoria)
 			values(vTipo, vOpcao, vPreco_Extra, vId_Categoria);
@@ -329,15 +329,15 @@ begin
 end $$
 delimiter ;
  
-CALL insertTbOpcao_Personalizacao(1, 'Integral', 0, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(1, 'Desnatado', 1.00, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(1, 'Vegetal', 5.00, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(2, 'Sem Açucar', 0, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(2, 'Com Sache', 1, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(2, 'Adoçante', 3, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(3, 'Canela', 2.50, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(3, 'Chantilly', 2, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(3, 'Achocolatado', 4.90, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(1, 'Integral', 0, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(1, 'Desnatado', 1.00, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(1, 'Vegetal', 5.00, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(2, 'Sem Açucar', 0, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(2, 'Com Sache', 1, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(2, 'Adoçante', 3, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(3, 'Canela', 2.50, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(3, 'Chantilly', 2, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(3, 'Achocolatado', 4.90, 'Tradicional');
 
 select * from tbOpcao_Personalizacao;
 
