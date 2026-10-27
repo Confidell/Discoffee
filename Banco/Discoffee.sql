@@ -253,6 +253,25 @@ BEGIN
 END $$
 DELIMITER ;
 
+-- CATEGORIAS (nomes iguais aos usados no Cardapio/Index.cshtml)
+CALL cadastrarCategoria('Tradicional', @catTradicional);
+CALL cadastrarCategoria('Drink',       @catDrink);
+CALL cadastrarCategoria('Doce',        @catDoce);
+CALL cadastrarCategoria('Salgado',     @catSalgado);
+CALL cadastrarCategoria('Refresco',    @catRefresco);
+CALL cadastrarCategoria('Shake',       @catShake);
+
+-- PRODUTOS (procedure: nome, preço, descrição, tamanho, imagem, disponível, id categoria, OUT id)
+CALL insertTbProduto('Macchiatto',         29.99, 'Café extremamente cremoso', 'M', 'Macchiatto.png', TRUE, @catTradicional, @idProd);
+CALL insertTbProduto('Café Gelado',        18.50, 'Café gelado com caramelo',  'M', 'Café_Gelado.png', TRUE, @catDrink,      @idProd);
+CALL insertTbProduto('Brigadeiro',          8.50, 'Brigadeiro gourmet',        '-', 'Brigadeiro.png', TRUE, @catDoce,       @idProd);
+CALL insertTbProduto('Coxinha',             7.00, 'Coxinha de frango',         '-', 'Coxinha.png', TRUE, @catSalgado,    @idProd);
+CALL insertTbProduto('Limonada',            9.90, 'Limonada suíça',            'M', 'Limonada.png', TRUE, @catRefresco,   @idProd);
+CALL insertTbProduto('Shake de Chocolate', 16.90, 'Shake cremoso',             'M', 'Shake_Chocolate.png', TRUE, @catShake,      @idProd);
+
+SELECT * FROM tbCategoria;
+SELECT * FROM tbProduto;
+
 -- EDIÇÃO: recebe o ID da categoria.
 DELIMITER $$
 CREATE PROCEDURE updateTbProduto(
@@ -459,7 +478,7 @@ call criarPedido('Retirada', 'Pendente', 0.00, 1);
 -- 4. CONSULTAR O ID DO PEDIDO CRIADO
 -- ==========================================
 select *
-from tbPedido;
+from tbPedido
 order by Id_Pedido desc
 limit 1;
 
