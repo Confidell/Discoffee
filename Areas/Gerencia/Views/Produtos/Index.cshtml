@@ -79,6 +79,13 @@
 
 <partial name="_ModalCadProduto" />
 
+<partial name="_ModalCadProduto" />
+
+@foreach (var produto in Model)
+{
+    <partial name="_ModalEditarProduto" model="produto" />
+}
+
 @section Scripts {
     <script src="~/js/produto.js" asp-append-version="true"></script>
 }

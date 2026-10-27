@@ -1,5 +1,80 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Discoffee.Models.Produto
 @{
+    var preco = Model.Preco.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    var imagemUrl = Url.Content("~/Assets/Imagens/" + Model.Imagem);
 }
+
+<dialog id="modal-editar-@Model.IdProduto" class="modal-produto">
+    <form method="post" enctype="multipart/form-data"
+          asp-area="Gerencia" asp-controller="Produtos" asp-action="Editar" class="modal-form">
+        <input type="hidden" name="IdProduto" value="@Model.IdProduto" />
+
+        <div class="modal-topo">
+            <h2>Editar Produto</h2>
+        </div>
+
+        <div class="modal-corpo">
+            <div class="modal-coluna">
+                <label>
+                    Nome do Produto
+                    <input type="text" name="Nome" value="@Model.Nome" required maxlength="50" />
+                </label>
+
+                <label>
+                    Categoria
+                    <select name="CategoriaId" required>
+                        @foreach (var cat in (List<Discoffee.Models.Categoria>)ViewBag.Categorias)
+                        {
+                           <option value="@cat.IdCategoria" selected="@(cat.IdCategoria == Model.CategoriaId)">@cat.NomeCategoria</option>
+                        }
+                    </select>
+                </label>
+
+                <label>
+                    Descrição
+                    <textarea name="Descricao" maxlength="200">@Model.Descricao</textarea>
+                </label>
+
+                <label>
+                    Preço - (R$)
+                    <input type="number" name="Preco" value="@preco" step="0.01" min="0" required />
+                </label>
+
+                <div class="modal-linha">
+                    <label>
+                        Tamanho
+                        <select name="Tamanho" required>
+                            <option value="P" selected="@(Model.Tamanho == "P")">P</option>
+                            <option value="M" selected="@(Model.Tamanho == "M")">M</option>
+                            <option value="G" selected="@(Model.Tamanho == "G")">G</option>
+                            <option value="-" selected="@(Model.Tamanho == "-")">Único</option>
+                        </select>
+                    </label>
+
+                    <label>
+                        Status
+                        <select name="Disponibilidade">
+                            <option value="true" selected="@Model.Disponibilidade">Ativo</option>
+                            <option value="false" selected="@(!Model.Disponibilidade)">Inativo</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+           <label class="upload com-imagem" data-original="@imagemUrl">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383" />
+                    <path fill-rule="evenodd" d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708z" />
+                </svg>
+                <span>Clique ou arraste a imagem</span>
+                <img class="upload-preview" src="@imagemUrl" alt="Imagem atual" />
+                <input type="file" name="ImagemArquivo" accept=".jpg,.jpeg,.png,.webp" hidden />
+            </label>
+        </div>
+
+        <div class="modal-botoes">
+            <button type="button" class="btn-cancelar" data-fechar>Cancelar</button>
+            <button type="submit" class="btn-salvar">Salvar Produto</button>
+        </div>
+    </form>
+</dialog>
