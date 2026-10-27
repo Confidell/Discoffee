@@ -26,8 +26,7 @@ namespace Discoffee.Controllers
         [HttpGet]
         public IActionResult BuscarOpcoesProduto(int idCategoria)
         {
-            var opcoes = _opcaoPersonalizacaoRepository
-                .BuscarOpcoesPorCategoria(idCategoria);
+            var opcoes = _opcaoPersonalizacaoRepository.BuscarOpcoesPorCategoria(idCategoria);
 
             return PartialView("_OpcoesPersonalizacao", opcoes);
         }

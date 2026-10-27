@@ -1,7 +1,7 @@
 ﻿@*EXIBE O MODAL DE DETALHES DO PRODUTO*@
 @model Discoffee.Models.Produto;
 
-<div class="paiModal" id="modal-@Model.IdProduto">
+<div class="paiModal" id="modal-@Model.IdProduto" data-id-produto="@Model.IdProduto">
     <div class="modal-produto">
 
         <div class="btn-imagem">
@@ -28,30 +28,6 @@
                 </div>
                 
                 <div class="escolha-item">
-                    <div class="tamanho-prod">
-
-                        <div class="header-escolhas">
-                            <h2>Tamanho</h2>
-                            <h4>Obrigatório</h4>
-                        </div>
-
-                        <div class="buttons-radio">
-                            <div class="btn-tamanho">
-                                <label>Pequeno</label>
-                                <input type="radio" name="tamanho-pedido" value="pequeno" class="btn-escolha">
-                            </div>
-                            <div class="btn-tamanho">
-                                <label>Médio + <span>R$ 5.90</span></label>
-                                
-                                <input type="radio" name="tamanho-pedido" value="medio" class="btn-escolha">
-                            </div>
-                            <div class="btn-tamanho">
-                                <label>Grande + <span>R$ 9.90</span></label>
-                                
-                                <input type="radio" name="tamanho-pedido" value="grande" class="btn-escolha">
-                            </div>
-                        </div>
-                    </div>
 
                     @*CARREGA AS OPÇÕES DISPONÍVEIS POR CATEGORIA*@
                     <div class="container-opcoes"
@@ -69,11 +45,11 @@
 
                 <div class="qtd-adicionar"> 
                     <div class="seletor-quantidade">
-                        <button onclick="mudar(-1)"><img src="~/Assets/Icons/Icon_Mais.png" /></button>
+                        <button onclick="mudar(this, -1)"><img src="~/Assets/Icons/Icon_Mais.png" /></button>
                         <span id="quantidade">1</span>
-                        <button onclick="mudar(1)"><img src="~/Assets/Icons/Icon_Menos.png" /></button>
+                        <button onclick="mudar(this, 1)"><img src="~/Assets/Icons/Icon_Menos.png" /></button>
                     </div>
-                    <button id="add-carrinho">Adicionar ao carrinho</button>
+                    <button id="adicionar-carrinho">Adicionar ao carrinho</button>
                 </div>
             </div>
         </div>

@@ -9,5 +9,12 @@ namespace Discoffee.Areas.Gerencia.Controllers
         {
             return View();
         }
+
+        // [HttpGet]
+        // public IActionResult BuscarTodosPedidos()
+        // {
+        //     var pedidos = _pedidoRepository.BuscarTodos();
+        //     return Ok(pedidos);
+        // }
     }
 }

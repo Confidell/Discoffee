@@ -92,7 +92,7 @@ namespace Discoffee.Repository
             using var conexao = new MySqlConnection(_conexaoMySQL);
             conexao.Open();
 
-            using var cmd = new MySqlCommand("selectTbProdutos", conexao);
+            using var cmd = new MySqlCommand("buscarTodosProdutos", conexao);
             cmd.CommandType = CommandType.StoredProcedure;
 
             using var reader = cmd.ExecuteReader();

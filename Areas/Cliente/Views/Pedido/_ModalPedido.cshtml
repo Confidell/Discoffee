@@ -1,0 +1,120 @@
+@using Discoffee.Models.Constants
+@model Discoffee.ViewModels.PedidoClienteViewModel
+@{
+    var pt = new System.Globalization.CultureInfo("pt-BR");
+}
+
+@functions {
+    (string Texto, string Classe) InfoStatus(StatusPedido status)
+    {
+        switch (status)
+        {
+            case StatusPedido.Entregue:
+                return ("ENTREGUE", "status-finalizado");
+            case StatusPedido.Cancelado:
+                return ("CANCELADO", "status-cancelado");
+            case StatusPedido.EmEntrega:
+                return ("EM ROTA", "status-cancelado");
+            case StatusPedido.Finalizado:
+                return ("FINALIZADO", "status-cancelado");
+            default:
+                return ("PREPARANDO", "status-preparando");
+        }
+    }
+}
+
+<link rel="stylesheet" href="~/css/pop-up-ver-pedido.css" />
+
+<div class="modal-pedido-fundo" id="modalPedido-@Model.IdPedido" data-modal-pedido role="dialog" aria-modal="true" aria-labelledby="pedidoNumero-@Model.IdPedido" hidden>
+    <div class="modal-pedido">
+
+        <header class="modal-pedido-cabecalho">
+            @{
+                var st = InfoStatus(Model.Status);
+            }
+            <div class="pedido-numero" id="pedidoNumero-@Model.IdPedido">#@Model.IdPedido</div>
+
+            <div class="pedido-info">
+                <span class="pedido-info-rotulo">Status</span>
+                <span class="pedido-info-valor pedido-info-valor--@Model.Status.ToString().ToUpper() @st.Classe">
+                    <i class="pedido-info-ponto @st.Classe"></i>@Model.Status.ToString().ToUpper()
+                </span>
+            </div>
+
+            <div class="pedido-info">
+                <span class="pedido-info-rotulo">Tipo</span>
+                <span class="pedido-info-valor tipo-pedido pedido-info-valor--@Model.Tipo.ToString().ToLower()">
+                    <i class="pedido-info-ponto tipo-pedido"></i>@Model.Tipo.ToString().ToUpper()
+                </span>
+            </div>
+
+            @{
+                if(Model.Status != StatusPedido.Cancelado)
+                {
+                    <form class="form-cancelar" asp-area="Cliente" asp-controller="Pedido" asp-action="CancelarPedido" method="post">
+
+                        <input type="hidden"
+                            name="IdPedido"
+                            value="@Model.IdPedido" />
+
+                        <button type="submit" class="cancelar-pedido botao">
+                            Cancelar Pedido
+                        </button>
+
+                    </form>
+                }
+            }
+
+            <button type="button" class="modal-pedido-fechar" aria-label="Fechar" onclick="fecharModalPedido()">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M5 5l14 14M19 5L5 19" />
+                </svg>
+            </button>
+        </header>
+
+        <section class="modal-pedido-corpo">
+            @foreach (var item in Model.Itens)
+            {
+                <partial name="_CardItemPedido" model="item" />
+            }
+        </section>
+
+        <footer class="modal-pedido-rodape">
+            <div class="rodape-valores">
+                <div class="rodape-valor">
+                    <span class="rodape-rotulo">Subtotal</span>
+                    <span class="rodape-numero">@Model.Subtotal.ToString("C", pt)</span>
+                </div>
+                <div class="rodape-valor">
+                    <span class="rodape-rotulo">Frete</span>
+                    <span class="rodape-numero">@Model.Frete.ToString("C", pt)</span>
+                </div>
+                <time class="rodape-data">@Model.DataHora.ToString("dd/MM/yy")</time>
+            </div>
+
+            <hr class="rodape-divisor" />
+
+            <div class="rodape-total-linha">
+                <div class="rodape-valor rodape-valor--total">
+                    <span class="rodape-rotulo">Total</span>
+                    <span class="rodape-total">@Model.Total.ToString("C", pt)</span>
+                </div>
+
+                @* <div class="rodape__pagamento">
+                    <span>Pago via @Model.FormaPagamento</span>
+                    @if (Model.FormaPagamento.ToUpper() == "PIX")
+                    {
+                        <svg class="rodape__icone-pix" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+                            <g fill="#32BCAD">
+                                <path d="M12 1.9l4 4a1.4 1.4 0 0 1 0 2l-1.7 1.7a1 1 0 0 1-1.4 0L12 8.7a1.4 1.4 0 0 0-2 0l-.9.9a1 1 0 0 1-1.4 0L6 7.9a1.4 1.4 0 0 1 0-2l4-4a1.4 1.4 0 0 1 2 0z" />
+                                <path d="M12 22.1l-4-4a1.4 1.4 0 0 1 0-2l1.7-1.7a1 1 0 0 1 1.4 0l.9.9a1.4 1.4 0 0 0 2 0l.9-.9a1 1 0 0 1 1.4 0L18 16.1a1.4 1.4 0 0 1 0 2l-4 4a1.4 1.4 0 0 1-2 0z" />
+                                <path d="M1.9 12l1.6-1.6a1 1 0 0 1 1.4 0l1.7 1.7-1.7 1.7a1 1 0 0 1-1.4 0z" />
+                                <path d="M22.1 12l-1.6 1.6a1 1 0 0 1-1.4 0l-1.7-1.7 1.7-1.7a1 1 0 0 1 1.4 0z" />
+                            </g>
+                        </svg>
+                    }
+                </div> *@
+            </div>
+        </footer>
+    </div>
+</div>
