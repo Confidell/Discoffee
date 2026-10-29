@@ -35,12 +35,12 @@ namespace Discoffee.Areas.Gerencia.Controllers
 
             var nomeImagem = SalvarImagem(vm.ImagemArquivo!);
 
-            if (!_produtoRepository.AdicionarProduto(MontarProduto(vm, preco, nomeImagem)))
-            {
-                ApagarImagem(nomeImagem);
-                ModelState.AddModelError("", "Já existe um produto com esse nome e tamanho.");
-                return CarregarIndex();
-            }
+            // if (!_produtoRepository.AdicionarProduto(MontarProduto(vm, preco, nomeImagem)))
+            // {
+            //     ApagarImagem(nomeImagem);
+            //     ModelState.AddModelError("", "Já existe um produto com esse nome e tamanho.");
+            //     return CarregarIndex();
+            // }
 
             return RedirectToAction(nameof(Index));
         }
@@ -63,12 +63,12 @@ namespace Discoffee.Areas.Gerencia.Controllers
             var produto = MontarProduto(vm, preco, novaImagem ?? atual.Imagem);
             produto.IdProduto = vm.IdProduto;
 
-            if (!_produtoRepository.EditarProduto(produto))
-            {
-                ApagarImagem(novaImagem);
-                ModelState.AddModelError("", "Já existe outro produto com esse nome e tamanho.");
-                return CarregarIndex();
-            }
+            // if (!_produtoRepository.EditarProduto(produto))
+            // {
+            //     ApagarImagem(novaImagem);
+            //     ModelState.AddModelError("", "Já existe outro produto com esse nome e tamanho.");
+            //     return CarregarIndex();
+            // }
 
             if (novaImagem != null) ApagarImagem(atual.Imagem);
 

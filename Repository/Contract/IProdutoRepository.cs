@@ -4,8 +4,8 @@ namespace Discoffee.Repository.Contract
 {
     public interface IProdutoRepository
     {
-        bool AdicionarProduto(Produto produto);  
-        bool EditarProduto(Produto produto);
+        void AdicionarProduto(Produto produto);  
+        void EditarProduto(Produto produto);
         Produto BuscarProdutoPorId(int id);
         List<Produto> BuscarTodos();
     }

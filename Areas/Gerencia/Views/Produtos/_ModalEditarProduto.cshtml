@@ -25,7 +25,7 @@
                     <select name="CategoriaId" required>
                         @foreach (var cat in (List<Discoffee.Models.Categoria>)ViewBag.Categorias)
                         {
-                           <option value="@cat.IdCategoria" selected="@(cat.IdCategoria == Model.CategoriaId)">@cat.NomeCategoria</option>
+                           <option value="@cat.IdCategoria" selected="@(cat.IdCategoria == Model.Categoria.IdCategoria)">@cat.NomeCategoria</option>
                         }
                     </select>
                 </label>
@@ -41,7 +41,7 @@
                 </label>
 
                 <div class="modal-linha">
-                    <label>
+                    @* <label>
                         Tamanho
                         <select name="Tamanho" required>
                             <option value="P" selected="@(Model.Tamanho == "P")">P</option>
@@ -49,7 +49,7 @@
                             <option value="G" selected="@(Model.Tamanho == "G")">G</option>
                             <option value="-" selected="@(Model.Tamanho == "-")">Único</option>
                         </select>
-                    </label>
+                    </label> *@
 
                     <label>
                         Status
