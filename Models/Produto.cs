@@ -2,28 +2,23 @@
 
 namespace Discoffee.Models
 {
-   public class Produto
-   {
-        [Display(Name = "IdProduto", Description = "Identificador do produto.")]
+    // A validação do formulário fica no ProdutoFormViewModel.
+    public class Produto
+    {
+        [Display(Name = "Id do produto")]
         public int IdProduto { get; set; }
 
-        [Display(Name = "Nome", Description = "Nome do produto.")]
-        [Required(ErrorMessage = "O nome é obrigatório.")]
-        [RegularExpression(@"^[A-Za-zÀ-ÿ0-9\s]{2,100}$",ErrorMessage = "Nome deve ter entre 2 e 100 caracteres, sem símbolos especiais.")]
-        public string Nome { get; set; }
+        [Display(Name = "Nome")]
+        public string Nome { get; set; } = string.Empty;
 
         [Display(Name = "Descrição", Description = "Descrição do produto.")]
         [RegularExpression(@"^.{0,500}$",ErrorMessage = "Descrição deve ter no máximo 500 caracteres.")]
         public string Descricao { get; set; }
 
-        [Display(Name = "Imagem", Description = "Imagem do produto.")]
-        [Required(ErrorMessage = "A imagem é obrigatória.")]
-        [RegularExpression(@"^.+\.(jpg|jpeg|png|webp)$",ErrorMessage = "Imagem deve ser um arquivo .jpg, .jpeg, .png ou .webp.")]
-        public string Imagem { get; set; }
+        [Display(Name = "Imagem")]
+        public string Imagem { get; set; } = string.Empty; 
 
-        [Display(Name = "Disponibilidade", Description = "Disponibilidade do produto.")]
-        [Required(ErrorMessage = "A disponibilidade é obrigatória.")]
-        [RegularExpression(@"^(true|false)$",ErrorMessage = "Disponibilidade deve ser verdadeiro ou falso.")]
+        [Display(Name = "Disponibilidade")]
         public bool Disponibilidade { get; set; }
 
         [Display(Name = "Quantidade", Description = "Quantidade do produto.")]
@@ -39,5 +34,5 @@ namespace Discoffee.Models
         [Display(Name = "Categoria", Description = "Categoria do produto.")]
         public Categoria Categoria { get; set; }
    }
-
 }
+

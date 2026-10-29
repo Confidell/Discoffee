@@ -1,5 +1,4 @@
 ﻿@model List<Discoffee.ViewModels.ItemPedidoViewModel>
-@using Discoffee.Models
 @using System.Globalization
 
 @{
@@ -10,7 +9,7 @@
     (
         item.PrecoUnitario.GetValueOrDefault() +
         (item.Opcoes?.Sum(opcao => opcao.PrecoExtra) ?? 0)
-    ) 
+    )
     * item.Quantidade.GetValueOrDefault());
 
     decimal frete = 0;

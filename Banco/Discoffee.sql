@@ -230,42 +230,80 @@ delimiter ;
 select * from tbCategoria;
  
 -- INSERE O PRODUTO
-delimiter $$
-create procedure cadastrarProduto(
-	vNome VARCHAR(50),
-    vPreco DECIMAL(10,2),
-    vDescricao VARCHAR(200),
-    vTamanho VARCHAR(5),
-    vImagem VARCHAR(100),
-    vDisponibilidade BOOLEAN,
-    vCategoria VARCHAR(50)
+DELIMITER $$
+CREATE PROCEDURE insertTbProduto(
+    IN  vNome            VARCHAR(50),
+    IN  vPreco           DECIMAL(10,2),
+    IN  vDescricao       VARCHAR(200),
+    IN  vTamanho         VARCHAR(5),
+    IN  vImagem          VARCHAR(100),
+    IN  vDisponibilidade BOOLEAN,
+    IN  vId_Categoria    INT,
+    OUT vId_Produto      INT
 )
-begin
-	declare vId_Categoria INT;
- 
-	if(not exists(select * from tbProduto where Nome = vNome and Tamanho = vTamanho limit 1))
-    then
-		
-        call cadastrarCategoria(vCategoria, vId_Categoria);
-        
-		insert into tbProduto(Nome, Preco, Descricao, Tamanho, Imagem, Disponibilidade, Id_Categoria)
-			values(vNome, vPreco, vDescricao, vTamanho, vImagem, vDisponibilidade, vId_Categoria);
-    end if;
-    
-end $$
-delimiter ;
+BEGIN
+    SET vId_Produto = 0;
 
-CALL insertTbProduto('Café Expresso', 16.00, 'Expresso', 'M', 'Img_expresso', 1, 'Tradicional');
-CALL insertTbProduto('Macchiatto', 16.00, 'Macchiatto', 'M', 'Img_Macchiatto', 1, 'Tradicional');
-CALL insertTbProduto('Caipirinha e Café', 10.00, 'Café Alcolico', 'M', 'Img_Cafe_Vodka', 1, 'Drink');
-CALL insertTbProduto('Pão de Queijo', 5.80, 'pão de queijo', '-', 'Img_pao_de_queijo', 1, 'Salgado');
-CALL insertTbProduto('Bolo Banana', 7, 'Bolo Banana', '-', 'Img_Cafe_Vodka', 1, 'Doce');
-CALL insertTbProduto('Delicia da Uva', 12.50, 'Delicia da Uva', '-', 'Img_Cafe_Vodka', 1, 'Doce');
-CALL insertTbProduto('Suco de Laranja', 4.90, 'Suco de Laranja', 'P', 'Img_Cafe_Vodka', 1, 'Refresco');
-CALL insertTbProduto('Shake de Banana Proteico', 8.99, 'Shake de Banana', 'M', 'Img_Cafe_Vodka', 1, 'Shake');
- 
-select * from tbCategoria;
-select * from tbProduto;
+    IF NOT EXISTS (SELECT 1 FROM tbProduto WHERE Nome = vNome AND Tamanho = vTamanho) THEN
+        INSERT INTO tbProduto(Nome, Preco, Descricao, Tamanho, Imagem, Disponibilidade, Id_Categoria)
+        VALUES (vNome, vPreco, vDescricao, vTamanho, vImagem, vDisponibilidade, vId_Categoria);
+
+        SET vId_Produto = LAST_INSERT_ID();
+    END IF;
+END $$
+DELIMITER ;
+
+-- CATEGORIAS (nomes iguais aos usados no Cardapio/Index.cshtml)
+CALL cadastrarCategoria('Tradicional', @catTradicional);
+CALL cadastrarCategoria('Drink',       @catDrink);
+CALL cadastrarCategoria('Doce',        @catDoce);
+CALL cadastrarCategoria('Salgado',     @catSalgado);
+CALL cadastrarCategoria('Refresco',    @catRefresco);
+CALL cadastrarCategoria('Shake',       @catShake);
+
+-- PRODUTOS (procedure: nome, preço, descrição, tamanho, imagem, disponível, id categoria, OUT id)
+CALL insertTbProduto('Macchiatto',         29.99, 'Café extremamente cremoso', 'M', 'Macchiatto.png', TRUE, @catTradicional, @idProd);
+CALL insertTbProduto('Café Gelado',        18.50, 'Café gelado com caramelo',  'M', 'Café_Gelado.png', TRUE, @catDrink,      @idProd);
+CALL insertTbProduto('Brigadeiro',          8.50, 'Brigadeiro gourmet',        '-', 'Brigadeiro.png', TRUE, @catDoce,       @idProd);
+CALL insertTbProduto('Coxinha',             7.00, 'Coxinha de frango',         '-', 'Coxinha.png', TRUE, @catSalgado,    @idProd);
+CALL insertTbProduto('Limonada',            9.90, 'Limonada suíça',            'M', 'Limonada.png', TRUE, @catRefresco,   @idProd);
+CALL insertTbProduto('Shake de Chocolate', 16.90, 'Shake cremoso',             'M', 'Shake_Chocolate.png', TRUE, @catShake,      @idProd);
+
+SELECT * FROM tbCategoria;
+SELECT * FROM tbProduto;
+
+-- EDIÇÃO: recebe o ID da categoria.
+DELIMITER $$
+CREATE PROCEDURE updateTbProduto(
+    IN  vId_Produto      INT,
+    IN  vNome            VARCHAR(50),
+    IN  vPreco           DECIMAL(10,2),
+    IN  vDescricao       VARCHAR(200),
+    IN  vTamanho         VARCHAR(5),
+    IN  vImagem          VARCHAR(100),
+    IN  vDisponibilidade BOOLEAN,
+    IN  vId_Categoria    INT,
+    OUT vAtualizado      INT
+)
+BEGIN
+    IF EXISTS (SELECT 1 FROM tbProduto
+               WHERE Nome = vNome AND Tamanho = vTamanho AND Id_Produto <> vId_Produto) THEN
+        SET vAtualizado = 0;
+    ELSE
+        UPDATE tbProduto
+        SET Nome = vNome,
+            Preco = vPreco,
+            Descricao = vDescricao,
+            Tamanho = vTamanho,
+            Imagem = vImagem,
+            Disponibilidade = vDisponibilidade,
+            Id_Categoria = vId_Categoria
+        WHERE Id_Produto = vId_Produto;
+
+        SET vAtualizado = 1;
+    END IF;
+END $$
+DELIMITER ;
  
 -- INSERE AS OPÇÕES DE PERSONALIZAÇÃO
 delimiter $$
@@ -282,7 +320,7 @@ begin
 	if(not exists(select * from tbOpcao_Personalizacao where Opcao = vOpcao limit 1))
     then
     
-		call insertTbCategoria(vCategoria, vId_Categoria);
+		call cadastrarCategoria(vCategoria, vId_Categoria);
     
 		insert into tbOpcao_Personalizacao(Tipo, Opcao, Preco_Extra, Id_Categoria)
 			values(vTipo, vOpcao, vPreco_Extra, vId_Categoria);
@@ -291,15 +329,15 @@ begin
 end $$
 delimiter ;
  
-CALL insertTbOpcao_Personalizacao(1, 'Integral', 0, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(1, 'Desnatado', 1.00, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(1, 'Vegetal', 5.00, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(2, 'Sem Açucar', 0, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(2, 'Com Sache', 1, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(2, 'Adoçante', 3, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(3, 'Canela', 2.50, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(3, 'Chantilly', 2, 'Tradicional');
-CALL insertTbOpcao_Personalizacao(3, 'Achocolatado', 4.90, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(1, 'Integral', 0, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(1, 'Desnatado', 1.00, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(1, 'Vegetal', 5.00, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(2, 'Sem Açucar', 0, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(2, 'Com Sache', 1, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(2, 'Adoçante', 3, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(3, 'Canela', 2.50, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(3, 'Chantilly', 2, 'Tradicional');
+CALL cadastrarOpcaoPersonalizacao(3, 'Achocolatado', 4.90, 'Tradicional');
 
 select * from tbOpcao_Personalizacao;
 
@@ -440,7 +478,7 @@ call criarPedido('Retirada', 'Pendente', 0.00, 1);
 -- 4. CONSULTAR O ID DO PEDIDO CRIADO
 -- ==========================================
 select *
-from tbPedido;
+from tbPedido
 order by Id_Pedido desc
 limit 1;
 

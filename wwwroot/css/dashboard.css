@@ -1,136 +1,31 @@
-﻿@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
-
-
-:root {
-    --rosa: #FD0DC1;
-    --roxo: #9007DA;
-    --azul: #0015B8;
-    --vermelho: #F50000;
-    --laranja: #FF7900;
-    --amarelo: #FFBA00;
-    --cinza-claro: #373737;
-    --cinza-escuro: #1e1e1e;
-    --branco: #fff;
-    --offwhite: #F2F0EF;
-    --branco-escuro: #F4F4F4;
-}
-
-*{
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    
-}
-
-main{
+﻿main{
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction:column;
-}
-
-header {
-    background: var(--cinza-escuro);
-    color: var(--branco);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 2rem;
-}
-
-header h2 {
-    font-size: 1.8rem;
-    margin: 0;
-}
-
-.nome-funcao {
-    text-align: right;
-    margin-left: auto;
-    margin-right: 0.8rem;
-}
-
-.nome-funcao h3 {
-    margin: 0;
-    font-size: 0.9rem;
-}
-
-.nome-funcao h4 {
-    margin: 0;
-    font-size: 0.75rem;
-    font-weight: 400;
-    opacity: 0.6;
-}
-
-header button {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-header button img {
-    width: 16px;
-}
-
-.menu {
-    display: flex;
-    justify-content: space-between;
-    gap: 5rem;
-    width: 90%;
-    height: 60px;
-    background: var(--branco-escuro);
-    margin-top: 40px;
-    padding: 1rem 2rem;
-    align-items: center;
-    box-shadow: 0 0 5px 0px var(--cinza-claro);
-    border-radius: 20px;
-}
-
-
-
-.menu a.ativo {
-    text-decoration: none;
-    padding: 1.3rem 3.5rem;
-    border-radius: 20px;
-    background: var(--roxo);
-    color: var(--branco);
-    align-items: center;
-    text-align: center;
-    display: flex;
-    
-}
-
-
-.menu a{
-    display: flex;
-    font-weight: 500;
-    font-size: 1.8rem;
-    color: var(--cinza-escuro);
-    text-align: center;
+    flex-direction: column;
     align-items: center;
 }
 
 .bem-vindo{
     display: flex;
-    margin-top: 8%;
+    margin-top: 6%;
     align-items: center;
-    width: 90%;
+    width: 88%;
     height: 100%;
     gap: 5rem;
 }
 
 #logo{
     display: flex;
-    width: 8%;
-}
-
-.nome{
-    font-size: 2rem;
+    width: 9%;
 }
 
 .nome h2{
     text-decoration: underline;
+    font-weight: 500;
+}
+
+.nome h3{
+    font-weight: 700;
+    font-size: 2.3rem;
 }
 
 .calendario {
@@ -171,6 +66,5 @@ header button img {
 
 .resumo-mensal h2{
     font-size: 2rem;
-
 }
 

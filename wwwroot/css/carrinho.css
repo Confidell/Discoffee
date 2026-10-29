@@ -1,8 +1,7 @@
-﻿
-.box-carrinho{
+﻿.box-carrinho {
     padding: 9% 90px;
     display: flex;
-    gap: 2rem;
+    gap: 3.3rem;
     width: 100%;
 }
 
@@ -25,26 +24,26 @@
     flex-shrink: 0;
 }
 
-.minha-sacola h2{
-    color: var(--branco);
-    margin: 10px;
-    font-size: 1.6rem;
-    font-weight: 700;
-}
+    .minha-sacola h2 {
+        color: var(--branco);
+        margin: 10px;
+        font-size: 1.6rem;
+        font-weight: 700;
+    }
 
-.minha-sacola img{
-    width: 30px;
-    height: 40px;
-    margin-left: 30px;
-    cursor: pointer;
-}
+    .minha-sacola img {
+        width: 30px;
+        height: 40px;
+        margin-left: 30px;
+        cursor: pointer;
+    }
 
 .card-externo {
     display: flex;
     flex-direction: column;
     width: 100%;
     background-color: var(--branco-escuro);
-    border-radius:20px;
+    border-radius: 20px;
     padding: 2rem;
     gap: 1rem;
 }
@@ -60,27 +59,26 @@
     margin: 15px 30px;
 }
 
-.produto-carrinho h4{
-    margin: 20px;
-    font-weight: 600;
-    font-size: 1.2rem;
-}
+    .produto-carrinho h4 {
+        margin: 20px;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
 
-.produto-carrinho h4:nth-child(1){
-    width: 52%;
-    padding: 15px;
+        .produto-carrinho h4:nth-child(1) {
+            width: 50%;
+            padding: 15px;
+        }
 
-}
+        .produto-carrinho h4:nth-child(2) {
+            width: 18%;
+            margin-right: 0%;
+        }
 
-.produto-carrinho h4:nth-child(2){
-    width: 19%;
-    margin-right: 0%;
-}
-
-.produto-carrinho h4:nth-child(3){
-    width: 0%;
-    margin-right: 0%;
-}
+        .produto-carrinho h4:nth-child(3) {
+            width: 0%;
+            margin-right: 0%;
+        }
 
 
 .resumo-compra {
@@ -96,7 +94,7 @@
     box-shadow: 4px 4px 0px var(--roxo);
 }
 
-.header-resumo{
+.header-resumo {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -107,17 +105,17 @@
     padding-top: 2rem;
 }
 
-.header-resumo h2{
-    font-weight: 700;
-    font-size: 1.7rem;
-    color: var(--cinza-claro);
-}
+    .header-resumo h2 {
+        font-weight: 700;
+        font-size: 1.7rem;
+        color: var(--cinza-claro);
+    }
 
-.header-resumo h5 {
-    font-weight: 600;
-    color: var(--cinza-claro);
-    font-size: 1.2rem;
-}
+    .header-resumo h5 {
+        font-weight: 600;
+        color: var(--cinza-claro);
+        font-size: 1.2rem;
+    }
 
 .buttons-radio {
     display: flex;
@@ -136,34 +134,33 @@
     align-items: center;
     justify-content: space-between;
     gap: 0.4rem;
-    
 }
 
-.btn-tipo input[type="radio"]{
-    appearance: none;
-    -webkit-appearance: none;
-    width: 23px;
-    height: 23px;
-    border: 2px solid var(--azul);
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    margin: 0;
-    flex-shrink: 0;
-}
+    .btn-tipo input[type="radio"] {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--azul);
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        margin: 0;
+        flex-shrink: 0;
+    }
 
-.btn-tipo input[type="radio"]:checked {
-    background-color: var(--azul);
-    box-shadow: inset 0 0 0 0.4px var(--branco);
-}
+        .btn-tipo input[type="radio"]:checked {
+            background-color: var(--azul);
+            box-shadow: inset 0 0 0 2px var(--branco);
+        }
 
-.body-resumo{
+.body-resumo {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.inputs label{
+.inputs label {
     display: flex;
     flex-direction: column;
     padding: 15px 30px;
@@ -211,20 +208,20 @@ hr {
     color: color-mix(in srgb, var(--cinza-escuro) 83%, transparent);
 }
 
-.txt-total:nth-child(3) h4{
+.txt-total:nth-child(3) h4 {
     font-size: 1.5rem;
     font-weight: 600;
     display: flex;
 }
 
-.txt-total:nth-child(3) span{
+.txt-total:nth-child(3) span {
     font-size: 1.2rem;
     display: flex;
     color: var(--laranja);
     font-weight: 600;
 }
-
-.botao-realizar-pedido{
+   
+.botao-realizar-pedido {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -234,5 +231,5 @@ hr {
     background-color: var(--azul);
     color: var(--branco);
     font-weight: 600;
-    margin: 2rem 3.5rem ;
+    margin: 2rem 3.5rem;
 }
