@@ -62,7 +62,10 @@ namespace Discoffee.Repository
                                 Apelido = reader.GetString("Apelido"),
                                 NumeroCartao = reader.GetString("Numero_Mascarado"),
                                 DataValidade = reader.GetString("DataVal"),
-                                UsuarioId = reader.GetInt32("Id_Usuario"),
+                                Usuario = new Usuario
+                                {
+                                    IdUsuario = reader.GetInt32("Id_Usuario"),
+                                }
                             });
                         }
                     }

@@ -27,7 +27,6 @@ namespace Discoffee.Repository
                     cmd.Parameters.AddWithValue("@vNome", produto.Nome);
                     cmd.Parameters.AddWithValue("@vPreco", produto.Preco);
                     cmd.Parameters.AddWithValue("@vDescricao", produto.Descricao);
-                    cmd.Parameters.AddWithValue("@vTamanho", produto.Tamanho);
                     cmd.Parameters.AddWithValue("@vImagem", produto.Imagem);
                     cmd.Parameters.AddWithValue("@vDisponibilidade", produto.Disponibilidade);
                     cmd.Parameters.AddWithValue("@vCategoria", produto.Categoria?.NomeCategoria);
@@ -73,10 +72,8 @@ namespace Discoffee.Repository
                                 Nome = reader.GetString("Nome"),
                                 Preco = reader.GetDecimal("Preco"),
                                 Descricao = reader.GetString("Descricao"),
-                                Tamanho = reader.GetString("Tamanho"),
                                 Imagem = reader.GetString("Imagem"),
                                 Disponibilidade = reader.GetBoolean("Disponibilidade"),
-                                CategoriaId = reader.GetInt32("Id_Categoria"),
                                 Categoria = new Categoria
                                 {
                                     IdCategoria = reader.GetInt32("Id_Categoria"),
@@ -113,10 +110,8 @@ namespace Discoffee.Repository
                                 Nome = reader.GetString("Nome"),
                                 Preco = reader.GetDecimal("Preco"),
                                 Descricao = reader.GetString("Descricao"),
-                                Tamanho = reader.GetString("Tamanho"),
                                 Imagem = reader.GetString("Imagem"),
                                 Disponibilidade = reader.GetBoolean("Disponibilidade"),
-                                CategoriaId = reader.GetInt32("Id_Categoria"),
                                 Categoria = new Categoria
                                 {
                                     IdCategoria = reader.GetInt32("Id_Categoria"),
@@ -157,7 +152,6 @@ namespace Discoffee.Repository
                     cmd.Parameters.AddWithValue("@Nome", produto.Nome);
                     cmd.Parameters.AddWithValue("@Preco", produto.Preco);
                     cmd.Parameters.AddWithValue("@Descricao", produto.Descricao);
-                    cmd.Parameters.AddWithValue("@Tamanho", produto.Tamanho);
                     cmd.Parameters.AddWithValue("@Imagem", produto.Imagem);
                     cmd.Parameters.AddWithValue("@Disponibilidade", produto.Disponibilidade);
                     cmd.Parameters.AddWithValue("@IdCategoria", idCategoria);

@@ -718,7 +718,7 @@ begin
         Preco_Extra
     from tbOpcao_Personalizacao
     where Id_Categoria = vId_Categoria
-    order by Tipo, Opcao;
+    order by Id_Opcao;
 
 end $$
 delimiter ;

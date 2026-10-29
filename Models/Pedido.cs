@@ -34,12 +34,10 @@ namespace Discoffee.Models
         [Display(Name = "Tipo", Description = "Tipo do pedido.")]
         public TipoPedido Tipo { get; set; }
 
-        [Display(Name = "IdUsuario", Description = "Identificador do usuário.")]
-        public int UsuarioId { get; set; }
+        // [Display(Name = "IdUsuario", Description = "Identificador do usuário.")]
+        // public int UsuarioId { get; set; }
 
-        [Display(Name = "IdProduto", Description = "Identificador do produto.")]
-        [Required(ErrorMessage = "O identificador do produto é obrigatório.")]
-        public int ProdutoId { get; set; }
+        public Usuario Usuario { get; set; }
 
         // DADOS DO PEDIDO COMPLETO
         public List<ItemPedido> Itens { get; set; } = new();

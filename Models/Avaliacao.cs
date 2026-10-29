@@ -22,14 +22,8 @@ namespace Discoffee.Models
         [RegularExpression(@"^\d{2}\/\d{2}\/\d{4}$", ErrorMessage = "Data inválida. Use o formato dd/MM/aaaa.")]
         public DateTime Data { get; set; }
 
-        [Display(Name = "UsuarioId", Description = "Identificador do usuário proprietário do carrinho.")]
-        public int UsuarioId { get; set; }
-
         [Display(Name = "Usuario", Description = "Usuário proprietário da avaliação.")]
         public Usuario Usuario { get; set; }
-
-        [Display(Name = "ProdutoId", Description = "Identificador do produto avaliado.")]
-        public int ProdutoId { get; set; }
 
         [Display(Name = "Produto", Description = "Produto avaliado.")]
         public Produto Produto { get; set; }

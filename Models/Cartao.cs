@@ -26,10 +26,6 @@ namespace Discoffee.Models
         [RegularExpression(@"^(0[1-9]|1[0-2])\/\d{2}$", ErrorMessage = "Data de validade inválida. Use o formato MM/AA.")]
         public string DataValidade { get; set; }
 
-        [Display(Name = "UsuarioId", Description = "Id do usuário proprietário do cartão.")]
-        [Required(ErrorMessage = "O Id do usuário é obrigatório.")]
-        public int UsuarioId { get; set; }
-
         [Display(Name = "Usuário", Description = "Usuário proprietário do cartão.")]
         public Usuario Usuario { get; set; }
     }

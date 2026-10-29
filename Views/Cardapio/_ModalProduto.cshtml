@@ -31,11 +31,11 @@
 
                     @*CARREGA AS OPÇÕES DISPONÍVEIS POR CATEGORIA*@
                     <div class="container-opcoes"
-                        data-id-categoria="@Model.CategoriaId"
+                        data-id-categoria="@Model.Categoria.IdCategoria"
                         data-url="@Url.Action(
                             "BuscarOpcoesProduto",
                             "Cardapio",
-                            new { idCategoria = Model.CategoriaId })">
+                            new { idCategoria = Model.Categoria.IdCategoria })">
 
                         <p>As opções serão carregadas ao abrir o produto.</p>
 

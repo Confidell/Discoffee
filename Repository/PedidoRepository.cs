@@ -207,7 +207,7 @@ namespace Discoffee.Repository
             comando.Parameters.AddWithValue("@vTipo", pedido.Tipo);
             comando.Parameters.AddWithValue("@vStats", StatusPedido.Pendente);
             comando.Parameters.AddWithValue("@vFrete", pedido.Frete);
-            comando.Parameters.AddWithValue("@vId_Usuario", pedido.UsuarioId);
+            comando.Parameters.AddWithValue("@vId_Usuario", pedido.Usuario.IdUsuario);
 
             // EXECUTA PROCEDURE E RECEBE O ID DO PEDIDO RETORNADO COM O "EXECUTE SCALAR"
             int idPedido = Convert.ToInt32(comando.ExecuteScalar());

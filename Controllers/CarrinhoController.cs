@@ -75,7 +75,7 @@ namespace Discoffee.Controllers
             // Busca as opções válidas para a categoria do produto.
             var opcoesCategoria =
                 _opcaoPersonalizacaoRepository
-                    .BuscarOpcoesPorCategoria(produto.CategoriaId);
+                    .BuscarOpcoesPorCategoria(produto.Categoria.IdCategoria);
 
             // Valida se todos os IDs enviados pertencem à categoria.
             var opcoesSelecionadas = opcoesCategoria

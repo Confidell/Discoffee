@@ -25,14 +25,8 @@ namespace Discoffee.Models
         [RegularExpression(@"^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$", ErrorMessage = "CNPJ inválido. Use o formato 00.000.000/0000-00.")]
         public string CNPJ_Discoffee { get; set; }
 
-        [Display(Name = "ClienteId", Description = "Código do cliente.")]
-        public int ClienteId { get; set; }
-
         [Display(Name = "Cliente", Description = "Cliente associado à nota fiscal.")]
         public Usuario Cliente { get; set; }
-
-        [Display(Name = "PagamentoId", Description = "Código do pagamento.")]
-        public int PagamentoId { get; set; }
 
         [Display(Name = "Pagamento", Description = "Pagamento associado à nota fiscal.")]
         public Pagamento Pagamento { get; set; }
