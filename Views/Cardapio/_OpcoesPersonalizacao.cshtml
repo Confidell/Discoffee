@@ -48,7 +48,9 @@
                         <input
                             type="radio"
                             name="opcoes-@grupo.Key"
-                            value="@opcao.IdOpcao" />
+                            value="@opcao.IdOpcao"
+                            checked="@(opcao.IdOpcao == grupo.First().IdOpcao)"
+                            />
                     }
 
                 </div>

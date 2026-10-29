@@ -442,7 +442,6 @@
     color: var(--cinza-claro);
 }
 
-.btn-tamanho,
 .btn-opcao {
     display: flex;
     justify-content: space-between;
@@ -485,29 +484,26 @@ input[type="checkbox"] {
 .seletor-quantidade {
     background-color: var(--branco-escuro);
     border-radius: 5px;
-    height: 35%;
+    /* height: 40%; */
+    width: 30%;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-evenly;
     font-weight: 400;
     display: flex;
 }
 
 .seletor-quantidade span {
-    margin-bottom: 1px;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
 }
 
 .seletor-quantidade button {
     background: none;
     border: none;
-    padding: 0 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    outline: none;
-    display: flex;
-    height: 25px;
-    justify-content: center;
+}
+.seletor-quantidade button svg{
+    width: 30px;
+    height: 30px;
 }
 
 .qtd-adicionar {
@@ -518,14 +514,14 @@ input[type="checkbox"] {
     gap: 3rem;
 }
 
-#add-carrinho {
-    border: none;
-    padding: 8px;
+.add-carrinho {
+    padding: 5px;
     width: 50%;
     border-radius: 10px;
     background-color: var(--laranja);
     color: var(--branco);
     font-weight: 600;
+    font-size: 1.2rem;
 }
 
 

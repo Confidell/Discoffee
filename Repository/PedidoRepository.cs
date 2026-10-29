@@ -204,7 +204,7 @@ namespace Discoffee.Repository
             using var comando = new MySqlCommand("criarPedido", conexao);
             comando.CommandType = CommandType.StoredProcedure;
 
-            comando.Parameters.AddWithValue("@vTipo", pedido.Tipo);
+            comando.Parameters.AddWithValue("@vTipo", pedido.Tipo.ToString());
             comando.Parameters.AddWithValue("@vStats", StatusPedido.Pendente);
             comando.Parameters.AddWithValue("@vFrete", pedido.Frete);
             comando.Parameters.AddWithValue("@vId_Usuario", pedido.Usuario.IdUsuario);

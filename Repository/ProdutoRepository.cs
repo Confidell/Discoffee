@@ -49,7 +49,6 @@ namespace Discoffee.Repository
                         pr.Nome,
                         pr.Preco,
                         pr.Descricao,
-                        pr.Tamanho,
                         pr.Imagem,
                         pr.Disponibilidade,
                         pr.Id_Categoria,
@@ -140,7 +139,6 @@ namespace Discoffee.Repository
                         Nome = @Nome,
                         Preco = @Preco,
                         Descricao = @Descricao,
-                        Tamanho = @Tamanho,
                         Imagem = @Imagem,
                         Disponibilidade = @Disponibilidade,
                         Id_Categoria = @IdCategoria

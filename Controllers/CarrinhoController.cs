@@ -1,8 +1,10 @@
-﻿using System.Text.Json;
+﻿using System.Security.Claims;
+using System.Text.Json;
 using Discoffee.Models;
 using Discoffee.Repository.Contract;
 using Discoffee.Sessao;
 using Discoffee.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Discoffee.Controllers
@@ -118,57 +120,21 @@ namespace Discoffee.Controllers
             });
         }
 
-        // [HttpPost]
-        // public IActionResult Atualizar(ItemPedidoViewModel item)
-        // {
-        //     _sessaoItemPedido.Atualizar(item);
-
-        //     return RedirectToAction(nameof(Index));
-        // }
-
         [HttpPost]
-        public IActionResult Remover(ItemPedidoViewModel item)
+        public IActionResult AtualizarItem(int idItemCarrinho, int quantidade)
         {
-            _sessaoItemPedido.RemoverItem(item.IdItem);
+
+            _sessaoItemPedido.AtualizarItem(idItemCarrinho, quantidade);
 
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public void FinalizarCompra([FromBody] Pedido pedido)
+        public IActionResult RemoverItem(int idItemCarrinho)
         {
-            int idPedido = _pedidoRepository.CriarPedido(pedido);
+            _sessaoItemPedido.RemoverItem(idItemCarrinho);
 
-            // PASSA POR CADA UM DOS PRODUTOS NO CARRINHO
-            foreach (var item in pedido.Itens)
-            {
-                var itemPedido = new ItemPedidoViewModel
-                {
-                    IdPedido = idPedido,
-                    IdProduto = item.IdProduto,
-                    Quantidade = item.Quantidade
-                };
-
-                // INSERE O PRODUTO E PEGA SEU ID
-                int idItem = _pedidoRepository.InserirItemPedido(
-                    itemPedido
-                );
-
-                // INSERE AS PERSONALIZAÇÕES DESSE PRODUTO
-                foreach (var opcao in item.Opcoes)
-                {
-                    var opcaoItem = new OpcaoPedidoViewModel
-                    {
-                        IdItem = idItem,
-                        IdOpcao = opcao.IdOpcao
-                    };
-
-                    _pedidoRepository.InserirOpcaoItemPedido(opcaoItem);
-                }
-            }
-
-            // RECALCULA O TOTAL
-            _pedidoRepository.AtualizarTotalPedido(idPedido);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

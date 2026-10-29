@@ -4,6 +4,9 @@ namespace Discoffee.ViewModels
 {
     public class ItemPedidoViewModel
     {
+        // IDENTIFICA APENAS NA VIEW DO CARRINHO
+        public int? IdItemCarrinho { get; set; }
+
         public int IdItem { get; set; }
         public int? IdPedido { get; set; }
         public int? IdProduto { get; set; }

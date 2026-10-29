@@ -29,21 +29,41 @@ namespace Discoffee.Sessao
         {
             var itens = Consultar();
 
+            // GERA UM NOVO ID PARA IDENTIFICAR NO CARRINHO
+            int proximoId = itens.Count == 0
+                ? 1
+                : itens.Max(i => i.IdItemCarrinho ?? 0) + 1;
+
+            item.IdItemCarrinho = proximoId;
             itens.Add(item);
 
             string json = JsonConvert.SerializeObject(itens);
-
             _sessao.SetString(Chave, json);
         }
 
-        public void RemoverItem(int idItem)
+        public void AtualizarItem(int idItemCarrinho, int quantidade)
         {
             var itens = Consultar();
 
-            itens.RemoveAll(i => i.IdItem == idItem);
+            var item = itens.FirstOrDefault(
+                i => i.IdItemCarrinho == idItemCarrinho
+            );
+
+            if (item == null || quantidade < 1)
+                return;
+
+            item.Quantidade = quantidade;
 
             string json = JsonConvert.SerializeObject(itens);
+            _sessao.SetString(Chave, json);
+        }
 
+        public void RemoverItem(int idItemCarrinho)
+        {
+            var itens = Consultar();
+            itens.RemoveAll(i => i.IdItemCarrinho == idItemCarrinho);
+
+            string json = JsonConvert.SerializeObject(itens);
             _sessao.SetString(Chave, json);
         }
 

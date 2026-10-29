@@ -243,6 +243,7 @@
     padding: 22px 16px 14px 18px;
     height: fit-content;
     gap: 2rem;
+    position: relative;
 }
 
 .item-pedido-imagem {
@@ -270,6 +271,57 @@
     font-weight: 600;
     letter-spacing: 0.5px;
     color: var(--azul);
+}
+
+.botoes-carrinho{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: fit-content;
+    gap: 1rem;
+    position: absolute;
+    right: 5%;
+    top: 12%;
+}
+
+.botoes-carrinho button{
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icone-remover{
+    color: var(--vermelho); 
+    width: 20px; 
+    height: 20px; 
+    cursor: pointer;
+}
+
+.seletor-quantidade {
+    background-color: var(--branco-escuro);
+    border-radius: 5px;
+    width: 100px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    font-weight: 400;
+    display: flex;
+}
+
+.seletor-quantidade span {
+    font-size: 1.2rem;
+}
+
+.seletor-quantidade button {
+    background: none;
+    border: none;
+}
+.seletor-quantidade button svg{
+    width: 25px;
+    height: 25px;
 }
 
 .item-pedido-preco {

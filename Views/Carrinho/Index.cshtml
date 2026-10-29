@@ -1,5 +1,6 @@
 ﻿@model List<Discoffee.ViewModels.ItemPedidoViewModel>
 @using System.Globalization
+@using Discoffee.Models.Constants
 
 @{
     ViewData["Title"] = "Carrinho";
@@ -25,7 +26,9 @@
 <div class="box-carrinho">
     <section class="sacola-produtos">
         <div class="minha-sacola">
-            <img src="~/Assets/Icons/Icon_SetaBranca.png" />
+            <a asp-controller="Cardapio" asp-action="Index">
+                <img src="~/Assets/Icons/Icon_SetaBranca.png" />
+            </a>
             <h2>MEU CARRINHO</h2>
         </div>
 
@@ -59,13 +62,13 @@
 
             <div class="buttons-radio">
                 <div class="btn-tipo">
-                    <input type="radio" name="tipo-pedido" value="entrega">
-                    <label>Entrega</label>
+                    <input type="radio" id="tipo-entrega" name="Tipo" form="form-finalizar-compra" value="1" checked>
+                    <label>@TipoPedido.Entrega</label>
                 </div>
 
                 <div class="btn-tipo">
-                    <input type="radio" name="tipo-pedido" value="retirada">
-                    <label>Retirada</label>
+                    <input type="radio" id="tipo-retirada" name="Tipo" form="form-finalizar-compra" value="2">
+                    <label>@TipoPedido.Retirada</label>
                 </div>
             </div>
         </div>
@@ -84,11 +87,6 @@
                            placeholder="Insira o cupom" />
                 </label>
 
-                <label for="observacoes">
-                    Observações:
-                    <input type="text" id="observacoes" class="input-form"
-                           placeholder="Insira suas observações" />
-                </label>
             </div>
 
             <hr />
@@ -109,10 +107,18 @@
                     <span>R$ @total</span>
                 </div>
 
-                <button class="botao botao-realizar-pedido">
-                    Realizar Pedido
-                </button>
+                <form asp-area="Cliente" asp-controller="Pedido" asp-action="FinalizarCompra" method="post">
+                    <input type="hidden" name="Frete" value="0" />
+
+                    <button type="submit" class="botao botao-realizar-pedido">
+                        Realizar Pedido
+                    </button>
+                </form>
             </div>
         </div>
     </section>
 </div>
+
+@section Scripts {
+    <script src="~/js/carrinho.js" asp-append-version="true" ></script>
+}
