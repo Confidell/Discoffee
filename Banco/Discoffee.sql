@@ -68,7 +68,6 @@ Id_Produto INT PRIMARY KEY auto_increment,
 Nome VARCHAR(50) NOT NULL,	
 Preco DECIMAL(10,2) NOT NULL,
 Descricao VARCHAR(200) NOT NULL,
-Tamanho VARCHAR(5) NOT NULL,
 Imagem VARCHAR(100) NOT NULL,
 Disponibilidade BOOLEAN,
 Id_Categoria INT,
@@ -231,22 +230,21 @@ select * from tbCategoria;
  
 -- INSERE O PRODUTO
 DELIMITER $$
-CREATE PROCEDURE insertTbProduto(
-    IN  vNome            VARCHAR(50),
-    IN  vPreco           DECIMAL(10,2),
-    IN  vDescricao       VARCHAR(200),
-    IN  vTamanho         VARCHAR(5),
-    IN  vImagem          VARCHAR(100),
-    IN  vDisponibilidade BOOLEAN,
-    IN  vId_Categoria    INT,
-    OUT vId_Produto      INT
+CREATE PROCEDURE inserirProduto(
+    vNome VARCHAR(50),
+    vPreco DECIMAL(10,2),
+    vDescricao VARCHAR(200),
+    vImagem VARCHAR(100),
+    vDisponibilidade BOOLEAN,
+    vId_Categoria INT,
+    OUT vId_Produto INT
 )
 BEGIN
-    SET vId_Produto = 0;
+    DECLARE vId_Produto INT;
 
-    IF NOT EXISTS (SELECT 1 FROM tbProduto WHERE Nome = vNome AND Tamanho = vTamanho) THEN
-        INSERT INTO tbProduto(Nome, Preco, Descricao, Tamanho, Imagem, Disponibilidade, Id_Categoria)
-        VALUES (vNome, vPreco, vDescricao, vTamanho, vImagem, vDisponibilidade, vId_Categoria);
+    IF NOT EXISTS (SELECT 1 FROM tbProduto WHERE Nome = vNome AND Preco = vPreco) THEN
+        INSERT INTO tbProduto(Nome, Preco, Descricao, Imagem, Disponibilidade, Id_Categoria)
+        VALUES (vNome, vPreco, vDescricao, vImagem, vDisponibilidade, vId_Categoria);
 
         SET vId_Produto = LAST_INSERT_ID();
     END IF;
@@ -262,12 +260,12 @@ CALL cadastrarCategoria('Refresco',    @catRefresco);
 CALL cadastrarCategoria('Shake',       @catShake);
 
 -- PRODUTOS (procedure: nome, preço, descrição, tamanho, imagem, disponível, id categoria, OUT id)
-CALL insertTbProduto('Macchiatto',         29.99, 'Café extremamente cremoso', 'M', 'Macchiatto.png', TRUE, @catTradicional, @idProd);
-CALL insertTbProduto('Café Gelado',        18.50, 'Café gelado com caramelo',  'M', 'Café_Gelado.png', TRUE, @catDrink,      @idProd);
-CALL insertTbProduto('Brigadeiro',          8.50, 'Brigadeiro gourmet',        '-', 'Brigadeiro.png', TRUE, @catDoce,       @idProd);
-CALL insertTbProduto('Coxinha',             7.00, 'Coxinha de frango',         '-', 'Coxinha.png', TRUE, @catSalgado,    @idProd);
-CALL insertTbProduto('Limonada',            9.90, 'Limonada suíça',            'M', 'Limonada.png', TRUE, @catRefresco,   @idProd);
-CALL insertTbProduto('Shake de Chocolate', 16.90, 'Shake cremoso',             'M', 'Shake_Chocolate.png', TRUE, @catShake,      @idProd);
+CALL inserirProduto('Macchiatto', 29.99, 'Café extremamente cremoso', 'Macchiatto.png', TRUE, @catTradicional, @idProd);
+CALL inserirProduto('Café Gelado', 18.50, 'Café gelado com caramelo', 'Café_Gelado.png', TRUE, @catDrink, @idProd);
+CALL inserirProduto('Brigadeiro', 8.50, 'Brigadeiro gourmet', 'Brigadeiro.png', TRUE, @catDoce, @idProd);
+CALL inserirProduto('Coxinha', 7.00, 'Coxinha de frango', 'Coxinha.png', TRUE, @catSalgado, @idProd);
+CALL inserirProduto('Limonada', 9.90, 'Limonada suíça', 'Limonada.png', TRUE, @catRefresco, @idProd);
+CALL inserirProduto('Shake de Chocolate', 16.90, 'Shake cremoso', 'Shake_Chocolate.png', TRUE, @catShake, @idProd);
 
 SELECT * FROM tbCategoria;
 SELECT * FROM tbProduto;
@@ -430,158 +428,18 @@ begin
     where op.Id_Opcao = vId_Opcao
       and op.Id_Categoria = p.Id_Categoria;
 
-    -- IMPEDIR OPÇÕES INEXISTENTES OU DE OUTRA CATEGORIA
-    if vPreco is null then
-        signal sqlstate '45000'
-            set message_text = 'Opcao invalida para a categoria do produto.';
-    end if;
-
     -- REGISTRAR A OPÇÃO ESCOLHIDA
     insert into tbItemPedido_Opcao(Id_Opcao, Id_Item, Preco)
 		values(vId_Opcao, vId_Item, vPreco);
-        
 
 end $$
 delimiter ;
 
-
--- ==========================================
--- 1. CONSULTAR OS PRODUTOS E SUAS CATEGORIAS
--- ==========================================
-select
-    Id_Produto,
-    Nome,
-    Preco,
-    Id_Categoria
-from tbProduto;
-
-
--- ==========================================
--- 2. CONSULTAR AS OPÇÕES E SUAS CATEGORIAS
--- ==========================================
-select
-    Id_Opcao,
-    Tipo,
-    Opcao,
-    Preco_Extra,
-    Id_Categoria
-from tbOpcao_Personalizacao;
-
-
--- ==========================================
--- 3. CRIAR UM PEDIDO DE TESTE
--- ==========================================
-call criarPedido('Retirada', 'Pendente', 0.00, 1);
-
-
--- ==========================================
--- 4. CONSULTAR O ID DO PEDIDO CRIADO
--- ==========================================
-select *
-from tbPedido
-order by Id_Pedido desc
-limit 1;
-
-
--- ==========================================
--- 5. INSERIR UM ITEM NO PEDIDO
--- SUBSTITUA OS IDS PELOS VALORES CORRETOS
--- ==========================================
-call inserirItemPedido(2, 1, 1);
-call inserirItemPedido(2, 2, 1);
-
--- ==========================================
--- 6. CONSULTAR O ITEM INSERIDO
--- ==========================================
-select *
-from tbItem_Pedido
-where Id_Pedido = 3
-order by Id_Item desc;
-
-
--- ==========================================
--- 7. INSERIR UMA OPÇÃO DE PERSONALIZAÇÃO
--- USE UMA OPÇÃO DA MESMA CATEGORIA DO PRODUTO
--- ==========================================
-call inserirOpcaoItemPedido(1, 3);
-call inserirOpcaoItemPedido(2, 6);
-call inserirOpcaoItemPedido(3, 6);
-
--- ==========================================
--- 8. CONFERIR A OPÇÃO VINCULADA AO ITEM
--- ==========================================
-select
-    ip.Id_Item,
-    p.Nome as Produto,
-    op.Tipo,
-    op.Opcao as Personalizacao,
-    ipo.Preco as Preco_Extra
-from tbItemPedido_Opcao as ipo
-inner join tbItem_Pedido as ip
-    on ip.Id_Item = ipo.Id_Item
-inner join tbProduto as p
-    on p.Id_Produto = ip.Id_Produto
-inner join tbOpcao_Personalizacao as op
-    on op.Id_Opcao = ipo.Id_Opcao
-where ip.Id_Pedido = 3;
-
--- ==========================================
--- 9. TESTAR UMA OPÇÃO DE OUTRA CATEGORIA
--- ESTA CHAMADA DEVE RETORNAR UM ERRO
--- ==========================================
-
-
--- ==========================================
--- 10. ATUALIZAR O SUBTOTAL E O TOTAL DO PEDIDO
--- ==========================================
-
-call atualizarTotalPedido(2);
-
--- ==========================================
--- 11. CONFERIR OS VALORES FINAIS
--- ==========================================
-
-select
-    Id_Pedido,
-    SubTotal,
-    Frete,
-    Total
-from tbPedido
-where Id_Pedido = 5;
-
-
--- ==========================================
--- 12. CONFERIR TODOS OS ITENS DO PEDIDO
--- ==========================================
-
-select
-    ip.Id_Item,
-    p.Nome as Produto,
-    ip.Preco_Unitario,
-    ip.Quantidade,
-    coalesce(sum(ipo.Preco), 0) as Total_Personalizacoes,
-    (ip.Preco_Unitario + coalesce(sum(ipo.Preco), 0))
-        * ip.Quantidade as Total_Item
-from tbItem_Pedido as ip
-inner join tbProduto as p
-    on p.Id_Produto = ip.Id_Produto
-left join tbItemPedido_Opcao as ipo
-    on ipo.Id_Item = ip.Id_Item
-where ip.Id_Pedido = 5
-group by
-    ip.Id_Item,
-    p.Nome,
-    ip.Preco_Unitario,
-    ip.Quantidade;
-
- 
 select * from tbOpcao_Personalizacao;
 select * from tbProduto;
 select * from tbCategoria;
 select * from tbPedido;
 select * from tbItem_Pedido;
-
-
 
 delimiter $$
 create procedure insertTbCartao(
@@ -694,7 +552,6 @@ BEGIN
         p.Nome,
         p.Preco,
         p.Descricao,
-        p.Tamanho,
         p.Imagem,
         p.Disponibilidade,
         c.Id_Categoria,
@@ -721,7 +578,6 @@ BEGIN
         p.Nome,
         p.Preco,
         p.Descricao,
-        p.Tamanho,
         p.Imagem,
         p.Disponibilidade,
         c.Id_Categoria,
