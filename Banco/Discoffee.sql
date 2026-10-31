@@ -542,6 +542,29 @@ BEGIN
 END $$
 DELIMITER ;
 
+-- BUSCA TODOS OS USUÁRIOS
+DELIMITER $$
+CREATE PROCEDURE buscarTodosUsuarios()
+BEGIN
+    SELECT
+        u.Id_Usuario,
+        u.NomeCompleto,
+        u.Email,
+        u.Senha,
+        u.CPF,
+        u.Telefone,
+        u.DataNasc,
+        u.Stats,
+        u.Numero_Casa,
+        u.Complemento,
+        c.CEP,
+        p.Tipo AS Perfil
+    FROM tbUsuario u
+    LEFT JOIN tbPerfil p ON p.Id_Perfil = u.Id_Perfil
+    LEFT JOIN tbCEP c ON c.Id_CEP = u.Id_CEP;
+END $$
+DELIMITER ;
+
 -- BUSCA TODOS OS PRODUTOS (CARDAPIO)
 DELIMITER $$
 CREATE PROCEDURE buscarTodosProdutos()

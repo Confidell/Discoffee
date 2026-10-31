@@ -1,7 +1,6 @@
 ﻿body {
 }
 
-
 .catalogo-header{
     display: flex; 
     align-items: center;
@@ -174,10 +173,9 @@
     display: flex;
     background-color: var(--roxo);
     border-radius: 8px;
-    padding: 6px 20px;
     justify-content: center;
     width: 100%;
-    padding: 8px;
+    padding: 12px;
 }
 
 .prod-header h2 {

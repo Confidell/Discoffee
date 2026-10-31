@@ -37,7 +37,7 @@ namespace Discoffee.Models
         public DateTime DataNascimento { get; set; }
 
         [Display(Name = "Status")]
-        public string? Status { get; set; }
+        public string Status { get; set; }
 
         [Display(Name = "Complemento")]
         public string? Complemento { get; set; }

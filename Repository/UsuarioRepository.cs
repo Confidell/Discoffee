@@ -15,10 +15,42 @@ namespace Discoffee.Repository
             _conexaoMySql = config.GetConnectionString("ConexaoMySQL");
         }
 
-        public List<Usuario> BuscarTodos()
+
+
+    public List<Usuario> BuscarTodos()
         {
-            throw new NotImplementedException();
+            var usuarios = new List<Usuario>();
+
+            using var conexao = new MySqlConnection(_conexaoMySql);
+            conexao.Open();
+
+            using var comando = new MySqlCommand("buscarTodosUsuarios", conexao);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            using var reader = comando.ExecuteReader();
+
+            while (reader.Read())
+            {
+                usuarios.Add(new Usuario
+                {
+                    NomeCompleto = reader.GetString("NomeCompleto"),
+                    Email = reader.GetString("Email"),
+                    Senha = reader.GetString("Senha"),
+                    CPF = reader.GetString("CPF"),
+                    Telefone = reader.GetString("Telefone"),
+                    DataNascimento = reader.GetDateTime("DataNasc"),
+                    Status = reader.GetString("Stats"),
+                    Complemento = reader.IsDBNull(reader.GetOrdinal("Complemento")) ? null : reader.GetString("Complemento"),
+                    NumeroCasa = reader.GetString("Numero_Casa"),
+                    CEP = reader.GetString("CEP"),
+                    Perfil = Enum.Parse<EnumPerfil>(reader.GetString("Perfil"))
+                });
+            }
+
+            return usuarios;
         }
+
+        
 
         public Usuario BuscarUsuarioPorEmail(string Email)
         {
