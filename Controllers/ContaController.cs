@@ -38,6 +38,7 @@ namespace Discoffee.Controllers
         [HttpPost]
         public IActionResult Cadastrar(CadastrarUsuarioViewModel usuarioViewModel, string? form)
         {
+
             Usuario usuarioExistente = _repositorio.BuscarUsuarioPorEmail(usuarioViewModel.Email);
 
             // VALIDA A DATA DE NASCIMENTO PARA O FORMATO CORRETO
@@ -142,9 +143,9 @@ namespace Discoffee.Controllers
             _repositorio.CadastrarUsuario(usuario);
 
             return RedirectToAction("Index", "Conta", new { form = "login" });
-        }
 
-        [HttpPost]
+        }
+            [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel, string? form, string? returnUrl)
         {
             Usuario? usuario = _repositorio.BuscarUsuarioPorEmail(loginViewModel.Email);

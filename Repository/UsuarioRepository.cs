@@ -33,6 +33,7 @@ namespace Discoffee.Repository
             {
                 usuarios.Add(new Usuario
                 {
+                    IdUsuario = reader.GetInt32("Id_Usuario"),
                     NomeCompleto = reader.GetString("NomeCompleto"),
                     Email = reader.GetString("Email"),
                     Senha = reader.GetString("Senha"),
@@ -181,7 +182,7 @@ namespace Discoffee.Repository
             comando.Parameters.AddWithValue("@vSenha", usuario.Senha);
             comando.Parameters.AddWithValue("@vCPF", usuario.CPF);
             comando.Parameters.AddWithValue("@vTelefone", usuario.Telefone);
-            comando.Parameters.AddWithValue("@vDataNasc", usuario.DataNascimento);
+            comando.Parameters.AddWithValue("@vDataNasc", (object?)usuario.DataNascimento ?? DBNull.Value);
             comando.Parameters.AddWithValue("@vNumero_Casa", usuario.NumeroCasa);
             comando.Parameters.AddWithValue("@vComplemento", usuario.Complemento);
             comando.Parameters.AddWithValue("@vCEP", usuario.CEP);
@@ -208,6 +209,30 @@ namespace Discoffee.Repository
             comando.Parameters.AddWithValue("vNumero_Casa",(object?)usuario.NumeroCasa ?? DBNull.Value);
             comando.Parameters.AddWithValue("vComplemento",(object?)usuario.Complemento ?? DBNull.Value);
             comando.Parameters.AddWithValue("vCEP",(object?)usuario.CEP ?? DBNull.Value);
+
+            conexao.Open();
+            comando.ExecuteNonQuery();
+        }
+
+        public void EditarUsuarioGerencia(EditarUsuarioViewModel usuario)
+        {
+            using var conexao = new MySqlConnection(_conexaoMySql);
+
+            using var comando = new MySqlCommand("atualizarUsuarioGerencia", conexao);
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.AddWithValue("vId_Usuario", usuario.IdUsuario);
+            comando.Parameters.AddWithValue("vNomeCompleto", (object?)usuario.NomeCompleto ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vEmail", (object?)usuario.Email ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vSenha", (object?)usuario.Senha ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vCPF", (object?)usuario.CPF ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vTelefone", (object?)usuario.Telefone ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vDataNasc", (object?)usuario.DataNascimento ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vNumero_Casa", (object?)usuario.NumeroCasa ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vComplemento", (object?)usuario.Complemento ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vCEP", (object?)usuario.CEP ?? DBNull.Value);
+            comando.Parameters.AddWithValue("vPerfil", usuario.Perfil != 0 ? (int)usuario.Perfil : DBNull.Value);
+            comando.Parameters.AddWithValue("vStatus", (object?)usuario.Status ?? DBNull.Value);
 
             conexao.Open();
             comando.ExecuteNonQuery();

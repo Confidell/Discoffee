@@ -794,3 +794,56 @@ BEGIN
     END IF;
 END $$
 DELIMITER 
+
+-- ATUALIZA USUARIO PELA GERENCIA (TAMBEM ALTERA STATUS E PERFIL)
+-- CAMPO ENVIADO COMO NULL MANTEM O VALOR ANTIGO
+DELIMITER $$
+CREATE PROCEDURE atualizarUsuarioGerencia(
+	vId_Usuario INT,
+	vNomeCompleto VARCHAR(150),
+	vEmail VARCHAR(100),
+	vSenha VARCHAR(100),
+	vCPF VARCHAR(15),
+	vTelefone VARCHAR(15),
+	vDataNasc DATE,
+	vNumero_Casa VARCHAR(10),
+	vComplemento VARCHAR(50),
+	vCEP VARCHAR(9),
+	vPerfil INT,
+	vStatus VARCHAR(10)
+)
+BEGIN
+    DECLARE vId_CEP INT;
+    DECLARE vId_Perfil INT;
+
+    IF (EXISTS (SELECT 1 FROM tbUsuario WHERE Id_Usuario = vId_Usuario))
+    THEN
+
+        -- PROCURA OU CADASTRA O CEP CASO UM TENHA SIDO ENVIADO
+        IF vCEP IS NOT NULL AND vCEP <> '' THEN
+            CALL cadastrarCEP(vCEP, vId_CEP);
+        END IF;
+
+        -- BUSCA O ID DO PERFIL CASO UM TENHA SIDO ENVIADO
+        IF vPerfil IS NOT NULL THEN
+            SELECT Id_Perfil INTO vId_Perfil FROM tbPerfil WHERE Tipo = vPerfil LIMIT 1;
+        END IF;
+
+        UPDATE tbUsuario
+        SET
+            NomeCompleto = COALESCE(vNomeCompleto, NomeCompleto),
+            Email = COALESCE(vEmail, Email),
+            Senha = COALESCE(vSenha, Senha),
+            CPF = COALESCE(vCPF, CPF),
+            Telefone = COALESCE(vTelefone, Telefone),
+            DataNasc = COALESCE(vDataNasc, DataNasc),
+            Numero_Casa = COALESCE(vNumero_Casa, Numero_Casa),
+            Complemento = COALESCE(vComplemento, Complemento),
+            Id_CEP = COALESCE(vId_CEP, Id_CEP),
+            Id_Perfil = COALESCE(vId_Perfil, Id_Perfil),
+            Stats = COALESCE(vStatus, Stats)
+        WHERE Id_Usuario = vId_Usuario;
+
+    END IF;
+END $$
+DELIMITER ;
