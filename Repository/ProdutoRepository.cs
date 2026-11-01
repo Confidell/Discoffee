@@ -13,28 +13,31 @@ namespace Discoffee.Repository
             _conexaoMySQL = conf.GetConnectionString("ConexaoMySQL");
         }
 
-        // CADASTRA UM NOVO PRODUTO NO BANCO DE DADOS.
-        public void AdicionarProduto(Produto produto)
+         // CADASTRA UM PRODUTO. RETORNA false SE JÁ EXISTE UM COM O MESMO NOME E TAMANHO.
+         public bool AdicionarProduto(Produto produto)
         {
-            using (var conexao = new MySqlConnection(_conexaoMySQL))
-            {
-                conexao.Open();
+            using var conexao = new MySqlConnection(_conexaoMySQL);
+            conexao.Open();
 
-                using (var cmd = new MySqlCommand("cadastrarProduto", conexao))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
+            using var cmd = new MySqlCommand("inserirProduto", conexao);
+            cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@vNome", produto.Nome);
-                    cmd.Parameters.AddWithValue("@vPreco", produto.Preco);
-                    cmd.Parameters.AddWithValue("@vDescricao", produto.Descricao);
-                    cmd.Parameters.AddWithValue("@vImagem", produto.Imagem);
-                    cmd.Parameters.AddWithValue("@vDisponibilidade", produto.Disponibilidade);
-                    cmd.Parameters.AddWithValue("@vCategoria", produto.Categoria?.NomeCategoria);
+            cmd.Parameters.AddWithValue("@vNome", produto.Nome);
+            cmd.Parameters.AddWithValue("@vPreco", produto.Preco);
+            cmd.Parameters.AddWithValue("@vDescricao", produto.Descricao);
+            cmd.Parameters.AddWithValue("@vImagem", produto.Imagem);
+            cmd.Parameters.AddWithValue("@vDisponibilidade", produto.Disponibilidade);
+            cmd.Parameters.AddWithValue("@vId_Categoria", produto.Categoria.IdCategoria);
 
-                    cmd.ExecuteNonQuery();  
-                }
-            }
-        }
+            // Parâmetro de SAÍDA: a procedure devolve o id criado (ou 0)
+            var saida = new MySqlParameter("@vId_Produto", MySqlDbType.Int32) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(saida);
+
+            cmd.ExecuteNonQuery();
+            return Convert.ToInt32(saida.Value) > 0;
+         }
+    
+
 
         // BUSCA UM PRODUTO PELO SEU ID E RETORNA SEUS DADOS.
         public Produto BuscarProdutoPorId(int id)
@@ -124,119 +127,43 @@ namespace Discoffee.Repository
             return produtos;
         }
 
-        // ATUALIZA OS DADOS DE UM PRODUTO EXISTENTE NO BANCO DE DADOS.
-        public void EditarProduto(Produto produto)
+        // ATUALIZA UM PRODUTO. RETORNA false SE OUTRO PRODUTO JÁ USA ESSE NOME E TAMANHO.
+        public bool EditarProduto(Produto produto)
         {
-            using (var conexao = new MySqlConnection(_conexaoMySQL))
-            {
-                conexao.Open();
+            using var conexao = new MySqlConnection(_conexaoMySQL);
+            conexao.Open();
 
-                int idCategoria = ObterOuCriarCategoriaId(produto.Categoria?.NomeCategoria, conexao);
+            using var cmd = new MySqlCommand("updateTbProduto", conexao);
+            cmd.CommandType = CommandType.StoredProcedure;
 
-                const string sql = @"
-                    UPDATE tbProduto
-                    SET
-                        Nome = @Nome,
-                        Preco = @Preco,
-                        Descricao = @Descricao,
-                        Imagem = @Imagem,
-                        Disponibilidade = @Disponibilidade,
-                        Id_Categoria = @IdCategoria
-                    WHERE Id_Produto = @Id;";
+            cmd.Parameters.AddWithValue("@vId_Produto", produto.IdProduto);
+            cmd.Parameters.AddWithValue("@vNome", produto.Nome);
+            cmd.Parameters.AddWithValue("@vPreco", produto.Preco);
+            cmd.Parameters.AddWithValue("@vDescricao", produto.Descricao);
+            cmd.Parameters.AddWithValue("@vImagem", produto.Imagem);
+            cmd.Parameters.AddWithValue("@vDisponibilidade", produto.Disponibilidade);
+            cmd.Parameters.AddWithValue("@vId_Categoria", produto.Categoria.IdCategoria);
 
-                using (var cmd = new MySqlCommand(sql, conexao))
-                {
-                    cmd.Parameters.AddWithValue("@Id", produto.IdProduto);
-                    cmd.Parameters.AddWithValue("@Nome", produto.Nome);
-                    cmd.Parameters.AddWithValue("@Preco", produto.Preco);
-                    cmd.Parameters.AddWithValue("@Descricao", produto.Descricao);
-                    cmd.Parameters.AddWithValue("@Imagem", produto.Imagem);
-                    cmd.Parameters.AddWithValue("@Disponibilidade", produto.Disponibilidade);
-                    cmd.Parameters.AddWithValue("@IdCategoria", idCategoria);
+            var saida = new MySqlParameter("@vAtualizado", MySqlDbType.Int32) { Direction = ParameterDirection.Output };
+            cmd.Parameters.Add(saida);
 
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            cmd.ExecuteNonQuery();
+            return Convert.ToInt32(saida.Value) == 1;
         }
 
-        // // CADASTRA UM PRODUTO. RETORNA false SE JÁ EXISTE UM COM O MESMO NOME E TAMANHO.
-        // public bool AdicionarProduto(Produto produto)
-        // {
-        //     using var conexao = new MySqlConnection(_conexaoMySQL);
-        //     conexao.Open();
-
-        //     using var cmd = new MySqlCommand("insertTbProduto", conexao);
-        //     cmd.CommandType = CommandType.StoredProcedure;
-
-        //     cmd.Parameters.AddWithValue("@vNome", produto.Nome);
-        //     cmd.Parameters.AddWithValue("@vPreco", produto.Preco);
-        //     cmd.Parameters.AddWithValue("@vDescricao", produto.Descricao);
-        //     cmd.Parameters.AddWithValue("@vImagem", produto.Imagem);
-        //     cmd.Parameters.AddWithValue("@vDisponibilidade", produto.Disponibilidade);
-        //     cmd.Parameters.AddWithValue("@vId_Categoria", produto.Categoria.IdCategoria);
-
-        //     // Parâmetro de SAÍDA: a procedure devolve o id criado (ou 0)
-        //     var saida = new MySqlParameter("@vId_Produto", MySqlDbType.Int32) { Direction = ParameterDirection.Output };
-        //     cmd.Parameters.Add(saida);
-
-        //     cmd.ExecuteNonQuery();
-        //     return Convert.ToInt32(saida.Value) > 0;
-        // }
-
-        // // ATUALIZA UM PRODUTO. RETORNA false SE OUTRO PRODUTO JÁ USA ESSE NOME E TAMANHO.
-        // public bool EditarProduto(Produto produto)
-        // {
-        //     using var conexao = new MySqlConnection(_conexaoMySQL);
-        //     conexao.Open();
-
-        //     using var cmd = new MySqlCommand("updateTbProduto", conexao);
-        //     cmd.CommandType = CommandType.StoredProcedure;
-
-        //     cmd.Parameters.AddWithValue("@vId_Produto", produto.IdProduto);
-        //     cmd.Parameters.AddWithValue("@vNome", produto.Nome);
-        //     cmd.Parameters.AddWithValue("@vPreco", produto.Preco);
-        //     cmd.Parameters.AddWithValue("@vDescricao", produto.Descricao);
-        //     cmd.Parameters.AddWithValue("@vImagem", produto.Imagem);
-        //     cmd.Parameters.AddWithValue("@vDisponibilidade", produto.Disponibilidade);
-        //     cmd.Parameters.AddWithValue("@vId_Categoria", produto.Categoria.IdCategoria);
-
-        //     var saida = new MySqlParameter("@vAtualizado", MySqlDbType.Int32) { Direction = ParameterDirection.Output };
-        //     cmd.Parameters.Add(saida);
-
-        //     cmd.ExecuteNonQuery();
-        //     return Convert.ToInt32(saida.Value) == 1;
-        // }
-
-        //MODIFIQUEI DE EXCLUIR PARA DISPONIBILIDADE
-
-        // DESATIVA A DISPONIBILIDADE DO PRODUTO SEM REMOVÊ-LO DO BANCO DE DADOS.
-
-        //public void DisponibilidadeProduto(int id)
-        //{
-        //    using (var conexao = new MySqlConnection(_conexaoMySQL))
-        //    {
-        //        conexao.Open();
-        //        const string sql = "UPDATE tbProduto SET Disponibilidade = 0 WHERE Id_Produto = @Id;";
-        //        using (var cmd = new MySqlCommand(sql, conexao))
-        //        {
-        //            cmd.Parameters.AddWithValue("@Id", id);
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
-
-        // OBTÉM O ID DE UMA CATEGORIA OU CRIA A CATEGORIA E RETORNA SEU ID.
-        private int ObterOuCriarCategoriaId(string? nomeCategoria, MySqlConnection conexaoAberta)
+        // ATIVA OU DESATIVA UM PRODUTO, SEM ALTERAR OS OUTROS DADOS.
+        public void AlterarDisponibilidade(int id, bool disponivel)
         {
-            using (var cmd = new MySqlCommand("cadastrarCategoria", conexaoAberta))
-            {
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("vCategoria", nomeCategoria);
-                var paramSaida = new MySqlParameter("vId_Categoria", MySqlDbType.Int32) { Direction = ParameterDirection.Output };
-                cmd.Parameters.Add(paramSaida);
-                cmd.ExecuteNonQuery();
-                return Convert.ToInt32(paramSaida.Value);
-            }
+            using var conexao = new MySqlConnection(_conexaoMySQL);
+            conexao.Open();
+
+            using var cmd = new MySqlCommand("alterarDisponibilidadeProduto", conexao);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@vId_Produto", id);
+            cmd.Parameters.AddWithValue("@vDisponibilidade", disponivel);
+
+            cmd.ExecuteNonQuery();
         }
     }
 }

@@ -32,6 +32,21 @@ namespace Discoffee.Controllers
         {
             var itens = _sessaoItemPedido.Consultar();
 
+            // REMOVE DO CARRINHO OS PRODUTOS QUE FORAM DESATIVADOS (OU EXCLUÍDOS) DEPOIS DE ADICIONADOS.
+            foreach (var item in itens.ToList())
+            {
+                var produto = item.IdProduto is int idProduto
+                    ? _produtoRepository.BuscarProdutoPorId(idProduto)
+                    : null;
+
+                if (produto == null || !produto.Disponibilidade)
+                {
+                    _sessaoItemPedido.RemoverItem(item.IdItemCarrinho ?? 0);
+                    itens.Remove(item);
+                    ModelState.AddModelError("", $"\"{item.NomeProduto}\" não está mais disponível e foi removido do carrinho.");
+                }
+            }
+
             return View(itens);
         }
         

@@ -95,6 +95,32 @@ document.addEventListener('drop', e => {
     input.dispatchEvent(new Event('change', { bubbles: true }));
 });
 
+/* ATIVAR / DESATIVAR PRODUTO */
+document.addEventListener('change', async e => {
+    const toggle = e.target.closest('.toggle-status');
+    if (!toggle) return;
+
+    // O token de segurança já existe nos formulários dos modais
+    const token = document.querySelector('input[name="__RequestVerificationToken"]')?.value;
+
+    const dados = new URLSearchParams({
+        id: toggle.dataset.id,
+        disponivel: toggle.checked,
+        __RequestVerificationToken: token
+    });
+
+    try {
+        const resposta = await fetch('/Gerencia/Produtos/AlterarDisponibilidade', {
+            method: 'POST',
+            body: dados
+        });
+        if (!resposta.ok) throw new Error();
+    } catch {
+        // Não salvou: volta o interruptor para o estado anterior
+        toggle.checked = !toggle.checked;
+    }
+});
+
 // Bloqueia o envio se nenhuma imagem foi escolhida
 document.addEventListener('submit', e => {
     const form = e.target;

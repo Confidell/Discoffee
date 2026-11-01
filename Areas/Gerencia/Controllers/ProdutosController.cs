@@ -35,12 +35,15 @@ namespace Discoffee.Areas.Gerencia.Controllers
 
             var nomeImagem = SalvarImagem(vm.ImagemArquivo!);
 
-            // if (!_produtoRepository.AdicionarProduto(MontarProduto(vm, preco, nomeImagem)))
-            // {
-            //     ApagarImagem(nomeImagem);
-            //     ModelState.AddModelError("", "Já existe um produto com esse nome e tamanho.");
-            //     return CarregarIndex();
-            // }
+            var novo = MontarProduto(vm, preco, nomeImagem);
+            novo.Disponibilidade = true;   
+
+            if (!_produtoRepository.AdicionarProduto(novo))
+            {
+                ApagarImagem(nomeImagem);
+                ModelState.AddModelError("", "Já existe um produto com esse nome.");
+                return CarregarIndex();
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -62,20 +65,31 @@ namespace Discoffee.Areas.Gerencia.Controllers
 
             var produto = MontarProduto(vm, preco, novaImagem ?? atual.Imagem);
             produto.IdProduto = vm.IdProduto;
+            produto.Disponibilidade = atual.Disponibilidade;  
 
-            // if (!_produtoRepository.EditarProduto(produto))
-            // {
-            //     ApagarImagem(novaImagem);
-            //     ModelState.AddModelError("", "Já existe outro produto com esse nome e tamanho.");
-            //     return CarregarIndex();
-            // }
+            if (!_produtoRepository.EditarProduto(produto))
+            {
+                ApagarImagem(novaImagem);
+                ModelState.AddModelError("", "Já existe outro produto com esse nome.");
+                return CarregarIndex();
+            }
 
             if (novaImagem != null) ApagarImagem(atual.Imagem);
 
             return RedirectToAction(nameof(Index));
         }
 
-        // Validações que as anotações do ViewModel não cobrem. Cada erro vira um popup no layout.
+        // ATIVAR / DESATIVAR (chamado pelo interruptor do card, via JS)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AlterarDisponibilidade(int id, bool disponivel)
+        {
+            if (_produtoRepository.BuscarProdutoPorId(id) == null) return NotFound();
+
+            _produtoRepository.AlterarDisponibilidade(id, disponivel);
+            return Ok();
+        }
+
         private bool ValidarFormulario(ProdutoFormViewModel vm, bool imagemObrigatoria, out decimal preco)
         {
             if (!decimal.TryParse((vm.Preco ?? "").Replace(',', '.'),
@@ -109,8 +123,8 @@ namespace Discoffee.Areas.Gerencia.Controllers
             Descricao = vm.Descricao?.Trim() ?? "",
             Preco = preco,
             Imagem = imagem,
-            Disponibilidade = vm.Disponibilidade,
-            // CategoriaId = vm.CategoriaId
+            Categoria = new Categoria { 
+                IdCategoria = vm.CategoriaId }
         };
 
         // Grava a imagem em wwwroot/Assets/Imagens com nome único (GUID) e devolve o nome
