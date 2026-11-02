@@ -8,7 +8,8 @@
 }
 
 /*O NOT DIZ QUE É PARA APLICAR EM TODOS EXETO NO .header-gerencia*/
-header:not(.header-gerencia) {
+/* :not(.header-gerencia) */
+header {
    width: 100%;
    height: 100px;
    background: linear-gradient(180deg, #000, #000000a5, transparent 100%);
