@@ -208,6 +208,12 @@ namespace Discoffee.Controllers
 
             if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
             {
+                // SE TENTOU REALIZAR PEDIDO SEM ESTAR LOGADO
+                if (returnUrl.Contains("/Cliente/Pedido/FinalizarCompra"))
+                {
+                    return RedirectToAction("Index", "Carrinho");
+                }
+
                 return Redirect(returnUrl);
             }
 

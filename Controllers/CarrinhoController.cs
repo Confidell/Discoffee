@@ -49,7 +49,7 @@ namespace Discoffee.Controllers
                 });
             }
 
-            // Busca o produto no banco.
+            // BUSCA O PRODUTO NO BANCO
             var produto = _produtoRepository.BuscarProdutoPorId(idProduto);
 
             if (produto == null || !produto.Disponibilidade)
@@ -60,7 +60,7 @@ namespace Discoffee.Controllers
                 });
             }
 
-            // Captura os IDs das opções selecionadas no modal.
+            // PEGA OS IDS DAS OPÇÕES SELECIONADAS
             var idsOpcoes = dados.GetProperty("opcoes")
                 .EnumerateArray()
                 .Select(opcao => opcao.GetProperty("idOpcao").GetInt32())
@@ -74,12 +74,12 @@ namespace Discoffee.Controllers
                 });
             }
 
-            // Busca as opções válidas para a categoria do produto.
+            // BUSCA AS OPÇÕES DISPONIVEIS PARA AQUELE PRODUTO
             var opcoesCategoria =
                 _opcaoPersonalizacaoRepository
                     .BuscarOpcoesPorCategoria(produto.Categoria.IdCategoria);
 
-            // Valida se todos os IDs enviados pertencem à categoria.
+            // VERIFICA SE AS OPÇÕES EXISTEM NAQUELA CATEGORIA
             var opcoesSelecionadas = opcoesCategoria
                 .Where(opcao => idsOpcoes.Contains(opcao.IdOpcao))
                 .ToList();
@@ -100,7 +100,7 @@ namespace Discoffee.Controllers
                 });
             }
 
-            // Monta o item usando o ViewModel que você já possui.
+            // MONTA O ITEM
             var item = new ItemPedidoViewModel
             {
                 IdProduto = produto.IdProduto,
@@ -111,7 +111,7 @@ namespace Discoffee.Controllers
                 Opcoes = opcoesSelecionadas
             };
 
-            // Salva o item na sessão usando Newtonsoft.Json.
+            // SALVA O ITEM NA SESSAO
             _sessaoItemPedido.AdicionarItem(item);
 
             return Ok(new

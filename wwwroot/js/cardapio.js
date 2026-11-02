@@ -11,7 +11,7 @@ document.querySelectorAll('.btn-card-prod').forEach(botao => {
 
         const container = modal.querySelector('.container-opcoes');
 
-        // Não carrega novamente se as opções já foram carregadas.
+        // EVITA CARREGAR OPÇÕES DUAS VEZES
         if (!container || container.dataset.carregado === 'true') {
             return;
         }
@@ -47,7 +47,6 @@ document.querySelectorAll('.btn-fechar').forEach(botao => {
     botao.addEventListener('click', () => {
         botao.closest('.paiModal').classList.remove('ativa');
 
-        // Só libera a página se não houver outro modal aberto.
         const algumModalAberto = document.querySelector('.paiModal.ativa');
 
         if (!algumModalAberto) {

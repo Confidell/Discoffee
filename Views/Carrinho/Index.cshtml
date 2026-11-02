@@ -62,12 +62,12 @@
 
             <div class="buttons-radio">
                 <div class="btn-tipo">
-                    <input type="radio" id="tipo-entrega" name="Tipo" form="form-finalizar-compra" value="1" checked>
+                    <input type="radio" id="tipo-entrega" name="Tipo" form="form-finalizar-compra" value="2" checked>
                     <label>@TipoPedido.Entrega</label>
                 </div>
 
                 <div class="btn-tipo">
-                    <input type="radio" id="tipo-retirada" name="Tipo" form="form-finalizar-compra" value="2">
+                    <input type="radio" id="tipo-retirada" name="Tipo" form="form-finalizar-compra" value="1">
                     <label>@TipoPedido.Retirada</label>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                     <span>R$ @total</span>
                 </div>
 
-                <form asp-area="Cliente" asp-controller="Pedido" asp-action="FinalizarCompra" method="post">
+                <form id="form-finalizar-compra" asp-area="Cliente" asp-controller="Pedido" asp-action="FinalizarCompra" method="post">
                     <input type="hidden" name="Frete" value="0" />
 
                     <button type="submit" class="botao botao-realizar-pedido">
