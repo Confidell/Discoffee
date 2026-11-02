@@ -49,7 +49,6 @@ namespace Discoffee.Areas.Cliente.Controllers
         }
 
         [HttpPost]
-        // [Authorize]
         public IActionResult EditarCliente(EditarUsuarioViewModel usuario)
         {
             usuario.IdUsuario = int.Parse(

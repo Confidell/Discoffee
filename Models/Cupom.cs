@@ -23,9 +23,5 @@ namespace Discoffee.Models
         [Required(ErrorMessage = "O desconto do cupom é obrigatório.")]
         [Display(Name = "Desconto", Description = "Desconto do cupom.")]
         public decimal Desconto { get; set; }
-
-        public int? PagamentoId { get; set; }
-        public Pagamento Pagamento { get; set; }
-
     }
 }

@@ -21,10 +21,7 @@ namespace Discoffee.Models
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Preço extra inválido. Use até 2 casas decimais.")]
         public decimal PrecoExtra { get; set; }
 
-        [Display(Name = "CategoriaId", Description = "Código da categoria.")]
-        public int CategoriaId { get; set; }
-
-        [Display(Name = "Categoria", Description = "Categoria associada à opção de personalização.")]
-        public Categoria Categoria { get; set; }
+        [Display(Name = "Categoria", Description = "Categoria da opção.")]
+        public Categoria? Categoria { get; set; }
     }
 }

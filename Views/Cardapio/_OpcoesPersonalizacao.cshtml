@@ -1,4 +1,4 @@
-
+@*RECEBE A LISTA DE OPÇÕES DE PERSONALIZAÇÃO DO PRODUTO.*@
 @model IEnumerable<Discoffee.Models.OpcaoPersonalizacao>
 
 @using Discoffee.Models.Constants
@@ -8,6 +8,7 @@
     var ptBR = new CultureInfo("pt-BR");
 }
 
+@*AGRUPA AS OPÇÕES POR TIPO DE PERSONALIZAÇÃO.*@
 @foreach (var grupo in Model.GroupBy(o => o.Tipo))
 {
     <div class="opcoes-prod">
@@ -23,6 +24,7 @@
                 <div class="btn-opcao">
 
                     <label>
+                        @opcao.IdOpcao
                         @opcao.Opcao
 
                         @if (opcao.PrecoExtra > 0)
@@ -33,6 +35,7 @@
                         }
                     </label>
 
+                    @*PERMITE VÁRIAS ESCOLHAS PARA ADICIONAIS E APENAS UMA PARA OS DEMAIS TIPOS.*@
                     @if (grupo.Key == TipoOpcao.Adicional)
                     {
                         <input
@@ -45,7 +48,9 @@
                         <input
                             type="radio"
                             name="opcoes-@grupo.Key"
-                            value="@opcao.IdOpcao" />
+                            value="@opcao.IdOpcao"
+                            checked="@(opcao.IdOpcao == grupo.First().IdOpcao)"
+                            />
                     }
 
                 </div>

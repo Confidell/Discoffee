@@ -1,0 +1,114 @@
+﻿@model Discoffee.Models.Usuario
+@using Discoffee.Models.Constants
+@{
+    // Cliente: tudo bloqueado, só o Status pode ser alterado
+    var bloqueado = Model.Perfil == EnumPerfil.Cliente;
+    var ativo = Model.Status == "Ativo";
+}
+
+<dialog id="modal-@Model.IdUsuario" class="modal-usuario">
+    <form method="post" asp-area="Gerencia" asp-controller="Usuarios" asp-action="Editar" class="modal-form">
+        <input type="hidden" name="IdUsuario" value="@Model.IdUsuario" />
+
+        <div class="modal-topo">
+            <h2>Visualizar/Editar Usuário</h2>
+            @if (bloqueado)
+            {
+                <p>Clientes só podem ter o status alterado.</p>
+            }
+        </div>
+
+        <div class="modal-corpo">
+            <div class="card-pessoais">
+                <h3>Dados Pessoais</h3>
+
+                <div class="card">
+                    <label>
+                        Nome Completo
+                        <input type="text" class="input-form" name="NomeCompleto" value="@Model.NomeCompleto" disabled="@bloqueado" />
+                    </label>
+
+                    <label>
+                        CPF
+                        <input type="text" class="input-form cpf" name="CPF" value="@Model.CPF" maxlength="14" disabled="@bloqueado" />
+                    </label>
+
+                    <label>
+                        Data de Nascimento
+                        <input type="text" class="input-form dataNasc" name="DataNascimento" value="@Model.DataNascimento?.ToString("dd/MM/yyyy")" maxlength="10" disabled="@bloqueado" />
+                    </label>
+
+                    <label>
+                        Telefone
+                        <input type="text" class="input-form tel" name="Telefone" value="@Model.Telefone" maxlength="15" disabled="@bloqueado" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="card-acesso">
+                <h3>Dados de Acesso</h3>
+
+                <div class="card">
+                    <label>
+                        E-mail
+                        <input type="email" class="input-form" name="Email" value="@Model.Email" disabled="@bloqueado" />
+                    </label>
+
+                    <label>
+                        Senha
+                        <input type="password" class="input-form" name="Senha" placeholder="Deixe em branco para manter" disabled="@bloqueado" />
+                    </label>
+
+                    <label>
+                        Nível de Acesso
+                        <select class="input-form" name="Perfil" disabled="@bloqueado">
+                            @if (bloqueado)
+                            {
+                                <option value="Cliente" selected>Cliente</option>
+                            }
+                            else
+                            {
+                                <option value="Administrador" selected="@(Model.Perfil == EnumPerfil.Administrador)">Administrador</option>
+                                <option value="Funcionario" selected="@(Model.Perfil == EnumPerfil.Funcionario)">Funcionário</option>
+                            }
+                        </select>
+                    </label>
+
+                    <label>
+                        Status
+                        <select class="input-form" name="Status">
+                            <option value="Ativo" selected="@ativo">Ativo</option>
+                            <option value="Inativo" selected="@(!ativo)">Inativo</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="card-endereco">
+                <h3>Dados de Endereço</h3>
+
+                <div class="card">
+                    <label>
+                        CEP
+                        <input type="text" class="input-form cep" name="CEP" value="@Model.CEP" disabled="@bloqueado" />
+                    </label>
+
+                    <label>
+                        Número
+                        <input type="text" class="input-form" name="NumeroCasa" value="@Model.NumeroCasa" disabled="@bloqueado" />
+                    </label>
+
+                    <label>
+                        Complemento
+                        <input type="text" class="input-form" name="Complemento" value="@Model.Complemento" disabled="@bloqueado" />
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-botoes">
+            <button type="button" class="btn-cancelar" data-fechar>Cancelar</button>
+            <button type="submit" class="btn-cadastrar">Salvar Usuário</button>
+        </div>
+    </form>
+</dialog>

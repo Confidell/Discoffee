@@ -29,6 +29,7 @@ namespace Discoffee.Repository
             throw new NotImplementedException();
         }
 
+        // BUSCA AS OPÇÕES DE PERSONALIZAÇÃO DISPONÍVEIS PARA UMA CATEGORIA.
         public List<OpcaoPersonalizacao> BuscarOpcoesPorCategoria(int idCategoria)
         {
             var opcoes = new List<OpcaoPersonalizacao>();
@@ -46,6 +47,7 @@ namespace Discoffee.Repository
             {
                 opcoes.Add(new OpcaoPersonalizacao
                 {
+                    IdOpcao = reader.GetInt32("Id_Opcao"),
                     Tipo = Enum.Parse<TipoOpcao>(reader.GetString("Tipo")),
                     Opcao = reader.GetString("Opcao"),
                     PrecoExtra = reader.GetDecimal("Preco_Extra")
@@ -63,6 +65,11 @@ namespace Discoffee.Repository
         public void ExcluirOpcao(int id)
         {
             throw new NotImplementedException();
+        }
+
+        public void InserirOpcaoPedido(OpcaoPersonalizacao opcao, int idPedido)
+        {
+            
         }
     }
 }

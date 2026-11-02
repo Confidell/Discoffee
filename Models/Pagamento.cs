@@ -28,9 +28,6 @@ namespace Discoffee.Models
         [RegularExpression(@"^(Pendente|Aprovado|Recusado|Estornado)$", ErrorMessage = "Status deve ser Pendente, Aprovado, Recusado ou Estornado.")]
         public string Status { get; set; }
 
-        [Display(Name = "PedidoId", Description = "Código do pedido.")]
-        public int PedidoId { get; set; }
-
         [Display(Name = "Pedido", Description = "Pedido associado ao pagamento.")]
         public Pedido Pedido { get; set; }
 

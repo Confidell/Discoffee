@@ -2,8 +2,7 @@
 {
     public enum TipoPedido
     {
-        Local = 1,
-        Retirada = 2,
-        Delivery = 3
+        Retirada = 1,
+        Entrega = 2
     }
 }
