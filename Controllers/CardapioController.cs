@@ -14,10 +14,12 @@ namespace Discoffee.Controllers
             _opcaoPersonalizacaoRepository = opcaoPersonalizacaoRepository;
         }
 
-        // EXIBE O CARDÁPIO COM TODOS OS PRODUTOS CADASTRADOS.
+        // EXIBE O CARDÁPIO SOMENTE COM OS PRODUTOS DISPONÍVEIS.
         public IActionResult Index()
         {
-            var produtos = _produtoRepository.BuscarTodos();
+            var produtos = _produtoRepository.BuscarTodos()
+                .Where(p => p.Disponibilidade)
+                .ToList();
             return View(produtos);
         }
 

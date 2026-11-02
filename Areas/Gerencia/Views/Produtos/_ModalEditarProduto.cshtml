@@ -39,17 +39,6 @@
                     Preço - (R$)
                     <input type="number" name="Preco" value="@preco" step="0.01" min="0" required />
                 </label>
-
-                <div class="modal-linha">
-
-                    <label>
-                        Status
-                        <select name="Disponibilidade">
-                            <option value="true" selected="@Model.Disponibilidade">Ativo</option>
-                            <option value="false" selected="@(!Model.Disponibilidade)">Inativo</option>
-                        </select>
-                    </label>
-                </div>
             </div>
 
            <label class="upload com-imagem" data-original="@imagemUrl">

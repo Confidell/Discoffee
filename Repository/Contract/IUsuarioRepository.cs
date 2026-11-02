@@ -9,6 +9,7 @@ namespace Discoffee.Repository.Contract
         Usuario BuscarUsuarioPorId(int Id);
         List<Usuario> BuscarTodos();
         void EditarUsuario(EditarUsuarioViewModel Usuario);
+        void EditarUsuarioGerencia(EditarUsuarioViewModel Usuario);
         Usuario BuscarUsuarioPorEmail(string Email);
         Usuario? BuscaUsuarioPorCPF(string CPF);
     }

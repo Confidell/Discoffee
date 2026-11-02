@@ -16,12 +16,6 @@ namespace Discoffee.Models
         [Required(ErrorMessage = "O preço é obrigatório.")]
         public string Preco { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "O tamanho é obrigatório.")]
-        [RegularExpression("^(P|M|G|-)$", ErrorMessage = "Tamanho inválido.")]
-        public string Tamanho { get; set; } = string.Empty;
-
-        public bool Disponibilidade { get; set; }
-
         [Range(1, int.MaxValue, ErrorMessage = "Selecione uma categoria.")]
         public int CategoriaId { get; set; }
 

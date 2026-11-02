@@ -34,7 +34,7 @@ namespace Discoffee.Models
 
         [Display(Name = "Data de Nascimento")]
         [Required(ErrorMessage = "Data de Nascimento é obrigatória!")]
-        public DateTime DataNascimento { get; set; }
+        public DateTime? DataNascimento { get; set; }
 
         [Display(Name = "Status")]
         public string? Status { get; set; }

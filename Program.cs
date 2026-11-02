@@ -1,7 +1,9 @@
+using Discoffee.Models;
 using Discoffee.Repository;
 using Discoffee.Repository.Contract;
 using Discoffee.Sessao;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,7 @@ builder.Services.AddScoped<IOpcaoPersonalizacaoRepository, OpcaoPersonalizacaoRe
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
+builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 // Registra a classe que gernecia o carrinho
 builder.Services.AddScoped<SessaoItemPedido>();
 

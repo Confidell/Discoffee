@@ -69,7 +69,7 @@ Nome VARCHAR(50) NOT NULL,
 Preco DECIMAL(10,2) NOT NULL,
 Descricao VARCHAR(200) NOT NULL,
 Imagem VARCHAR(100) NOT NULL,
-Disponibilidade BOOLEAN,
+Disponibilidade BOOLEAN NOT NULL DEFAULT TRUE,
 Id_Categoria INT,
 CONSTRAINT FK_Id_Categoria_Produto FOREIGN KEY(Id_Categoria) REFERENCES tbCategoria(Id_Categoria)
 );
@@ -240,9 +240,9 @@ CREATE PROCEDURE inserirProduto(
     OUT vId_Produto INT
 )
 BEGIN
-    DECLARE vId_Produto INT;
+    SET vId_Produto = 0;
 
-    IF NOT EXISTS (SELECT 1 FROM tbProduto WHERE Nome = vNome AND Preco = vPreco) THEN
+    IF NOT EXISTS (SELECT 1 FROM tbProduto WHERE Nome = vNome) THEN
         INSERT INTO tbProduto(Nome, Preco, Descricao, Imagem, Disponibilidade, Id_Categoria)
         VALUES (vNome, vPreco, vDescricao, vImagem, vDisponibilidade, vId_Categoria);
 
@@ -253,11 +253,11 @@ DELIMITER ;
 
 -- CATEGORIAS (nomes iguais aos usados no Cardapio/Index.cshtml)
 CALL cadastrarCategoria('Tradicional', @catTradicional);
-CALL cadastrarCategoria('Drink',       @catDrink);
-CALL cadastrarCategoria('Doce',        @catDoce);
-CALL cadastrarCategoria('Salgado',     @catSalgado);
-CALL cadastrarCategoria('Refresco',    @catRefresco);
-CALL cadastrarCategoria('Shake',       @catShake);
+CALL cadastrarCategoria('Drink', @catDrink);
+CALL cadastrarCategoria('Doce', @catDoce);
+CALL cadastrarCategoria('Salgado', @catSalgado);
+CALL cadastrarCategoria('Refresco', @catRefresco);
+CALL cadastrarCategoria('Shake', @catShake);
 
 -- PRODUTOS (procedure: nome, preço, descrição, tamanho, imagem, disponível, id categoria, OUT id)
 CALL inserirProduto('Macchiatto', 29.99, 'Café extremamente cremoso', 'Macchiatto.png', TRUE, @catTradicional, @idProd);
@@ -273,26 +273,24 @@ SELECT * FROM tbProduto;
 -- EDIÇÃO: recebe o ID da categoria.
 DELIMITER $$
 CREATE PROCEDURE updateTbProduto(
-    IN  vId_Produto      INT,
-    IN  vNome            VARCHAR(50),
-    IN  vPreco           DECIMAL(10,2),
-    IN  vDescricao       VARCHAR(200),
-    IN  vTamanho         VARCHAR(5),
-    IN  vImagem          VARCHAR(100),
+    IN  vId_Produto INT,
+    IN  vNome VARCHAR(50),
+    IN  vPreco DECIMAL(10,2),
+    IN  vDescricao VARCHAR(200),
+    IN  vImagem VARCHAR(100),
     IN  vDisponibilidade BOOLEAN,
-    IN  vId_Categoria    INT,
-    OUT vAtualizado      INT
+    IN  vId_Categoria INT,
+    OUT vAtualizado INT
 )
 BEGIN
     IF EXISTS (SELECT 1 FROM tbProduto
-               WHERE Nome = vNome AND Tamanho = vTamanho AND Id_Produto <> vId_Produto) THEN
+               WHERE Nome = vNome AND Id_Produto <> vId_Produto) THEN
         SET vAtualizado = 0;
     ELSE
         UPDATE tbProduto
         SET Nome = vNome,
             Preco = vPreco,
             Descricao = vDescricao,
-            Tamanho = vTamanho,
             Imagem = vImagem,
             Disponibilidade = vDisponibilidade,
             Id_Categoria = vId_Categoria
@@ -300,6 +298,19 @@ BEGIN
 
         SET vAtualizado = 1;
     END IF;
+END $$
+DELIMITER ;
+
+-- ATIVA OU DESATIVA UM PRODUTO (ALTERA SÓ A DISPONIBILIDADE)
+DELIMITER $$
+CREATE PROCEDURE alterarDisponibilidadeProduto(
+    vId_Produto INT,
+    vDisponibilidade BOOLEAN
+)
+BEGIN
+    UPDATE tbProduto
+    SET Disponibilidade = vDisponibilidade
+    WHERE Id_Produto = vId_Produto;
 END $$
 DELIMITER ;
  
@@ -542,6 +553,29 @@ BEGIN
 END $$
 DELIMITER ;
 
+-- BUSCA TODOS OS USUÁRIOS
+DELIMITER $$
+CREATE PROCEDURE buscarTodosUsuarios()
+BEGIN
+    SELECT
+        u.Id_Usuario,
+        u.NomeCompleto,
+        u.Email,
+        u.Senha,
+        u.CPF,
+        u.Telefone,
+        u.DataNasc,
+        u.Stats,
+        u.Numero_Casa,
+        u.Complemento,
+        c.CEP,
+        p.Tipo AS Perfil
+    FROM tbUsuario u
+    LEFT JOIN tbPerfil p ON p.Id_Perfil = u.Id_Perfil
+    LEFT JOIN tbCEP c ON c.Id_CEP = u.Id_CEP;
+END $$
+DELIMITER ;
+
 -- BUSCA TODOS OS PRODUTOS (CARDAPIO)
 DELIMITER $$
 CREATE PROCEDURE buscarTodosProdutos()
@@ -771,3 +805,55 @@ BEGIN
     END IF;
 END $$
 DELIMITER 
+
+-- ATUALIZA USUARIO PELA GERENCIA (TAMBEM ALTERA STATUS E PERFIL)
+DELIMITER $$
+CREATE PROCEDURE atualizarUsuarioGerencia(
+	vId_Usuario INT,
+	vNomeCompleto VARCHAR(150),
+	vEmail VARCHAR(100),
+	vSenha VARCHAR(100),
+	vCPF VARCHAR(15),
+	vTelefone VARCHAR(15),
+	vDataNasc DATE,
+	vNumero_Casa VARCHAR(10),
+	vComplemento VARCHAR(50),
+	vCEP VARCHAR(9),
+	vPerfil INT,
+	vStatus VARCHAR(10)
+)
+BEGIN
+    DECLARE vId_CEP INT;
+    DECLARE vId_Perfil INT;
+
+    IF (EXISTS (SELECT 1 FROM tbUsuario WHERE Id_Usuario = vId_Usuario))
+    THEN
+
+        -- PROCURA OU CADASTRA O CEP CASO UM TENHA SIDO ENVIADO
+        IF vCEP IS NOT NULL AND vCEP <> '' THEN
+            CALL cadastrarCEP(vCEP, vId_CEP);
+        END IF;
+
+        -- BUSCA O ID DO PERFIL CASO UM TENHA SIDO ENVIADO
+        IF vPerfil IS NOT NULL THEN
+            SELECT Id_Perfil INTO vId_Perfil FROM tbPerfil WHERE Tipo = vPerfil LIMIT 1;
+        END IF;
+
+        UPDATE tbUsuario
+        SET
+            NomeCompleto = COALESCE(vNomeCompleto, NomeCompleto),
+            Email = COALESCE(vEmail, Email),
+            Senha = COALESCE(vSenha, Senha),
+            CPF = COALESCE(vCPF, CPF),
+            Telefone = COALESCE(vTelefone, Telefone),
+            DataNasc = COALESCE(vDataNasc, DataNasc),
+            Numero_Casa = COALESCE(vNumero_Casa, Numero_Casa),
+            Complemento = COALESCE(vComplemento, Complemento),
+            Id_CEP = COALESCE(vId_CEP, Id_CEP),
+            Id_Perfil = COALESCE(vId_Perfil, Id_Perfil),
+            Stats = COALESCE(vStatus, Stats)
+        WHERE Id_Usuario = vId_Usuario;
+
+    END IF;
+END $$
+DELIMITER ;

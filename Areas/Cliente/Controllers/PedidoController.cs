@@ -15,11 +15,13 @@ namespace Discoffee.Areas.Cliente.Controllers
     {
         private readonly IPedidoRepository _pedidoRepository;
         private readonly SessaoItemPedido _sessaoItemPedido;
+        private readonly IProdutoRepository _produtoRepository;
 
-        public PedidoController(IPedidoRepository pedidoRepository, SessaoItemPedido sessaoItemPedido)
+        public PedidoController(IPedidoRepository pedidoRepository, SessaoItemPedido sessaoItemPedido, IProdutoRepository produtoRepository)
         {
             _pedidoRepository = pedidoRepository;
             _sessaoItemPedido = sessaoItemPedido;
+            _produtoRepository = produtoRepository;
         }
 
         public IActionResult Index()
@@ -40,6 +42,21 @@ namespace Discoffee.Areas.Cliente.Controllers
             if (itensCarrinho.Count == 0)
             {
                 return RedirectToAction(nameof(Index));
+            }
+
+            // SE ALGUM PRODUTO FOI DESATIVADO, NÃO FINALIZA: VOLTA AO CARRINHO, QUE REMOVE O ITEM E AVISA O CLIENTE
+            bool temIndisponivel = itensCarrinho.Any(item =>
+            {
+                var produto = item.IdProduto is int idProduto
+                    ? _produtoRepository.BuscarProdutoPorId(idProduto)
+                    : null;
+
+                return produto == null || !produto.Disponibilidade;
+            });
+
+            if (temIndisponivel)
+            {
+                return RedirectToAction("Index", "Carrinho", new { area = "" });
             }
 
             // RECUPERA O ID DO USUÁRIO AUTENTICADO
