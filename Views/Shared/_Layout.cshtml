@@ -55,7 +55,7 @@
 
         else
         {
-            <header style="@(area == "Cliente" || controller == "Carrinho" ? "background: var(--cinza-escuro)" : "")">
+            <header style="@(area != "" && controller != "Home" ? "background: var(--cinza-escuro)" : "")">
             <div style="display: flex; align-items: center; gap: 2rem;">
                 <h1 class="titulo">
                     DISCOFFEE
@@ -131,7 +131,7 @@
         {
             foreach (var erro in item.Value.Errors)
             {
-                <div class="popup-erros ">
+                <div class="popup-erros">
 
                     <div class="popup-conteudo">
 

@@ -157,9 +157,8 @@
     transition: all 0.2s ease-in-out;
     box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.111);
 }
-
 .card-prod:hover {
-    transform: scale(1.01);
+    transform: translateY(-5px);
 }
 
 .prod-img {
@@ -350,6 +349,7 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
+    position: relative;
 }
 
 .header-prod{
@@ -360,7 +360,7 @@
     margin-top: 10px;
     min-height: 100px;
     max-height: 300px;
-    gap: 1rem;
+    /* gap: 1rem; */
 }
 
 .header-prod h2{
@@ -374,6 +374,7 @@
     font-size: 1.2rem;
     font-weight: 400;
     overflow: hidden;
+    margin-top: 1.5rem;
 }
 
 .header-prod article p{
@@ -507,11 +508,14 @@ input[type="checkbox"] {
 }
 
 .qtd-adicionar {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 25px;
     gap: 3rem;
+    position: absolute;
+    bottom: 5%;
 }
 
 .add-carrinho {
@@ -522,8 +526,18 @@ input[type="checkbox"] {
     color: var(--branco);
     font-weight: 600;
     font-size: 1.2rem;
+    gap: .5rem;
+    transition: all 0.2s ease-in-out;
 }
-
+.add-carrinho.adicionado{
+    box-shadow: 4px 4px 0px var(--laranja);
+    background-color: var(--amarelo);
+    filter: brightness(1.1);
+}
+.add-carrinho svg{
+    width: 20px;
+    height: 20px;
+}
 
 /*OPÇÕES INDEX*/
 .opcoes-prod{

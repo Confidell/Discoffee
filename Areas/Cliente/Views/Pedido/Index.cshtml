@@ -38,8 +38,9 @@
             var st = InfoStatus(pedido.Status);
 
             <partial name="_ModalPedido" model="pedido" />
-
-            <div class="card-pedido">
+            
+            @* CARD DO PEDIDO NA LISTA *@
+            <div class="card-pedido ver-detalhes" data-pedido-id="@pedido.IdPedido">
                 <div class="card-topo">
                     <div class="pedido-numero">#@pedido.IdPedido</div>
 
@@ -59,7 +60,7 @@
                 <div class="card-meio">
                     <span>@pedido.Itens.Count Produtos inclusos no pedido</span>
 
-                    <button type="button"
+                    @* <button type="button"
                             title="Ver detalhes"
                             class="ver-detalhes"
                             data-pedido-id="@pedido.IdPedido">
@@ -71,7 +72,7 @@
                             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
                             <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
                         </svg>
-                    </button>
+                    </button> *@
                 </div>
 
                 <div class="card-rodape">

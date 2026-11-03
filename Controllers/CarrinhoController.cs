@@ -131,7 +131,7 @@ namespace Discoffee.Controllers
 
             return Ok(new
             {
-                mensagem = "Produto adicionado ao carrinho!"
+                mensagem = "Produto adicionado!"
             });
         }
 

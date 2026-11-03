@@ -1,4 +1,4 @@
-const botoesDetalhes = document.querySelectorAll(".ver-detalhes");
+const verDetalhes = document.querySelectorAll(".ver-detalhes");
 const botoesFechar = document.querySelectorAll(".modal-pedido-fechar");
 const pagina = document.querySelector('.pagina');
 
@@ -9,9 +9,9 @@ function fecharModalPedido(modal) {
     pagina.style.overflow = 'auto';
 }
 
-botoesDetalhes.forEach(botao => {
-    botao.addEventListener("click", () => {
-        const idPedido = botao.dataset.pedidoId;
+verDetalhes.forEach(card => {
+    card.addEventListener("click", () => {
+        const idPedido = card.dataset.pedidoId;
 
         const modal = document.getElementById(
             `modalPedido-${idPedido}`
@@ -25,7 +25,7 @@ botoesDetalhes.forEach(botao => {
     });
 });
 
-// Fechar ao clicar no X
+// FECHAR MODAL PEDIDO
 botoesFechar.forEach(botao => {
     botao.addEventListener("click", () => {
         fecharModalPedido(botao.closest("[data-modal-pedido]"));
