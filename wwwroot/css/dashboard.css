@@ -1,16 +1,46 @@
-﻿main{
+﻿.bem-vindo{
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    gap: 5rem;
+    padding: 5rem 5rem 0 5rem;
 }
 
-.bem-vindo{
+.menu {
     display: flex;
-    margin-top: 6%;
-    align-items: center;
-    width: 88%;
-    height: 100%;
+    justify-content: space-between;
     gap: 5rem;
+    width: 100%;
+    height: 80px;
+    background: var(--branco-escuro);
+    margin: 60px auto 0;
+    padding: 1rem 3rem;
+    align-items: center;
+    box-shadow: 0 0 5px 0px var(--cinza-claro);
+    border-radius: 20px;
+}
+
+.menu a.ativo {
+    text-decoration: none;
+    padding: 1.3rem 3.5rem;
+    border-radius: 20px;
+    background: var(--roxo);
+    color: var(--branco);
+    align-items: center;
+    text-align: center;
+    display: flex;
+    height: 65px;
+}
+
+.menu a {
+    display: flex;
+    font-weight: 500;
+    font-size: 1.8rem;
+    color: var(--cinza-escuro);
+    text-align: center;
+    align-items: center;
 }
 
 #logo{
