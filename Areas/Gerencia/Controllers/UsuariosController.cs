@@ -3,14 +3,14 @@ using Discoffee.Models;
 using Discoffee.Models.Constants;
 using Discoffee.Repository.Contract;
 using Discoffee.ViewModels;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Discoffee.Areas.Gerencia.Controllers
 {
     [Area("Gerencia")]
+    [Authorize(Roles = "Administrador, Funcionario")]
     public class UsuariosController : Controller
     {
         private readonly IUsuarioRepository _usuarioRepository;

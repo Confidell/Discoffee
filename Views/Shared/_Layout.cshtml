@@ -10,8 +10,6 @@
     @* PEGA O PERFIL DO USUÁRIO *@
     var perfil = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 
-    Console.WriteLine($"PERFIL IDENTIFICADO: {perfil}");
-
     @* PEGA CONTROLLER DA ROTA *@
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
 
@@ -78,18 +76,13 @@
 
             <nav>
                 <ul>
-                    @if(perfil == EnumPerfil.Administrador.ToString() || perfil == EnumPerfil.Funcionario.ToString())
-                    {
-                        
+                    @if(perfil == EnumPerfil.Administrador.ToString() || perfil == EnumPerfil.Funcionario.ToString()){
+                        <li><a asp-area="Gerencia" asp-controller="Dashboard" asp-action="Index">DASHBOARD</a></li>
+                    }
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">INÍCIO</a></li>
                     <li><a asp-area="" asp-controller="Cardapio" asp-action="Index">CARDÁPIO</a></li>
                     <li><a asp-area="Cliente" asp-controller="Pedido" asp-action="Index">MEUS PEDIDOS</a></li>
                     <li><a asp-area="Cliente" asp-controller="Perfil" asp-action="Index">PERFIL</a></li>
-                    
-                    @* <li><a asp-controller="Dashboard" asp-action="Index" class="@(controller == "Dashboard" ? "ativo" : "")">Dashboard</a></li>
-                    <li><a asp-controller="Produtos" asp-action="Index" class="@(controller == "Produtos" ? "ativo" : "")">Produtos</a></li>
-                    <li><a asp-controller="Pedidos" asp-action="Index" class="@(controller == "Pedidos" ? "ativo" : "")">Pedidos</a></li>
-                    <li><a asp-controller="Usuarios" asp-action="Index" class="@(controller == "Usuarios" ? "ativo" : "")">Usuários</a></li> *@
 
                     <li><a href="">COLEÇÃO</a></li>
                     <li><a href="">CONTATO</a></li>
@@ -98,7 +91,6 @@
                             <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
                         </svg>
                     </a>
-                    }
                 </ul>
 
                 <hr>

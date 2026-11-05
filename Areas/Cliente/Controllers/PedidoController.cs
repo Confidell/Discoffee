@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Discoffee.Areas.Cliente.Controllers
 {
     [Area("Cliente")]
-    [Authorize(Roles = "Cliente")]
+    [Authorize(Roles = "Cliente, Administrador, Funcionario")]
     public class PedidoController : Controller
     {
         private readonly IPedidoRepository _pedidoRepository;

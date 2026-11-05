@@ -2,50 +2,45 @@
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    @* PEGA CONTROLLER DA ROTA *@
-    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+    var dataAtual = DateTime.Now;
 }
 
 <link rel="stylesheet" href="~/css/dashboard.css" />
 
 <section class="sessao-padrao bem-vindo">
 
-    <div class="container-gerencia"> 
+    <div class="intro-dashboard">
+        <img src="~/Assets/Icons/Logo.svg" id="logo">
 
-        <div class="menu">
-            <a asp-controller="Dashboard" asp-action="Index" class="@(controller == "Dashboard" ? "ativo" : "")">Dashboard</a>
-            <a asp-controller="Produtos" asp-action="Index" class="@(controller == "Produtos" ? "ativo" : "")">Produtos</a>
-            <a asp-controller="Pedidos" asp-action="Index" class="@(controller == "Pedidos" ? "ativo" : "")">Pedidos</a>
-            <a asp-controller="Usuarios" asp-action="Index" class="@(controller == "Usuarios" ? "ativo" : "")">Usuários</a>
+        <div class="nome">
+            <h3>Olá, bem-vindo(a) de volta!</h3>
+            <h2>@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</h2>
+        </div>
+
+        <div class="calendario">
+            <button class="seletor-data" id="btnSeletorData" type="button">
+                <img src="/Assets/Icons/Icon_Calendario.png" alt="" class="icone-calendario" />
+                <span id="textoDataSelecionada">@dataAtual.ToString("dd/MMMM/yyyy")</span>
+            </button>
+
+            @* <div class="dropdown-data" id="dropdownData">
+                <div class="dropdown-navegacao-ano">
+                    <button type="button" id="btnAnoAnterior">&lt;</button>
+                    <span id="anoAtual">2026</span>
+                    <button type="button" id="btnProximoAno">&gt;</button>
+                </div>
+                <div class="dropdown-meses" id="dropdownMeses">
+                    
+
+                </div>
+            </div> *@
         </div>
     </div>
-    
-    <img src="~/Assets/Icons/Logo.svg" id="logo">
 
-    <div class="nome">
-        <h3>Olá, bem-vindo(a) de volta!</h3>
-        <h2>@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</h2>
-    </div>
+    @* NAVBAR DA GERENCIA *@
+    <partial name="_NavbarDashboard" />
 
-    <div class="calendario">
-        <button class="seletor-data" id="btnSeletorData" type="button">
-            <img src="/Assets/Icons/Icon_Calendario.png" alt="" class="icone-calendario" />
-            <span id="textoDataSelecionada">Junho/2026</span>
-            <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
-        </button>
 
-        @* <div class="dropdown-data" id="dropdownData">
-            <div class="dropdown-navegacao-ano">
-                <button type="button" id="btnAnoAnterior">&lt;</button>
-                <span id="anoAtual">2026</span>
-                <button type="button" id="btnProximoAno">&gt;</button>
-            </div>
-            <div class="dropdown-meses" id="dropdownMeses">
-                
-
-            </div>
-        </div> *@
-    </div>
 </section>
 
 <section class="resumo-mensal">

@@ -1,11 +1,13 @@
 using System.Globalization;
 using Discoffee.Models;
 using Discoffee.Repository.Contract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Discoffee.Areas.Gerencia.Controllers
 {
     [Area("Gerencia")]
+    [Authorize(Roles = "Administrador, Funcionario")]
     public class ProdutosController : Controller
     {
         private readonly IProdutoRepository _produtoRepository;

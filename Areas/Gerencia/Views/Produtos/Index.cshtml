@@ -6,64 +6,75 @@
 
 <link rel="stylesheet" href="~/css/produtos.css" asp-append-version="true" />
 
-<section class="catalogo-header">
-    <div class="prod-catalogo">
-        <div class="descricao">
-            <h2>Catálogo de produtos</h2>
-            <h4>Visualize, ative, inative ou cadastre novos produtos</h4>
+<section class="sessao-produtos">
+
+    @await Html.PartialAsync(
+        "~/Areas/Gerencia/Views/Dashboard/_NavbarDashboard.cshtml"
+
+    )
+
+    <div class="catalogo-header">
+
+        <div class="prod-catalogo">
+            <div class="descricao">
+                <h2>Catálogo de produtos</h2>
+                <h4>Visualize, ative, inative ou cadastre novos produtos</h4>
+            </div>
+
+            <button type="button" class="btn-cadastrar" data-modal="modal-cadastro">
+                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="btn-qtd" viewBox="0 0 16 16">
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                </svg>
+                <h3>Novo Produto</h3>
+            </button>
+        </div>
+    </div>
+
+    <div class="container-produtos">
+        <div class="sessao-busca">
+            <div class="buscar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icone-busca" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                </svg>
+                <input type="search" placeholder="Buscar produto..." />
+            </div>
+
+            <div class="categoria-status">
+                <div class="cat-status">
+                    <div class="categoria-selecao">
+                        <h5>Categorias</h5>
+                        <h6>Todas</h6>
+                    </div>
+                    <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
+                </div>
+
+                <div class="cat-status">
+                    <div class="categoria-selecao">
+                        <h5>Status</h5>
+                        <h6>Todos</h6>
+                    </div>
+                    <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
+                </div>
+            </div>
         </div>
 
-        <button type="button" class="btn-cadastrar" data-modal="modal-cadastro">
-            <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="btn-qtd" viewBox="0 0 16 16">
-                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-            </svg>
-            <h3>Novo Produto</h3>
-        </button>
+        <div class="cards-prod">
+            <div class="prod-header">
+                <h2>Produto</h2>
+                <h2>Descrição</h2>
+                <h2>Preço</h2>
+                <h2>Status</h2>
+            </div>
+
+            <div class="lista-produtos">
+                @foreach (var produto in Model)
+                {
+                    <partial name="_CardProduto" model="produto" />
+                }
+            </div>
+        </div>
     </div>
 </section>
-
-<section class="sessao-busca">
-     <div class="buscar">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icone-busca" viewBox="0 0 16 16">
-            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-        </svg>
-        <input type="search" placeholder="Buscar produto..." />
-     </div>
-
-     <div class="categoria-status">
-        <div class="cat-status">
-            <div class="categoria-selecao">
-                <h5>Categorias</h5>
-                <h6>Todas</h6>
-            </div>
-            <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
-        </div>
-
-        <div class="cat-status">
-            <div class="categoria-selecao">
-                <h5>Status</h5>
-                <h6>Todos</h6>
-            </div>
-            <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
-        </div>
-     </div>
-</section>
-
-<div class="cards-prod">
-    <div class="prod-header">
-        <h2>Produto</h2>
-        <h2>Descrição</h2>
-        <h2>Preço</h2>
-        <h2>Status</h2>
-    </div>
-
-    <div class="lista-produtos">
-        @foreach (var produto in Model)
-        {
-            <partial name="_CardProduto" model="produto" />
-        }
-    </div>
-</div>
 
 <partial name="_ModalCadProduto" />
 

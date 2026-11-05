@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using Discoffee.Models;
 using Discoffee.Repository.Contract;
 using Discoffee.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Discoffee.Areas.Cliente.Controllers
 {
     [Area("Cliente")]
-    [Authorize(Roles = "Cliente")]
+    [Authorize(Roles = "Cliente, Administrador, Funcionario")]
     public class PerfilController : Controller
     {
         private readonly IUsuarioRepository _repositorio;

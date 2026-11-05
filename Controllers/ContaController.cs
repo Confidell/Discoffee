@@ -154,8 +154,6 @@ namespace Discoffee.Controllers
         {
             Usuario? usuario = _usuarioRepository.BuscarUsuarioPorEmail(loginViewModel.Email);
 
-            Console.WriteLine($"PERFIL RECEBIDO DO BANCO: {usuario?.Perfil}");
-
             // USUÁRIO NÃO ENCONTRADO
             if (usuario is null)
             {
@@ -212,8 +210,6 @@ namespace Discoffee.Controllers
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 principal
             );
-
-            Console.WriteLine($"PERFIL SALVO NOS COOKIES: {principal.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value}");
 
             // REDIRECIONAMENTO DE ACORDO COM O PERFIL
             if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
