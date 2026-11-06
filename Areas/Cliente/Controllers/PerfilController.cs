@@ -11,9 +11,11 @@ namespace Discoffee.Areas.Cliente.Controllers
     public class PerfilController : Controller
     {
         private readonly IUsuarioRepository _repositorio;
-        public PerfilController(IUsuarioRepository repositorio)
+        private readonly ICartaoRepository _cartaoRepository;
+        public PerfilController(IUsuarioRepository repositorio, ICartaoRepository cartaoRepository)
         {
             _repositorio = repositorio;
+            _cartaoRepository = cartaoRepository;
         }
 
         public IActionResult Index()
@@ -24,6 +26,8 @@ namespace Discoffee.Areas.Cliente.Controllers
             );
             
             var usuario = _repositorio.BuscarUsuarioPorId(idUsuario);
+
+            var cartoes = _cartaoRepository.BuscarTodosPorUsuario(idUsuario);
 
             if(usuario == null)
                 return NotFound();
@@ -41,7 +45,8 @@ namespace Discoffee.Areas.Cliente.Controllers
                 Complemento = usuario.Complemento,
                 NumeroCasa = usuario.NumeroCasa,
                 CEP = usuario.CEP,
-                Perfil = usuario.Perfil
+                Perfil = usuario.Perfil,
+                Cartoes = cartoes
             };
 
             return View(viewModel);

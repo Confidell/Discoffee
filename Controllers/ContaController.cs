@@ -190,6 +190,11 @@ namespace Discoffee.Controllers
                 });
             }
 
+            if(usuario.Status == "Inativo")
+            {
+                return RedirectToAction("ContaDesativada", "Conta");
+            }
+
             // CRIANDO COOKIES PARA SALVAR SESSÃO DO USUÁRIO
             var claims = new List<Claim>
             {
@@ -244,6 +249,12 @@ namespace Discoffee.Controllers
             );
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult ContaDesativada()
+        {
+            return View();
         }
     }
 }

@@ -20,6 +20,7 @@ builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 builder.Services.AddScoped<IOpcaoPersonalizacaoRepository, OpcaoPersonalizacaoRepository>();
 builder.Services.AddScoped<IPedidoRepository, PedidoRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+builder.Services.AddScoped<ICartaoRepository, CartaoRepository>();
 
 builder.Services.AddScoped<IPasswordHasher<Usuario>, PasswordHasher<Usuario>>();
 // Registra a classe que gernecia o carrinho

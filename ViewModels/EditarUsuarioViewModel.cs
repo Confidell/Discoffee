@@ -1,3 +1,4 @@
+using Discoffee.Models;
 using Discoffee.Models.Constants;
 using System.ComponentModel.DataAnnotations;
 
@@ -43,5 +44,7 @@ namespace Discoffee.ViewModels
         public string? CEP { get; set; }
         
         public EnumPerfil Perfil { get; set; }
+
+        public List<Cartao>? Cartoes { get; set; }
     }
 }

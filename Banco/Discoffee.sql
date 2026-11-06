@@ -453,13 +453,12 @@ select * from tbPedido;
 select * from tbItem_Pedido;
 
 delimiter $$
-create procedure insertTbCartao(
+create procedure cadastrarCartao(
 	vNome_Titular VARCHAR(75),
     vApelido VARCHAR(50),
     vNumero_Mascarado VARCHAR(100),
     vDataVal DATE,
     vId_Usuario INT
-    -- out vId_Cartao int -- VARIÁVEL PARA RETORNAR O ID DO CARTÃO CADASTRADO
 )
 begin
 	
@@ -468,15 +467,11 @@ begin
 		insert into tbCartao(Nome_Titular, Apelido, Numero_Mascarado, DataVal, Id_Usuario)
 			values(vNome_Titular, vApelido, vNumero_Mascarado, vDataVal, vId_Usuario);
     end if;
- 
-	-- set vId_Cartao = last_insert_id();
- 
 end;
 $$
 delimiter ;
 
-CALL insertTbCartao('Guilherme', 'Sarue', '9090 8908 0900', '2027-09-29', 1);
-SELECT @idCartao;
+select * from tbCartao;
 
 delimiter $$
 create procedure insertTbAvaliacao(

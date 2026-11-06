@@ -1,7 +1,11 @@
+@using System.Security.Claims
+@using Discoffee.Models.Constants
 @model List<Discoffee.Models.Produto>
 @{
     ViewData["Title"] = "Produto";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var perfil = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 }
 
 <link rel="stylesheet" href="~/css/produtos.css" asp-append-version="true" />
@@ -21,12 +25,15 @@
                 <h4>Visualize, ative, inative ou cadastre novos produtos</h4>
             </div>
 
-            <button type="button" class="btn-cadastrar" data-modal="modal-cadastro">
-                <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="btn-qtd" viewBox="0 0 16 16">
-                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                </svg>
-                <h3>Novo Produto</h3>
-            </button>
+            @if (perfil == EnumPerfil.Administrador.ToString())
+            {
+                <button type="button" class="btn-cadastrar" data-modal="modal-cadastro">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="btn-qtd" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                    <h3>Novo Produto</h3>
+                </button>
+            }
         </div>
     </div>
 
