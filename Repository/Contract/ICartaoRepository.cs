@@ -5,8 +5,8 @@ namespace Discoffee.Repository.Contract
     public interface ICartaoRepository
     {
         void AdicionarCartao(Cartao cartao, int IdUsuario);
-        void EditarCartao(Cartao cartao);
-        Cartao BuscarCartaoPorId(int id);
+        Cartao BuscarCartaoPorId(int IdCartao);
+        void DeletarCartao(int IdCartao);
         List<Cartao> BuscarTodosPorUsuario(int IdUsuario);
     }
 }

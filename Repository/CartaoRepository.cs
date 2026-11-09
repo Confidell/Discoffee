@@ -83,9 +83,20 @@ namespace Discoffee.Repository
             return cartoes;
         }
 
-        public void EditarCartao(Cartao cartao)
+        public void DeletarCartao(int IdCartao)
         {
-            throw new NotImplementedException();
+            using (var conexao = new MySqlConnection(_conexaoMySQL))
+            {
+                conexao.Open();
+
+                using (var cmd = new MySqlCommand("delete from tbCartao where Id_Cartao = @vId_Cartao", conexao))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@vId_Cartao", IdCartao);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

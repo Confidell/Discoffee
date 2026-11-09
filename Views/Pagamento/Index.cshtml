@@ -1,0 +1,280 @@
+```cshtml
+@model Discoffee.ViewModels.PagamentoViewModel
+
+@{
+    ViewData["Title"] = "Pagamento";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/pagamento.css">
+}
+
+<section class="sessao-padrao sessao-pagamentos">
+
+    <div class="lista-itens">
+
+        <div class="titulo-secao">
+            <h3>
+                Seu <span style="color: var(--rosa);">Pedido</span>
+            </h3>
+        </div>
+
+        @if (Model == null || Model.Itens == null || !Model.Itens.Any())
+        {
+            <p class="carrinho-vazio">
+                Seu carrinho está vazio.
+            </p>
+        }
+        else
+        {
+            @foreach (Discoffee.ViewModels.ItemPedidoViewModel item in Model.Itens)
+            {
+                @await Html.PartialAsync(
+                    "~/Areas/Cliente/Views/Pedido/_CardItemPedido.cshtml",
+                    item
+                )
+            }
+        }
+
+    </div>
+
+
+    <div class="dados-pagamento">
+
+        <div class="dados-usuario">
+
+        <!-- DADOS DO USUARIO -->
+        <div class="dados-usuario">
+
+            <h4>
+                Dados <span style="color: var(--rosa);">Pessoais</span>
+            </h4>
+
+            <form>
+
+                <div class="conteudo-card">
+
+                    <label>
+                        Nome:
+                        <input type="text"
+                            class="input-form"
+                            disabled
+                            value="@Model.Usuario.NomeCompleto" />
+                    </label>
+
+                    <label>
+                        Email:
+                        <input type="email"
+                            class="input-form"
+                            disabled
+                            value="@Model.Usuario.Email" />
+                    </label>
+
+                    <div class="usuario-grid-1">
+
+                        <div class="end-grid-1">
+                            <label>
+                                Telefone:
+                                <input type="text"
+                                    class="input-form tel"
+                                    disabled
+                                    value="@Model.Usuario.Telefone" />
+                            </label>
+                        </div>
+
+                        <div class="end-grid-2">
+                            <label>
+                                CPF:
+                                <input type="text"
+                                    class="input-form cpf"
+                                    disabled
+                                    value="@Model.Usuario.CPF" />
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <label>
+                        Endereço:
+                        <textarea class="input-form endereco-completo"
+                                disabled
+                                rows="3">Carregando endereço...</textarea>
+                    </label>
+
+                    <!-- CAMPOS UTILIZADOS PELA VIACEP -->
+                    <input type="hidden" class="cep" value="@Model.Usuario.CEP" />
+                    <input type="hidden" class="numeroCasa" value="@Model.Usuario.NumeroCasa" />
+                    <input type="hidden" class="complemento" value="@Model.Usuario.Complemento" />
+
+                    <input type="hidden" class="rua" />
+                    <input type="hidden" class="bairro" />
+                    <input type="hidden" class="cidade" />
+                    <input type="hidden" class="estado" />
+
+                </div>
+
+                <div class="controles-perfil">
+
+                    <article>
+                        <h4>Dados da Conta</h4>
+                    </article>
+
+                    <a asp-area="Cliente"
+                    asp-controller="Usuario"
+                    asp-action="Editar"
+                    class="btn-editar botao">
+                        Editar Perfil
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+
+            <!-- FORMA DE PAGAMENTO -->
+            <div class="forma-pagamento">
+
+                <h4>
+                    Forma de <span style="color: var(--rosa);">Pagamento</span>
+                </h4>
+
+                <div class="opcoes-pagamento">
+
+                    <label class="opcao-pagamento">
+                        <input type="radio"
+                               name="FormaPagamento"
+                               value="Pix"
+                               checked />
+
+                        <span>PIX</span>
+                    </label>
+
+                    <label class="opcao-pagamento">
+                        <input type="radio"
+                               name="FormaPagamento"
+                               value="Cartao" />
+
+                        <span>Cartão</span>
+                    </label>
+
+                </div>
+
+
+                <!-- PIX -->
+                <div id="pagamento-pix" class="conteudo-card">
+
+                    <h4>Pagamento via PIX</h4>
+
+                    <p>
+                        Escaneie o QR Code abaixo para realizar o pagamento.
+                    </p>
+
+                    <div class="pix-qrcode">
+                        <!-- QR CODE -->
+                    </div>
+
+                    <label>
+                        Código PIX:
+                        <input type="text"
+                               class="input-form"
+                               id="codigo-pix"
+                               readonly />
+                    </label>
+
+                    <button type="button" class="btn-copiar-pix">
+                        Copiar código PIX
+                    </button>
+
+                </div>
+
+
+                <!-- CARTÃO -->
+                <div id="pagamento-cartao"
+                     class="conteudo-card"
+                     style="display: none;">
+
+                    <h4>Selecione seu Cartão</h4>
+
+                    <div class="lista-cartoes">
+
+                        @if (Model.Cartoes == null || !Model.Cartoes.Any())
+                        {
+                            <p>Nenhum cartão cadastrado.</p>
+                        }
+                        else
+                        {
+                            @foreach (var cartao in Model.Cartoes)
+                            {
+                                <label class="opcao-cartao">
+
+                                    <input type="radio"
+                                           name="IdCartao"
+                                           value="@cartao.IdCartao" />
+
+                                    <div class="card-cartao-cadastrado">
+
+                                        <h4>@cartao.Apelido</h4>
+
+                                        <p>
+                                            **** **** ****
+                                            @cartao.NumeroCartao.Substring(
+                                                Math.Max(0, cartao.NumeroCartao.Length - 4)
+                                            )
+                                        </p>
+
+                                    </div>
+
+                                </label>
+                            }
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RESUMO DO PEDIDO -->
+        <div class="resumo-pedido">
+
+            <h4>
+                Resumo do <span style="color: var(--rosa);">Pedido</span>
+            </h4>
+
+            <div class="resumo-conteudo">
+
+                <div class="resumo-linha">
+                    <p>Subtotal:</p>
+                    <strong>R$ 00,00</strong>
+                </div>
+
+                <div class="resumo-linha">
+                    <p>Entrega:</p>
+                    <strong>R$ 00,00</strong>
+                </div>
+
+                <div class="resumo-total">
+                    <h4>Total:</h4>
+                    <strong>R$ 00,00</strong>
+                </div>
+
+            </div>
+
+            <button type="submit" class="btn-finalizar-pedido botao">
+                Finalizar Pedido
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+@section Scripts{
+    <script src="~/js/usuarios.js" asp-append-version="true"></script>
+}

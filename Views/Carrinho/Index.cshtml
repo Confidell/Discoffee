@@ -42,7 +42,7 @@
             }
             else
             {
-                @foreach (var item in Model)
+                @foreach (Discoffee.ViewModels.ItemPedidoViewModel item in Model)
                 {
                     @await Html.PartialAsync(
                         "~/Areas/Cliente/Views/Pedido/_CardItemPedido.cshtml",
@@ -105,6 +105,32 @@
                 <div class="txt-total">
                     <h4>Pagamento total</h4>
                     <span>R$ @total</span>
+                </div>
+
+                <div class="forma-pagamento">
+
+                    <h4>
+                        Selecione a forma de pagamento
+                    </h4>
+
+                    <label class="opcao-pagamento">
+                        <img src="~/Assets/Icons/Icon_PIX.png" alt="PIX">
+
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span>PIX</span>
+                            <input type="radio" name="FormaPagamento" value="1" form="form-finalizar-compra" />
+                        </div>
+
+                    </label>
+
+                    <label class="opcao-pagamento">
+                        <img src="~/Assets/Icons/Icon_Cartao.png" alt="Cartão de Crédito">
+
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span>Cartão de Crédito</span>
+                            <input type="radio" name="FormaPagamento" value="1" form="form-finalizar-compra" />
+                        </div>
+                    </label>
                 </div>
 
                 <form id="form-finalizar-compra" asp-area="Cliente" asp-controller="Pedido" asp-action="FinalizarCompra" method="post">

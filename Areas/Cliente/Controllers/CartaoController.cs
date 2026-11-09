@@ -27,5 +27,12 @@ namespace Discoffee.Areas.Cliente.Controllers
             _cartaoRepository.AdicionarCartao(cartao, idUsuario);
             return RedirectToAction("Index", "Perfil", new { area = "Cliente" });
         }
+
+        [HttpPost]
+        public IActionResult DeletarCartao(int IdCartao)
+        {  
+            _cartaoRepository.DeletarCartao(IdCartao);
+            return RedirectToAction("Index", "Perfil", new { area = "Cliente" });
+        }
     }
 }

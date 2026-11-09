@@ -262,11 +262,13 @@ const formAdicionarCartao = document.querySelector(".adicionar-cartao");
 btnAdicionarCartao.addEventListener("click", () => {
 
     formAdicionarCartao.classList.add("exibir");
+    btnAdicionarCartao.style.display = "none";
 });
 
 btnCancelar.addEventListener("click", () => {
 
     formAdicionarCartao.classList.remove("exibir");
+    btnAdicionarCartao.style.display = "flex";
 });
 
 // IDENTIFICAR BANDEIRAS DOS CARTÕES CADASTRADOS

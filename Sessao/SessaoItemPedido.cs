@@ -6,7 +6,6 @@ namespace Discoffee.Sessao
     public class SessaoItemPedido
     {
         private const string Chave = "Pedido.Itens";
-
         private readonly ISession _sessao;
 
         public SessaoItemPedido(IHttpContextAccessor accessor)

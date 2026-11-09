@@ -49,7 +49,6 @@ namespace Discoffee.Repository
             return usuarios;
         }
 
-        
         public Usuario BuscarUsuarioPorEmail(string Email)
         {
             using var conexao = new MySqlConnection(_conexaoMySql);

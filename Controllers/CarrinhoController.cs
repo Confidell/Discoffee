@@ -1,10 +1,7 @@
-﻿using System.Security.Claims;
-using System.Text.Json;
-using Discoffee.Models;
+﻿using System.Text.Json;
 using Discoffee.Repository.Contract;
 using Discoffee.Sessao;
 using Discoffee.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Discoffee.Controllers
