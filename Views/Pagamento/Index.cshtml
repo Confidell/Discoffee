@@ -41,99 +41,75 @@
 
     <div class="dados-pagamento">
 
-        <div class="dados-usuario">
+        <div class="container-pagamento-usuario">
 
-        <!-- DADOS DO USUARIO -->
-        <div class="dados-usuario">
+            <!-- DADOS DO USUARIO -->
+            <div class="dados-usuario">
 
-            <h4>
-                Dados <span style="color: var(--rosa);">Pessoais</span>
-            </h4>
+                <h4>Dados <span style="color: var(--rosa);">Pessoais</span></h4>
 
-            <form>
+                <form>
+                    <div class="conteudo-card">
 
-                <div class="conteudo-card">
+                        <label>
+                            Nome:
+                            <input type="text"
+                                class="input-form"
+                                disabled
+                                value="@Model.Usuario.NomeCompleto" />
+                        </label>
 
-                    <label>
-                        Nome:
-                        <input type="text"
-                            class="input-form"
-                            disabled
-                            value="@Model.Usuario.NomeCompleto" />
-                    </label>
+                        <label>
+                            Email:
+                            <input type="email"
+                                class="input-form"
+                                disabled
+                                value="@Model.Usuario.Email" />
+                        </label>
 
-                    <label>
-                        Email:
-                        <input type="email"
-                            class="input-form"
-                            disabled
-                            value="@Model.Usuario.Email" />
-                    </label>
+                        <div class="usuario-grid-1">
 
-                    <div class="usuario-grid-1">
+                            <div class="end-grid-1">
+                                <label>
+                                    Telefone:
+                                    <input type="text"
+                                        class="input-form tel"
+                                        disabled
+                                        value="@Model.Usuario.Telefone" />
+                                </label>
+                            </div>
 
-                        <div class="end-grid-1">
-                            <label>
-                                Telefone:
-                                <input type="text"
-                                    class="input-form tel"
-                                    disabled
-                                    value="@Model.Usuario.Telefone" />
-                            </label>
+                            <div class="end-grid-2">
+                                <label>
+                                    CPF:
+                                    <input type="text"
+                                        class="input-form cpf"
+                                        disabled
+                                        value="@Model.Usuario.CPF" />
+                                </label>
+                            </div>
                         </div>
-
-                        <div class="end-grid-2">
-                            <label>
-                                CPF:
-                                <input type="text"
-                                    class="input-form cpf"
-                                    disabled
-                                    value="@Model.Usuario.CPF" />
-                            </label>
-                        </div>
-
                     </div>
 
-                    <label>
-                        Endereço:
-                        <textarea class="input-form endereco-completo"
-                                disabled
-                                rows="3">Carregando endereço...</textarea>
-                    </label>
+                    <div class="controles-perfil">
 
-                    <!-- CAMPOS UTILIZADOS PELA VIACEP -->
-                    <input type="hidden" class="cep" value="@Model.Usuario.CEP" />
-                    <input type="hidden" class="numeroCasa" value="@Model.Usuario.NumeroCasa" />
-                    <input type="hidden" class="complemento" value="@Model.Usuario.Complemento" />
+                        <article>
+                            <h4>Dados da Conta</h4>
+                        </article>
 
-                    <input type="hidden" class="rua" />
-                    <input type="hidden" class="bairro" />
-                    <input type="hidden" class="cidade" />
-                    <input type="hidden" class="estado" />
+                        <a asp-area="Cliente"
+                        asp-controller="Usuario"
+                        asp-action="Editar"
+                        class="btn-editar botao">
+                            Editar Perfil
+                        </a>
 
-                </div>
-
-                <div class="controles-perfil">
-
-                    <article>
-                        <h4>Dados da Conta</h4>
-                    </article>
-
-                    <a asp-area="Cliente"
-                    asp-controller="Usuario"
-                    asp-action="Editar"
-                    class="btn-editar botao">
-                        Editar Perfil
-                    </a>
-
-                </div>
-
-            </form>
-
-        </div>
+                    </div>
+                </form>
+            </div>
 
 
-            <!-- FORMA DE PAGAMENTO -->
+                    <!-- FORMA DE PAGAMENTO -->
             <div class="forma-pagamento">
 
                 <h4>
@@ -144,17 +120,17 @@
 
                     <label class="opcao-pagamento">
                         <input type="radio"
-                               name="FormaPagamento"
-                               value="Pix"
-                               checked />
+                                name="FormaPagamento"
+                                value="Pix"
+                                checked />
 
                         <span>PIX</span>
                     </label>
 
                     <label class="opcao-pagamento">
                         <input type="radio"
-                               name="FormaPagamento"
-                               value="Cartao" />
+                                name="FormaPagamento"
+                                value="Cartao" />
 
                         <span>Cartão</span>
                     </label>
@@ -178,9 +154,9 @@
                     <label>
                         Código PIX:
                         <input type="text"
-                               class="input-form"
-                               id="codigo-pix"
-                               readonly />
+                                class="input-form"
+                                id="codigo-pix"
+                                readonly />
                     </label>
 
                     <button type="button" class="btn-copiar-pix">
@@ -192,8 +168,8 @@
 
                 <!-- CARTÃO -->
                 <div id="pagamento-cartao"
-                     class="conteudo-card"
-                     style="display: none;">
+                        class="conteudo-card"
+                        style="display: none;">
 
                     <h4>Selecione seu Cartão</h4>
 
@@ -209,9 +185,7 @@
                             {
                                 <label class="opcao-cartao">
 
-                                    <input type="radio"
-                                           name="IdCartao"
-                                           value="@cartao.IdCartao" />
+                                    <input type="radio"name="IdCartao" value="@cartao.IdCartao" />
 
                                     <div class="card-cartao-cadastrado">
 
@@ -223,21 +197,15 @@
                                                 Math.Max(0, cartao.NumeroCartao.Length - 4)
                                             )
                                         </p>
-
                                     </div>
-
                                 </label>
                             }
                         }
-
                     </div>
-
                 </div>
 
             </div>
-
         </div>
-
 
         <!-- RESUMO DO PEDIDO -->
         <div class="resumo-pedido">
@@ -270,8 +238,9 @@
             </button>
 
         </div>
-
     </div>
+
+    @*  *@
 
 </section>
 
