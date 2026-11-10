@@ -42,7 +42,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
-    background-color: var(--branco-escuro);
+    background-color: #fafafa;
     border-radius: 20px;
     padding: 2rem;
     gap: 1rem;
@@ -85,11 +85,11 @@
     display: flex;
     flex-direction: column;
     width: 40%;
-    height: fit-content;
+    height: 650px;
     gap: 2rem;
-    background-color: var(--branco-escuro);
+    background-color: #fafafa;
     border-radius: 12px;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
     box-shadow: 4px 4px 0px var(--roxo);
 }
@@ -107,7 +107,7 @@
 
 .header-resumo h2 {
     font-weight: 700;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     color: var(--cinza-claro);
 }
 
@@ -208,74 +208,34 @@ hr {
     color: color-mix(in srgb, var(--cinza-escuro) 83%, transparent);
 }
 
-.txt-total:nth-child(3) h4 {
-    font-size: 1.5rem;
+.txt-total h4 {
+    font-size: 1.2rem;
     font-weight: 600;
     display: flex;
 }
 
-.txt-total:nth-child(3) span {
+.txt-total:nth-child(2) span {
     font-size: 1.2rem;
     display: flex;
     color: var(--laranja);
     font-weight: 600;
 }
-.forma-pagamento {
+
+#form-finalizar-compra{
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-direction: column;
-    width: 100%;
-    gap: .5rem;
-    padding: 3rem 1rem 1rem 1rem;
 }
-.forma-pagamento h4{
-    font-size: 1.2rem;
-
-}
-.opcao-pagamento {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
-    width: 100%;
-    height: 60px;
-    border-radius: 6px;
-    background-color: var(--branco);
-    color: var(--cinza-claro);
-    font-weight: 600;
-}
-.opcao-pagamento img{
-    width: 35px;
-    height: 35px;
-    object-fit: cover;
-}
-.opcao-pagamento input {
-    appearance: none;
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--azul);
-    border-radius: 50%;
-    cursor: pointer;
-    position: relative;
-    margin: 0;
-    flex-shrink: 0;
-}
-.opcao-pagamento input:checked {
-    background-color: var(--azul);
-    box-shadow: inset 0 0 0 2px var(--branco);
-}
-   
 .botao-realizar-pedido {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 70%;
+    width: 90%;
     height: 40px;
     font-size: 1.2rem;
     background-color: var(--azul);
     color: var(--branco);
     font-weight: 600;
-    margin: 2rem 3.5rem;
+    margin: 2rem 1rem 2rem ;
 }

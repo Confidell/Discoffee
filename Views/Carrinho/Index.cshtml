@@ -75,11 +75,11 @@
 
         <div class="body-resumo">
             <div class="inputs">
-                <label for="frete">
+                @* <label for="frete">
                     Frete:
                     <input type="text" id="frete" class="input-form"
                            placeholder="Insira seu CEP" />
-                </label>
+                </label> *@
 
                 <label for="cupom">
                     Cupom:
@@ -97,49 +97,27 @@
                     <span>R$ @subtotal</span>
                 </div>
 
-                <div class="txt-total">
+                @* <div class="txt-total">
                     <h4>Total do frete</h4>
                     <span>R$ @frete</span>
-                </div>
+                </div> *@
 
                 <div class="txt-total">
                     <h4>Pagamento total</h4>
                     <span>R$ @total</span>
                 </div>
 
-                <div class="forma-pagamento">
+                <a asp-controller="Pagamento" asp-action="Index" class="botao botao-realizar-pedido">
+                    Realizar Pedido
+                </a>
 
-                    <h4>
-                        Selecione a forma de pagamento
-                    </h4>
-
-                    <label class="opcao-pagamento">
-                        <img src="~/Assets/Icons/Icon_PIX.png" alt="PIX">
-
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <span>PIX</span>
-                            <input type="radio" name="FormaPagamento" value="1" form="form-finalizar-compra" />
-                        </div>
-
-                    </label>
-
-                    <label class="opcao-pagamento">
-                        <img src="~/Assets/Icons/Icon_Cartao.png" alt="Cartão de Crédito">
-
-                        <div style="display: flex; align-items: center; gap: 1rem;">
-                            <span>Cartão de Crédito</span>
-                            <input type="radio" name="FormaPagamento" value="1" form="form-finalizar-compra" />
-                        </div>
-                    </label>
-                </div>
-
-                <form id="form-finalizar-compra" asp-area="Cliente" asp-controller="Pedido" asp-action="FinalizarCompra" method="post">
+                @* <form id="form-finalizar-compra" asp-area="Cliente" asp-controller="Pedido" asp-action="FinalizarCompra" method="post">
                     <input type="hidden" name="Frete" value="0" />
 
                     <button type="submit" class="botao botao-realizar-pedido">
                         Realizar Pedido
                     </button>
-                </form>
+                </form> *@
             </div>
         </div>
     </section>

@@ -4,7 +4,7 @@
 
     var controller = ViewContext.RouteData.Values["controller"]?.ToString();
 
-    bool exibirBotoes = controller == "Carrinho";
+    bool exibirBotoes = controller == "Carrinho" || controller == "Pagamento";
 }
 
 <article class="item-pedido">

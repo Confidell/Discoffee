@@ -127,12 +127,12 @@ CREATE TABLE tbPagamento(
 Id_Pagamento INT PRIMARY KEY auto_increment,
 ValorPago DECIMAL(10,2) NOT NULL,
 DataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
-FormaPagamento ENUM('PIX','Débito','Crédito') NOT NULL,
-Status ENUM('Fnaliazado', 'Em andamento', 'Á Pagar') NOT NULL,
+FormaPagamento ENUM('PIX','Cartao') NOT NULL,
+Stats ENUM('Fnaliazado', 'Em andamento') NOT NULL,
 Id_Pedido INT,
 Id_Cupom INT,
-Id_Cartao INT,
-CONSTRAINT fk_Pagamento_tbCartao FOREIGN KEY (Id_Cartao) REFERENCES tbCartao(Id_Cartao),
+-- Id_Cartao INT,
+-- CONSTRAINT fk_Pagamento_tbCartao FOREIGN KEY (Id_Cartao) REFERENCES tbCartao(Id_Cartao),
 CONSTRAINT fk_Pagamento_tbPedido FOREIGN KEY (Id_Pedido) REFERENCES tbPedido(Id_Pedido),
 CONSTRAINT fk_Pagamento_tbCupom FOREIGN KEY (Id_Cupom) REFERENCES tbCupom(Id_Cupom)
 );

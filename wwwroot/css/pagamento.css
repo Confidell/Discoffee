@@ -2,8 +2,8 @@
     align-items: start;
     justify-content: center;
     height: fit-content;
-    padding: 10rem 1rem 5rem 3rem;
-    gap: 5rem;
+    padding: 10rem 1rem 5rem 1rem;
+    gap: 2rem;
 }
 
 .sessao-pagamentos h3,
@@ -39,30 +39,29 @@
     justify-content: center;
     flex-direction: column;
     gap: 2rem;
-    padding: 2rem;
 }
 
 .container-pagamento-usuario{
     width: 100%;
     display: flex;
     justify-content: space-between;
-    /* gap: 2rem; */
+    gap: 1rem;
 }
 
 .pagamento-produtos {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 1rem;
 }
 
 .pagamento-dados {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 1rem;
 }
 
+/* DADOS DO USUARIO */
 .dados-usuario {
-    width: 50%;
     height: 450px;
     display: flex;
     align-items: center;
@@ -78,14 +77,14 @@
     justify-content: space-between;
 }
 
-.dados-pessoais,
-.dados-endereco,
 .forma-pagamento,
 .resumo-pedido,
 .dados-usuario {
+    width: 50%;
     background-color: var(--branco);
-    padding: 25px;
+    padding: 1.2rem;
     box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+    border-radius: 4px;
 }
 
 /* CARDS */
@@ -106,12 +105,12 @@
 
 .input-form {
     width: 100%;
-    height: 43px;
-    padding: 0 12px;
+    height: 45px;
+    padding: 0 1rem;
     border: 1px solid #DADADA;
     border-radius: 8px;
     outline: none;
-    font-size: 14px;
+    font-size: .85rem;
     background-color: #FAFAFA;
     color: #555;
     box-sizing: border-box;
@@ -134,134 +133,76 @@
     min-width: 0;
 }
 
-/* ==============================
-   CONTROLES DE PERFIL
-============================== */
-
-.controles-perfil {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 20px;
-    gap: 15px;
-}
-
-.controles-perfil article h4 {
-    font-size: 15px;
-}
-
 .btn-editar {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 9px 17px;
     border: none;
-    border-radius: 8px;
+    border-radius: 4px;
     background-color: var(--rosa);
-    color: white;
-    font-size: 13px;
+    color: var(--branco);
+    font-size: 1rem;
     font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    transition: 0.2s;
 }
 
-.btn-editar:hover {
-    filter: brightness(0.9);
-}
-
-/* ==============================
-   ENDERECO
-============================== */
-
-#endereco-grid {
-    display: grid;
-    grid-template-columns: 0.7fr 1.3fr;
-    gap: 15px;
-}
-
-/* ==============================
-   FORMA DE PAGAMENTO
-============================== */
-
+/* FORMA DE PAGAMENTO */
 .opcoes-pagamento {
+    width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    gap: 1rem;
     margin-bottom: 22px;
 }
-
 .opcao-pagamento {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 15px;
+    gap: .8rem;
+    padding: 1rem;
     border: 1px solid #DADADA;
     border-radius: 10px;
     cursor: pointer;
     transition: 0.2s;
     font-weight: 600;
 }
-
 .opcao-pagamento:has(input:checked) {
     border-color: var(--rosa);
-    background-color: rgba(255, 121, 0, 0.08);
     color: var(--rosa);
 }
-
 .opcao-pagamento input {
     accent-color: var(--rosa);
     cursor: pointer;
 }
-
-.conteudo-card > h4 {
-    margin-bottom: 10px;
-}
-
-.conteudo-card > p {
-    font-size: 13px;
+.conteudo-card  p {
+    font-size: .8rem;
     color: #777;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
 }
 
-/* ==============================
-   PIX
-============================== */
-
+/* PIX */
 .pix-qrcode {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 190px;
     height: 190px;
-    margin: 15px auto;
+    margin: 1rem auto;
     border: 1px dashed #CCC;
     border-radius: 10px;
     background-color: #FAFAFA;
 }
-
 .btn-copiar-pix {
     width: 100%;
-    padding: 12px;
+    padding: .8rem;
     border: none;
-    border-radius: 8px;
+    border-radius: 4px;
     background-color: var(--rosa);
     color: white;
     font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
+    font-size: 1rem;
+    margin-top: .5rem;
 }
 
-.btn-copiar-pix:hover {
-    filter: brightness(0.9);
-}
-
-/* ==============================
-   CARTOES
-============================== */
-
+/* CARTÃO */
 .lista-cartoes {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: start;
@@ -271,6 +212,7 @@
 }
 
 .opcao-cartao {
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -282,12 +224,14 @@
 }
 
 .card-cartao-cadastrado {
-    flex: 1;
+    width: 100%;
     padding: 15px;
     border: 1px solid #DDD;
     border-radius: 10px;
     background-color: #FAFAFA;
     transition: 0.2s;
+    display: flex;
+    justify-content: space-between;
 }
 
 .opcao-cartao:has(input:checked) .card-cartao-cadastrado {
@@ -306,10 +250,7 @@
     margin: 0;
 }
 
-/* ==============================
-   RESUMO DO PEDIDO
-============================== */
-
+/* RESUMO DO PEDIDO */
 .resumo-pedido {
     width: 100%;
     display: flex;
@@ -376,8 +317,8 @@
     justify-content: center;
     flex-direction: column;
     gap: 1rem;
-    padding: 1.5rem;
-    background-color: var(--branco-escuro);
+    padding: 1rem;
+    background-color: #fafafa;
 }
 
 .carrinho-vazio {
@@ -394,10 +335,10 @@
     background: var(--branco);
     border-radius: 4px;
     box-shadow: 2px 1px 0px var(--azul);
-    padding: 22px 16px 14px 18px;
+    padding: 22px 16px 10px 16px;
     width: 100%;
     height: fit-content;
-    gap: 2rem;
+    gap: 1rem;
     position: relative;
 }
 
@@ -413,7 +354,7 @@
     align-items: start;
     justify-content: center;
     flex-direction: column;
-    gap: .3rem;
+    gap: .1rem;
 }
 .box-titulo-preco{
     display: flex;
@@ -448,22 +389,17 @@
 }
 
 .icone-remover{
-    color: var(--vermelho); 
-    width: 20px; 
-    height: 20px; 
-    cursor: pointer;
+    display: none;
 }
 
 .seletor-quantidade {
     background-color: var(--branco-escuro);
     border-radius: 5px;
-    width: 100px;
+    width: 40px;
     height: 30px;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    font-weight: 400;
-    display: flex;
+    justify-content: center;
 }
 
 .seletor-quantidade span {
@@ -471,12 +407,7 @@
 }
 
 .seletor-quantidade button {
-    background: none;
-    border: none;
-}
-.seletor-quantidade button svg{
-    width: 25px;
-    height: 25px;
+    display: none;
 }
 
 .item-pedido-preco {
@@ -499,7 +430,7 @@
     font-size: 14px;
     letter-spacing: 0.3px;
     color: #444;
-    gap: 3.5rem;
+    gap: 1rem;
     padding-top: 1rem;
     padding-left: .5rem;
 }

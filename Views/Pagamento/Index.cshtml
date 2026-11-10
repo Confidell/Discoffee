@@ -3,6 +3,17 @@
 
 @{
     ViewData["Title"] = "Pagamento";
+
+    decimal subtotal = Model.Itens.Sum(item =>
+    (
+        item.PrecoUnitario.GetValueOrDefault() +
+        (item.Opcoes?.Sum(opcao => opcao.PrecoExtra) ?? 0)
+    )
+    * item.Quantidade.GetValueOrDefault());
+
+    decimal frete = 0;
+
+    decimal total = subtotal + frete;
 }
 
 @section Styles{
@@ -91,20 +102,9 @@
                         </div>
                     </div>
 
-                    <div class="controles-perfil">
-
-                        <article>
-                            <h4>Dados da Conta</h4>
-                        </article>
-
-                        <a asp-area="Cliente"
-                        asp-controller="Usuario"
-                        asp-action="Editar"
-                        class="btn-editar botao">
-                            Editar Perfil
-                        </a>
-
-                    </div>
+                    <a asp-area="Cliente" asp-controller="Perfil" asp-action="Index" class="botao btn-editar botao">
+                        Editar Perfil
+                    </a>
                 </form>
             </div>
 
@@ -159,10 +159,9 @@
                                 readonly />
                     </label>
 
-                    <button type="button" class="btn-copiar-pix">
+                    <button type="button" class="botao btn-copiar-pix">
                         Copiar código PIX
                     </button>
-
                 </div>
 
 
@@ -185,18 +184,21 @@
                             {
                                 <label class="opcao-cartao">
 
-                                    <input type="radio"name="IdCartao" value="@cartao.IdCartao" />
-
                                     <div class="card-cartao-cadastrado">
 
-                                        <h4>@cartao.Apelido</h4>
+                                        <div>
+                                            
+                                            <h4>@cartao.Apelido</h4>
 
-                                        <p>
-                                            **** **** ****
-                                            @cartao.NumeroCartao.Substring(
-                                                Math.Max(0, cartao.NumeroCartao.Length - 4)
-                                            )
-                                        </p>
+                                            <p>
+                                                **** **** ****
+                                                @cartao.NumeroCartao.Substring(
+                                                    Math.Max(0, cartao.NumeroCartao.Length - 4)
+                                                )
+                                            </p>
+                                        </div>
+
+                                        <input type="radio"name="IdCartao" value="@cartao.IdCartao" />
                                     </div>
                                 </label>
                             }
@@ -218,17 +220,17 @@
 
                 <div class="resumo-linha">
                     <p>Subtotal:</p>
-                    <strong>R$ 00,00</strong>
+                    <strong>R$@subtotal</strong>
                 </div>
 
                 <div class="resumo-linha">
                     <p>Entrega:</p>
-                    <strong>R$ 00,00</strong>
+                    <strong>R$@frete</strong>
                 </div>
 
                 <div class="resumo-total">
                     <h4>Total:</h4>
-                    <strong>R$ 00,00</strong>
+                    <strong>R$@total</strong>
                 </div>
 
             </div>
@@ -246,4 +248,5 @@
 
 @section Scripts{
     <script src="~/js/usuarios.js" asp-append-version="true"></script>
+    <script src="~/js/pagamento.js" asp-append-version="true"></script>
 }
