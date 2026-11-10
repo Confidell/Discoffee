@@ -33,7 +33,7 @@ namespace Discoffee.Areas.Cliente.Controllers
         }
 
         [HttpPost]
-        public IActionResult FinalizarCompra(Pedido pedido)
+        public IActionResult FinalizarCompra(Pedido pedido, string cupom)
         {
 
             // RECUPERA OS ITENS DO CARRINHO NA SESSÃO
@@ -44,7 +44,7 @@ namespace Discoffee.Areas.Cliente.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // SE ALGUM PRODUTO FOI DESATIVADO, NÃO FINALIZA: VOLTA AO CARRINHO, QUE REMOVE O ITEM E AVISA O CLIENTE
+            // SE ALGUM PRODUTO FOI DESATIVADO, VOLTA AO CARRINHO
             bool temIndisponivel = itensCarrinho.Any(item =>
             {
                 var produto = item.IdProduto is int idProduto
@@ -112,7 +112,10 @@ namespace Discoffee.Areas.Cliente.Controllers
             // LIMPA O CARRINHO APÓS CONCLUIR A COMPRA
             _sessaoItemPedido.Limpar();
 
-            return RedirectToAction(nameof(Index));
+            // REDIRECIONA PARA A TELA DE PAGAMENTOS E ENVIA O ID DO PEDIDO CRIADO E O CUPOM
+            return RedirectToAction("Index", "Pagamento",
+                new { area = "", idPedido = idPedido, cupom = cupom }
+            );
         }
 
         [HttpPost]

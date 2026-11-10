@@ -4,16 +4,11 @@
 @{
     ViewData["Title"] = "Pagamento";
 
-    decimal subtotal = Model.Itens.Sum(item =>
-    (
-        item.PrecoUnitario.GetValueOrDefault() +
-        (item.Opcoes?.Sum(opcao => opcao.PrecoExtra) ?? 0)
-    )
-    * item.Quantidade.GetValueOrDefault());
+    decimal subtotal = Model.Pedido.Subtotal;
 
-    decimal frete = 0;
+    decimal frete = Model.Pedido.Frete;
 
-    decimal total = subtotal + frete;
+    decimal total = Model.Pedido.Subtotal + Model.Pedido.Frete;
 }
 
 @section Styles{
@@ -30,7 +25,7 @@
             </h3>
         </div>
 
-        @if (Model == null || Model.Itens == null || !Model.Itens.Any())
+        @if (Model == null || Model.Pedido.Itens == null || !Model.Pedido.Itens.Any())
         {
             <p class="carrinho-vazio">
                 Seu carrinho está vazio.
@@ -38,7 +33,7 @@
         }
         else
         {
-            @foreach (Discoffee.ViewModels.ItemPedidoViewModel item in Model.Itens)
+            @foreach (Discoffee.ViewModels.ItemPedidoViewModel item in Model.Pedido.Itens)
             {
                 @await Html.PartialAsync(
                     "~/Areas/Cliente/Views/Pedido/_CardItemPedido.cshtml",
@@ -109,7 +104,7 @@
             </div>
 
 
-                    <!-- FORMA DE PAGAMENTO -->
+            <!-- FORMA DE PAGAMENTO -->
             <div class="forma-pagamento">
 
                 <h4>

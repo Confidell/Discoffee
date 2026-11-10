@@ -14,5 +14,6 @@ namespace Discoffee.Repository.Contract
         public void AtualizarTotalPedido(int IdPedido);
         List<PedidoClienteViewModel> BuscarPedidosPorUsuario(int IdUsuario);
         List<PedidoAdminViewModel> BuscarTodos();
+        PedidoClienteViewModel BuscarPedidoPorId(int IdPedido);
     }
 }

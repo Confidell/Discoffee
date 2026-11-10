@@ -128,8 +128,8 @@ Id_Pagamento INT PRIMARY KEY auto_increment,
 ValorPago DECIMAL(10,2) NOT NULL,
 DataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
 FormaPagamento ENUM('PIX','Cartao') NOT NULL,
-Stats ENUM('Fnaliazado', 'Em andamento') NOT NULL,
-Id_Pedido INT,
+Stats ENUM('Finalizado', 'Em andamento', 'Cancelado') NOT NULL,
+Id_Pedido INT NOT NULL,
 Id_Cupom INT,
 -- Id_Cartao INT,
 -- CONSTRAINT fk_Pagamento_tbCartao FOREIGN KEY (Id_Cartao) REFERENCES tbCartao(Id_Cartao),
@@ -451,6 +451,25 @@ select * from tbProduto;
 select * from tbCategoria;
 select * from tbPedido;
 select * from tbItem_Pedido;
+
+DELIMITER $$
+CREATE PROCEDURE registrarPagamento(
+	vValorPago DECIMAL(10,2),
+	vFormaPagamento INT,
+	vStats INT,
+	vId_Pedido INT,
+	vId_Cartao INT,
+	vId_Cupom INT
+)
+BEGIN
+
+    INSERT INTO tbPagamento(ValorPago, FormaPagamento, Stats, Id_Pedido, Id_Cartao, Id_Cupom)
+		VALUES(vValorPago, vFormaPagamento, vStats, vId_Pedido, vId_Cartao, vId_Cupom);
+
+    SELECT LAST_INSERT_ID() AS Id_Pagamento;
+
+END $$
+DELIMITER ;
 
 delimiter $$
 create procedure cadastrarCartao(

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Discoffee.Models.Constants;
+﻿using Discoffee.Models.Constants;
 using System.ComponentModel.DataAnnotations;
 
 namespace Discoffee.Models
@@ -31,10 +29,10 @@ namespace Discoffee.Models
         [Display(Name = "Pedido", Description = "Pedido associado ao pagamento.")]
         public Pedido Pedido { get; set; }
 
-        [Display(Name = "Cupons", Description = "Cupons utilizados no pagamento.")]
-        public ICollection<Cupom> Cupons { get; set; }
+        [Display(Name = "Cartão", Description = "Cartão associado ao pagamento.")]
+        public Cartao Cartao { get; set; }
 
-        [Display(Name = "NotaFiscal", Description = "Nota fiscal associada ao pagamento.")]
-        public NotaFiscal NotaFiscal { get; set; }
+        [Display(Name = "Cupons", Description = "Cupons utilizados no pagamento.")]
+        public Cupom Cupom { get; set; }
     }
 }
