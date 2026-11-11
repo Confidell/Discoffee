@@ -1,4 +1,5 @@
 ﻿@model List<Discoffee.ViewModels.ItemPedidoViewModel>
+@using System.Diagnostics.Eventing.Reader
 @using System.Globalization
 @using Discoffee.Models.Constants
 
@@ -6,16 +7,7 @@
     ViewData["Title"] = "Carrinho";
     var ptBR = new CultureInfo("pt-BR");
 
-    @* decimal subtotal = Model.Sum(item =>
-    (
-        item.PrecoUnitario.GetValueOrDefault() +
-        (item.Opcoes?.Sum(opcao => opcao.PrecoExtra) ?? 0)
-    )
-    * item.Quantidade.GetValueOrDefault());
-
-    decimal frete = 0;
-
-    decimal total = subtotal + frete; *@
+    var itensCarrinho = Model.Count();
 }
 
 @section Styles {
@@ -95,20 +87,20 @@
                     <h5>Frete <span style="color: var(--laranja);">grátis</span> a partir de pedidos acima de R$ 80,00</h5>
 
                     <div style="width: 100%; display: flex; justify-content: space-between;">
-                        <h4>Frete</h4>
+                        <h4>Entregua</h4>
                         <span>R$ @ViewBag.Frete</span>
                     </div>
                 </div>
 
                 <div class="txt-total">
-                    <h4>Valor total</h4>
+                    <h4>Total</h4>
                     <span>R$ @ViewBag.Total</span>
                 </div>
 
                 <form id="form-finalizar-compra" asp-area="Cliente" asp-controller="Pedido" asp-action="FinalizarCompra" method="post">
                     <input hidden id="frete" name="Frete" form="form-finalizar-compra" value="@ViewBag.Frete">
 
-                    <button type="submit" class="botao botao-realizar-pedido">
+                    <button type="submit" class="botao botao-realizar-pedido" @(itensCarrinho == 0 ? "disabled" : "" )>
                         Realizar Pedido
                     </button>
                 </form>

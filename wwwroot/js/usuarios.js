@@ -179,16 +179,6 @@ async function buscarEndereco(cepValor) {
         campoBairro.value = dados.bairro;
         campoCidade.value = dados.localidade;
         campoEstado.value = dados.uf;
-
-        // const campoEndereco = document.querySelector(".endereco-completo");
-        // const numero = document.querySelector(".numeroCasa")?.value;
-        // const complemento = document.querySelector(".complemento")?.value;
-
-        // campoEndereco.value =
-        //     `${dados.cep}, ${dados.logradouro}, Nº ${numero}` +
-        //     (complemento?.trim() ? `, ${complemento}` : "") +
-        //     `, ${dados.uf}, ${dados.localidade}, ${dados.bairro}`;
-
     }
     catch (erro) {
 

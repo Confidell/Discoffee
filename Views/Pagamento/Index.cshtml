@@ -63,18 +63,12 @@
 
                         <label>
                             Nome:
-                            <input type="text"
-                                class="input-form"
-                                disabled
-                                value="@Model.Usuario.NomeCompleto" />
+                            <span>@Model.Usuario.NomeCompleto</span>
                         </label>
 
                         <label>
                             Email:
-                            <input type="email"
-                                class="input-form"
-                                disabled
-                                value="@Model.Usuario.Email" />
+                            <span>@Model.Usuario.Email</span>
                         </label>
 
                         <div class="usuario-grid-1">
@@ -82,26 +76,49 @@
                             <div class="end-grid-1">
                                 <label>
                                     Telefone:
-                                    <input type="text"
-                                        class="input-form tel"
-                                        disabled
-                                        value="@Model.Usuario.Telefone" />
+                                    <span>@Model.Usuario.Telefone</span>
                                 </label>
                             </div>
 
                             <div class="end-grid-2">
                                 <label>
                                     CPF:
-                                    <input type="text"
-                                        class="input-form cpf"
-                                        disabled
-                                        value="@Model.Usuario.CPF" />
+                                    <span>@Model.Usuario.CPF</span>
                                 </label>
                             </div>
                         </div>
+
+                        <hr>
+
+                        <label for="cep">
+                            CEP:
+                            <span class="cep">@Model.Usuario.CEP</span>
+                        </label>
+                        
+                        <div class="usuario-grid-1">
+
+                            <div class="end-grid-1">
+                                <label for="numero">
+                                    Número:
+                                    <span>@Model.Usuario.NumeroCasa</span>
+                                </label>
+                            </div>
+
+                            <div class="end-grid-2">
+                                <label for="complemento">
+                                    Complemento:
+                                    <span>@(Model.Usuario.Complemento is null ? "Sem complemento" : Model.Usuario.Complemento)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <label>
+                            Endereço
+                            <span class="endereco-completo">-</span>
+                        </label>
                     </div>
 
-                    <a asp-area="Cliente" asp-controller="Perfil" asp-action="Index" class="botao btn-editar botao">
+                    <a asp-area="Cliente" asp-controller="Perfil" asp-action="Index" class="botao btn-editar">
                         Editar Perfil
                     </a>
                 </form>
@@ -152,10 +169,7 @@
 
                     <label>
                         Código PIX:
-                        <input type="text"
-                                class="input-form"
-                                id="codigo-pix"
-                                readonly />
+                        <input type="text" class="input-form" id="codigo-pix" readonly />
                     </label>
 
                     <button type="button" class="botao btn-copiar-pix">
@@ -246,6 +260,5 @@
 </section>
 
 @section Scripts{
-    <script src="~/js/usuarios.js" asp-append-version="true"></script>
     <script src="~/js/pagamento.js" asp-append-version="true"></script>
 }
