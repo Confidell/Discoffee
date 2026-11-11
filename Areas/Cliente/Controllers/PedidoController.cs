@@ -35,7 +35,7 @@ namespace Discoffee.Areas.Cliente.Controllers
         [HttpPost]
         public IActionResult FinalizarCompra(Pedido pedido, string cupom)
         {
-
+            Console.WriteLine($"Frete: {pedido.Frete}");
             // RECUPERA OS ITENS DO CARRINHO NA SESSÃO
             var itensCarrinho = _sessaoItemPedido.Consultar();
 

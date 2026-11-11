@@ -19,10 +19,14 @@
 
     <div class="lista-itens">
 
-        <div class="titulo-secao">
+        <div class="titulo-sessao">
             <h3>
                 Seu <span style="color: var(--rosa);">Pedido</span>
             </h3>
+
+            <h4>
+                Para: <span style="color: var(--rosa);">@Model.Pedido.Tipo.ToString()</span>
+            </h4>
         </div>
 
         @if (Model == null || Model.Pedido.Itens == null || !Model.Pedido.Itens.Any())
