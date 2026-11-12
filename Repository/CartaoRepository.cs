@@ -3,6 +3,7 @@ using Discoffee.Models;
 using MySql.Data.MySqlClient;
 using System.Data;
 using Microsoft.AspNetCore.Http.Connections;
+using System.Globalization;
 
 namespace Discoffee.Repository
 {
@@ -14,20 +15,27 @@ namespace Discoffee.Repository
             _conexaoMySQL = conf.GetConnectionString("ConexaoMySQL");
         }
 
-        public void AdicionarCartao(Cartao cartao)
+        public void AdicionarCartao(Cartao cartao, int IdUsuario)
         {
             using (var conexao = new MySqlConnection(_conexaoMySQL))
             {
                 conexao.Open();
 
-                using (var cmd = new MySqlCommand("insertTbCartao", conexao))
+                DateTime dataValidade = DateTime.ParseExact(
+                    cartao.DataValidade,
+                    "MM/yy",
+                    CultureInfo.InvariantCulture
+                );
+
+                using (var cmd = new MySqlCommand("cadastrarCartao", conexao))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@vNome_Titular", cartao.NomeTitular);
                     cmd.Parameters.AddWithValue("@vApelido", cartao.Apelido);
                     cmd.Parameters.AddWithValue("@vNumero_Mascarado", cartao.NumeroCartao);
-                    cmd.Parameters.AddWithValue("@vDataVal", cartao.DataValidade);
+                    cmd.Parameters.AddWithValue("@vDataVal", dataValidade);
+                    cmd.Parameters.AddWithValue("@vId_Usuario", IdUsuario);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -39,29 +47,30 @@ namespace Discoffee.Repository
             throw new NotImplementedException();
         }
 
-        public List<Cartao> BuscarTodosPorUsuario()
+        public List<Cartao> BuscarTodosPorUsuario(int IdUsuario)
         {
-            var cartao = new List<Cartao>();
+            var cartoes = new List<Cartao>();
 
             using (var conexao = new MySqlConnection(_conexaoMySQL))
             {
                 conexao.Open();
 
-                using (var cmd = new MySqlCommand("selectTbCartao", conexao))
+                using (var cmd = new MySqlCommand("select * from tbCartao where Id_Usuario = @vId_Usuario", conexao))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@vId_Usuario", IdUsuario);
 
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            cartao.Add(new Cartao
+                            cartoes.Add(new Cartao
                             {
                                 IdCartao = reader.GetInt32("Id_Cartao"),
                                 NomeTitular = reader.GetString("Nome_Titular"),
                                 Apelido = reader.GetString("Apelido"),
                                 NumeroCartao = reader.GetString("Numero_Mascarado"),
-                                DataValidade = reader.GetString("DataVal"),
+                                DataValidade = reader.GetDateTime("DataVal").ToString("MM/yy"),
                                 Usuario = new Usuario
                                 {
                                     IdUsuario = reader.GetInt32("Id_Usuario"),
@@ -71,12 +80,23 @@ namespace Discoffee.Repository
                     }
                 }
             }
-            return cartao;
+            return cartoes;
         }
 
-        public void EditarCartao(Cartao cartao)
+        public void DeletarCartao(int IdCartao)
         {
-            throw new NotImplementedException();
+            using (var conexao = new MySqlConnection(_conexaoMySQL))
+            {
+                conexao.Open();
+
+                using (var cmd = new MySqlCommand("delete from tbCartao where Id_Cartao = @vId_Cartao", conexao))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    cmd.Parameters.AddWithValue("@vId_Cartao", IdCartao);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
     }
 }

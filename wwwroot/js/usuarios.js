@@ -179,7 +179,6 @@ async function buscarEndereco(cepValor) {
         campoBairro.value = dados.bairro;
         campoCidade.value = dados.localidade;
         campoEstado.value = dados.uf;
-
     }
     catch (erro) {
 

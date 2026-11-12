@@ -1,0 +1,15 @@
+@{
+    @* PEGA CONTROLLER DA ROTA *@
+    var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+}
+
+<div class="menu">
+    <a asp-controller="Dashboard" asp-action="Index" class="@(controller == "Dashboard" ? "ativo" : "")">Dashboard</a>
+    <a asp-controller="Produtos" asp-action="Index" class="@(controller == "Produtos" ? "ativo" : "")">Produtos</a>
+    <a asp-controller="Pedidos" asp-action="Index" class="@(controller == "Pedidos" ? "ativo" : "")">Pedidos</a>
+    <a asp-controller="Usuarios" asp-action="Index" class="@(controller == "Usuarios" ? "ativo" : "")">Usuários</a>
+</div>

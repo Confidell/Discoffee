@@ -13,11 +13,11 @@ namespace Discoffee.Controllers
 {
     public class ContaController : Controller
     {
-        private readonly IUsuarioRepository _repositorio;
+        private readonly IUsuarioRepository _usuarioRepository;
         private readonly PasswordHasher<Usuario> _passwordHasher = new();
-        public ContaController(IUsuarioRepository repositorio)
+        public ContaController(IUsuarioRepository usuarioRepository)
         {
-            _repositorio = repositorio;
+            _usuarioRepository = usuarioRepository;
         }
         
         [HttpGet]
@@ -39,7 +39,7 @@ namespace Discoffee.Controllers
         public IActionResult Cadastrar(CadastrarUsuarioViewModel usuarioViewModel, string? form)
         {
 
-            Usuario usuarioExistente = _repositorio.BuscarUsuarioPorEmail(usuarioViewModel.Email);
+            Usuario usuarioExistente = _usuarioRepository.BuscarUsuarioPorEmail(usuarioViewModel.Email);
 
             // VALIDA A DATA DE NASCIMENTO PARA O FORMATO CORRETO
             if (!DateTime.TryParseExact(
@@ -65,7 +65,7 @@ namespace Discoffee.Controllers
             }
 
             // VERIFICA SE JÁ EXISTE ALGUM USUÁRIO COM O CPF INFORMADO
-            if (_repositorio.BuscaUsuarioPorCPF(usuarioViewModel.CPF) is not null)
+            if (_usuarioRepository.BuscaUsuarioPorCPF(usuarioViewModel.CPF) is not null)
             {
                 ModelState.AddModelError(
                     "CPF",
@@ -140,22 +140,26 @@ namespace Discoffee.Controllers
                 usuario.Senha
             );
 
-            _repositorio.CadastrarUsuario(usuario);
+            _usuarioRepository.CadastrarUsuario(usuario);
 
             return RedirectToAction("Index", "Conta", new { form = "login" });
 
         }
-            [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel loginViewModel, string? form, string? returnUrl)
+
+        [HttpPost]
+        public async Task<IActionResult> Login(
+            LoginViewModel loginViewModel,
+            string? form,
+            string? returnUrl)
         {
-            Usuario? usuario = _repositorio.BuscarUsuarioPorEmail(loginViewModel.Email);
+            Usuario? usuario = _usuarioRepository.BuscarUsuarioPorEmail(loginViewModel.Email);
 
             // USUÁRIO NÃO ENCONTRADO
             if (usuario is null)
             {
                 ModelState.AddModelError(
                     "Login",
-                    "Nenhum usuário encontrado para este email."
+                    "E-mail ou senha inválidos."
                 );
 
                 ViewData["Formulario"] = "login";
@@ -185,14 +189,19 @@ namespace Discoffee.Controllers
                     Login = loginViewModel
                 });
             }
-            
-            // CRIANDO COOKIES PARA SALVAR SESSÃO DO USUARIO
+
+            if(usuario.Status == "Inativo")
+            {
+                return RedirectToAction("ContaDesativada", "Conta");
+            }
+
+            // CRIANDO COOKIES PARA SALVAR SESSÃO DO USUÁRIO
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()), // SALVA O ID
-                new Claim(ClaimTypes.Name, usuario.NomeCompleto), // SALVA O NOME
-                new Claim(ClaimTypes.Email, usuario.Email), // SALVA O EMAIL
-                new Claim(ClaimTypes.Role, usuario.Perfil.ToString()) // SALVA O PERFIL PARA LIMITAR AS AÇÕES
+                new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
+                new Claim(ClaimTypes.Name, usuario.NomeCompleto),
+                new Claim(ClaimTypes.Email, usuario.Email),
+                new Claim(ClaimTypes.Role, usuario.Perfil.ToString())
             };
 
             var identidade = new ClaimsIdentity(
@@ -207,9 +216,9 @@ namespace Discoffee.Controllers
                 principal
             );
 
+            // REDIRECIONAMENTO DE ACORDO COM O PERFIL
             if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
             {
-                // SE TENTOU REALIZAR PEDIDO SEM ESTAR LOGADO
                 if (returnUrl.Contains("/Cliente/Pedido/FinalizarCompra"))
                 {
                     return RedirectToAction("Index", "Carrinho");
@@ -218,7 +227,18 @@ namespace Discoffee.Controllers
                 return Redirect(returnUrl);
             }
 
-            return RedirectToAction("Index", "Home");
+            switch (usuario.Perfil)
+            {
+                case EnumPerfil.Cliente:
+                    return RedirectToAction("Index", "Home");
+
+                case EnumPerfil.Funcionario:
+                case EnumPerfil.Administrador:
+                    return RedirectToAction("Index", "Dashboard", new { area = "Gerencia" });
+
+                default:
+                    return RedirectToAction("Index", "Home");
+            }
         }
 
         [HttpGet]
@@ -229,6 +249,12 @@ namespace Discoffee.Controllers
             );
 
             return RedirectToAction("Index", "Home");
+        }
+
+        [HttpGet]
+        public IActionResult ContaDesativada()
+        {
+            return View();
         }
     }
 }

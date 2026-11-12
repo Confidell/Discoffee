@@ -3,14 +3,14 @@ using Discoffee.Models;
 using Discoffee.Models.Constants;
 using Discoffee.Repository.Contract;
 using Discoffee.ViewModels;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Discoffee.Areas.Gerencia.Controllers
 {
     [Area("Gerencia")]
+    [Authorize(Roles = "Administrador, Funcionario")]
     public class UsuariosController : Controller
     {
         private readonly IUsuarioRepository _usuarioRepository;
@@ -69,123 +69,6 @@ namespace Discoffee.Areas.Gerencia.Controllers
             TempData["Sucesso"] = "Usuário cadastrado com sucesso.";
             return RedirectToAction(nameof(Index));
         }
-
-        private bool EmailFuncionario(string email)
-        {
-            return email.EndsWith(
-                "@discoffee.com",
-                StringComparison.OrdinalIgnoreCase
-            );
-        }
-
-        private bool EmailAdministrador(string email)
-        {
-            return email.EndsWith(
-                "@discoffee.gerencia.com",
-                StringComparison.OrdinalIgnoreCase
-            );
-        }
-
-        public async Task<IActionResult> LoginGerencia(LoginGerencia loginGerencia)
-        {
-            if (!ModelState.IsValid)
-            {
-                return RedirectToAction("Index", "Conta");
-            }
-
-            var emailFuncionario = EmailFuncionario(loginGerencia.EmailInstitucional);
-            var emailAdministrador = EmailAdministrador(loginGerencia.EmailInstitucional);
-
-            if (!emailFuncionario && !emailAdministrador)
-            {
-                ModelState.AddModelError(
-                    "Login",
-                    "Utilize um e-mail institucional Discoffee válido."
-                );
-
-                ViewData["Formulario"] = "login";
-                return RedirectToAction("Index", "Conta");
-            }
-
-            Usuario? funcionarioExistente = _usuarioRepository.BuscarUsuarioPorEmail(loginGerencia.EmailInstitucional);
-            
-            if (funcionarioExistente is null)
-            {
-                ModelState.AddModelError(
-                    "Login",
-                    "Nenhum usuário encontrado para este email."
-                );
-
-                ViewData["Formulario"] = "login";
-
-                return RedirectToAction("Index", "Conta");
-            }
-
-            var senhaVerificada = _passwordHasher.VerifyHashedPassword(
-                funcionarioExistente,
-                funcionarioExistente.Senha,
-                loginGerencia.Senha
-            );
-
-            if (senhaVerificada == PasswordVerificationResult.Failed)
-            {
-                ModelState.AddModelError(
-                    "Login",
-                    "E-mail ou senha inválidos."
-                );
-
-                ViewData["Formulario"] = "login";
-
-                return RedirectToAction("Index", "Conta");
-            }
-
-            if (emailFuncionario && funcionarioExistente.Perfil != EnumPerfil.Funcionario)
-            {
-                ModelState.AddModelError(
-                    "Login",
-                    "Este e-mail não corresponde ao perfil cadastrado."
-                );
-
-                ViewData["Formulario"] = "login";
-                return RedirectToAction("Index", "Conta");
-            }
-
-            if (emailAdministrador && funcionarioExistente.Perfil != EnumPerfil.Administrador)
-            {
-                ModelState.AddModelError(
-                    "Login",
-                    "Este e-mail não corresponde ao perfil cadastrado."
-                );
-
-                ViewData["Formulario"] = "login";
-                return RedirectToAction("Index", "Conta");
-            }
-
-            // CRIANDO COOKIES PARA SALVAR SESSÃO DO USUARIO
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.NameIdentifier, funcionarioExistente.IdUsuario.ToString()), // SALVA O ID
-                new Claim(ClaimTypes.Name, funcionarioExistente.NomeCompleto), // SALVA O NOME
-                new Claim(ClaimTypes.Email, funcionarioExistente.Email), // SALVA O EMAIL
-                new Claim(ClaimTypes.Role, funcionarioExistente.Perfil.ToString()) // SALVA O PERFIL PARA LIMITAR AS AÇÕES
-            };
-
-            var identidade = new ClaimsIdentity(
-                claims,
-                CookieAuthenticationDefaults.AuthenticationScheme
-            );
-
-            var principal = new ClaimsPrincipal(identidade);
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                principal
-            );
-
-            return RedirectToAction("Dashboard", "Index");
-        }
-
-
 
         [HttpPost]
         public IActionResult Editar(EditarUsuarioViewModel form)

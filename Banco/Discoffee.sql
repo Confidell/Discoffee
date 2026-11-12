@@ -127,12 +127,12 @@ CREATE TABLE tbPagamento(
 Id_Pagamento INT PRIMARY KEY auto_increment,
 ValorPago DECIMAL(10,2) NOT NULL,
 DataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
-FormaPagamento ENUM('PIX','Débito','Crédito') NOT NULL,
-Status ENUM('Fnaliazado', 'Em andamento', 'Á Pagar') NOT NULL,
-Id_Pedido INT,
+FormaPagamento ENUM('PIX','Cartao') NOT NULL,
+Stats ENUM('Finalizado', 'Em andamento', 'Cancelado') NOT NULL,
+Id_Pedido INT NOT NULL,
 Id_Cupom INT,
-Id_Cartao INT,
-CONSTRAINT fk_Pagamento_tbCartao FOREIGN KEY (Id_Cartao) REFERENCES tbCartao(Id_Cartao),
+-- Id_Cartao INT,
+-- CONSTRAINT fk_Pagamento_tbCartao FOREIGN KEY (Id_Cartao) REFERENCES tbCartao(Id_Cartao),
 CONSTRAINT fk_Pagamento_tbPedido FOREIGN KEY (Id_Pedido) REFERENCES tbPedido(Id_Pedido),
 CONSTRAINT fk_Pagamento_tbCupom FOREIGN KEY (Id_Cupom) REFERENCES tbCupom(Id_Cupom)
 );
@@ -452,14 +452,32 @@ select * from tbCategoria;
 select * from tbPedido;
 select * from tbItem_Pedido;
 
+DELIMITER $$
+CREATE PROCEDURE registrarPagamento(
+	vValorPago DECIMAL(10,2),
+	vFormaPagamento INT,
+	vStats INT,
+	vId_Pedido INT,
+	vId_Cartao INT,
+	vId_Cupom INT
+)
+BEGIN
+
+    INSERT INTO tbPagamento(ValorPago, FormaPagamento, Stats, Id_Pedido, Id_Cartao, Id_Cupom)
+		VALUES(vValorPago, vFormaPagamento, vStats, vId_Pedido, vId_Cartao, vId_Cupom);
+
+    SELECT LAST_INSERT_ID() AS Id_Pagamento;
+
+END $$
+DELIMITER ;
+
 delimiter $$
-create procedure insertTbCartao(
+create procedure cadastrarCartao(
 	vNome_Titular VARCHAR(75),
     vApelido VARCHAR(50),
     vNumero_Mascarado VARCHAR(100),
     vDataVal DATE,
     vId_Usuario INT
-    -- out vId_Cartao int -- VARIÁVEL PARA RETORNAR O ID DO CARTÃO CADASTRADO
 )
 begin
 	
@@ -468,15 +486,11 @@ begin
 		insert into tbCartao(Nome_Titular, Apelido, Numero_Mascarado, DataVal, Id_Usuario)
 			values(vNome_Titular, vApelido, vNumero_Mascarado, vDataVal, vId_Usuario);
     end if;
- 
-	-- set vId_Cartao = last_insert_id();
- 
 end;
 $$
 delimiter ;
 
-CALL insertTbCartao('Guilherme', 'Sarue', '9090 8908 0900', '2027-09-29', 1);
-SELECT @idCartao;
+select * from tbCartao;
 
 delimiter $$
 create procedure insertTbAvaliacao(

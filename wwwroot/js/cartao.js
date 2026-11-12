@@ -3,13 +3,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const numeroCartaoForm = document.getElementById("numero-cartao-form");
     const nomeCartaoForm = document.getElementById("nome-cartao-form");
     const apelidoCartaoForm = document.getElementById("apelido-cartao-form");
-    const tipoCartaoForm = document.getElementById("tipo-cartao-form");
     const validadeCartaoForm = document.getElementById("validade-cartao-form");
     const cpfTitularForm = document.getElementById("cpf-titular-form");
     const numeroCartaoVisu = document.getElementById("numero-cartao-visu");
     const nomeCartaoVisu = document.getElementById("nome-cartao-visu");
     const apelidoCartaoVisu = document.getElementById("apelido-cartao-visu");
-    const tipoCartaoVisu = document.getElementById("tipo-cartao-visu");
     const validadeCartaoVisu = document.getElementById("validade-cartao-visu");
     const bandeira = document.getElementById("bandeira");
     const cartao = document.getElementById("cartao");
@@ -199,21 +197,6 @@ document.addEventListener("DOMContentLoaded", function () {
             valor || "APELIDO";
     });
 
-    tipoCartaoForm.addEventListener("input", function () {
-
-        let valor = this.value.replace(
-            /[^a-zA-ZÀ-ÿ\s]/g,
-            ""
-        );
-        valor = valor.substring(0, 10);
-
-        valor = valor.replace(/\s{2,}/g, " ");
-
-        this.value = valor;
-
-        tipoCartaoVisu.textContent = valor || "Tipo";
-    });
-
     // VALIDADE
     validadeCartaoForm.addEventListener("input", function () {
 
@@ -279,9 +262,68 @@ const formAdicionarCartao = document.querySelector(".adicionar-cartao");
 btnAdicionarCartao.addEventListener("click", () => {
 
     formAdicionarCartao.classList.add("exibir");
+    btnAdicionarCartao.style.display = "none";
 });
 
 btnCancelar.addEventListener("click", () => {
 
     formAdicionarCartao.classList.remove("exibir");
+    btnAdicionarCartao.style.display = "flex";
+});
+
+// IDENTIFICAR BANDEIRAS DOS CARTÕES CADASTRADOS
+document.addEventListener("DOMContentLoaded", function () {
+
+    const cartoesCadastrados = document.querySelectorAll(".card-cartao-cadastrado");
+
+    const bandeirasCadastradas = {
+        visa: "/Assets/Icons/Logo_Visa.svg",
+        mastercard: "/Assets/Icons/Logo_Mastercard.svg",
+        elo: "/Assets/Icons/Logo_Elo.svg",
+        amex: "/Assets/Icons/Logo_Amex.svg"
+    };
+
+    cartoesCadastrados.forEach(card => {
+
+        const numeroCartao = card.querySelector(
+            ".card-cartao-info p"
+        );
+
+        const imagemBandeira = card.querySelector(
+            ".bandeira-cadastrada"
+        );
+
+        if (!numeroCartao || !imagemBandeira) return;
+
+        const numero = numeroCartao.textContent.replace(/\D/g, "");
+
+        let tipo = null;
+
+        // VISA
+        if (/^4/.test(numero)) {
+            tipo = "visa";
+        }
+
+        // MASTERCARD
+        else if (/^(5[1-5]|2(2[2-9]|[3-6]\d|7[01]|720))/.test(numero)) {
+            tipo = "mastercard";
+        }
+
+        // AMEX
+        else if (/^3[47]/.test(numero)) {
+            tipo = "amex";
+        }
+
+        // ELO
+        else if (/^(4011|431274|438935|451416|457393|457631|5067|5090|627780|636297|636368)/.test(numero)) {
+            tipo = "elo";
+        }
+
+        // ALTERAR IMAGEM
+        if (tipo) {
+
+            imagemBandeira.src = bandeirasCadastradas[tipo];
+            imagemBandeira.alt = `Bandeira ${tipo}`;
+        }
+    });
 });
