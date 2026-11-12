@@ -47,9 +47,9 @@ document.querySelectorAll('.btn-fechar').forEach(botao => {
     botao.addEventListener('click', () => {
         botao.closest('.paiModal').classList.remove('ativa');
 
-        const algumModalAberto = document.querySelector('.paiModal.ativa');
+        const ModalAberto = document.querySelector('.paiModal.ativa');
 
-        if (!algumModalAberto) {
+        if (!ModalAberto) {
             pagina.style.overflow = 'auto';
         }
     });
