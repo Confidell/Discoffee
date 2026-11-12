@@ -1,3 +1,8 @@
+using Discoffee.Areas.Cliente.Controllers;
+using Discoffee.Models;
+using Discoffee.Models.Constants;
+using Discoffee.Repository.Contract;
+using Discoffee.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,9 +12,16 @@ namespace Discoffee.Areas.Gerencia.Controllers
     [Authorize(Roles = "Administrador, Funcionario")]
     public class PedidosController : Controller
     {
+        private readonly IPedidoRepository _pedidoRepository;
+
+        public PedidosController (IPedidoRepository pedidoRepository){
+            _pedidoRepository = pedidoRepository;
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var pedidos = _pedidoRepository.BuscarTodos();
+            return View(pedidos);
         }
 
         // [HttpGet]
@@ -18,5 +30,6 @@ namespace Discoffee.Areas.Gerencia.Controllers
         //     var pedidos = _pedidoRepository.BuscarTodos();
         //     return Ok(pedidos);
         // }
+
     }
 }

@@ -18,6 +18,8 @@ namespace Discoffee.ViewModels
         public int UsuarioId { get; set; }
         public string NomeCompleto { get; set; } = string.Empty;
         public string CPF { get; set; } = string.Empty;
+        public string Telefone { get; set; } = string.Empty;
+        public string Endereco { get; set; } = string.Empty;
 
         public List<ItemPedidoViewModel> Itens { get; set; } = new();
         public Pagamento? Pagamento { get; set; } = new();
