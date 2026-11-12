@@ -128,11 +128,11 @@ Id_Pagamento INT PRIMARY KEY auto_increment,
 ValorPago DECIMAL(10,2) NOT NULL,
 DataHora DATETIME DEFAULT CURRENT_TIMESTAMP,
 FormaPagamento ENUM('PIX','Cartao') NOT NULL,
-Stats ENUM('Finalizado', 'Em andamento', 'Cancelado') NOT NULL,
+Stats ENUM('Pago', 'Recusado') NOT NULL,
 Id_Pedido INT NOT NULL,
 Id_Cupom INT,
--- Id_Cartao INT,
--- CONSTRAINT fk_Pagamento_tbCartao FOREIGN KEY (Id_Cartao) REFERENCES tbCartao(Id_Cartao),
+Id_Cartao INT,
+CONSTRAINT fk_Pagamento_tbCartao FOREIGN KEY (Id_Cartao) REFERENCES tbCartao(Id_Cartao),
 CONSTRAINT fk_Pagamento_tbPedido FOREIGN KEY (Id_Pedido) REFERENCES tbPedido(Id_Pedido),
 CONSTRAINT fk_Pagamento_tbCupom FOREIGN KEY (Id_Cupom) REFERENCES tbCupom(Id_Cupom)
 );
@@ -251,7 +251,7 @@ BEGIN
 END $$
 DELIMITER ;
 
--- CATEGORIAS (nomes iguais aos usados no Cardapio/Index.cshtml)
+-- CATEGORIAS
 CALL cadastrarCategoria('Tradicional', @catTradicional);
 CALL cadastrarCategoria('Drink', @catDrink);
 CALL cadastrarCategoria('Doce', @catDoce);
@@ -259,7 +259,7 @@ CALL cadastrarCategoria('Salgado', @catSalgado);
 CALL cadastrarCategoria('Refresco', @catRefresco);
 CALL cadastrarCategoria('Shake', @catShake);
 
--- PRODUTOS (procedure: nome, preço, descrição, tamanho, imagem, disponível, id categoria, OUT id)
+-- PRODUTOS
 CALL inserirProduto('Macchiatto', 29.99, 'Café extremamente cremoso', 'Macchiatto.png', TRUE, @catTradicional, @idProd);
 CALL inserirProduto('Café Gelado', 18.50, 'Café gelado com caramelo', 'Café_Gelado.png', TRUE, @catDrink, @idProd);
 CALL inserirProduto('Brigadeiro', 8.50, 'Brigadeiro gourmet', 'Brigadeiro.png', TRUE, @catDoce, @idProd);
@@ -454,7 +454,6 @@ select * from tbItem_Pedido;
 
 DELIMITER $$
 CREATE PROCEDURE registrarPagamento(
-	vValorPago DECIMAL(10,2),
 	vFormaPagamento INT,
 	vStats INT,
 	vId_Pedido INT,
@@ -462,14 +461,28 @@ CREATE PROCEDURE registrarPagamento(
 	vId_Cupom INT
 )
 BEGIN
-
-    INSERT INTO tbPagamento(ValorPago, FormaPagamento, Stats, Id_Pedido, Id_Cartao, Id_Cupom)
-		VALUES(vValorPago, vFormaPagamento, vStats, vId_Pedido, vId_Cartao, vId_Cupom);
-
-    SELECT LAST_INSERT_ID() AS Id_Pagamento;
+	declare vTotalPago decimal(10,2);
+    
+    if (exists(select * from tbPedido where Id_Pedido = vId_Pedido limit 1))
+    then
+		select Total into vTotalPago from tbPedido where Id_Pedido = vId_Pedido;
+        
+		if(not exists(select * from tbPagamento where Id_Pedido = vId_Pedido limit 1))
+        then 
+        
+			insert into tbPagamento(ValorPago, FormaPagamento, Stats, Id_Pedido, Id_Cartao, Id_Cupom)
+			values(vTotalPago, vFormaPagamento, vStats, vId_Pedido, vId_Cartao, vId_Cupom);
+        end if;
+    end if;
 
 END $$
 DELIMITER ;
+
+select * from tbPedido;
+select * from tbPagamento;
+
+drop procedure registrarPagamento;
+CALL registrarPagamento(1, 1, 1, null, null);
 
 delimiter $$
 create procedure cadastrarCartao(
@@ -697,7 +710,13 @@ BEGIN
         ipo.Id_Opcao,
         op.Tipo AS Tipo_Personalizacao,
         op.Opcao,
-        ipo.Preco AS Preco_Extra
+        ipo.Preco AS Preco_Extra,
+        
+		-- PAGAMENTO
+        pg.Id_Pagamento,
+        pg.FormaPagamento,
+        pg.DataHora AS DataHora_Pagamento,
+        pg.Stats AS Status_Pagamento
 
     FROM tbPedido AS pe
 
@@ -714,7 +733,10 @@ BEGIN
         ON ip.Id_Item = ipo.Id_Item
 
     LEFT JOIN tbOpcao_Personalizacao AS op
-        ON ipo.Id_Opcao = op.Id_Opcao;
+        ON ipo.Id_Opcao = op.Id_Opcao
+        
+	LEFT JOIN tbPagamento AS pg
+		ON pe.Id_Pedido = pg.Id_Pedido;
 END $$
 DELIMITER ;
 
@@ -743,17 +765,30 @@ BEGIN
         ipo.Id_Opcao,
         op.Tipo AS Tipo_Personalizacao,
         op.Opcao,
-        ipo.Preco AS Preco_Extra
+        ipo.Preco AS Preco_Extra,
+        
+        -- PAGAMENTO
+        pg.Id_Pagamento,
+        pg.FormaPagamento,
+        pg.DataHora AS DataHora_Pagamento,
+        pg.Stats AS Status_Pagamento
 
 	FROM tbPedido AS pe
 	INNER JOIN tbItem_Pedido AS ip
 		ON pe.Id_Pedido = ip.Id_Pedido
+        
 	INNER JOIN tbProduto AS p
 		ON ip.Id_Produto = p.Id_Produto
+        
 	LEFT JOIN tbItemPedido_Opcao AS ipo
 		ON ip.Id_Item = ipo.Id_Item
+        
 	LEFT JOIN tbOpcao_Personalizacao AS op
 		ON ipo.Id_Opcao = op.Id_Opcao
+        
+	LEFT JOIN tbPagamento AS pg
+		ON pe.Id_Pedido = pg.Id_Pedido
+        
 	WHERE pe.Id_Usuario = vId_Usuario
 	ORDER BY
 		pe.Id_Pedido DESC,
@@ -761,6 +796,7 @@ BEGIN
 END $$
 DELIMITER ;
 
+drop procedure BuscarPedidosPorUsuario;
 call buscarPedidosPorUsuario(1);
 
 select * from tbPedido;

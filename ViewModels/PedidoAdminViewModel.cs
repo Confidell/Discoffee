@@ -1,3 +1,4 @@
+using Discoffee.Models;
 using Discoffee.Models.Constants;
 
 namespace Discoffee.ViewModels
@@ -19,5 +20,6 @@ namespace Discoffee.ViewModels
         public string CPF { get; set; } = string.Empty;
 
         public List<ItemPedidoViewModel> Itens { get; set; } = new();
+        public Pagamento? Pagamento { get; set; } = new();
     }
 }

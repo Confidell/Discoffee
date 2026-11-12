@@ -48,7 +48,17 @@ namespace Discoffee.Repository
                         Frete = Convert.ToDecimal(reader["Frete"]),
                         Total = Convert.ToDecimal(reader["Total"]),
                         Tipo = Enum.Parse<TipoPedido>(reader["Tipo_Pedido"].ToString()!, true),
-                        Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString().Replace(" ", "")!, true)
+                        Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString().Replace(" ", "")!, true),
+                        Pagamento = new Pagamento
+                        {
+                            IdPagamento = reader["Id_Pagamento"] != DBNull.Value ? Convert.ToInt32(reader["Id_Pagamento"]) : null,
+                            FormaPagamento = reader["FormaPagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumFormaPagamento>(reader.GetString("FormaPagamento"), true) : null,
+                            DataHora = reader["DataHora_Pagamento"] != DBNull.Value
+                                ? Convert.ToDateTime(reader["DataHora_Pagamento"]) : null,
+                            Status = reader["Status_Pagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumStatusPagamento>(reader.GetString("Status_Pagamento"), true) : null
+                        }
                     };
 
                     // ADICIONA O NOVO PEDIDO À LISTA PRINCIPAL
@@ -129,7 +139,18 @@ namespace Discoffee.Repository
                         NomeCompleto = reader["NomeCompleto"].ToString()!,
                         CPF = reader["CPF"].ToString()!,
                         Tipo = Enum.Parse<TipoPedido>(reader["Tipo_Pedido"].ToString()!, true),
-                        Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString().Replace(" ", "")!, true)
+                        Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString().Replace(" ", "")!, true),
+                        Pagamento = new Pagamento
+                        {
+                            IdPagamento = reader["Id_Pagamento"] != DBNull.Value ? Convert.ToInt32(reader["Id_Pagamento"]) : null,
+                            FormaPagamento = reader["FormaPagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumFormaPagamento>(reader.GetString("FormaPagamento"), true) : null,
+                            DataHora = reader["DataHora_Pagamento"] != DBNull.Value
+                                ? Convert.ToDateTime(reader["DataHora_Pagamento"]) : null,
+                            Status = reader["Status_Pagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumStatusPagamento>(reader.GetString("Status_Pagamento"), true) : null
+                        }
+                        
                     };
 
                     pedidos.Add(pedido);
@@ -177,6 +198,8 @@ namespace Discoffee.Repository
                         });
                     }
                 }
+
+
             }
 
             return pedidos;
@@ -288,7 +311,13 @@ namespace Discoffee.Repository
                     ipo.Id_Opcao,
                     op.Tipo AS Tipo_Personalizacao,
                     op.Opcao,
-                    ipo.Preco AS Preco_Extra
+                    ipo.Preco AS Preco_Extra,
+
+                    -- PAGAMENTO
+                    pg.Id_Pagamento,
+                    pg.FormaPagamento,
+                    pg.DataHora AS DataHora_Pagamento,
+                    pg.Stats AS Status_Pagamento
 
                 FROM tbPedido AS pe
 
@@ -307,9 +336,10 @@ namespace Discoffee.Repository
                 LEFT JOIN tbOpcao_Personalizacao AS op
                     ON ipo.Id_Opcao = op.Id_Opcao
 
-                WHERE pe.Id_Pedido = @IdPedido
+                LEFT JOIN tbPagamento AS pg
+		            ON pe.Id_Pedido = pg.Id_Pedido
 
-                ORDER BY ip.Id_Item;
+                WHERE pe.Id_Pedido = @IdPedido;
             ";
 
             using var comando = new MySqlCommand(sql, conexao);
@@ -331,7 +361,17 @@ namespace Discoffee.Repository
                         Frete = Convert.ToDecimal(reader["Frete"]),
                         Total = Convert.ToDecimal(reader["Total"]),
                         Tipo = Enum.Parse<TipoPedido>(reader["Tipo_Pedido"].ToString()!, true),
-                        Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString()!.Replace(" ", ""), true)
+                        Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString()!.Replace(" ", ""), true),
+                        Pagamento = new Pagamento
+                        {
+                            IdPagamento = reader["Id_Pagamento"] != DBNull.Value ? Convert.ToInt32(reader["Id_Pagamento"]) : null,
+                            FormaPagamento = reader["FormaPagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumFormaPagamento>(reader.GetString("FormaPagamento"), true) : null,
+                            DataHora = reader["DataHora_Pagamento"] != DBNull.Value
+                                ? Convert.ToDateTime(reader["DataHora_Pagamento"]) : null,
+                            Status = reader["Status_Pagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumStatusPagamento>(reader.GetString("Status_Pagamento"), true) : null
+                        }
                     };
                 }
 

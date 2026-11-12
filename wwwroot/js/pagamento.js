@@ -1,23 +1,77 @@
-const opcoesPagamento = document.querySelectorAll(
-    'input[name="FormaPagamento"]'
-);
+const opcoesPagamento = document.querySelectorAll('input[name="FormaPagamento"]');
 
 const pagamentoPix = document.getElementById("pagamento-pix");
 const pagamentoCartao = document.getElementById("pagamento-cartao");
+
+const opcoesCartao = document.querySelectorAll('input[name="Cartao.IdCartao"]');
 
 opcoesPagamento.forEach(opcao => {
 
     opcao.addEventListener("change", function () {
 
-        if (this.value === "Pix") {
+        if (this.value === "1") {
             pagamentoPix.style.display = "flex";
             pagamentoCartao.style.display = "none";
+            
+            opcoesCartao.forEach((opcao) => {
+                opcao.checked = false;
+            })
         }
         else {
             pagamentoPix.style.display = "none";
             pagamentoCartao.style.display = "flex";
         }
+    });
+});
 
+
+// EXIBE O CAMPO CVV DO CARTÃO SELECIONADO
+opcoesCartao.forEach(opcao => {
+
+    opcao.addEventListener("change", function () {
+
+        // OCULTA E DESABILITA TODOS OS CAMPOS CVV
+        document.querySelectorAll(".campo-cvv").forEach(campo => {
+
+            campo.style.display = "none";
+
+            const inputCVV = campo.querySelector("input");
+
+            inputCVV.value = "";
+            inputCVV.disabled = true; // DESABILITA O INPUT
+            inputCVV.required = false; // REMOVE OBRIGATORIEDADE
+
+        });
+
+        // EXIBE O CAMPO CVV DO CARTÃO SELECIONADO
+        const campoCVV = this.closest(".opcao-cartao")
+            .querySelector(".campo-cvv");
+
+        campoCVV.style.display = "block";
+
+        const inputCVV = campoCVV.querySelector("input");
+
+        inputCVV.disabled = false; // ABILITA O INPUT
+        inputCVV.required = true; // TORNA OBRIGATORIO
+    });
+});
+
+// IMPEDE A TROCA PARA PIX DEIXANDO CVV DESABILITADO
+opcoesPagamento.forEach(opcao => {
+    opcao.addEventListener("change", function () {
+
+        if (this.value === "1") {
+            document.querySelectorAll(".campo-cvv").forEach(campo => {
+
+                campo.style.display = "none";
+
+                const inputCVV = campo.querySelector("input");
+
+                inputCVV.value = "";
+                inputCVV.disabled = true; // DESABILITA O INPUT
+                inputCVV.required = false; // REMOVE OBRIGATORIEDADE
+            });
+        }
     });
 });
 

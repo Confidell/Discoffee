@@ -95,25 +95,37 @@
             <hr class="rodape-divisor" />
 
             <div class="rodape-total-linha">
-                <div class="rodape-valor rodape-valor--total">
+                <div class="rodape-valor ">
                     <span class="rodape-rotulo">Total</span>
                     <span class="rodape-total">@Model.Total.ToString("C", pt)</span>
                 </div>
 
-                @* <div class="rodape__pagamento">
-                    <span>Pago via @Model.FormaPagamento</span>
-                    @if (Model.FormaPagamento.ToUpper() == "PIX")
-                    {
-                        <svg class="rodape__icone-pix" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-                            <g fill="#32BCAD">
-                                <path d="M12 1.9l4 4a1.4 1.4 0 0 1 0 2l-1.7 1.7a1 1 0 0 1-1.4 0L12 8.7a1.4 1.4 0 0 0-2 0l-.9.9a1 1 0 0 1-1.4 0L6 7.9a1.4 1.4 0 0 1 0-2l4-4a1.4 1.4 0 0 1 2 0z" />
-                                <path d="M12 22.1l-4-4a1.4 1.4 0 0 1 0-2l1.7-1.7a1 1 0 0 1 1.4 0l.9.9a1.4 1.4 0 0 0 2 0l.9-.9a1 1 0 0 1 1.4 0L18 16.1a1.4 1.4 0 0 1 0 2l-4 4a1.4 1.4 0 0 1-2 0z" />
-                                <path d="M1.9 12l1.6-1.6a1 1 0 0 1 1.4 0l1.7 1.7-1.7 1.7a1 1 0 0 1-1.4 0z" />
-                                <path d="M22.1 12l-1.6 1.6a1 1 0 0 1-1.4 0l-1.7-1.7 1.7-1.7a1 1 0 0 1 1.4 0z" />
-                            </g>
-                        </svg>
-                    }
-                </div> *@
+                <div class="rodape-pagamento">
+
+                    <div class="forma-pag">
+
+                        @if(Model.Pagamento is not null)
+                        {
+                            <span>Pagamento via @Model.Pagamento.FormaPagamento</span>
+                            @if (Model.Pagamento.FormaPagamento.ToString().ToUpper() == "PIX")
+                            {
+                                <img style="width: 30px; height: 30px; object-fit: cover;" src="~/Assets/Icons/Icon_PIX.png" alt="PIX" />
+                            }
+                            else if(Model.Pagamento.FormaPagamento.ToString() == "Cartao")
+                            {
+                                <img style="width: 30px; height: 30px; object-fit: cover;" src="~/Assets/Icons/Icon_Cartao.png" alt="CARTAO" />
+                            }
+
+                            <article>
+                                @* <span>@Model.Pagamento.DataHora</span> *@
+                                <p>Status: <span>@Model.Pagamento.Status</span></p>
+                            </article>
+                        }
+                        else
+                        {
+                            <span style="color: var(--laranja); font-weight: 600;">*Não pago*</span>
+                        }
+                </div>
             </div>
         </footer>
     </div>

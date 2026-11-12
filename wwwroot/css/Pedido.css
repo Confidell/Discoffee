@@ -136,6 +136,7 @@
     padding: 16px;
     background: rgba(0, 0, 0, 0.6);
     color: var(--cinza-escuro);
+    border-radius: 10px;
 }
 
 .modal-pedido {
@@ -376,7 +377,7 @@
 .modal-pedido-rodape {
     display: flex;
     flex-direction: column;
-    padding: 16px 22px 20px;
+    padding: 16px 22px 0;
     background: var(--branco);
 }
 
@@ -419,7 +420,7 @@
 
 .rodape-total-linha {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: space-between;
 }
 
@@ -432,10 +433,18 @@
 
 .rodape-pagamento {
     display: flex;
-    align-items: center;
-    gap: 10px;
+    align-items: start;
     padding-bottom: 4px;
     font-size: 15px;
     letter-spacing: 0.4px;
     color: var(--cinza-claro);
+    flex-direction: column;
+}
+.rodape-pagamento article{
+    margin-left: 5px;
+    font-weight: 500;
+    
+}
+.rodape-pagamento article span{
+    color: var(--laranja);
 }

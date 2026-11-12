@@ -75,14 +75,37 @@ header nav{
   gap: .8rem;
 }
 
-header nav ul a .icon-sacola{
+/* header nav ul a .icon-sacola{
   margin-bottom: 20%;
-}
+} */
 header nav hr{
   width: 2px;
   height: 20px;
   background-color: var(--laranja);
   opacity: 1;
+}
+
+.container-icone-carrinho{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icone-quantidade {
+  background-color: var(--vermelho);
+  border-radius: 100%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: -45%;
+  right: -40%;
+  color: var(--branco);
+  font-weight: 600;
+  font-size: .8rem;
+  z-index: 1000;
 }
 .redes-sociais{
   width: fit-content;

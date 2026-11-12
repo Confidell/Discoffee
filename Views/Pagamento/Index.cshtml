@@ -126,7 +126,14 @@
 
 
             <!-- FORMA DE PAGAMENTO -->
-            <div class="forma-pagamento">
+            <form 
+                asp-controller="Pagamento"
+                asp-action="EfetuarPagamento"
+                id="form-efetuar-pagamento"
+                class="forma-pagamento"
+                method="post">
+
+                <input type="hidden" name="Pedido.IdPedido" value="@Model.Pedido.IdPedido"/>
 
                 <h4>
                     Forma de <span style="color: var(--rosa);">Pagamento</span>
@@ -137,7 +144,7 @@
                     <label class="opcao-pagamento">
                         <input type="radio"
                                 name="FormaPagamento"
-                                value="Pix"
+                                value="1"
                                 checked />
 
                         <span>PIX</span>
@@ -146,7 +153,7 @@
                     <label class="opcao-pagamento">
                         <input type="radio"
                                 name="FormaPagamento"
-                                value="Cartao" />
+                                value="2" />
 
                         <span>Cartão</span>
                     </label>
@@ -211,7 +218,24 @@
                                             </p>
                                         </div>
 
-                                        <input type="radio"name="IdCartao" value="@cartao.IdCartao" />
+                                        <input type="radio" name="Cartao.IdCartao" value="@cartao.IdCartao" />
+                                    </div>
+
+                                    <div class="campo-cvv" style="display: none; width: 50%;">
+
+                                        <label>
+                                            CVV:
+                                            <input type="password"
+                                                class="input-form"
+                                                name="CVV"
+                                                placeholder="Digite o CVV"
+                                                inputmode="numeric"
+                                                maxlength="4"
+                                                pattern="[0-9]{3,4}"
+                                                autocomplete="off"
+                                                disabled />
+                                        </label>
+
                                     </div>
                                 </label>
                             }
@@ -219,7 +243,7 @@
                     </div>
                 </div>
 
-            </div>
+            </form>
         </div>
 
         <!-- RESUMO DO PEDIDO -->
@@ -248,15 +272,12 @@
 
             </div>
 
-            <button type="submit" class="btn-finalizar-pedido botao">
-                Finalizar Pedido
+            <button type="submit" class="btn-finalizar-pedido botao" form="form-efetuar-pagamento">
+                Efetuar Pagamento
             </button>
 
         </div>
     </div>
-
-    @*  *@
-
 </section>
 
 @section Scripts{

@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Discoffee.Models;
+using Discoffee.Models.Constants;
 using Discoffee.Repository;
 using Discoffee.Repository.Contract;
 using Discoffee.Sessao;
@@ -46,10 +47,36 @@ namespace Discoffee.Controllers
             return View(pagamento);
         }
 
-        // [HttpPost]
-        // public IActionResult RegistrarPagamento(Pagamento pagamento)
-        // {
+        [HttpPost]
+        public IActionResult EfetuarPagamento(Pagamento pagamento)
+        {
+            if (pagamento.Pedido == null)
+            {
+                ModelState.AddModelError("Erro", "Pedido não informado!");
+                return RedirectToAction("Index", new { pagamento.Pedido.IdPedido });
+            }
+
+            var pedidoExistente = _pedidoRepository.BuscarPedidoPorId(
+                pagamento.Pedido.IdPedido
+            );
+
+            if (pedidoExistente is null)
+            {
+                ModelState.AddModelError("Erro", "Esse pedido não existe!");
+                return RedirectToAction("Index", new { pagamento.Pedido.IdPedido });
+            }
+
+            if (pagamento.FormaPagamento == EnumFormaPagamento.Cartao &&
+                (pagamento.Cartao == null || pagamento.Cartao.IdCartao <= 0))
+            {
+                ModelState.AddModelError("Erro", "Nenhum cartão selecionado!");
+                return RedirectToAction("Index", new { pagamento.Pedido.IdPedido });
+            }
+
             
-        // }
+            _pagamentoRepository.EfetuarPagamento(pagamento);
+
+            return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
+        }
     }
 }
