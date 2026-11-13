@@ -4,9 +4,9 @@ namespace Discoffee.Repository.Contract
 {
     public interface ICupomRepository
     {
-        void AdicionarCupom(CupomRepository cupom);
-        void EditarCupom(CupomRepository cupom);
+        void AdicionarCupom(Cupom cupom);
+        void EditarCupom(Cupom cupom);
         void ExcluirCupom(int id);
-        CupomRepository BuscarCupomPorCodigo(string codigo);
+        Cupom BuscarCupomPorCodigo(string codigo);
     }
 }
