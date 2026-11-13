@@ -150,8 +150,10 @@ async function adicionarAoCarrinho(modal) {
                 modalAtivo.classList.remove('ativa');
                 pagina.style.overflow = 'auto';
             }, 50);
-        }, 1500);
 
+            // RECARREGA A PÁGINA PARA ATUALIZAR O CONTATOR DE ITENS NO CARRINHO NO HEADER
+            window.location.reload();
+        }, 1500);
     }
     catch (erro) {
         console.error('Erro ao comunicar com o servidor:', erro);

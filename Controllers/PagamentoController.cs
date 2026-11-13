@@ -35,11 +35,17 @@ namespace Discoffee.Controllers
                 User.FindFirstValue(ClaimTypes.NameIdentifier)!
             ); 
 
+            var pedido = _pedidoRepository.BuscarPedidoPorId(idPedido);
+            if(pedido.Pagamento is not null && pedido.Pagamento?.Status == EnumStatusPagamento.Pago)
+            {
+                return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
+            }
+
             PagamentoViewModel pagamento = new PagamentoViewModel
             {
                 IdPedido = idPedido,
                 Cupom = cupom,
-                Pedido = _pedidoRepository.BuscarPedidoPorId(idPedido),
+                Pedido = pedido,
                 Usuario = _usuarioRepository.BuscarUsuarioPorId(idUsuario),
                 Cartoes = _cartaoRepository.BuscarTodosPorUsuario(idUsuario)
             };
@@ -53,7 +59,7 @@ namespace Discoffee.Controllers
             if (pagamento.Pedido == null)
             {
                 ModelState.AddModelError("Erro", "Pedido não informado!");
-                return RedirectToAction("Index", new { pagamento.Pedido.IdPedido });
+                return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
             }
 
             var pedidoExistente = _pedidoRepository.BuscarPedidoPorId(
@@ -63,7 +69,7 @@ namespace Discoffee.Controllers
             if (pedidoExistente is null)
             {
                 ModelState.AddModelError("Erro", "Esse pedido não existe!");
-                return RedirectToAction("Index", new { pagamento.Pedido.IdPedido });
+                return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
             }
 
             if (pagamento.FormaPagamento == EnumFormaPagamento.Cartao &&
@@ -75,6 +81,15 @@ namespace Discoffee.Controllers
 
             
             _pagamentoRepository.EfetuarPagamento(pagamento);
+
+            return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
+        }
+
+        [HttpPost]
+        public IActionResult RecusarPagamento(int idPedido, Pagamento pagamento)
+        {
+            EfetuarPagamento(pagamento);
+            _pedidoRepository.AlterarStatusPedido(idPedido, StatusPedido.Cancelado);
 
             return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
         }

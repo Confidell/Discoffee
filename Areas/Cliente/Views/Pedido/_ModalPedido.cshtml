@@ -104,7 +104,7 @@
 
                     <div class="forma-pag">
 
-                        @if(Model.Pagamento is not null)
+                        @if(Model.Pagamento.IdPagamento is not null)
                         {
                             <span>Pagamento via @Model.Pagamento.FormaPagamento</span>
                             @if (Model.Pagamento.FormaPagamento.ToString().ToUpper() == "PIX")
