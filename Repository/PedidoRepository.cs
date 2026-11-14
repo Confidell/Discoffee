@@ -49,6 +49,7 @@ namespace Discoffee.Repository
                         Total = Convert.ToDecimal(reader["Total"]),
                         Tipo = Enum.Parse<TipoPedido>(reader["Tipo_Pedido"].ToString()!, true),
                         Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString().Replace(" ", "")!, true),
+                        IdUsuario = Convert.ToInt32(reader["Id_Usuario"]),
                         Pagamento = new Pagamento
                         {
                             IdPagamento = reader["Id_Pagamento"] != DBNull.Value ? Convert.ToInt32(reader["Id_Pagamento"]) : null,
@@ -299,6 +300,7 @@ namespace Discoffee.Repository
                     pe.SubTotal,
                     pe.Frete,
                     pe.Total,
+                    pe.Id_Usuario,
 
                     -- ITEM
                     ip.Id_Item,
@@ -362,6 +364,7 @@ namespace Discoffee.Repository
                         Total = Convert.ToDecimal(reader["Total"]),
                         Tipo = Enum.Parse<TipoPedido>(reader["Tipo_Pedido"].ToString()!, true),
                         Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString()!.Replace(" ", ""), true),
+                        IdUsuario = Convert.ToInt32(reader["Id_Usuario"]),
                         Pagamento = new Pagamento
                         {
                             IdPagamento = reader["Id_Pagamento"] != DBNull.Value ? Convert.ToInt32(reader["Id_Pagamento"]) : null,

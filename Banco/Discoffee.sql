@@ -479,6 +479,7 @@ END $$
 DELIMITER ;
 
 select * from tbPedido;
+select * from tbUsuario;
 select * from tbPagamento;
 
 drop procedure registrarPagamento;
@@ -754,6 +755,7 @@ BEGIN
         pe.SubTotal,
         pe.Frete,
         pe.Total,
+        pe.Id_Usuario,
 
         -- ITEM
         ip.Id_Item,

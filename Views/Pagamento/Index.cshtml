@@ -1,5 +1,4 @@
 @using Discoffee.Models.Constants
-```cshtml
 @model Discoffee.ViewModels.PagamentoViewModel
 
 @{
@@ -23,19 +22,19 @@
         <div class="titulo-sessao">
             <h3>
                 Seu <span style="color: var(--rosa);">Pedido</span>
+                <p class="info-pedido"># <span>@Model.IdPedido</span></p>
             </h3>
 
-            <h4>
+            <h3>
                 Para: <span style="color: var(--rosa);">@Model.Pedido.Tipo.ToString()</span>
-            </h4>
+                <p class="info-pedido">Status <span>@Model.Pedido.Status</span></p>
+            </h3>
 
             <button 
                 type="submit" 
                 class="botao btn-cancelar-pagamento"
                 form="form-efetuar-pagamento"
-                formaction="@Url.Action("RecusarPagamento", "Pagamento")"
-                name="Status"
-                value="@EnumStatusPagamento.Recusado">
+                formaction="@Url.Action("RecusarPagamento", "Pagamento")">
                 Cancelar
             </button>
         </div>
@@ -287,8 +286,7 @@
                 type="submit" 
                 class="btn-finalizar-pedido botao" 
                 form="form-efetuar-pagamento"
-                name="Status"
-                value="@EnumStatusPagamento.Pago">
+                disabled="@(Model.Pedido.Pagamento.Status == EnumStatusPagamento.Pago)">
                 Efetuar Pagamento
             </button>
 

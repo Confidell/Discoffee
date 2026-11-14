@@ -125,6 +125,24 @@
     font-weight: 700;
     color: var(--cinza-claro);
 }
+.pagar{
+    color: var(--laranja);
+    font-size: 1rem;
+    font-weight: 700;
+    transition: all .2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    border: 1px solid var(--laranja);
+    width: fit-content;
+    padding: 0 1rem 0;
+    border-radius: 4px;
+}
+.pagar:hover{
+    background-color: var(--laranja);
+    color: var(--branco);
+}
 
 /* MODAL PEDIDO */
 

@@ -17,9 +17,11 @@ verDetalhes.forEach(card => {
             `modalPedido-${idPedido}`
         );
 
-        if (modal) {
-            modal.hidden = false;
-        }
+        setTimeout(() => {
+            if (modal) {
+                modal.hidden = false;
+            }
+        }, 100);
 
         pagina.style.overflow = 'hidden';
     });

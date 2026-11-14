@@ -315,6 +315,7 @@
     color: var(--branco);
     position: absolute;
     right: 2.5%;
+    top: 6%;
 }
 
 .lista-itens {
@@ -327,6 +328,10 @@
     padding: 1rem;
     background-color: #fafafa;
     position: relative;
+}
+.info-pedido{
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .carrinho-vazio {
