@@ -68,10 +68,32 @@
         <div class="body-resumo">
             <div class="inputs">
 
-                <label for="cupom">
-                    Cupom:
-                    <input type="text" id="cupom" class="input-form" placeholder="Insira o cupom" form="form-finalizar-compra" />
-                </label>
+                <form 
+                    method="post"
+                    asp-controller="Cupom"
+                    asp-action="@(ViewBag.Cupom != null ? "RemoverCupom" : "BuscarCupomPeloCodigo")"
+                    class="form-buscar-cupom">
+
+                    <label for="cupom">
+                        Cupom:
+                        <input type="text" id="cupom" class="input-form" placeholder="Insira o cupom"
+                            disabled="@(ViewBag.Cupom != null)"
+                            value="@(ViewBag.Cupom != null ? ViewBag.Cupom.Codigo : "")" name="codigo" />
+                    </label>
+
+                    @if (ViewBag.Cupom != null)
+                    {
+                        <button type="submit" class="botao btn-aplicar-cupom">
+                            Remover
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="botao btn-aplicar-cupom">
+                            Aplicar
+                        </button>
+                    }
+                </form>
             </div>
 
             <hr />
@@ -81,6 +103,14 @@
                     <h4>Subtotal</h4>
                     <span>R$ @ViewBag.Subtotal</span>
                 </div>
+
+                @if(ViewBag.Cupom != null)
+                {
+                    <div class="txt-total">
+                        <h4>Desconto</h4>
+                        <span style="color: var(--vermelho);">- R$ @ViewBag.Cupom.Desconto</span>
+                    </div>
+                }
 
                 
                 <div class="txt-total txt-frete">

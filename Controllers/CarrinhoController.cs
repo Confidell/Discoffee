@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using Discoffee.Models;
 using Discoffee.Repository.Contract;
 using Discoffee.Sessao;
 using Discoffee.ViewModels;
@@ -15,6 +16,7 @@ namespace Discoffee.Controllers
         private readonly IProdutoRepository _produtoRepository;
         private readonly IOpcaoPersonalizacaoRepository _opcaoPersonalizacaoRepository;
 
+
         public CarrinhoController(
             IPedidoRepository pedidoRepository, 
             SessaoItemPedido sessaoItemPedido,
@@ -25,6 +27,7 @@ namespace Discoffee.Controllers
             _sessaoItemPedido = sessaoItemPedido;
             _opcaoPersonalizacaoRepository = opcaoPersonalizacaoRepository;
             _produtoRepository = produtoRepository;
+
         }
 
         private decimal CalcularFrete(decimal subtotal)
@@ -65,9 +68,28 @@ namespace Discoffee.Controllers
 
             decimal frete = itens.Count == 0 ? 0 : CalcularFrete(subtotal);
 
+            string? codigoCupom = HttpContext.Session.GetString("Cupom.Codigo");
+
+            Cupom? cupom = null;
+
+            if (codigoCupom != null)
+            {
+                cupom = new Cupom
+                {
+                    IdCupom = Convert.ToInt32(HttpContext.Session.GetString("Cupom.Id")),
+                    Codigo = codigoCupom,
+                    Desconto = Convert.ToDecimal(HttpContext.Session.GetString("Cupom.Desconto")),
+                    DataValidade = Convert.ToDateTime(HttpContext.Session.GetString("Cupom.Validade"))
+                };
+            }
+
             ViewBag.Subtotal = subtotal;
             ViewBag.Frete = frete;
-            ViewBag.Total = subtotal + frete;
+            ViewBag.Cupom = cupom;
+
+            decimal desconto = cupom?.Desconto ?? 0;
+
+            ViewBag.Total = subtotal > 0 ? subtotal + frete - desconto : 0;
 
             return View(itens);
         }

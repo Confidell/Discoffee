@@ -28,7 +28,7 @@ namespace Discoffee.Controllers
             _pedidoRepository = pedidoRepository;
         }        
 
-        public IActionResult Index(int idPedido, string? cupom)
+        public IActionResult Index(int idPedido)
         {
             var idUsuario = int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier)!
@@ -53,6 +53,21 @@ namespace Discoffee.Controllers
             {
                 TempData["Erro"] = "Esse pedido foi cancelado!";
                 return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
+            }
+
+            string? codigoCupom = HttpContext.Session.GetString("Cupom.Codigo");
+
+            Cupom? cupom = null;
+
+            if (codigoCupom != null)
+            {
+                cupom = new Cupom
+                {
+                    IdCupom = Convert.ToInt32(HttpContext.Session.GetString("Cupom.Id")),
+                    Codigo = codigoCupom,
+                    Desconto = Convert.ToDecimal(HttpContext.Session.GetString("Cupom.Desconto")),
+                    DataValidade = Convert.ToDateTime(HttpContext.Session.GetString("Cupom.Validade"))
+                };
             }
 
             PagamentoViewModel pagamento = new PagamentoViewModel
@@ -102,6 +117,13 @@ namespace Discoffee.Controllers
                     idPedido = pagamento.Pedido.IdPedido
                 });
             }
+
+            Console.WriteLine($"CUPOM DO PAGAMENTO: {pagamento.Cupom.IdCupom}");
+            
+            // pagamento.Cupom = new Cupom
+            // {
+                
+            // }
 
             pagamento.Pedido = new Pedido
             {

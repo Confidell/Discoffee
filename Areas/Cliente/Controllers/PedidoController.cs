@@ -33,9 +33,8 @@ namespace Discoffee.Areas.Cliente.Controllers
         }
 
         [HttpPost]
-        public IActionResult FinalizarCompra(Pedido pedido, string cupom)
+        public IActionResult FinalizarCompra(Pedido pedido)
         {
-            Console.WriteLine($"Frete: {pedido.Frete}");
             // RECUPERA OS ITENS DO CARRINHO NA SESSÃO
             var itensCarrinho = _sessaoItemPedido.Consultar();
 
@@ -114,7 +113,7 @@ namespace Discoffee.Areas.Cliente.Controllers
 
             // REDIRECIONA PARA A TELA DE PAGAMENTOS E ENVIA O ID DO PEDIDO CRIADO E O CUPOM
             return RedirectToAction("Index", "Pagamento",
-                new { area = "", idPedido = idPedido, cupom = cupom }
+                new { area = "", idPedido = idPedido }
             );
         }
 

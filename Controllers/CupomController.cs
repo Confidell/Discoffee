@@ -19,6 +19,45 @@ namespace Discoffee.Controllers
         }
 
         [HttpPost]
+        public IActionResult BuscarCupomPeloCodigo(string codigo)
+        {
+            if(string.IsNullOrWhiteSpace(codigo))
+            {
+                TempData["Erro"] = "Cupom não informado!";
+                return RedirectToAction("Index", "Carrinho");
+            }
+
+            string codigoSerializado = codigo.Trim().ToUpper();
+
+            Cupom cupom = _cupomRepository.BuscarCupomPorCodigo(codigoSerializado);
+
+            if (cupom == null)
+            {
+                TempData["Erro"] = "Cupom não encontrado!";
+                return RedirectToAction("Index", "Carrinho");
+            }
+
+            HttpContext.Session.SetString("Cupom.Codigo", cupom.Codigo);
+            HttpContext.Session.SetString("Cupom.Desconto", cupom.Desconto.ToString());
+            HttpContext.Session.SetString("Cupom.Id", cupom.IdCupom.ToString());
+            HttpContext.Session.SetString("Cupom.Validade", cupom.DataValidade.ToString());
+
+            return RedirectToAction("Index", "Carrinho");
+        }
+
+        // REMOVE O CUPOM APLICADO NO INPUT DO CARRINHO
+        [HttpPost]
+        public IActionResult RemoverCupom()
+        {
+            HttpContext.Session.Remove("Cupom.Codigo");
+            HttpContext.Session.Remove("Cupom.Desconto");
+            HttpContext.Session.Remove("Cupom.Id");
+            HttpContext.Session.Remove("Cupom.Validade");
+
+            return RedirectToAction("Index", "Carrinho");
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Cupom cupom)
         {
