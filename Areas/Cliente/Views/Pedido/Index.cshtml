@@ -16,13 +16,15 @@
         switch (status)
         {
             case StatusPedido.Entregue:
-                return ("ENTREGUE", "status-finalizado");
+                return ("ENTREGUE", "status-entregue");
             case StatusPedido.Cancelado:
                 return ("CANCELADO", "status-cancelado");
             case StatusPedido.EmEntrega:
-                return ("EM ROTA", "status-cancelado");
+                return ("SAIU PARA ENTREGA", "status-saiu");
             case StatusPedido.Finalizado:
-                return ("FINALIZADO", "status-cancelado");
+                return ("FINALIZADO", "status-finalizado");
+            case StatusPedido.Pendente:
+                return ("PENDENTE", "status-pendente");
             default:
                 return ("PREPARANDO", "status-preparando");
         }

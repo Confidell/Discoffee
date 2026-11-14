@@ -1,3 +1,4 @@
+@using Discoffee.Models.Constants
 ```cshtml
 @model Discoffee.ViewModels.PagamentoViewModel
 
@@ -28,7 +29,13 @@
                 Para: <span style="color: var(--rosa);">@Model.Pedido.Tipo.ToString()</span>
             </h4>
 
-            <button type="submit" class="botao btn-cancelar-pagamento">
+            <button 
+                type="submit" 
+                class="botao btn-cancelar-pagamento"
+                form="form-efetuar-pagamento"
+                formaction="@Url.Action("RecusarPagamento", "Pagamento")"
+                name="Status"
+                value="@EnumStatusPagamento.Recusado">
                 Cancelar
             </button>
         </div>
@@ -276,7 +283,12 @@
 
             </div>
 
-            <button type="submit" class="btn-finalizar-pedido botao" form="form-efetuar-pagamento">
+            <button 
+                type="submit" 
+                class="btn-finalizar-pedido botao" 
+                form="form-efetuar-pagamento"
+                name="Status"
+                value="@EnumStatusPagamento.Pago">
                 Efetuar Pagamento
             </button>
 

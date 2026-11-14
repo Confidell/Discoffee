@@ -77,17 +77,23 @@
     font-weight: 400;
 }
 
-
-.status-finalizado {
-    color: #0f9d7a;
+.status-pendente {
+    color: var(--laranja);
 }
-
-.status-cancelado {
-    color: var(--vermelho);
-}
-
 .status-preparando {
     color: var(--amarelo);
+}
+.status-saiu {
+    color: var(--azul);
+}
+.status-entregue {
+    color: var(--roxo);
+}
+.status-finalizado {
+    color: var(--rosa);
+}
+.status-cancelado {
+    color: var(--vermelho);
 }
 
 .card-meio {

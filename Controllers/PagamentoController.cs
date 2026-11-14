@@ -38,6 +38,13 @@ namespace Discoffee.Controllers
             var pedido = _pedidoRepository.BuscarPedidoPorId(idPedido);
             if(pedido.Pagamento is not null && pedido.Pagamento?.Status == EnumStatusPagamento.Pago)
             {
+                ModelState.AddModelError("Pedido", "Esse pedido já foi pago!");
+                return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
+            }
+
+            if(pedido.Status == StatusPedido.Cancelado || pedido.Pagamento?.Status == EnumStatusPagamento.Recusado)
+            {
+                ModelState.AddModelError("Pedido", "Esse pedido foi cancelado!");
                 return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
             }
 
@@ -78,18 +85,43 @@ namespace Discoffee.Controllers
                 ModelState.AddModelError("Erro", "Nenhum cartão selecionado!");
                 return RedirectToAction("Index", new { pagamento.Pedido.IdPedido });
             }
-
             
+            // FINALIZA O PAGAMENTO
             _pagamentoRepository.EfetuarPagamento(pagamento);
+            // ATUALIZA O STATUS DO PEDIDO DE PENDENTE PARA "PREPARANDO"
+            _pedidoRepository.AlterarStatusPedido(pagamento.Pedido.IdPedido, StatusPedido.Preparando);
 
             return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
         }
 
         [HttpPost]
-        public IActionResult RecusarPagamento(int idPedido, Pagamento pagamento)
+        public IActionResult RecusarPagamento(Pagamento pagamento)
         {
-            EfetuarPagamento(pagamento);
-            _pedidoRepository.AlterarStatusPedido(idPedido, StatusPedido.Cancelado);
+            if (pagamento.Pedido == null)
+            {
+                ModelState.AddModelError("Erro", "Pedido não informado!");
+                return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
+            }
+
+            var pedidoExistente = _pedidoRepository.BuscarPedidoPorId(
+                pagamento.Pedido.IdPedido
+            );
+
+            if (pedidoExistente is null)
+            {
+                ModelState.AddModelError("Erro", "Esse pedido não existe!");
+                return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
+            }
+
+            if (pagamento.FormaPagamento == EnumFormaPagamento.Cartao &&
+                (pagamento.Cartao == null || pagamento.Cartao.IdCartao <= 0))
+            {
+                ModelState.AddModelError("Erro", "Nenhum cartão selecionado!");
+                return RedirectToAction("Index", new { pagamento.Pedido.IdPedido });
+            }
+
+            _pagamentoRepository.EfetuarPagamento(pagamento);
+            _pedidoRepository.AlterarStatusPedido(pagamento.Pedido.IdPedido, StatusPedido.Cancelado);
 
             return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
         }
