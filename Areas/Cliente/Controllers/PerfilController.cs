@@ -1,5 +1,4 @@
 using System.Security.Claims;
-using Discoffee.Models;
 using Discoffee.Repository.Contract;
 using Discoffee.ViewModels;
 using Microsoft.AspNetCore.Authorization;
@@ -8,13 +7,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace Discoffee.Areas.Cliente.Controllers
 {
     [Area("Cliente")]
-    [Authorize(Roles = "Cliente")]
+    [Authorize(Roles = "Cliente, Administrador, Funcionario")]
     public class PerfilController : Controller
     {
         private readonly IUsuarioRepository _repositorio;
-        public PerfilController(IUsuarioRepository repositorio)
+        private readonly ICartaoRepository _cartaoRepository;
+        public PerfilController(IUsuarioRepository repositorio, ICartaoRepository cartaoRepository)
         {
             _repositorio = repositorio;
+            _cartaoRepository = cartaoRepository;
         }
 
         public IActionResult Index()
@@ -25,6 +26,8 @@ namespace Discoffee.Areas.Cliente.Controllers
             );
             
             var usuario = _repositorio.BuscarUsuarioPorId(idUsuario);
+
+            var cartoes = _cartaoRepository.BuscarTodosPorUsuario(idUsuario);
 
             if(usuario == null)
                 return NotFound();
@@ -42,7 +45,8 @@ namespace Discoffee.Areas.Cliente.Controllers
                 Complemento = usuario.Complemento,
                 NumeroCasa = usuario.NumeroCasa,
                 CEP = usuario.CEP,
-                Perfil = usuario.Perfil
+                Perfil = usuario.Perfil,
+                Cartoes = cartoes
             };
 
             return View(viewModel);

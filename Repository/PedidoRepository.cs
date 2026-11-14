@@ -48,7 +48,18 @@ namespace Discoffee.Repository
                         Frete = Convert.ToDecimal(reader["Frete"]),
                         Total = Convert.ToDecimal(reader["Total"]),
                         Tipo = Enum.Parse<TipoPedido>(reader["Tipo_Pedido"].ToString()!, true),
-                        Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString().Replace(" ", "")!, true)
+                        Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString().Replace(" ", "")!, true),
+                        IdUsuario = Convert.ToInt32(reader["Id_Usuario"]),
+                        Pagamento = new Pagamento
+                        {
+                            IdPagamento = reader["Id_Pagamento"] != DBNull.Value ? Convert.ToInt32(reader["Id_Pagamento"]) : null,
+                            FormaPagamento = reader["FormaPagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumFormaPagamento>(reader.GetString("FormaPagamento"), true) : null,
+                            DataHora = reader["DataHora_Pagamento"] != DBNull.Value
+                                ? Convert.ToDateTime(reader["DataHora_Pagamento"]) : null,
+                            Status = reader["Status_Pagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumStatusPagamento>(reader.GetString("Status_Pagamento"), true) : null
+                        }
                     };
 
                     // ADICIONA O NOVO PEDIDO À LISTA PRINCIPAL
@@ -129,7 +140,18 @@ namespace Discoffee.Repository
                         NomeCompleto = reader["NomeCompleto"].ToString()!,
                         CPF = reader["CPF"].ToString()!,
                         Tipo = Enum.Parse<TipoPedido>(reader["Tipo_Pedido"].ToString()!, true),
-                        Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString().Replace(" ", "")!, true)
+                        Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString().Replace(" ", "")!, true),
+                        Pagamento = new Pagamento
+                        {
+                            IdPagamento = reader["Id_Pagamento"] != DBNull.Value ? Convert.ToInt32(reader["Id_Pagamento"]) : null,
+                            FormaPagamento = reader["FormaPagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumFormaPagamento>(reader.GetString("FormaPagamento"), true) : null,
+                            DataHora = reader["DataHora_Pagamento"] != DBNull.Value
+                                ? Convert.ToDateTime(reader["DataHora_Pagamento"]) : null,
+                            Status = reader["Status_Pagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumStatusPagamento>(reader.GetString("Status_Pagamento"), true) : null
+                        }
+                        
                     };
 
                     pedidos.Add(pedido);
@@ -177,6 +199,8 @@ namespace Discoffee.Repository
                         });
                     }
                 }
+
+
             }
 
             return pedidos;
@@ -259,5 +283,151 @@ namespace Discoffee.Repository
 
             comando.ExecuteNonQuery();
         }
+
+        public PedidoClienteViewModel? BuscarPedidoPorId(int idPedido)
+        {
+            using var conexao = new MySqlConnection(_conexaoMySql);
+            conexao.Open();
+
+            string sql = @"
+                SELECT
+                    -- PEDIDO
+                    pe.Id_Pedido,
+                    pe.Id_Usuario,
+                    pe.DataHora,
+                    pe.Tipo AS Tipo_Pedido,
+                    pe.Stats AS Status_Pedido,
+                    pe.SubTotal,
+                    pe.Frete,
+                    pe.Total,
+                    pe.Id_Usuario,
+
+                    -- ITEM
+                    ip.Id_Item,
+                    ip.Id_Produto,
+                    p.Nome AS Nome_Produto,
+                    ip.Quantidade,
+                    ip.Preco_Unitario,
+
+                    -- PERSONALIZACAO
+                    ipo.Id_Opcao,
+                    op.Tipo AS Tipo_Personalizacao,
+                    op.Opcao,
+                    ipo.Preco AS Preco_Extra,
+
+                    -- PAGAMENTO
+                    pg.Id_Pagamento,
+                    pg.FormaPagamento,
+                    pg.DataHora AS DataHora_Pagamento,
+                    pg.Stats AS Status_Pagamento
+
+                FROM tbPedido AS pe
+
+                INNER JOIN tbUsuario AS u
+                    ON pe.Id_Usuario = u.Id_Usuario
+
+                INNER JOIN tbItem_Pedido AS ip
+                    ON pe.Id_Pedido = ip.Id_Pedido
+
+                INNER JOIN tbProduto AS p
+                    ON ip.Id_Produto = p.Id_Produto
+
+                LEFT JOIN tbItemPedido_Opcao AS ipo
+                    ON ip.Id_Item = ipo.Id_Item
+
+                LEFT JOIN tbOpcao_Personalizacao AS op
+                    ON ipo.Id_Opcao = op.Id_Opcao
+
+                LEFT JOIN tbPagamento AS pg
+		            ON pe.Id_Pedido = pg.Id_Pedido
+
+                WHERE pe.Id_Pedido = @IdPedido;
+            ";
+
+            using var comando = new MySqlCommand(sql, conexao);
+            comando.Parameters.AddWithValue("@IdPedido", idPedido);
+
+            using var reader = comando.ExecuteReader();
+            PedidoClienteViewModel? pedido = null;
+
+            while (reader.Read())
+            {
+                // CRIA O PEDIDO CASO AINDA NÃO EXISTA
+                if (pedido == null)
+                {
+                    pedido = new PedidoClienteViewModel
+                    {
+                        IdPedido = Convert.ToInt32(reader["Id_Pedido"]),
+                        DataHora = Convert.ToDateTime(reader["DataHora"]),
+                        Subtotal = Convert.ToDecimal(reader["SubTotal"]),
+                        Frete = Convert.ToDecimal(reader["Frete"]),
+                        Total = Convert.ToDecimal(reader["Total"]),
+                        Tipo = Enum.Parse<TipoPedido>(reader["Tipo_Pedido"].ToString()!, true),
+                        Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString()!.Replace(" ", ""), true),
+                        IdUsuario = Convert.ToInt32(reader["Id_Usuario"]),
+                        Pagamento = new Pagamento
+                        {
+                            IdPagamento = reader["Id_Pagamento"] != DBNull.Value ? Convert.ToInt32(reader["Id_Pagamento"]) : null,
+                            FormaPagamento = reader["FormaPagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumFormaPagamento>(reader.GetString("FormaPagamento"), true) : null,
+                            DataHora = reader["DataHora_Pagamento"] != DBNull.Value
+                                ? Convert.ToDateTime(reader["DataHora_Pagamento"]) : null,
+                            Status = reader["Status_Pagamento"] != DBNull.Value ? 
+                                Enum.Parse<EnumStatusPagamento>(reader.GetString("Status_Pagamento"), true) : null
+                        }
+                    };
+                }
+
+                // IDENTIFICA O ITEM DO PEDIDO
+                int idItem = Convert.ToInt32(reader["Id_Item"]);
+
+                var item = pedido.Itens.FirstOrDefault(
+                    i => i.IdItem == idItem
+                );
+
+                // CRIA O ITEM CASO AINDA NÃO EXISTA
+                if (item == null)
+                {
+                    item = new ItemPedidoViewModel
+                    {
+                        IdItem = idItem,
+                        IdPedido = idPedido,
+                        IdProduto = Convert.ToInt32(reader["Id_Produto"]),
+                        NomeProduto = reader["Nome_Produto"].ToString()!,
+                        Quantidade = Convert.ToInt32(reader["Quantidade"]),
+                        PrecoUnitario = Convert.ToDecimal(reader["Preco_Unitario"])
+                    };
+
+                    pedido.Itens.Add(item);
+                }
+
+                // VERIFICA SE EXISTE UMA PERSONALIZAÇÃO
+                if (reader["Id_Opcao"] != DBNull.Value)
+                {
+                    int idOpcao = Convert.ToInt32(reader["Id_Opcao"]);
+
+                    // EVITA DUPLICAR OPÇÃO NO ITEM
+                    bool opcaoExiste = item.Opcoes.Any(
+                        o => o.IdOpcao == idOpcao
+                    );
+
+                    if (!opcaoExiste)
+                    {
+                        item.Opcoes.Add(new OpcaoPersonalizacao
+                        {
+                            IdOpcao = idOpcao,
+                            Tipo = Enum.Parse<TipoOpcao>(
+                                reader["Tipo_Personalizacao"].ToString()!, true
+                            ),
+                            Opcao = reader["Opcao"].ToString()!,
+                            PrecoExtra = Convert.ToDecimal(reader["Preco_Extra"])
+                        });
+                    }
+                }
+            }
+
+            return pedido;
+        }
+
     }
 }

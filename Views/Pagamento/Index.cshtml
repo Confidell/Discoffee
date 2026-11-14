@@ -1,0 +1,299 @@
+@using Discoffee.Models.Constants
+@model Discoffee.ViewModels.PagamentoViewModel
+
+@{
+    ViewData["Title"] = "Pagamento";
+
+    decimal subtotal = Model.Pedido.Subtotal;
+
+    decimal frete = Model.Pedido.Frete;
+
+    decimal total = Model.Pedido.Subtotal + Model.Pedido.Frete;
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/pagamento.css">
+}
+
+<section class="sessao-padrao sessao-pagamentos">
+
+    <div class="lista-itens">
+
+        <div class="titulo-sessao">
+            <h3>
+                Seu <span style="color: var(--rosa);">Pedido</span>
+                <p class="info-pedido"># <span>@Model.IdPedido</span></p>
+            </h3>
+
+            <h3>
+                Para: <span style="color: var(--rosa);">@Model.Pedido.Tipo.ToString()</span>
+                <p class="info-pedido">Status <span>@Model.Pedido.Status</span></p>
+            </h3>
+
+            <button 
+                type="submit" 
+                class="botao btn-cancelar-pagamento"
+                form="form-efetuar-pagamento"
+                formaction="@Url.Action("RecusarPagamento", "Pagamento")">
+                Cancelar
+            </button>
+        </div>
+
+        @if (Model == null || Model.Pedido.Itens == null || !Model.Pedido.Itens.Any())
+        {
+            <p class="carrinho-vazio">
+                Seu carrinho está vazio.
+            </p>
+        }
+        else
+        {
+            @foreach (Discoffee.ViewModels.ItemPedidoViewModel item in Model.Pedido.Itens)
+            {
+                @await Html.PartialAsync(
+                    "~/Areas/Cliente/Views/Pedido/_CardItemPedido.cshtml",
+                    item
+                )
+            }
+        }
+
+    </div>
+
+
+    <div class="dados-pagamento">
+
+        <div class="container-pagamento-usuario">
+
+            <!-- DADOS DO USUARIO -->
+            <div class="dados-usuario">
+
+                <h4>Dados <span style="color: var(--rosa);">Pessoais</span></h4>
+
+                <form>
+                    <div class="conteudo-card">
+
+                        <label>
+                            Nome:
+                            <span>@Model.Usuario.NomeCompleto</span>
+                        </label>
+
+                        <label>
+                            Email:
+                            <span>@Model.Usuario.Email</span>
+                        </label>
+
+                        <div class="usuario-grid-1">
+
+                            <div class="end-grid-1">
+                                <label>
+                                    Telefone:
+                                    <span>@Model.Usuario.Telefone</span>
+                                </label>
+                            </div>
+
+                            <div class="end-grid-2">
+                                <label>
+                                    CPF:
+                                    <span>@Model.Usuario.CPF</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <label for="cep">
+                            CEP:
+                            <span class="cep">@Model.Usuario.CEP</span>
+                        </label>
+                        
+                        <div class="usuario-grid-1">
+
+                            <div class="end-grid-1">
+                                <label for="numero">
+                                    Número:
+                                    <span>@Model.Usuario.NumeroCasa</span>
+                                </label>
+                            </div>
+
+                            <div class="end-grid-2">
+                                <label for="complemento">
+                                    Complemento:
+                                    <span>@(Model.Usuario.Complemento is null ? "Sem complemento" : Model.Usuario.Complemento)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <label>
+                            Endereço
+                            <span class="endereco-completo">-</span>
+                        </label>
+                    </div>
+
+                    <a asp-area="Cliente" asp-controller="Perfil" asp-action="Index" class="botao btn-editar">
+                        Editar Perfil
+                    </a>
+                </form>
+            </div>
+
+
+            <!-- FORMA DE PAGAMENTO -->
+            <form 
+                asp-controller="Pagamento"
+                asp-action="EfetuarPagamento"
+                id="form-efetuar-pagamento"
+                class="forma-pagamento"
+                method="post">
+
+                <input type="hidden" name="Pedido.IdPedido" value="@Model.Pedido.IdPedido"/>
+
+                <h4>
+                    Forma de <span style="color: var(--rosa);">Pagamento</span>
+                </h4>
+
+                <div class="opcoes-pagamento">
+
+                    <label class="opcao-pagamento">
+                        <input type="radio"
+                                name="FormaPagamento"
+                                value="1"
+                                checked />
+
+                        <span>PIX</span>
+                    </label>
+
+                    <label class="opcao-pagamento">
+                        <input type="radio"
+                                name="FormaPagamento"
+                                value="2" />
+
+                        <span>Cartão</span>
+                    </label>
+
+                </div>
+
+
+                <!-- PIX -->
+                <div id="pagamento-pix" class="conteudo-card">
+
+                    <h4>Pagamento via PIX</h4>
+
+                    <p>
+                        Escaneie o QR Code abaixo para realizar o pagamento.
+                    </p>
+
+                    <div class="pix-qrcode">
+                        <!-- QR CODE -->
+                    </div>
+
+                    <label>
+                        Código PIX:
+                        <input type="text" class="input-form" id="codigo-pix" readonly />
+                    </label>
+
+                    <button type="button" class="botao btn-copiar-pix">
+                        Copiar código PIX
+                    </button>
+                </div>
+
+
+                <!-- CARTÃO -->
+                <div id="pagamento-cartao"
+                        class="conteudo-card"
+                        style="display: none;">
+
+                    <h4>Selecione seu Cartão</h4>
+
+                    <div class="lista-cartoes">
+
+                        @if (Model.Cartoes == null || !Model.Cartoes.Any())
+                        {
+                            <p>Nenhum cartão cadastrado.</p>
+                        }
+                        else
+                        {
+                            @foreach (var cartao in Model.Cartoes)
+                            {
+                                <label class="opcao-cartao">
+
+                                    <div class="card-cartao-cadastrado">
+
+                                        <div>
+                                            
+                                            <h4>@cartao.Apelido</h4>
+
+                                            <p>
+                                                **** **** ****
+                                                @cartao.NumeroCartao.Substring(
+                                                    Math.Max(0, cartao.NumeroCartao.Length - 4)
+                                                )
+                                            </p>
+                                        </div>
+
+                                        <input type="radio" name="Cartao.IdCartao" value="@cartao.IdCartao" />
+                                    </div>
+
+                                    <div class="campo-cvv" style="display: none; width: 50%;">
+
+                                        <label>
+                                            CVV:
+                                            <input type="password"
+                                                class="input-form"
+                                                name="CVV"
+                                                placeholder="Digite o CVV"
+                                                inputmode="numeric"
+                                                maxlength="4"
+                                                pattern="[0-9]{3,4}"
+                                                autocomplete="off"
+                                                disabled />
+                                        </label>
+
+                                    </div>
+                                </label>
+                            }
+                        }
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- RESUMO DO PEDIDO -->
+        <div class="resumo-pedido">
+
+            <h4>
+                Resumo do <span style="color: var(--rosa);">Pedido</span>
+            </h4>
+
+            <div class="resumo-conteudo">
+
+                <div class="resumo-linha">
+                    <p>Subtotal:</p>
+                    <strong>R$@subtotal</strong>
+                </div>
+
+                <div class="resumo-linha">
+                    <p>Entrega:</p>
+                    <strong>R$@frete</strong>
+                </div>
+
+                <div class="resumo-total">
+                    <h4>Total:</h4>
+                    <strong>R$@total</strong>
+                </div>
+
+            </div>
+
+            <button 
+                type="submit" 
+                class="btn-finalizar-pedido botao" 
+                form="form-efetuar-pagamento"
+                disabled="@(Model.Pedido.Pagamento.Status == EnumStatusPagamento.Pago)">
+                Efetuar Pagamento
+            </button>
+
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script src="~/js/pagamento.js" asp-append-version="true"></script>
+}

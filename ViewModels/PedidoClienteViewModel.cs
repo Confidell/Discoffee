@@ -1,3 +1,4 @@
+using Discoffee.Models;
 using Discoffee.Models.Constants;
 
 namespace Discoffee.ViewModels
@@ -11,6 +12,8 @@ namespace Discoffee.ViewModels
         public decimal Total { get; set; }
         public StatusPedido Status { get; set; }
         public TipoPedido Tipo { get; set; }
+        public int IdUsuario { get; set; }
         public List<ItemPedidoViewModel> Itens { get; set; } = new();
+        public Pagamento? Pagamento { get; set; } = new();
     }
 }

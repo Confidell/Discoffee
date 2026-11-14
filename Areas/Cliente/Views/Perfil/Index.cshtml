@@ -192,8 +192,6 @@
                         <img src="~/Assets/Icons/Logo.svg" id="bandeira" alt="Logo do Cartão" style="width: 50px; height: 50px; margin-bottom: 1rem;" />
 
                         <p>
-                            <span id="tipo-cartao-visu">Tipo</span>
-                            |
                             <span id="apelido-cartao-visu">Apelido</span>
                         </p>
                     </div>
@@ -208,54 +206,64 @@
                     </div>
                 </div>
 
-                <form method="post" class="form-cartao">
+                <form method="post" class="form-cartao" id="form-adicionar-cartao" asp-area="Cliente" asp-controller="Cartao" asp-action="AdicionarCartao">
 
                     <label for="numero-cartao">
                         Núemro do Cartão:
-                        <input type="text" id="numero-cartao-form" class="input-form input-cartao" placeholder="Número do Cartão" />
+                        <input type="text" name="NumeroCartao" id="numero-cartao-form" class="input-form input-cartao" placeholder="Número do Cartão" />
                     </label>
                     
-                    <label for="nome-cartao">
+                    <label for="nome-titular">
                         Nome Impresso:
-                        <input type="text" id="nome-cartao-form" class="input-form input-cartao" placeholder="Nome impresso no cartão" />    
+                        <input type="text" name="NomeTitular" id="nome-cartao-form" class="input-form input-cartao" placeholder="Nome impresso no cartão" />    
                     </label>
                     
                     <label for="apelido-cartao">
                         Apelido do Cartão:
-                        <input type="text" id="apelido-cartao-form" class="input-form input-cartao" placeholder="Escolha um apelido para o cartão" />
+                        <input type="text" name="Apelido" id="apelido-cartao-form" class="input-form input-cartao" placeholder="Escolha um apelido para o cartão" />
                     </label>
 
                     <div id="cartao-grid">
-                        <div class="cartao-grid-1">
-                            <label for="Tipo">
-                                Tipo do Cartão:
-                                <input type="text" id="tipo-cartao-form" class="input-form input-cartao" placeholder="Débito, Crédito..." />
-                                @* <span asp-validation-for="NumeroCasa" class="text-danger"></span> *@
-                            </label>
-                        </div>
+                        <label for="cpf-cartao">
+                            CPF do Titular:
+                            <input type="text" id="cpf-titular-form" class="input-form input-cartao cpf" asp-for="CPF" placeholder="CPF" value="@Model.CPF" />
+                            <span asp-validation-for="CPF" class="text-danger"></span>
+                        </label>
 
                         <div class="cartao-grid-2">
                             <label for="validade-cartao">
                                 Validade:
-                                <input type="text" id="validade-cartao-form" class="input-form input-cartao"  placeholder="Validade do cartão" />
+                                <input type="text" name="DataValidade" id="validade-cartao-form" class="input-form input-cartao"  placeholder="Validade do cartão" />
                             </label>
                         </div>
                     </div>
                     
-                    <label for="cpf-cartao">
-                        CPF do Titular:
-                        <input type="text" id="cpf-titular-form" class="input-form input-cartao cpf" asp-for="CPF" placeholder="CPF" value="@Model.CPF" />
-                        <span asp-validation-for="CPF" class="text-danger"></span>
-                    </label>
                 </form>
             </div>
 
             <div class="botoes">
-                <button class="botao btn-adicionar"  type="submit">Adicionar</button>
+                <button 
+                    class="botao btn-adicionar" 
+                    type="submit" 
+                    @* asp-area="Cliente" 
+                    asp-controller="Cartao" 
+                    asp-action="AdicionarCartao" *@
+                    form="form-adicionar-cartao"
+                >
+                    Adicionar
+                </button>
+                
                 <button class="botao btn-cancelar">Cancelar</button>
             </div>
         </div>
 
+    </div>
+
+    <div class="cartoes-usuario">
+        @foreach (var cartao in Model.Cartoes)
+        {
+            <partial name="_CardCartao" model="cartao" />
+        }
     </div>
 </section>
 

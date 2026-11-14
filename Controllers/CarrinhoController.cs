@@ -1,16 +1,15 @@
-﻿using System.Security.Claims;
-using System.Text.Json;
-using Discoffee.Models;
+﻿using System.Text.Json;
 using Discoffee.Repository.Contract;
 using Discoffee.Sessao;
 using Discoffee.ViewModels;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Discoffee.Controllers
 {
     public class CarrinhoController : Controller
     {
+        private const decimal ValorMinimoFreteGratis = 80.00m;
+        private const decimal TaxaEntrega = 12.50m;
         private readonly IPedidoRepository _pedidoRepository;
         private readonly SessaoItemPedido _sessaoItemPedido;
         private readonly IProdutoRepository _produtoRepository;
@@ -26,6 +25,16 @@ namespace Discoffee.Controllers
             _sessaoItemPedido = sessaoItemPedido;
             _opcaoPersonalizacaoRepository = opcaoPersonalizacaoRepository;
             _produtoRepository = produtoRepository;
+        }
+
+        private decimal CalcularFrete(decimal subtotal)
+        {
+            if (subtotal < ValorMinimoFreteGratis)
+            {
+                return TaxaEntrega;
+            }
+
+            return 0;
         }
 
         public IActionResult Index()
@@ -46,6 +55,19 @@ namespace Discoffee.Controllers
                     ModelState.AddModelError("", $"\"{item.NomeProduto}\" não está mais disponível e foi removido do carrinho.");
                 }
             }
+
+            decimal subtotal = itens.Sum(item =>
+            (
+                item.PrecoUnitario.GetValueOrDefault() +
+                (item.Opcoes?.Sum(opcao => opcao.PrecoExtra) ?? 0)
+            )
+            * item.Quantidade.GetValueOrDefault());
+
+            decimal frete = itens.Count == 0 ? 0 : CalcularFrete(subtotal);
+
+            ViewBag.Subtotal = subtotal;
+            ViewBag.Frete = frete;
+            ViewBag.Total = subtotal + frete;
 
             return View(itens);
         }
@@ -131,7 +153,7 @@ namespace Discoffee.Controllers
 
             return Ok(new
             {
-                mensagem = "Produto adicionado ao carrinho!"
+                mensagem = "Produto adicionado!"
             });
         }
 

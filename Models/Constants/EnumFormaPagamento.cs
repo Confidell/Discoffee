@@ -1,11 +1,8 @@
 ﻿namespace Discoffee.Models.Constants
 {
-    public enum FormaPagamento
+    public enum EnumFormaPagamento
     {
-        Dinheiro = 1,
-        CartaoCredito = 2,
-        CartaoDebito = 3,
-        Pix = 4,
-        ValeAlimentacao = 5
+        Pix = 1,
+        Cartao = 2
     }
 }

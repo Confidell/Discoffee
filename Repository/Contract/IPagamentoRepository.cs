@@ -1,13 +1,13 @@
 ﻿using Discoffee.Models;
+using Discoffee.Models.Constants;
 
 namespace Discoffee.Repository.Contract
 {
     public interface IPagamentoRepository
     {
-        void EfetuarPagamento(PagamentoRepository pagamento);
-        List<PagamentoRepository> VerPagamentosPorUsuario(int usuarioId);
-        List<PagamentoRepository> VerTodos();
-        void EditarPagamento(PagamentoRepository pagamento);
-        void ExcluirPagamento(int id);
+        void EfetuarPagamento(Pagamento pagamento);
+        void AlterarStatusPagamento(int idPagamento, EnumStatusPagamento statusPagamento);
+        List<Pagamento> VerPagamentosPorUsuario(int usuarioId);
+        List<Pagamento> VerTodos();
     }
 }

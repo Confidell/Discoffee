@@ -1,4 +1,5 @@
 ﻿@model List<Discoffee.ViewModels.ItemPedidoViewModel>
+@using System.Diagnostics.Eventing.Reader
 @using System.Globalization
 @using Discoffee.Models.Constants
 
@@ -6,16 +7,7 @@
     ViewData["Title"] = "Carrinho";
     var ptBR = new CultureInfo("pt-BR");
 
-    decimal subtotal = Model.Sum(item =>
-    (
-        item.PrecoUnitario.GetValueOrDefault() +
-        (item.Opcoes?.Sum(opcao => opcao.PrecoExtra) ?? 0)
-    )
-    * item.Quantidade.GetValueOrDefault());
-
-    decimal frete = 0;
-
-    decimal total = subtotal + frete;
+    var itensCarrinho = Model.Count();
 }
 
 @section Styles {
@@ -42,7 +34,7 @@
             }
             else
             {
-                @foreach (var item in Model)
+                @foreach (Discoffee.ViewModels.ItemPedidoViewModel item in Model)
                 {
                     @await Html.PartialAsync(
                         "~/Areas/Cliente/Views/Pedido/_CardItemPedido.cshtml",
@@ -75,18 +67,11 @@
 
         <div class="body-resumo">
             <div class="inputs">
-                <label for="frete">
-                    Frete:
-                    <input type="text" id="frete" class="input-form"
-                           placeholder="Insira seu CEP" />
-                </label>
 
                 <label for="cupom">
                     Cupom:
-                    <input type="text" id="cupom" class="input-form"
-                           placeholder="Insira o cupom" />
+                    <input type="text" id="cupom" class="input-form" placeholder="Insira o cupom" form="form-finalizar-compra" />
                 </label>
-
             </div>
 
             <hr />
@@ -94,23 +79,28 @@
             <div class="total">
                 <div class="txt-total">
                     <h4>Subtotal</h4>
-                    <span>R$ @subtotal</span>
+                    <span>R$ @ViewBag.Subtotal</span>
+                </div>
+
+                
+                <div class="txt-total txt-frete">
+                    <h5>Frete <span style="color: var(--laranja);">grátis</span> a partir de pedidos acima de R$ 80,00</h5>
+
+                    <div style="width: 100%; display: flex; justify-content: space-between;">
+                        <h4>Entregua</h4>
+                        <span>R$ @ViewBag.Frete</span>
+                    </div>
                 </div>
 
                 <div class="txt-total">
-                    <h4>Total do frete</h4>
-                    <span>R$ @frete</span>
-                </div>
-
-                <div class="txt-total">
-                    <h4>Pagamento total</h4>
-                    <span>R$ @total</span>
+                    <h4>Total</h4>
+                    <span>R$ @ViewBag.Total</span>
                 </div>
 
                 <form id="form-finalizar-compra" asp-area="Cliente" asp-controller="Pedido" asp-action="FinalizarCompra" method="post">
-                    <input type="hidden" name="Frete" value="0" />
+                    <input hidden id="frete" name="Frete" form="form-finalizar-compra" value="@ViewBag.Frete">
 
-                    <button type="submit" class="botao botao-realizar-pedido">
+                    <button type="submit" class="botao botao-realizar-pedido" @(itensCarrinho == 0 ? "disabled" : "" )>
                         Realizar Pedido
                     </button>
                 </form>

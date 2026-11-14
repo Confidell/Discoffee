@@ -16,13 +16,15 @@
         switch (status)
         {
             case StatusPedido.Entregue:
-                return ("ENTREGUE", "status-finalizado");
+                return ("ENTREGUE", "status-entregue");
             case StatusPedido.Cancelado:
                 return ("CANCELADO", "status-cancelado");
             case StatusPedido.EmEntrega:
-                return ("EM ROTA", "status-cancelado");
+                return ("SAIU PARA ENTREGA", "status-saiu");
             case StatusPedido.Finalizado:
-                return ("FINALIZADO", "status-cancelado");
+                return ("FINALIZADO", "status-finalizado");
+            case StatusPedido.Pendente:
+                return ("PENDENTE", "status-pendente");
             default:
                 return ("PREPARANDO", "status-preparando");
         }
@@ -32,14 +34,32 @@
 <section class="sessao-pedidos sessao-padrao">
     <h1 class="titulo-pedidos">MEUS PEDIDOS</h1>
 
-    <div class="lista-pedidos">
+    <div class="lista-pedidos" style="@(Model.Count() == 0 ? "display: flex; align-items: center; justify-content: center; flex-direction: column;" : "")">
+
+        @if(Model.Count() == 0)
+        {
+            <p style="align-self: center; text-align: center;  padding: 1rem; border-radius: 8px">
+                Você ainda não possui pedidos
+            </p>
+
+            <a 
+                class="botao"
+                style="background-color: var(--azul); color: var(--branco); width: 20%; height: 40px; font-size: 1rem;"
+                asp-area=" "
+                asp-controller="Cardapio" 
+                asp-action="Index">
+                Ir para cardápio
+            </a>
+        }
+
         @foreach (var pedido in Model)
         {
             var st = InfoStatus(pedido.Status);
 
             <partial name="_ModalPedido" model="pedido" />
-
-            <div class="card-pedido">
+            
+            @* CARD DO PEDIDO NA LISTA *@
+            <div class="card-pedido ver-detalhes" data-pedido-id="@pedido.IdPedido">
                 <div class="card-topo">
                     <div class="pedido-numero">#@pedido.IdPedido</div>
 
@@ -58,23 +78,26 @@
 
                 <div class="card-meio">
                     <span>@pedido.Itens.Count Produtos inclusos no pedido</span>
-
-                    <button type="button"
-                            title="Ver detalhes"
-                            class="ver-detalhes"
-                            data-pedido-id="@pedido.IdPedido">
-                        
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            width="16" height="16"
-                            fill="currentColor"
-                            viewBox="0 0 16 16">
-                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
-                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
-                        </svg>
-                    </button>
                 </div>
 
                 <div class="card-rodape">
+
+                    @if (pedido.Status == StatusPedido.Pendente)
+                    {
+                        <a 
+                            class="pagar" 
+                            asp-area="" 
+                            asp-controller="Pagamento" 
+                            asp-action="Index"
+                            asp-route-idPedido="@pedido.IdPedido">
+                            Pagar
+
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8"/>
+                            </svg>
+                        </a>
+                    }
+
                     <span class="pedido-pagamento"></span>
                     <span>@pedido.DataHora.ToString("dd/MM/yy")</span>
                 </div>

@@ -47,9 +47,9 @@ document.querySelectorAll('.btn-fechar').forEach(botao => {
     botao.addEventListener('click', () => {
         botao.closest('.paiModal').classList.remove('ativa');
 
-        const algumModalAberto = document.querySelector('.paiModal.ativa');
+        const ModalAberto = document.querySelector('.paiModal.ativa');
 
-        if (!algumModalAberto) {
+        if (!ModalAberto) {
             pagina.style.overflow = 'auto';
         }
     });
@@ -122,7 +122,38 @@ async function adicionarAoCarrinho(modal) {
             return;
         }
 
-        console.log(resultado.mensagem ?? 'Produto adicionado ao carrinho.');
+        const botao = modal.querySelector('#adicionar-carrinho');
+        const modalAtivo = document.querySelector('.paiModal.ativa');
+
+        const textoOriginal = 'Adicionar ao carrinho';
+        
+        botao.classList.add('adicionado');
+        botao.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg"
+                width="16" height="16"
+                fill="currentColor"
+                class="bi bi-bookmark-check-fill"
+                viewBox="0 0 16 16">
+
+                <path fill-rule="evenodd"
+                    d="M2 15.5V2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.74.439L8 13.069l-5.26 2.87A.5.5 0 0 1 2 15.5m8.854-9.646a.5.5 0 0 0-.708-.708L7.5 7.793 6.354 6.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+            </svg>
+
+            ${resultado.mensagem}
+        `;
+
+        setTimeout(() => {
+            botao.textContent = textoOriginal;
+            botao.classList.remove('adicionado');
+
+            setTimeout(() => {
+                modalAtivo.classList.remove('ativa');
+                pagina.style.overflow = 'auto';
+            }, 50);
+
+            // RECARREGA A PÁGINA PARA ATUALIZAR O CONTATOR DE ITENS NO CARRINHO NO HEADER
+            window.location.reload();
+        }, 1500);
     }
     catch (erro) {
         console.error('Erro ao comunicar com o servidor:', erro);

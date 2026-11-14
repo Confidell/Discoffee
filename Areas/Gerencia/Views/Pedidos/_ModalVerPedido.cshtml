@@ -1,0 +1,146 @@
+@using Discoffee.Models.Constants
+@model Discoffee.ViewModels.PedidoAdminViewModel
+@{
+    var ptBR = new System.Globalization.CultureInfo("pt-BR");
+
+    var textoStatus = Model.Status == StatusPedido.EmEntrega ? "Em Entrega" : Model.Status.ToString();
+}
+
+<dialog id="modal-@Model.IdPedido" class="modal-pedido">
+
+    <div class="pedido-topo">
+        <h2>Detalhes do Pedido</h2>
+
+        <div class="fechar" data-fechar>
+            <img src="~/Assets/Icons/Icon_Fechar.png" class="btn-fechar" alt="Fechar" />
+        </div>
+    </div>
+
+    <div class="corpo">
+
+        <div class="resumo">
+            <div class="pedido-id">#@Model.IdPedido</div>
+
+            <div class="info">
+                <span class="rotulo">Status</span>
+                <span class="info-status status-@Model.Status">
+                    <span class="bolinha"></span>@textoStatus
+                </span>
+            </div>
+
+            <div class="info">
+                <span class="rotulo">Tipo</span>
+                <span class="info-tipo">@Model.Tipo</span>
+                    @* <span class="bolinha"></span> *@
+            </div>
+
+            <div class="info">
+                <span class="rotulo">Data e Horário</span>
+                <span class="info-data">@Model.DataHora.ToString("dd/MM/yyyy 'às' HH'h'mm", ptBR)</span>
+            </div>
+        </div>
+
+        <div class="cliente-endereco">
+            <div>
+                <h4 class="titulo">Cliente</h4>
+                <p class="pedido-nome">@Model.NomeCompleto</p>
+                <p class="pedido-telefone">@Model.Telefone</p>
+            </div>
+
+            @if (Model.Tipo == TipoPedido.Entrega)
+            {
+                <div>
+                    <h4 class="titulo">Endereço</h4>
+                    <p>@Model.Endereco</p>
+                </div>
+            }
+        </div>
+
+        <hr class="divisor"/>
+
+        <h3 class="pedido-secao">Itens do Pedido</h3>
+
+        <div class="pedido-itens">
+            @foreach (var item in Model.Itens)
+            {
+                <div class="pedido-item">
+                    @if (!string.IsNullOrEmpty(item.Imagem))
+                    {
+                        <img src="@Url.Content(item.Imagem)" class="item-img" alt="@item.NomeProduto" />
+                    }
+                    else
+                    {
+                        <div class="item-img item-sem-img"></div>
+                    }
+
+                    <div class="item-dados">
+                        <h4 class="titulo">@item.NomeProduto</h4>
+                        <p class="item-preco">@item.Quantidade x - @item.PrecoUnitario?.ToString("C", ptBR)</p>
+
+                        @if (item.Opcoes != null && item.Opcoes.Any())
+                        {
+                            <ul class="item-opcoes">
+                                @foreach (var opcao in item.Opcoes)
+                                {
+                                    <li>@opcao.Opcao - @opcao.PrecoExtra.ToString("C", ptBR)</li>
+
+                                }
+                            </ul>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        @* trocar dps por dados reais *@
+        <div class="observacoes">
+            <h4 class="titulo">Observações</h4>
+            <p>Favor Açucar a parte</p>
+        </div>
+
+        <div class="valores">
+            <div class="valor">
+                <span class="rotulo">Subtotal</span>
+                <strong>@Model.Subtotal.ToString("C", ptBR)</strong>
+            </div>
+
+            <div class="valor">
+                <span class="rotulo">Frete</span>
+                <strong>@Model.Frete.ToString("C", ptBR)</strong>
+            </div>
+
+            @* trocar dps por dados reais *@
+            <div class="valor">
+                <span class="rotulo">Cupom</span>
+                <strong>Não há</strong>
+            </div>
+
+
+        </div>
+
+        <div class="total">
+            <p>Total <strong>@Model.Total.ToString("C", ptBR)</strong></p>
+
+            @* trocar dps por dados reais *@
+            <p class="pedido-pagamento">Pago via Débito <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cartao-deb" viewBox="0 0 16 16">
+                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm0 3a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm3 0a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm3 0a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm3 0a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z" />
+            </svg></p>
+            
+        </div>
+    </div>
+
+    <div class="pedido-botoes">
+        @switch (Model.Status)
+        {
+            case StatusPedido.Pendente:
+                <button type="button" class="pedido-btn">Iniciar Preparo</button>
+                break;
+            case StatusPedido.Preparando:
+                <button type="button" class="pedido-btn">Pronto para Entrega</button>
+                break;
+            case StatusPedido.EmEntrega:
+                <button type="button" class="pedido-btn">Confirmar Entrega</button>
+                break;
+        }
+    </div>
+</dialog>

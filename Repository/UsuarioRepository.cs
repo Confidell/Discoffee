@@ -9,13 +9,11 @@ namespace Discoffee.Repository
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly string _conexaoMySql;
-        public UsuarioRepository(IConfiguration config)
-        {
-            _conexaoMySql = config.GetConnectionString("ConexaoMySQL");
-        }
-
-
+    private readonly string _conexaoMySql;
+    public UsuarioRepository(IConfiguration config)
+    {
+        _conexaoMySql = config.GetConnectionString("ConexaoMySQL");
+    }
 
     public List<Usuario> BuscarTodos()
         {
@@ -50,8 +48,6 @@ namespace Discoffee.Repository
 
             return usuarios;
         }
-
-        
 
         public Usuario BuscarUsuarioPorEmail(string Email)
         {
