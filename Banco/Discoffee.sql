@@ -22,7 +22,6 @@ CEP VARCHAR(9) UNIQUE
 
 CREATE TABLE tbCupom(
 Id_Cupom INT PRIMARY KEY auto_increment,
-Nome VARCHAR(50),
 Codigo_Cupom VARCHAR(10) NOT NULL UNIQUE,
 Desconto DECIMAL(10,2) NOT NULL,
 DataValidade DATETIME
@@ -525,27 +524,26 @@ delimiter ;
 CALL insertTbAvaliacao('Café muito bom, cremoso e encorpado.', 5, 1, 1);
 select * from tbAvaliacao;
  
- delimiter $$
-create procedure insertTbCupom(
-	vNome VARCHAR(50),
+delimiter $$
+create procedure cadastrarCupom(
     vCodigo_Cupom VARCHAR(10),
     vDesconto DECIMAL(10,2),
-    vDataValidade DATETIME
+    vDataValidade VARCHAR(20)
 )
 begin
  
 	-- CADASTRA CASO O CÓDIGO AINDA NÃO ESTEJA REGISTRADO
 	if(not exists(select * from tbCupom where Codigo_Cupom = vCodigo_Cupom limit 1))
     then
-		insert into tbCupom(Nome, Codigo_Cupom, Desconto, DataValidade)
-			values(vNome, vCodigo_Cupom, vDesconto, STR_TO_DATE(vDataValidade, '%d/%m/%Y %H:%i:%s'));
+		insert into tbCupom(Codigo_Cupom, Desconto, DataValidade)
+			values(vCodigo_Cupom, vDesconto, STR_TO_DATE(vDataValidade, '%d/%m/%Y %H:%i:%s'));
     end if;
  
 end;
 $$
 delimiter ;
  
-CALL insertTbCupom('Descontaço', 'DESC15', 15.00, '2026-11-09 23:59:59');
+CALL cadastrarCupom('DESC15', 15.00, '19/11/2026 23:59:59');
 select * from tbCupom;
 
 /*
