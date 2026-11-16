@@ -355,13 +355,14 @@ create procedure criarPedido(
     vTipo int,
     vStats int,
     vFrete decimal(10,2),
+    vDesconto decimal(10, 2),
     vId_Usuario int
 )
 begin
 
     -- CRIAR O PEDIDO COM OS VALORES INICIAIS
-    insert into tbPedido(Tipo, Stats, SubTotal, Total, Frete, Id_Usuario)
-		values(vTipo, vStats, 0, vFrete, vFrete, vId_Usuario);
+    insert into tbPedido(Tipo, Stats, SubTotal, Total, Frete, Desconto, Id_Usuario)
+		values(vTipo, vStats, 0, vFrete, vFrete, vDesconto, vId_Usuario);
 
     -- RETORNAR O ID DO PEDIDO CRIADO
     select last_insert_id() as Id_Pedido;
@@ -417,7 +418,7 @@ begin
     where Id_Pedido = vId_Pedido;
 
     -- CALCULAR O TOTAL COM O FRETE
-    update tbPedido set Total = SubTotal + Frete where Id_Pedido = vId_Pedido;
+    update tbPedido set Total = SubTotal + Frete - coalesce(Desconto, 0) where Id_Pedido = vId_Pedido;
 end $$
 delimiter ;
 
@@ -696,6 +697,7 @@ BEGIN
         pe.Stats AS Status_Pedido,
         pe.SubTotal,
         pe.Frete,
+        pe.Desconto,
         pe.Total,
 
         -- ITEM
@@ -715,7 +717,12 @@ BEGIN
         pg.Id_Pagamento,
         pg.FormaPagamento,
         pg.DataHora AS DataHora_Pagamento,
-        pg.Stats AS Status_Pagamento
+        pg.Stats AS Status_Pagamento,
+        pg.Id_Cupom,
+        
+        -- CUPOM
+        cup.Codigo_Cupom AS Codigo,
+        cup.Desconto
 
     FROM tbPedido AS pe
 
@@ -735,7 +742,10 @@ BEGIN
         ON ipo.Id_Opcao = op.Id_Opcao
         
 	LEFT JOIN tbPagamento AS pg
-		ON pe.Id_Pedido = pg.Id_Pedido;
+		ON pe.Id_Pedido = pg.Id_Pedido
+        
+	LEFT JOIN tbCupom AS cup
+		on pg.Id_Cupom = cup.Id_Cupom;
 END $$
 DELIMITER ;
 
@@ -752,6 +762,7 @@ BEGIN
         pe.Stats AS Status_Pedido,
         pe.SubTotal,
         pe.Frete,
+        pe.Desconto,
         pe.Total,
         pe.Id_Usuario,
 
@@ -771,7 +782,13 @@ BEGIN
         pg.Id_Pagamento,
         pg.FormaPagamento,
         pg.DataHora AS DataHora_Pagamento,
-        pg.Stats AS Status_Pagamento
+        pg.Stats AS Status_Pagamento,
+        pg.Id_Cupom,
+        
+        -- CUPOM
+        cup.Codigo_Cupom AS Codigo,
+        cup.Desconto
+
 
 	FROM tbPedido AS pe
 	INNER JOIN tbItem_Pedido AS ip
@@ -788,6 +805,9 @@ BEGIN
         
 	LEFT JOIN tbPagamento AS pg
 		ON pe.Id_Pedido = pg.Id_Pedido
+        
+	LEFT JOIN tbCupom AS cup
+		on pg.Id_Cupom = cup.Id_Cupom
         
 	WHERE pe.Id_Usuario = vId_Usuario
 	ORDER BY

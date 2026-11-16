@@ -118,7 +118,7 @@
     @* EXIBE UM POPUP PARA CADA ERRO *@
     @if (!ViewData.ModelState.IsValid)
     {
-        foreach (var item in ViewData.ModelState)
+        foreach (KeyValuePair<string, Microsoft.AspNetCore.Mvc.ModelBinding.ModelStateEntry> item in ViewData.ModelState)
         {
             foreach (var erro in item.Value.Errors)
             {

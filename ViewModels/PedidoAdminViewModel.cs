@@ -10,6 +10,7 @@ namespace Discoffee.ViewModels
 
         public decimal Subtotal { get; set; }
         public decimal Frete { get; set; }
+        public decimal Desconto { get; set; }
         public decimal Total { get; set; }
 
         public StatusPedido Status { get; set; }

@@ -27,6 +27,10 @@ namespace Discoffee.Models
         [Required(ErrorMessage = "O frete é obrigatório.")]
         [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Frete inválido. Use até 2 casas decimais.")]
         public decimal Frete { get; set; }
+
+        [Display(Name = "Desconto", Description = "Desconto do pedido.")]
+        [RegularExpression(@"^\d+(\.\d{1,2})?$", ErrorMessage = "Desconto inválido. Use até 2 casas decimais.")]
+        public decimal Desconto { get; set; }
         
         [Display(Name = "Status", Description = "Status do pedido.")]
         public StatusPedido Status { get; set; }
