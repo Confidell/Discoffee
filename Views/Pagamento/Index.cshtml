@@ -8,7 +8,9 @@
 
     decimal frete = Model.Pedido.Frete;
 
-    decimal total = Model.Pedido.Subtotal + Model.Pedido.Frete;
+    decimal desconto = Model.Pedido.Desconto;
+
+    decimal total = Model.Pedido.Total;
 }
 
 @section Styles{
@@ -280,7 +282,7 @@
                             <p style="margin-left: 10px; color: var(--rosa);">@Model?.Cupom?.Codigo</p>
                         </article>
 
-                        <strong>- R$@Model?.Cupom?.Desconto</strong>
+                        <strong>- R$@Model.Pedido.Desconto</strong>
                     </div>
                 }
 

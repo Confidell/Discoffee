@@ -129,6 +129,7 @@
 
                 <form id="form-finalizar-compra" asp-area="Cliente" asp-controller="Pedido" asp-action="FinalizarCompra" method="post">
                     <input hidden id="frete" name="Frete" form="form-finalizar-compra" value="@ViewBag.Frete">
+                    <input hidden id="desconto" name="Desconto" form="form-finalizar-compra" value="@ViewBag.Cupom.Desconto">
 
                     <button type="submit" class="botao botao-realizar-pedido" @(itensCarrinho == 0 ? "disabled" : "" )>
                         Realizar Pedido

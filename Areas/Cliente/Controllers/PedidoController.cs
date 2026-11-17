@@ -35,6 +35,7 @@ namespace Discoffee.Areas.Cliente.Controllers
         [HttpPost]
         public IActionResult FinalizarCompra(Pedido pedido)
         {
+            Console.WriteLine($"DESCONTO DO PEDIDO: {pedido.Desconto}");
             // RECUPERA OS ITENS DO CARRINHO NA SESSÃO
             var itensCarrinho = _sessaoItemPedido.Consultar();
 
@@ -104,6 +105,13 @@ namespace Discoffee.Areas.Cliente.Controllers
                     );
                 }
             }
+
+            // string? codigoCupom = HttpContext.Session.GetString("Cupom.Codigo");
+
+            // if(codigoCupom != null)
+            // {
+                
+            // }
 
             // RECALCULA O TOTAL DO PEDIDO
             _pedidoRepository.AtualizarTotalPedido(idPedido);
