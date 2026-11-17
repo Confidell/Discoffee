@@ -60,12 +60,13 @@ namespace Discoffee.Repository
                                 ? Convert.ToDateTime(reader["DataHora_Pagamento"]) : null,
                             Status = reader["Status_Pagamento"] != DBNull.Value ? 
                                 Enum.Parse<EnumStatusPagamento>(reader.GetString("Status_Pagamento"), true) : null,
-                            Cupom = new Cupom
+                            Cupom = reader["Id_Cupom"] != DBNull.Value
+                            ? new Cupom
                             {
                                 IdCupom = Convert.ToInt32(reader["Id_Cupom"]),
                                 Codigo = Convert.ToString(reader["Codigo"]),
                                 Desconto = reader["Desconto"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["Desconto"])
-                            }
+                            } : null
                         }
                     };
 
@@ -158,12 +159,13 @@ namespace Discoffee.Repository
                                 ? Convert.ToDateTime(reader["DataHora_Pagamento"]) : null,
                             Status = reader["Status_Pagamento"] != DBNull.Value ? 
                                 Enum.Parse<EnumStatusPagamento>(reader.GetString("Status_Pagamento"), true) : null,
-                            Cupom = new Cupom
+                            Cupom = reader["Id_Cupom"] != DBNull.Value
+                            ? new Cupom
                             {
                                 IdCupom = Convert.ToInt32(reader["Id_Cupom"]),
                                 Codigo = Convert.ToString(reader["Codigo"]),
                                 Desconto = reader["Desconto"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["Desconto"])
-                            }
+                            } : null
                         }
                         
                     };
@@ -399,12 +401,13 @@ namespace Discoffee.Repository
                                 ? Convert.ToDateTime(reader["DataHora_Pagamento"]) : null,
                             Status = reader["Status_Pagamento"] != DBNull.Value ? 
                                 Enum.Parse<EnumStatusPagamento>(reader.GetString("Status_Pagamento"), true) : null,
-                            Cupom = new Cupom
+                            Cupom = reader["Id_Cupom"] != DBNull.Value
+                            ? new Cupom
                             {
-                                IdCupom = reader["Id_Cupom"] == DBNull.Value ? 0 : Convert.ToInt32(reader["Id_Cupom"]),
+                                IdCupom = Convert.ToInt32(reader["Id_Cupom"]),
                                 Codigo = Convert.ToString(reader["Codigo"]),
                                 Desconto = reader["Desconto"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["Desconto"])
-                            }
+                            } : null
                         }
                     };
                 }

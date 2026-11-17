@@ -109,5 +109,22 @@ namespace Discoffee.Repository
 
             return null;
         }
+
+        public bool CupomUtilizado(int IdUsuario, int IdCupom)
+        {
+            using (var conexao = new MySqlConnection(_conexaoMySQL))
+            {
+                conexao.Open();
+
+                const string sql = @"select 1 from tbCupom_Utilizado 
+                    where Id_Usuario = @vId_Usuario and Id_cupom = @vId_Cupom limit 1;";
+
+                var cmd = new MySqlCommand(sql, conexao);
+                cmd.Parameters.AddWithValue("@vId_Usuario", IdUsuario);
+                cmd.Parameters.AddWithValue("@vId_Cupom", IdCupom);
+
+                return cmd.ExecuteScalar() != null;
+            }
+        }
     }
 }

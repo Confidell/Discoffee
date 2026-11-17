@@ -15,19 +15,20 @@ namespace Discoffee.Controllers
         private readonly SessaoItemPedido _sessaoItemPedido;
         private readonly IProdutoRepository _produtoRepository;
         private readonly IOpcaoPersonalizacaoRepository _opcaoPersonalizacaoRepository;
-
+        private readonly ICupomRepository _cupomRepository;
 
         public CarrinhoController(
             IPedidoRepository pedidoRepository, 
             SessaoItemPedido sessaoItemPedido,
             IProdutoRepository produtoRepository,
-            IOpcaoPersonalizacaoRepository opcaoPersonalizacaoRepository)
+            IOpcaoPersonalizacaoRepository opcaoPersonalizacaoRepository,
+            ICupomRepository cupomRepository)
         {
             _pedidoRepository = pedidoRepository;
             _sessaoItemPedido = sessaoItemPedido;
             _opcaoPersonalizacaoRepository = opcaoPersonalizacaoRepository;
             _produtoRepository = produtoRepository;
-
+            _cupomRepository = cupomRepository;
         }
 
         private decimal CalcularFrete(decimal subtotal)

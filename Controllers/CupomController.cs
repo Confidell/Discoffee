@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Discoffee.Models;
 using Discoffee.Repository.Contract;
+using System.Security.Claims;
 
 namespace Discoffee.Controllers
 {
@@ -21,6 +22,10 @@ namespace Discoffee.Controllers
         [HttpPost]
         public IActionResult BuscarCupomPeloCodigo(string codigo)
         {
+            var idUsuario = int.Parse(
+                User.FindFirstValue(ClaimTypes.NameIdentifier)!
+            ); 
+
             if(string.IsNullOrWhiteSpace(codigo))
             {
                 TempData["Erro"] = "Cupom não informado!";
@@ -34,6 +39,12 @@ namespace Discoffee.Controllers
             if (cupom == null)
             {
                 TempData["Erro"] = "Cupom não encontrado!";
+                return RedirectToAction("Index", "Carrinho");
+            }
+
+            if(_cupomRepository.CupomUtilizado(idUsuario, Convert.ToInt32(cupom.IdCupom)))
+            {
+                TempData["Erro"] = "Cupom já utilizado!";
                 return RedirectToAction("Index", "Carrinho");
             }
 

@@ -85,6 +85,10 @@ namespace Discoffee.Controllers
         [HttpPost]
         public IActionResult EfetuarPagamento(Pagamento pagamento)
         {
+            var idUsuario = int.Parse(
+                User.FindFirstValue(ClaimTypes.NameIdentifier)!
+            ); 
+
             if (pagamento.Pedido == null || pagamento.Pedido.IdPedido <= 0)
             {
                 TempData["Erro"] = "Pedido não informado!";
@@ -118,13 +122,6 @@ namespace Discoffee.Controllers
                 });
             }
 
-            Console.WriteLine($"CUPOM DO PAGAMENTO: {pagamento.Cupom.IdCupom}");
-            
-            // pagamento.Cupom = new Cupom
-            // {
-                
-            // }
-
             pagamento.Pedido = new Pedido
             {
                 IdPedido = pedidoExistente.IdPedido,
@@ -134,6 +131,10 @@ namespace Discoffee.Controllers
                 Frete = pedidoExistente.Frete,
                 Status = pedidoExistente.Status,
                 Tipo = pedidoExistente.Tipo,
+                Usuario = new Usuario
+                {
+                    IdUsuario = idUsuario
+                }
             };
 
             pagamento.Status = EnumStatusPagamento.Pago;

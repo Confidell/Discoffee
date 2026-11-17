@@ -427,6 +427,7 @@ select * from tbItem_Pedido;
 
 delimiter $$
 create procedure registrarPagamento(
+	vId_Usuario int,
 	vFormaPagamento int,
 	vStats int,
 	vId_Pedido int,
@@ -444,7 +445,13 @@ begin
         then 
         
 			insert into tbPagamento(ValorPago, FormaPagamento, Stats, Id_Pedido, Id_Cartao, Id_Cupom)
-			values(vTotalPago, vFormaPagamento, vStats, vId_Pedido, vId_Cartao, vId_Cupom);
+				values(vTotalPago, vFormaPagamento, vStats, vId_Pedido, vId_Cartao, vId_Cupom);
+            
+			if(vId_Cupom is not null)
+            then
+				insert into tbcupom_utilizado(Id_Usuario, Id_Cupom)
+					values(vId_Usuario, vId_cupom);
+            end if;
         end if;
     end if;
 
@@ -454,6 +461,7 @@ delimiter ;
 select * from tbPedido;
 select * from tbUsuario;
 select * from tbPagamento;
+select * from tbCupom_Utilizado;
 
 -- drop procedure registrarPagamento;
 call registrarPagamento(1, 1, 1, null, null);
