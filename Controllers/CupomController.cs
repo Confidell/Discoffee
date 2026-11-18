@@ -44,13 +44,13 @@ namespace Discoffee.Controllers
 
             if(_cupomRepository.CupomUtilizado(idUsuario, Convert.ToInt32(cupom.IdCupom)))
             {
-                TempData["Erro"] = "Cupom já utilizado!";
+                TempData["Aviso"] = "Cupom já utilizado!";
                 return RedirectToAction("Index", "Carrinho");
             }
 
             if(cupom.DataValidade < DateTime.Now)
             {
-                TempData["Erro"] = "Cupom expirado!";
+                TempData["Aviso"] = "Cupom expirado!";
                 return RedirectToAction("Index", "Carrinho");
             }
 

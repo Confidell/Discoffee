@@ -46,7 +46,7 @@ namespace Discoffee.Controllers
 
             if(pedido.Pagamento is not null && pedido.Pagamento.Status == EnumStatusPagamento.Pago)
             {
-                TempData["Erro"] = "Esse pedido já foi pago!";
+                TempData["Aviso"] = "Esse pedido já foi pago!";
                 return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
             }
 
@@ -81,11 +81,6 @@ namespace Discoffee.Controllers
         [HttpPost]
         public IActionResult EfetuarPagamento(Pagamento pagamento)
         {
-            Console.WriteLine($"PAGAMENTO: {pagamento == null}");
-            Console.WriteLine($"PEDIDO: {pagamento?.Pedido == null}");
-            Console.WriteLine($"CARTAO: {pagamento?.Cartao == null}");
-            Console.WriteLine($"CUPOM: {pagamento?.Cupom == null}");
-
             var idUsuario = int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier)!
             ); 
@@ -109,14 +104,14 @@ namespace Discoffee.Controllers
             if (pedidoExistente.Pagamento?.Status == EnumStatusPagamento.Pago ||
                 pedidoExistente.Status == StatusPedido.Cancelado)
             {
-                TempData["Erro"] = "Esse pedido não pode ser pago novamente!";
+                TempData["Aviso"] = "Esse pedido não pode ser pago novamente!";
                 return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
             }
 
             if (pagamento.FormaPagamento == EnumFormaPagamento.Cartao &&
                 (pagamento.Cartao == null || pagamento.Cartao.IdCartao <= 0))
             {
-                TempData["Erro"] = "Nenhum cartão selecionado!";
+                TempData["Aviso"] = "Nenhum cartão selecionado!";
                 return RedirectToAction("Index", new
                 {
                     idPedido = pagamento.Pedido.IdPedido
@@ -125,7 +120,7 @@ namespace Discoffee.Controllers
 
             if(pagamento.Cartao != null && pagamento.Cartao.CVV == null)
             {
-                TempData["Erro"] = "CVV não informado!";
+                TempData["Aviso"] = "CVV não informado!";
                 return RedirectToAction("Index", new
                 {
                     idPedido = pagamento.Pedido.IdPedido
@@ -184,14 +179,14 @@ namespace Discoffee.Controllers
 
             if (pedidoExistente.Pagamento?.Status == EnumStatusPagamento.Pago)
             {
-                TempData["Erro"] = "Esse pedido já foi pago!";
+                TempData["Aviso"] = "Esse pedido já foi pago!";
                 return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
             }
 
             if (pagamento.FormaPagamento == EnumFormaPagamento.Cartao &&
                 (pagamento.Cartao == null || pagamento.Cartao.IdCartao <= 0))
             {
-                TempData["Erro"] = "Nenhum cartão selecionado!";
+                TempData["Aviso"] = "Nenhum cartão selecionado!";
                 return RedirectToAction("Index", new
                 {
                     idPedido = pagamento.Pedido.IdPedido

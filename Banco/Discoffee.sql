@@ -507,8 +507,11 @@ $$
 delimiter ;
  
 call cadastrarCupom('DESC15', 15.00, '19/11/2026 23:59:59');
+call cadastrarCupom('FRT26', 12.50, '25/11/2026 23:59:59');
+call cadastrarCupom('REP88', 7.50, '15/11/2026 23:59:59');
 select * from tbCupom;
-
+select * from tbPedido;
+select * from tbPagamento;
 /*
 --------------------------------------------------------------------------------------------
 --------------------------------- PROCEDURES DE BUSCA --------------------------------------
