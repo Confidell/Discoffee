@@ -75,12 +75,12 @@
 
                         <label>
                             Nome:
-                            <span>@Model.Usuario.NomeCompleto</span>
+                            <span>@Model?.Usuario?.NomeCompleto</span>
                         </label>
 
                         <label>
                             Email:
-                            <span>@Model.Usuario.Email</span>
+                            <span>@Model?.Usuario?.Email</span>
                         </label>
 
                         <div class="usuario-grid-1">
@@ -184,12 +184,12 @@
                     </p>
 
                     <div class="pix-qrcode">
-                        <!-- QR CODE -->
+                        <img src="~/Assets/Imagens/QRCode_PIX.svg" alt="PIX_DISCOFFEE">
                     </div>
 
                     <label>
                         Código PIX:
-                        <input type="text" class="input-form" id="codigo-pix" readonly />
+                        <input type="text" class="input-form" id="codigo-pix" value="discoffee@pix.com" disabled placeholder="discoffee@pix.com" readonly />
                     </label>
 
                     <button type="button" class="botao btn-copiar-pix">
@@ -273,7 +273,7 @@
                     <strong>R$@subtotal</strong>
                 </div>
                                 
-                @if(Model.Cupom != null)
+                @if(Model?.Cupom != null)
                 {
                     <div class="resumo-linha" style="margin-bottom: 1rem;">
 
@@ -282,7 +282,7 @@
                             <p style="margin-left: 10px; color: var(--rosa);">@Model?.Cupom?.Codigo</p>
                         </article>
 
-                        <strong>- R$@Model.Pedido.Desconto</strong>
+                        <strong>- R$@Model?.Pedido.Desconto</strong>
                     </div>
                 }
 

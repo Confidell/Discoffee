@@ -59,10 +59,10 @@ namespace Discoffee.Controllers
             Cupom? cupom = null;
 
             // PEGA O OBEJETO SALVO NO TEMP DATA
-            if (TempData["Cupom"] != null)
+            if (TempData.Peek("Cupom") != null)
             {
                 cupom = JsonSerializer.Deserialize<Cupom>(
-                    TempData["Cupom"]?.ToString()!
+                    TempData.Peek("Cupom")?.ToString()!
                 );
             }
 
@@ -81,6 +81,11 @@ namespace Discoffee.Controllers
         [HttpPost]
         public IActionResult EfetuarPagamento(Pagamento pagamento)
         {
+            Console.WriteLine($"PAGAMENTO: {pagamento == null}");
+            Console.WriteLine($"PEDIDO: {pagamento?.Pedido == null}");
+            Console.WriteLine($"CARTAO: {pagamento?.Cartao == null}");
+            Console.WriteLine($"CUPOM: {pagamento?.Cupom == null}");
+
             var idUsuario = int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier)!
             ); 
@@ -118,9 +123,7 @@ namespace Discoffee.Controllers
                 });
             }
 
-            Console.WriteLine($"CVV: {pagamento.Cartao.CVV}");
-
-            if(pagamento.Cartao.CVV == null)
+            if(pagamento.Cartao != null && pagamento.Cartao.CVV == null)
             {
                 TempData["Erro"] = "CVV não informado!";
                 return RedirectToAction("Index", new
@@ -159,6 +162,10 @@ namespace Discoffee.Controllers
         [HttpPost]
         public IActionResult RecusarPagamento(Pagamento pagamento)
         {
+            var idUsuario = int.Parse(
+                User.FindFirstValue(ClaimTypes.NameIdentifier)!
+            ); 
+
             if (pagamento.Pedido == null || pagamento.Pedido.IdPedido <= 0)
             {
                 TempData["Erro"] = "Pedido não informado!";
@@ -200,6 +207,10 @@ namespace Discoffee.Controllers
                 Frete = pedidoExistente.Frete,
                 Status = pedidoExistente.Status,
                 Tipo = pedidoExistente.Tipo,
+                Usuario = new Usuario
+                {
+                    IdUsuario = idUsuario
+                }
             };
 
             pagamento.Status = EnumStatusPagamento.Recusado;
