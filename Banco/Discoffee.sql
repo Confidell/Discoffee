@@ -182,6 +182,10 @@ begin
 end;
 $$
 
+-- ADMINISTRADOR RAIZ
+
+select * from tbUsuario;
+
 -- CADASTRA O USUÁRIO
 delimiter $$ 
 create procedure cadastrarUsuario(
@@ -208,9 +212,16 @@ begin
 		insert into tbUsuario(NomeCompleto, Email, Senha, CPF, Telefone, DataNasc, Numero_Casa, Complemento, Id_Perfil, Id_CEP)
 			values (vNomeCompleto, vEmail, vSenha, vCPF, vTelefone, vDataNasc, vNumero_Casa, vComplemento, vId_Perfil, vId_CEP);
     end if;
-
 end;
 $$
+
+call cadastrarUsuario(
+'Nilson Alcides',
+'nilson@gmail.com'
+'AQAAAAIAAYagAAAAECgxTybsbQuDW/QKwqzlCZW1XUtUf7cvTp7S3JwRdKOCcOlGiEQSURO5ozoSKZk4jw==', -- Senha: Nilson@123_
+
+);
+select * from tbUsuario;
 
 -- INSERE A CATEGORIA
 delimiter $$
@@ -463,9 +474,6 @@ select * from tbUsuario;
 select * from tbPagamento;
 select * from tbCupom_Utilizado;
 
--- drop procedure registrarPagamento;
-call registrarPagamento(1, 1, 1, null, null);
-
 delimiter $$
 create procedure cadastrarCartao(
 	vNome_Titular varchar(75),
@@ -544,6 +552,8 @@ begin
     where u.Id_Usuario = vId_Usuario;
 end $$
 delimiter ;
+
+call buscarUsuarioPorId(2);
 
 -- BUSCA TODOS OS USUÁRIOS
 delimiter $$

@@ -81,7 +81,6 @@ namespace Discoffee.Areas.Gerencia.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // CLIENTE: SÓ O STATUS PODE SER ALTERADO
             if (atual.Perfil == EnumPerfil.Cliente)
             {
                 form = new EditarUsuarioViewModel

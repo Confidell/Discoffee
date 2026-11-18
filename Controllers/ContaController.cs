@@ -38,7 +38,6 @@ namespace Discoffee.Controllers
         [HttpPost]
         public IActionResult Cadastrar(CadastrarUsuarioViewModel usuarioViewModel, string? form)
         {
-
             Usuario usuarioExistente = _usuarioRepository.BuscarUsuarioPorEmail(usuarioViewModel.Email);
 
             // VALIDA A DATA DE NASCIMENTO PARA O FORMATO CORRETO
@@ -227,6 +226,9 @@ namespace Discoffee.Controllers
                 return Redirect(returnUrl);
             }
 
+            Console.WriteLine($"PERFIL DO USUARIO: {usuario.Perfil}");
+            Console.WriteLine($"PERFIL DO USUARIO: {User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value.ToString()}");
+
             switch (usuario.Perfil)
             {
                 case EnumPerfil.Cliente:
@@ -247,6 +249,9 @@ namespace Discoffee.Controllers
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme
             );
+
+            Console.WriteLine($"PERFIL DO USUARIO: {User.FindFirstValue(ClaimTypes.NameIdentifier)}");
+            Console.WriteLine($"PERFIL DO USUARIO: {User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value.ToString()}");
 
             return RedirectToAction("Index", "Home");
         }
