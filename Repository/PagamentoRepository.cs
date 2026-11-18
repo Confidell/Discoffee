@@ -30,11 +30,6 @@ namespace Discoffee.Repository
 
         public void EfetuarPagamento(Pagamento pagamento)
         {
-            foreach (var propriedade in pagamento.GetType().GetProperties())
-            {
-                Console.WriteLine($"{propriedade.Name}: {propriedade.GetValue(pagamento)}");
-            }
-
             using var conexao = new MySqlConnection(_conexaoMySQL);
             conexao.Open();
 

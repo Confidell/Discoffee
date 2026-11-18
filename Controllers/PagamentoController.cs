@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text.Json;
 using Discoffee.Models;
 using Discoffee.Models.Constants;
 using Discoffee.Repository.Contract;
@@ -55,19 +56,14 @@ namespace Discoffee.Controllers
                 return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
             }
 
-            string? codigoCupom = HttpContext.Session.GetString("Cupom.Codigo");
-
             Cupom? cupom = null;
 
-            if (codigoCupom != null)
+            // PEGA O OBEJETO SALVO NO TEMP DATA
+            if (TempData["Cupom"] != null)
             {
-                cupom = new Cupom
-                {
-                    IdCupom = Convert.ToInt32(HttpContext.Session.GetString("Cupom.Id")),
-                    Codigo = codigoCupom,
-                    Desconto = Convert.ToDecimal(HttpContext.Session.GetString("Cupom.Desconto")),
-                    DataValidade = Convert.ToDateTime(HttpContext.Session.GetString("Cupom.Validade"))
-                };
+                cupom = JsonSerializer.Deserialize<Cupom>(
+                    TempData["Cupom"]?.ToString()!
+                );
             }
 
             PagamentoViewModel pagamento = new PagamentoViewModel
@@ -143,6 +139,8 @@ namespace Discoffee.Controllers
             _pagamentoRepository.EfetuarPagamento(pagamento);
             // ATUALIZA O STATUS DO PEDIDO DE PENDENTE PARA "PREPARANDO"
             _pedidoRepository.AlterarStatusPedido(pagamento.Pedido.IdPedido, StatusPedido.Preparando);
+
+            TempData.Remove("Cupom");
 
             return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
         }

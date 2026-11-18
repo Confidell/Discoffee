@@ -48,6 +48,12 @@ namespace Discoffee.Controllers
                 return RedirectToAction("Index", "Carrinho");
             }
 
+            if(cupom.DataValidade < DateTime.Now)
+            {
+                TempData["Erro"] = "Cupom expirado!";
+                return RedirectToAction("Index", "Carrinho");
+            }
+
             HttpContext.Session.SetString("Cupom.Codigo", cupom.Codigo);
             HttpContext.Session.SetString("Cupom.Desconto", cupom.Desconto.ToString());
             HttpContext.Session.SetString("Cupom.Id", cupom.IdCupom.ToString());

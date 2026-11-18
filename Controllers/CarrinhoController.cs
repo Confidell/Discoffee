@@ -84,6 +84,9 @@ namespace Discoffee.Controllers
                 };
             }
 
+            // ADICIONA O OBJETO DO CUPOM NO TEMP DATA PARA ELE SER ACESSADO NA CONTROLLER DE PAGAMENTOS POSTERIORMENTE
+            TempData["Cupom"] = JsonSerializer.Serialize(cupom);
+
             ViewBag.Subtotal = subtotal;
             ViewBag.Frete = frete;
             ViewBag.Cupom = cupom;
