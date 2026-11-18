@@ -1,4 +1,10 @@
-﻿@model Discoffee.Models.Usuario
+﻿@using System.Security.Claims
+@using Discoffee.Models.Constants
+@model Discoffee.Models.Usuario
+
+@{
+    var perfil = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+}
 
 <dialog id="modal-cadastro" class="modal-usuario">
     <form method="post" enctype="multipart/form-data" asp-controller="Usuarios" asp-action="Cadastrar" class="modal-form">
@@ -111,7 +117,11 @@
 
         <div class="modal-botoes">
             <button type="button" class="btn-cancelar" data-fechar>Cancelar</button>
-            <button type="submit" class="btn-cadastrar">Cadastrar Funcionário</button>
+            
+            @if (perfil == EnumPerfil.Administrador.ToString())
+            {
+                <button type="submit" class="btn-cadastrar">Cadastrar Funcionário</button>
+            }
         </div>
     </form>
 </dialog>

@@ -49,6 +49,18 @@ constraint FK_Id_Perfil foreign key(Id_Perfil) references tbPerfil(Id_Perfil),
 constraint FK_Id_CEP foreign key(Id_CEP) references tbCEP(Id_CEP) 
 );
 
+-- ADMINISTRADOR RAIZ
+-- Senha: Nilson@123_
+
+insert into tbCEP(CEP)
+	values('05274110');
+
+insert into tbUsuario(NomeCompleto, Email, Senha, CPF, Telefone, DataNasc, Numero_Casa, Complemento, Id_Perfil, Id_CEP)
+	values('Nilson Alcides', 'nilson@discoffee.com', 'AQAAAAIAAYagAAAAEGZFYRWr/y5Twx6fCARsld9a+ArXG7nY/rm6Wls0mJU8Qg9I+S19le9gT4/Wzk+4ug==',  '54909258841', '11940407946', '1980-04-03', '67', null, 3, 1);
+    
+select * from tbUsuario;
+
+
 create table tbCupom_Utilizado(
 Id_Cupom_Utilizado int primary key auto_increment,
 Id_Usuario int,
@@ -182,10 +194,6 @@ begin
 end;
 $$
 
--- ADMINISTRADOR RAIZ
-
-select * from tbUsuario;
-
 -- CADASTRA O USUÁRIO
 delimiter $$ 
 create procedure cadastrarUsuario(
@@ -214,14 +222,6 @@ begin
     end if;
 end;
 $$
-
-call cadastrarUsuario(
-'Nilson Alcides',
-'nilson@gmail.com'
-'AQAAAAIAAYagAAAAECgxTybsbQuDW/QKwqzlCZW1XUtUf7cvTp7S3JwRdKOCcOlGiEQSURO5ozoSKZk4jw==', -- Senha: Nilson@123_
-
-);
-select * from tbUsuario;
 
 -- INSERE A CATEGORIA
 delimiter $$
@@ -281,8 +281,8 @@ call inserirProduto('Coxinha', 7.00, 'Coxinha de frango', 'Coxinha.png', true, @
 call inserirProduto('Limonada', 9.90, 'Limonada suíça', 'Limonada.png', true, @catRefresco, @idProd);
 call inserirProduto('Shake de Chocolate', 16.90, 'Shake cremoso', 'Shake_Chocolate.png', true, @catShake, @idProd);
 
-select * from tbCategoria;
-select * from tbProduto;
+-- select * from tbCategoria;
+-- select * from tbProduto;
 
 -- ATIVA OU DESATIVA UM PRODUTO (ALTERA SÓ A DISPONIBILIDADE)
 delimiter $$
@@ -331,7 +331,7 @@ call cadastrarOpcaoPersonalizacao(3, 'Canela', 2.50, 'Tradicional');
 call cadastrarOpcaoPersonalizacao(3, 'Chantilly', 2, 'Tradicional');
 call cadastrarOpcaoPersonalizacao(3, 'Achocolatado', 4.90, 'Tradicional');
 
-select * from tbOpcao_Personalizacao;
+-- select * from tbOpcao_Personalizacao;
 
 -- PEDIDOS
 delimiter $$
@@ -430,11 +430,11 @@ begin
 end $$
 delimiter ;
 
-select * from tbOpcao_Personalizacao;
-select * from tbProduto;
-select * from tbCategoria;
-select * from tbPedido;
-select * from tbItem_Pedido;
+-- select * from tbOpcao_Personalizacao;
+-- select * from tbProduto;
+-- select * from tbCategoria;
+-- select * from tbPedido;
+-- select * from tbItem_Pedido;
 
 delimiter $$
 create procedure registrarPagamento(
@@ -469,10 +469,10 @@ begin
 end $$
 delimiter ;
 
-select * from tbPedido;
-select * from tbUsuario;
-select * from tbPagamento;
-select * from tbCupom_Utilizado;
+-- select * from tbPedido;
+-- select * from tbUsuario;
+-- select * from tbPagamento;
+-- select * from tbCupom_Utilizado;
 
 delimiter $$
 create procedure cadastrarCartao(
@@ -493,7 +493,7 @@ end;
 $$
 delimiter ;
 
-select * from tbCartao;
+-- select * from tbCartao;
  
 delimiter $$
 create procedure cadastrarCupom(
@@ -517,9 +517,9 @@ delimiter ;
 call cadastrarCupom('DESC15', 15.00, '19/11/2026 23:59:59');
 call cadastrarCupom('FRT26', 12.50, '25/11/2026 23:59:59');
 call cadastrarCupom('REP88', 7.50, '15/11/2026 23:59:59');
-select * from tbCupom;
-select * from tbPedido;
-select * from tbPagamento;
+-- select * from tbCupom;
+-- select * from tbPedido;
+-- select * from tbPagamento;
 /*
 --------------------------------------------------------------------------------------------
 --------------------------------- PROCEDURES DE BUSCA --------------------------------------
@@ -654,7 +654,7 @@ begin
 end $$
 delimiter ;
 
-select * from tbOpcao_Personalizacao; 
+-- select * from tbOpcao_Personalizacao; 
 call buscarOpcoesPersonalizacaoPorProduto('1');
 
 delimiter $$
@@ -795,7 +795,7 @@ delimiter ;
 -- drop procedure BuscarPedidosPorUsuario;
 call buscarPedidosPorUsuario(1);
 
-select * from tbPedido;
+-- select * from tbPedido;
 
 /*
 --------------------------------------------------------------------------------------------

@@ -30,6 +30,7 @@ namespace Discoffee.Areas.Gerencia.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Cadastrar(Usuario usuario)
         {
             usuario.Status = "Ativo";
@@ -70,6 +71,7 @@ namespace Discoffee.Areas.Gerencia.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Editar(EditarUsuarioViewModel form)
         {
             // O PERFIL É CONFERIDO NO BANCO, NÃO NO FORMULÁRIO

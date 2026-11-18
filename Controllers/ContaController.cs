@@ -175,6 +175,9 @@ namespace Discoffee.Controllers
                 loginViewModel.Senha
             );
 
+            Console.WriteLine($"SENHA DO BANCO {usuario.Senha}");
+            Console.WriteLine($"SENHA DO VIEW {loginViewModel.Senha}");
+
             if (senhaVerificada == PasswordVerificationResult.Failed)
             {
                 ModelState.AddModelError(
