@@ -46,5 +46,7 @@ namespace Discoffee.ViewModels
         public EnumPerfil Perfil { get; set; }
 
         public List<Cartao>? Cartoes { get; set; }
+
+        public Cartao? NovoCartao { get; set; }
     }
 }
