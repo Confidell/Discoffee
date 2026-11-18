@@ -118,6 +118,17 @@ namespace Discoffee.Controllers
                 });
             }
 
+            Console.WriteLine($"CVV: {pagamento.Cartao.CVV}");
+
+            if(pagamento.Cartao.CVV == null)
+            {
+                TempData["Erro"] = "CVV não informado!";
+                return RedirectToAction("Index", new
+                {
+                    idPedido = pagamento.Pedido.IdPedido
+                });
+            }
+
             pagamento.Pedido = new Pedido
             {
                 IdPedido = pedidoExistente.IdPedido,

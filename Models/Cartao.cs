@@ -28,5 +28,7 @@ namespace Discoffee.Models
 
         [Display(Name = "Usuário", Description = "Usuário proprietário do cartão.")]
         public Usuario Usuario { get; set; }
+
+        public int? CVV { get; set; }
     }
 }
