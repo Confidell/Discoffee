@@ -80,7 +80,6 @@ namespace Discoffee.Repository
 
             if (dr.Read())
             {
-                Console.WriteLine($"PERFIL RECEBIDO NA REPOSITORY: {Enum.Parse<EnumPerfil>(Convert.ToString(dr["Perfil"]))}");
 
                 return new Usuario
                 {

@@ -1,0 +1,53 @@
+.sessao-conta-desativada{
+    height: 100vh;
+    flex-direction: column;
+    align-items: start;
+    padding-left: 6rem;
+    background-image: url('/Assets/Imagens/Banner_ContaDesativada.jpg');
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.container-mensagem{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+.logo{
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+.texto{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.texto h1{
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+.texto p{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+.voltar{
+    color: var(--cinza);
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: flex;
+    gap: 1rem;
+    position: absolute;
+    top: 5%;
+    transition: all .2s;
+}
+.voltar:hover{
+    gap: 1.2rem;;
+}
+.voltar .icone{
+    width: 25px;
+    height: 25px;
+}

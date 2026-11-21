@@ -175,9 +175,6 @@ namespace Discoffee.Controllers
                 loginViewModel.Senha
             );
 
-            Console.WriteLine($"SENHA DO BANCO {usuario.Senha}");
-            Console.WriteLine($"SENHA DO VIEW {loginViewModel.Senha}");
-
             if (senhaVerificada == PasswordVerificationResult.Failed)
             {
                 ModelState.AddModelError(
@@ -229,9 +226,6 @@ namespace Discoffee.Controllers
                 return Redirect(returnUrl);
             }
 
-            Console.WriteLine($"PERFIL DO USUARIO: {usuario.Perfil}");
-            Console.WriteLine($"PERFIL DO USUARIO: {User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value.ToString()}");
-
             switch (usuario.Perfil)
             {
                 case EnumPerfil.Cliente:
@@ -252,9 +246,6 @@ namespace Discoffee.Controllers
             await HttpContext.SignOutAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme
             );
-
-            Console.WriteLine($"PERFIL DO USUARIO: {User.FindFirstValue(ClaimTypes.NameIdentifier)}");
-            Console.WriteLine($"PERFIL DO USUARIO: {User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value.ToString()}");
 
             return RedirectToAction("Index", "Home");
         }

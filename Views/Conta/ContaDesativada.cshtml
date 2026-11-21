@@ -2,14 +2,30 @@
     ViewData["Title"] = "Conta Desativada";
 }
 
-<section class="acesso-negado">
-    <h1>Conta desativada</h1>
+@section Styles{
+    <link rel="stylesheet" href="~/css/contaDesativada.css">
+}
 
-    <p>
-        Sua conta foi desativada. Por favor, entre em contato com o suporte.
-    </p>
+<section class="sessao-padrao sessao-conta-desativada">
 
-    <a asp-controller="Home" asp-action="Index">
-        Voltar para o início
+    <div class="container-mensagem">
+        <img class="logo" src="~/Assets/Icons/Logo.svg" alt="Discoffee">
+
+        <div class="texto">
+            <h1>CONTA <span style="color: var(--amarelo);">DESATIVADA</span>!</h1>
+
+            <p>
+                Sua conta foi desativada, entre em contato com o suporte.
+            </p>
+        </div>
+    </div>
+
+    <a class="voltar" asp-controller="Home" asp-action="Index">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left icone" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"/>
+        </svg>
+
+        Voltar
     </a>
 </section>
