@@ -20,6 +20,13 @@ namespace Discoffee.Areas.Cliente.Controllers
         [HttpPost]
         public IActionResult AdicionarCartao(Cartao cartao)
         {
+
+            if (!ModelState.IsValid)
+            {
+                TempData["Erro"] = "Dado(s) de cartão inválido(s)!";
+                return RedirectToAction("Index", "Perfil", new { area = "Cliente" });
+            }
+
             var idUsuario = int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier)!
             );

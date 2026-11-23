@@ -6,14 +6,23 @@
     // RETORNA OS PRODUTOS DISPONÍVEIS DA CATEGORIA INFORMADA.
     IEnumerable<Discoffee.Models.Produto> De(string categoria) =>
         Model.Where(p => p.Disponibilidade && p.Categoria.NomeCategoria == categoria);
+
+    var imagens = new List<string>
+    {
+        "~/Assets/Imagens/Banner_Inicial.jpg",
+        "~/Assets/Imagens/Banner_cardapio.png"
+    };
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/cardapio.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/carrossel.css" asp-append-version="true" />
 }
 
 
 <section class="banner">
+    
+    <partial name="_Carrossel" model="imagens" />
 
     <article class="drinks-especiais">
         <img src="~/Assets/Icons/Logo.svg" />
@@ -180,6 +189,7 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-    <script src="~/js/cardapio.js"></script>
+    <script src="~/js/cardapio.js" asp-append-version="true"></script>
     <script src="~/js/carrinho.js" asp-append-version="true"></script>
+    <script src="~/js/carrossel.js" asp-append-version="true"></script>
 }

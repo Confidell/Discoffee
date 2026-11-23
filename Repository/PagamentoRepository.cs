@@ -30,23 +30,18 @@ namespace Discoffee.Repository
 
         public void EfetuarPagamento(Pagamento pagamento)
         {
-            foreach (var propriedade in pagamento.GetType().GetProperties())
-            {
-                Console.WriteLine($"{propriedade.Name}: {propriedade.GetValue(pagamento)}");
-            }
-            Console.WriteLine($"Pedido: {pagamento.Pedido.IdPedido}");
-
             using var conexao = new MySqlConnection(_conexaoMySQL);
             conexao.Open();
 
             using var comando = new MySqlCommand("registrarPagamento", conexao);
             comando.CommandType = CommandType.StoredProcedure;
 
-            comando.Parameters.AddWithValue("@vFormaPagamento", pagamento.FormaPagamento);
-            comando.Parameters.AddWithValue("@vStats", pagamento.Status);
-            comando.Parameters.AddWithValue("@vId_Pedido", pagamento.Pedido.IdPedido);
-            comando.Parameters.AddWithValue("@vId_Cartao", (object?)pagamento.Cartao?.IdCartao ?? DBNull.Value);
-            comando.Parameters.AddWithValue("@vId_Cupom", (object?)pagamento.Cupom?.IdCupom ?? DBNull.Value);
+            comando.Parameters.AddWithValue("@vId_Usuario", pagamento?.Pedido?.Usuario.IdUsuario);
+            comando.Parameters.AddWithValue("@vFormaPagamento", pagamento?.FormaPagamento);
+            comando.Parameters.AddWithValue("@vStats", pagamento?.Status);
+            comando.Parameters.AddWithValue("@vId_Pedido", pagamento?.Pedido?.IdPedido);
+            comando.Parameters.AddWithValue("@vId_Cartao", (object?)pagamento?.Cartao?.IdCartao ?? DBNull.Value);
+            comando.Parameters.AddWithValue("@vId_Cupom", (object?)pagamento?.Cupom?.IdCupom ?? DBNull.Value);
 
             comando.ExecuteNonQuery();
         }

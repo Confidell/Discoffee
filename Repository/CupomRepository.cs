@@ -24,7 +24,6 @@ namespace Discoffee.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@vNome", cupom.Nome);
                     cmd.Parameters.AddWithValue("@vCodigo_Cupom", cupom.Codigo);
                     cmd.Parameters.AddWithValue("@vDesconto", cupom.Desconto);
                     cmd.Parameters.AddWithValue("@vDataValidade", cupom.DataValidade);
@@ -43,7 +42,6 @@ namespace Discoffee.Repository
                 const string sql = @"
                     UPDATE tbCupom
                     SET
-                        Nome = @Nome,
                         Codigo_Cupom = @Codigo,
                         Desconto = @Desconto,
                         DataValidade = @DataValidade
@@ -52,7 +50,6 @@ namespace Discoffee.Repository
                 using (var cmd = new MySqlCommand(sql, conexao))
                 {
                     cmd.Parameters.AddWithValue("@Id", cupom.IdCupom);
-                    cmd.Parameters.AddWithValue("@Nome", cupom.Nome);
                     cmd.Parameters.AddWithValue("@Codigo", cupom.Codigo);
                     cmd.Parameters.AddWithValue("@Desconto", cupom.Desconto);
                     cmd.Parameters.AddWithValue("@DataValidade", cupom.DataValidade);
@@ -84,7 +81,7 @@ namespace Discoffee.Repository
                 conexao.Open();
 
                 const string sql = @"
-                    SELECT Id_Cupom, Nome, Codigo_Cupom, Desconto, DataValidade
+                    SELECT Id_Cupom, Codigo_Cupom, Desconto, DataValidade
                     FROM tbCupom
                     WHERE Codigo_Cupom = @Codigo;";
 
@@ -99,7 +96,6 @@ namespace Discoffee.Repository
                             return new Cupom
                             {
                                 IdCupom = reader.GetInt32("Id_Cupom"),
-                                Nome = reader.IsDBNull(reader.GetOrdinal("Nome")) ? null : reader.GetString("Nome"),
                                 Codigo = reader.GetString("Codigo_Cupom"),
                                 Desconto = reader.GetDecimal("Desconto"),
                                 DataValidade = reader.IsDBNull(reader.GetOrdinal("DataValidade"))
@@ -112,6 +108,23 @@ namespace Discoffee.Repository
             }
 
             return null;
+        }
+
+        public bool CupomUtilizado(int IdUsuario, int IdCupom)
+        {
+            using (var conexao = new MySqlConnection(_conexaoMySQL))
+            {
+                conexao.Open();
+
+                const string sql = @"select 1 from tbCupom_Utilizado 
+                    where Id_Usuario = @vId_Usuario and Id_cupom = @vId_Cupom limit 1;";
+
+                var cmd = new MySqlCommand(sql, conexao);
+                cmd.Parameters.AddWithValue("@vId_Usuario", IdUsuario);
+                cmd.Parameters.AddWithValue("@vId_Cupom", IdCupom);
+
+                return cmd.ExecuteScalar() != null;
+            }
         }
     }
 }

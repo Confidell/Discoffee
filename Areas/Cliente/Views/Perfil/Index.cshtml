@@ -210,17 +210,20 @@
 
                     <label for="numero-cartao">
                         Núemro do Cartão:
-                        <input type="text" name="NumeroCartao" id="numero-cartao-form" class="input-form input-cartao" placeholder="Número do Cartão" />
+                        <input type="text" name="NovoCartao.NumeroCartao" id="numero-cartao-form" class="input-form input-cartao" placeholder="Número do Cartão" />
+                        <span asp-validation-for="NovoCartao.NumeroCartao" class="text-danger"></span>
                     </label>
                     
                     <label for="nome-titular">
                         Nome Impresso:
-                        <input type="text" name="NomeTitular" id="nome-cartao-form" class="input-form input-cartao" placeholder="Nome impresso no cartão" />    
+                        <input type="text" name="NovoCartao.NomeTitular" id="nome-cartao-form" class="input-form input-cartao" placeholder="Nome impresso no cartão" />    
+                        <span asp-validation-for="NovoCartao.NomeTitular" class="text-danger"></span>
                     </label>
                     
                     <label for="apelido-cartao">
                         Apelido do Cartão:
-                        <input type="text" name="Apelido" id="apelido-cartao-form" class="input-form input-cartao" placeholder="Escolha um apelido para o cartão" />
+                        <input type="text" name="NovoCartao.Apelido" id="apelido-cartao-form" class="input-form input-cartao" placeholder="Escolha um apelido para o cartão" />
+                        <span asp-validation-for="NovoCartao.Apelido" class="text-danger"></span>
                     </label>
 
                     <div id="cartao-grid">
@@ -233,11 +236,11 @@
                         <div class="cartao-grid-2">
                             <label for="validade-cartao">
                                 Validade:
-                                <input type="text" name="DataValidade" id="validade-cartao-form" class="input-form input-cartao"  placeholder="Validade do cartão" />
+                                <input type="text" name="NovoCartao.DataValidade" id="validade-cartao-form" class="input-form input-cartao"  placeholder="Validade do cartão" />
+                                <span asp-validation-for="NovoCartao.DataValidade" class="text-danger"></span>
                             </label>
                         </div>
                     </div>
-                    
                 </form>
             </div>
 

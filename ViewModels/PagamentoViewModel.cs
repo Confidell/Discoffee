@@ -6,11 +6,11 @@ namespace Discoffee.ViewModels
     {
         public int IdPedido { get; set; }
 
-        public string? Cupom { get; set; }
+        public Cupom? Cupom { get; set; }
         
-        public PedidoClienteViewModel Pedido { get; set; }
+        public PedidoClienteViewModel? Pedido { get; set; }
 
-        public Usuario Usuario { get; set; }
+        public Usuario? Usuario { get; set; }
 
         public List<Cartao>? Cartoes { get; set; }
     }

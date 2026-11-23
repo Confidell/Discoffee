@@ -8,7 +8,9 @@
 
     decimal frete = Model.Pedido.Frete;
 
-    decimal total = Model.Pedido.Subtotal + Model.Pedido.Frete;
+    decimal desconto = Model.Pedido.Desconto;
+
+    decimal total = Model.Pedido.Total;
 }
 
 @section Styles{
@@ -73,12 +75,12 @@
 
                         <label>
                             Nome:
-                            <span>@Model.Usuario.NomeCompleto</span>
+                            <span>@Model?.Usuario?.NomeCompleto</span>
                         </label>
 
                         <label>
                             Email:
-                            <span>@Model.Usuario.Email</span>
+                            <span>@Model?.Usuario?.Email</span>
                         </label>
 
                         <div class="usuario-grid-1">
@@ -143,7 +145,8 @@
                 class="forma-pagamento"
                 method="post">
 
-                <input type="hidden" name="Pedido.IdPedido" value="@Model.Pedido.IdPedido"/>
+                <input type="hidden" name="Pedido.IdPedido" value="@Model?.Pedido.IdPedido"/>
+                <input type="hidden" name="Cupom.IdCupom" value="@Model?.Cupom?.IdCupom"/>
 
                 <h4>
                     Forma de <span style="color: var(--rosa);">Pagamento</span>
@@ -181,12 +184,12 @@
                     </p>
 
                     <div class="pix-qrcode">
-                        <!-- QR CODE -->
+                        <img src="~/Assets/Imagens/QRCode_PIX.svg" alt="PIX_DISCOFFEE">
                     </div>
 
                     <label>
                         Código PIX:
-                        <input type="text" class="input-form" id="codigo-pix" readonly />
+                        <input type="text" class="input-form" id="codigo-pix" value="discoffee@pix.com" disabled placeholder="discoffee@pix.com" readonly />
                     </label>
 
                     <button type="button" class="botao btn-copiar-pix">
@@ -204,7 +207,7 @@
 
                     <div class="lista-cartoes">
 
-                        @if (Model.Cartoes == null || !Model.Cartoes.Any())
+                        @if (Model?.Cartoes == null || !Model.Cartoes.Any())
                         {
                             <p>Nenhum cartão cadastrado.</p>
                         }
@@ -237,8 +240,8 @@
                                             CVV:
                                             <input type="password"
                                                 class="input-form"
-                                                name="CVV"
-                                                placeholder="Digite o CVV"
+                                                name="Cartao.CVV"
+                                                placeholder="Ex: '123' ou '1234'"
                                                 inputmode="numeric"
                                                 maxlength="4"
                                                 pattern="[0-9]{3,4}"
@@ -269,6 +272,19 @@
                     <p>Subtotal:</p>
                     <strong>R$@subtotal</strong>
                 </div>
+                                
+                @if(Model?.Cupom != null)
+                {
+                    <div class="resumo-linha" style="margin-bottom: 1rem;">
+
+                        <article>
+                            <p>Desconto:</p>
+                            <p style="margin-left: 10px; color: var(--rosa);">@Model?.Cupom?.Codigo</p>
+                        </article>
+
+                        <strong>- R$@Model?.Pedido.Desconto</strong>
+                    </div>
+                }
 
                 <div class="resumo-linha">
                     <p>Entrega:</p>
@@ -286,7 +302,7 @@
                 type="submit" 
                 class="btn-finalizar-pedido botao" 
                 form="form-efetuar-pagamento"
-                disabled="@(Model.Pedido.Pagamento.Status == EnumStatusPagamento.Pago)">
+                disabled="@(Model?.Pedido?.Pagamento?.Status == EnumStatusPagamento.Pago)">
                 Efetuar Pagamento
             </button>
 

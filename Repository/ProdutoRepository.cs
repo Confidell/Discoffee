@@ -133,7 +133,7 @@ namespace Discoffee.Repository
             using var conexao = new MySqlConnection(_conexaoMySQL);
             conexao.Open();
 
-            using var cmd = new MySqlCommand("updateTbProduto", conexao);
+            using var cmd = new MySqlCommand("atualizarProduto", conexao);
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@vId_Produto", produto.IdProduto);

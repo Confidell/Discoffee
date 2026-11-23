@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Text.Json;
 using Discoffee.Models;
 using Discoffee.Models.Constants;
 using Discoffee.Repository.Contract;
@@ -28,7 +29,7 @@ namespace Discoffee.Controllers
             _pedidoRepository = pedidoRepository;
         }        
 
-        public IActionResult Index(int idPedido, string? cupom)
+        public IActionResult Index(int idPedido)
         {
             var idUsuario = int.Parse(
                 User.FindFirstValue(ClaimTypes.NameIdentifier)!
@@ -45,7 +46,7 @@ namespace Discoffee.Controllers
 
             if(pedido.Pagamento is not null && pedido.Pagamento.Status == EnumStatusPagamento.Pago)
             {
-                TempData["Erro"] = "Esse pedido já foi pago!";
+                TempData["Aviso"] = "Esse pedido já foi pago!";
                 return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
             }
 
@@ -53,6 +54,16 @@ namespace Discoffee.Controllers
             {
                 TempData["Erro"] = "Esse pedido foi cancelado!";
                 return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
+            }
+
+            Cupom? cupom = null;
+
+            // PEGA O OBEJETO SALVO NO TEMP DATA
+            if (TempData.Peek("Cupom") != null)
+            {
+                cupom = JsonSerializer.Deserialize<Cupom>(
+                    TempData.Peek("Cupom")?.ToString()!
+                );
             }
 
             PagamentoViewModel pagamento = new PagamentoViewModel
@@ -70,6 +81,10 @@ namespace Discoffee.Controllers
         [HttpPost]
         public IActionResult EfetuarPagamento(Pagamento pagamento)
         {
+            var idUsuario = int.Parse(
+                User.FindFirstValue(ClaimTypes.NameIdentifier)!
+            ); 
+
             if (pagamento.Pedido == null || pagamento.Pedido.IdPedido <= 0)
             {
                 TempData["Erro"] = "Pedido não informado!";
@@ -89,14 +104,23 @@ namespace Discoffee.Controllers
             if (pedidoExistente.Pagamento?.Status == EnumStatusPagamento.Pago ||
                 pedidoExistente.Status == StatusPedido.Cancelado)
             {
-                TempData["Erro"] = "Esse pedido não pode ser pago novamente!";
+                TempData["Aviso"] = "Esse pedido não pode ser pago novamente!";
                 return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
             }
 
             if (pagamento.FormaPagamento == EnumFormaPagamento.Cartao &&
                 (pagamento.Cartao == null || pagamento.Cartao.IdCartao <= 0))
             {
-                TempData["Erro"] = "Nenhum cartão selecionado!";
+                TempData["Aviso"] = "Nenhum cartão selecionado!";
+                return RedirectToAction("Index", new
+                {
+                    idPedido = pagamento.Pedido.IdPedido
+                });
+            }
+
+            if(pagamento.Cartao != null && pagamento.Cartao.CVV == null)
+            {
+                TempData["Aviso"] = "CVV não informado!";
                 return RedirectToAction("Index", new
                 {
                     idPedido = pagamento.Pedido.IdPedido
@@ -112,6 +136,10 @@ namespace Discoffee.Controllers
                 Frete = pedidoExistente.Frete,
                 Status = pedidoExistente.Status,
                 Tipo = pedidoExistente.Tipo,
+                Usuario = new Usuario
+                {
+                    IdUsuario = idUsuario
+                }
             };
 
             pagamento.Status = EnumStatusPagamento.Pago;
@@ -121,12 +149,18 @@ namespace Discoffee.Controllers
             // ATUALIZA O STATUS DO PEDIDO DE PENDENTE PARA "PREPARANDO"
             _pedidoRepository.AlterarStatusPedido(pagamento.Pedido.IdPedido, StatusPedido.Preparando);
 
+            TempData.Remove("Cupom");
+
             return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
         }
 
         [HttpPost]
         public IActionResult RecusarPagamento(Pagamento pagamento)
         {
+            var idUsuario = int.Parse(
+                User.FindFirstValue(ClaimTypes.NameIdentifier)!
+            ); 
+
             if (pagamento.Pedido == null || pagamento.Pedido.IdPedido <= 0)
             {
                 TempData["Erro"] = "Pedido não informado!";
@@ -145,14 +179,14 @@ namespace Discoffee.Controllers
 
             if (pedidoExistente.Pagamento?.Status == EnumStatusPagamento.Pago)
             {
-                TempData["Erro"] = "Esse pedido já foi pago!";
+                TempData["Aviso"] = "Esse pedido já foi pago!";
                 return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
             }
 
             if (pagamento.FormaPagamento == EnumFormaPagamento.Cartao &&
                 (pagamento.Cartao == null || pagamento.Cartao.IdCartao <= 0))
             {
-                TempData["Erro"] = "Nenhum cartão selecionado!";
+                TempData["Aviso"] = "Nenhum cartão selecionado!";
                 return RedirectToAction("Index", new
                 {
                     idPedido = pagamento.Pedido.IdPedido
@@ -168,6 +202,10 @@ namespace Discoffee.Controllers
                 Frete = pedidoExistente.Frete,
                 Status = pedidoExistente.Status,
                 Tipo = pedidoExistente.Tipo,
+                Usuario = new Usuario
+                {
+                    IdUsuario = idUsuario
+                }
             };
 
             pagamento.Status = EnumStatusPagamento.Recusado;

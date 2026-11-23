@@ -38,7 +38,6 @@ namespace Discoffee.Controllers
         [HttpPost]
         public IActionResult Cadastrar(CadastrarUsuarioViewModel usuarioViewModel, string? form)
         {
-
             Usuario usuarioExistente = _usuarioRepository.BuscarUsuarioPorEmail(usuarioViewModel.Email);
 
             // VALIDA A DATA DE NASCIMENTO PARA O FORMATO CORRETO

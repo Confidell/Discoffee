@@ -8,5 +8,6 @@ namespace Discoffee.Repository.Contract
         void EditarCupom(Cupom cupom);
         void ExcluirCupom(int id);
         Cupom BuscarCupomPorCodigo(string codigo);
+        bool CupomUtilizado(int IdUsuario, int IdCupom);
     }
 }

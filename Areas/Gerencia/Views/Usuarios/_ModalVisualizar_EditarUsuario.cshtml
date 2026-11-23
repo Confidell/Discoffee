@@ -1,8 +1,9 @@
 ﻿@model Discoffee.Models.Usuario
+@using System.Security.Claims
 @using Discoffee.Models.Constants
 @{
-    // Cliente: tudo bloqueado, só o Status pode ser alterado
-    var bloqueado = Model.Perfil == EnumPerfil.Cliente;
+    var perfil = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+    var bloqueado = perfil == EnumPerfil.Funcionario.ToString();
     var ativo = Model.Status == "Ativo";
 }
 
@@ -108,7 +109,11 @@
 
         <div class="modal-botoes">
             <button type="button" class="btn-cancelar" data-fechar>Cancelar</button>
-            <button type="submit" class="btn-cadastrar">Salvar Usuário</button>
+
+            @if (perfil == EnumPerfil.Administrador.ToString())
+            {
+                <button type="submit" class="btn-cadastrar">Salvar Usuário</button>
+            }
         </div>
     </form>
 </dialog>

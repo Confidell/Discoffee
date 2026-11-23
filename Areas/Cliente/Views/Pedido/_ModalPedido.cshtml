@@ -91,6 +91,18 @@
                     <span class="rodape-rotulo">Frete</span>
                     <span class="rodape-numero">@Model.Frete.ToString("C", pt)</span>
                 </div>
+
+                @if (Model.Pagamento?.Cupom != null)
+                {
+                    <div class="rodape-valor">
+                        <div style="display: flex; gap: 0.5rem; line-height: 0;">
+                            <span class="rodape-rotulo">Desconto</span>
+                            <p style="color: var(--rosa); text-decoration: underline; font-size: .9rem;">@Model.Pagamento.Cupom.Codigo</p>
+                        </div>
+                        <span class="rodape-numero">@Model.Desconto.ToString("C", pt)</span>
+                    </div>
+                }
+
                 <time class="rodape-data">@Model.DataHora.ToString("dd/MM/yy")</time>
             </div>
 
@@ -106,10 +118,10 @@
 
                     <div class="forma-pag">
 
-                        @if(Model.Pagamento.IdPagamento is not null)
+                        @if(Model.Pagamento?.IdPagamento is not null)
                         {
                             <span>Pagamento via @Model.Pagamento.FormaPagamento</span>
-                            @if (Model.Pagamento.FormaPagamento.ToString().ToUpper() == "PIX")
+                            @if (Model.Pagamento.FormaPagamento?.ToString().ToUpper() == "PIX")
                             {
                                 <img style="width: 30px; height: 30px; object-fit: cover;" src="~/Assets/Icons/Icon_PIX.png" alt="PIX" />
                             }

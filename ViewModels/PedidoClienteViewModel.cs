@@ -9,6 +9,7 @@ namespace Discoffee.ViewModels
         public DateTime DataHora { get; set; }
         public decimal Subtotal { get; set; }
         public decimal Frete { get; set; }
+        public decimal Desconto { get; set; }
         public decimal Total { get; set; }
         public StatusPedido Status { get; set; }
         public TipoPedido Tipo { get; set; }

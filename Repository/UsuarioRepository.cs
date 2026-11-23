@@ -80,6 +80,7 @@ namespace Discoffee.Repository
 
             if (dr.Read())
             {
+
                 return new Usuario
                 {
                     IdUsuario = Convert.ToInt32(dr["Id_Usuario"]),

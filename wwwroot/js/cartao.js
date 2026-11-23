@@ -106,7 +106,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-
     // ALTERA BANDEIRA
     function alterarBandeira(tipo) {
 

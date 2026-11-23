@@ -1,4 +1,3 @@
-using System.Security.Claims;
 using Discoffee.Models;
 using Discoffee.Models.Constants;
 using Discoffee.Repository.Contract;
@@ -31,6 +30,7 @@ namespace Discoffee.Areas.Gerencia.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Cadastrar(Usuario usuario)
         {
             usuario.Status = "Ativo";
@@ -71,6 +71,7 @@ namespace Discoffee.Areas.Gerencia.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Editar(EditarUsuarioViewModel form)
         {
             // O PERFIL É CONFERIDO NO BANCO, NÃO NO FORMULÁRIO
@@ -82,7 +83,6 @@ namespace Discoffee.Areas.Gerencia.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            // CLIENTE: SÓ O STATUS PODE SER ALTERADO
             if (atual.Perfil == EnumPerfil.Cliente)
             {
                 form = new EditarUsuarioViewModel
