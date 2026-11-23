@@ -23,5 +23,15 @@ carrosseis.forEach(carrossel => {
         atualizarCarrossel();
     });
 
+    function passarSlideAutomaticamente(){
+        imagemAtual = (imagemAtual + 1) % imagens.length;
+        atualizarCarrossel();
+    }
+
+    setInterval(() => {
+
+        passarSlideAutomaticamente();
+    }, 5000);
+
     atualizarCarrossel();
 });
