@@ -1,12 +1,21 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+
+    var imagens = new List<string>
+    {
+        "~/Assets/Imagens/Banner_Inicial.jpg",
+        "~/Assets/Imagens/Banner_cardapio.png"
+    };
 }
 @section Styles{
     <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/carrossel.css" asp-append-version="true" />
 }
 
 <section class="banner-inicial">
     <div class="overlay"></div>
+
+    <partial name="_Carrossel" model="imagens" />
     
     <article>
         <p class="slogan">SIRVA-SE DE <span style="color: var(--amarelo);">RITMO</span></p>
@@ -149,3 +158,7 @@
         </div>
     </article>
 </section>
+
+@section Scripts{
+    <script src="~/js/carrossel.js" asp-append-version="true"></script>
+}

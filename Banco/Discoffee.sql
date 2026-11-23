@@ -60,7 +60,6 @@ insert into tbUsuario(NomeCompleto, Email, Senha, CPF, Telefone, DataNasc, Numer
     
 select * from tbUsuario;
 
-
 create table tbCupom_Utilizado(
 Id_Cupom_Utilizado int primary key auto_increment,
 Id_Usuario int,

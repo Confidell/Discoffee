@@ -1,0 +1,55 @@
+.carrossel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.carrossel-conteudo img {
+    display: none;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.carrossel-conteudo img.ativo {
+    display: block;
+}
+
+.btn-anterior,
+.btn-proximo {
+    position: absolute;
+    transform: translateY(-50%);
+    z-index: 1;
+    cursor: pointer;
+    border: 1px solid var(--laranja);
+    background: none;
+    color: var(--amarelo);
+    transition: all .2s;
+    border-radius: 100%;
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-anterior:hover,
+.btn-proximo:hover {
+    background-color: var(--laranja);
+    color: var(--cinza);
+}
+.btn-anterior svg,
+.btn-proximo svg{
+    width: 20px;
+    height: 20px;
+}
+
+.btn-anterior {
+    left: 5%;
+    bottom: 5%;
+}
+
+.btn-proximo {
+    right: 5%;
+    bottom: 5%;
+}
