@@ -215,5 +215,13 @@ namespace Discoffee.Controllers
 
             return RedirectToAction("Index", "Pedido", new { area = "Cliente" });
         }
+
+        // [HttpGet]
+        // public IActionResult VerTodosPagamentos()
+        // {
+        //     List<Pagamento> pagamentos = _pagamentoRepository.VerTodos();
+
+        //     return View();
+        // }
     }
 }

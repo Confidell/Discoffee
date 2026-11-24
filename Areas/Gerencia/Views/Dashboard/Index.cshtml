@@ -1,11 +1,32 @@
+@using System.Text.Json
+@using Discoffee.Models.Constants
+@using Discoffee.ViewModels
+@model DashboardViewModel
+
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var dataAtual = DateTime.Now;
+
+    var meses = Enumerable.Range(1, 12)
+        .Select(m => new
+        {
+            Mes = new DateTime(dataAtual.Year, m, 1).ToString("MMMM"),
+            Total = Model.pagamentos
+                .Where(p => p.DataHora.HasValue
+                    && p.DataHora.Value.Month == m
+                    && p.DataHora.Value.Year == dataAtual.Year
+                    && p.Status == EnumStatusPagamento.Pago)
+                .Sum(p => p.ValorPago ?? 0)
+        })
+        .ToList();
 }
 
-<link rel="stylesheet" href="~/css/dashboard.css" />
+@section Styles{
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbarGerencia.css" asp-append-version="true" />
+}
 
 <section class="sessao-padrao bem-vindo">
 
@@ -13,7 +34,7 @@
         <img src="~/Assets/Icons/Logo.svg" id="logo">
 
         <div class="nome">
-            <h3>Olá, bem-vindo(a) de volta!</h3>
+            <h3>Olá, seja bem-vindo(a)!</h3>
             <h2>@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</h2>
         </div>
 
@@ -40,15 +61,85 @@
     @* NAVBAR DA GERENCIA *@
     <partial name="_NavbarDashboard" />
 
-
 </section>
 
-<section class="resumo-mensal">
-    <h2>Resumo do mês</h2>
+<section class="resumo">
+    @* <h2>Resumo do mês</h2> *@
 
-    <div class="graficos">
-        <div class="grafico1"></div>
-        <div class="grafico2"></div>
+    <div class="graficos-primarios">
+        <div class="faturamento-anual">
+            <canvas id="graficoVendas"></canvas>
+        </div>
+
+        <div class="tipos-pedido">
+            @* <canvas id="graficoPedidos"></canvas> *@
+        </div>
+
     </div>
     
 </section>
+
+@section Scripts {
+
+    <script>
+        const ctx = document.getElementById('graficoVendas');
+
+        const meses = @Html.Raw(JsonSerializer.Serialize(
+            meses.Select(x => x.Mes)
+        ));
+
+        const valores = @Html.Raw(JsonSerializer.Serialize(
+            meses.Select(x => x.Total)
+        ));
+
+        new Chart(ctx, {
+            type: 'bar',
+
+            data: {
+                labels: meses,
+
+                datasets: [{
+                    label: 'Faturamento mensal',
+                    data: valores,
+                    backgroundColor: '#0056FF',
+                    borderRadius: 5,
+                    barThickness: 35
+                }]
+            },
+
+            options: {
+                responsive: true,
+
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.parsed.y.toLocaleString('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                });
+                            }
+                        }
+                    }
+                },
+
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toLocaleString('pt-BR', {
+                                    style: 'currency',
+                                    currency: 'BRL'
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}
