@@ -150,6 +150,10 @@ namespace Discoffee.Repository
                         CPF = reader["CPF"].ToString()!,
                         Tipo = Enum.Parse<TipoPedido>(reader["Tipo_Pedido"].ToString()!, true),
                         Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString().Replace(" ", "")!, true),
+                        Telefone = reader["Telefone"].ToString()!,
+                        CEP = reader["CEP"] == DBNull.Value ? string.Empty : reader["CEP"].ToString()!,
+                        NumeroCasa = reader["Numero_Casa"].ToString()!,
+                        Complemento = reader["Complemento"] == DBNull.Value ? null : reader["Complemento"].ToString(),
                         Pagamento = new Pagamento
                         {
                             IdPagamento = reader["Id_Pagamento"] != DBNull.Value ? Convert.ToInt32(reader["Id_Pagamento"]) : null,

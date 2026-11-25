@@ -24,12 +24,13 @@ namespace Discoffee.Areas.Gerencia.Controllers
             return View(pedidos);
         }
 
-        // [HttpGet]
-        // public IActionResult BuscarTodosPedidos()
-        // {
-        //     var pedidos = _pedidoRepository.BuscarTodos();
-        //     return Ok(pedidos);
-        // }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult AlterarStatus(int idPedido, StatusPedido status)
+        {
+            _pedidoRepository.AlterarStatusPedido(idPedido, status);
+            return RedirectToAction(nameof(Index));
+        }
 
     }
 }

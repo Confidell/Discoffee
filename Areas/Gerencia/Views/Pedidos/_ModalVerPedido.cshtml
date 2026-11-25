@@ -4,6 +4,9 @@
     var ptBR = new System.Globalization.CultureInfo("pt-BR");
 
     var textoStatus = Model.Status == StatusPedido.EmEntrega ? "Em Entrega" : Model.Status.ToString();
+
+    var formaPagamento = Model.Pagamento?.FormaPagamento?.ToString();
+    var cupom = Model.Pagamento?.Cupom;
 }
 
 <dialog id="modal-@Model.IdPedido" class="modal-pedido">
@@ -51,7 +54,8 @@
             {
                 <div>
                     <h4 class="titulo">Endereço</h4>
-                    <p>@Model.Endereco</p>
+                    <p>CEP: @Model.CEP</p>
+                    <p>Nº @Model.NumeroCasa@(string.IsNullOrWhiteSpace(Model.Complemento) || Model.Complemento == "Sem Complemento" ? "" : $" - {Model.Complemento}")</p>
                 </div>
             }
         </div>
@@ -92,12 +96,6 @@
             }
         </div>
 
-        @* trocar dps por dados reais *@
-        <div class="observacoes">
-            <h4 class="titulo">Observações</h4>
-            <p>Favor Açucar a parte</p>
-        </div>
-
         <div class="valores">
             <div class="valor">
                 <span class="rotulo">Subtotal</span>
@@ -109,22 +107,37 @@
                 <strong>@Model.Frete.ToString("C", ptBR)</strong>
             </div>
 
-            @* trocar dps por dados reais *@
             <div class="valor">
-                <span class="rotulo">Cupom</span>
-                <strong>Não há</strong>
+                    <span class="rotulo">Cupom</span>
+                @if (cupom != null)
+                {
+                    <strong>@cupom.Codigo (-@Model.Desconto.ToString("C", ptBR))</strong>
+                }
+                else
+                {
+                    <strong>Sem cupom</strong>
+                }
             </div>
-
-
-        </div>
+         </div>
 
         <div class="total">
             <p>Total <strong>@Model.Total.ToString("C", ptBR)</strong></p>
 
-            @* trocar dps por dados reais *@
-            <p class="pedido-pagamento">Pago via Débito <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cartao-deb" viewBox="0 0 16 16">
-                <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm0 3a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm3 0a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm3 0a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm3 0a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z" />
-            </svg></p>
+            @if (formaPagamento != null)
+            {
+                <p class="pedido-pagamento">
+                    Pago via @formaPagamento
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="cartao-deb" viewBox="0 0 16 16">
+                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2.5 1a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h2a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm0 3a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm3 0a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm3 0a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm3 0a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z" />
+                </svg></p>
+            }
+            else
+            {
+                <p class="pedido-pagamento">
+                    Aguardando Pagamento
+                </p>
+            }
+            
             
         </div>
     </div>
@@ -132,15 +145,20 @@
     <div class="pedido-botoes">
         @switch (Model.Status)
         {
-            case StatusPedido.Pendente:
-                <button type="button" class="pedido-btn">Iniciar Preparo</button>
-                break;
             case StatusPedido.Preparando:
-                <button type="button" class="pedido-btn">Pronto para Entrega</button>
-                break;
+                <form asp-area="Gerencia" asp-controller= "Pedidos" asp-action="AlterarStatus" method="post">
+                    <input type="hidden" name="idPedido" value="@Model.IdPedido" />
+                    <input type="hidden" name="status" value="@((int)StatusPedido.EmEntrega)" />
+                    <button type="submit" class="pedido-btn">Pronto para Entrega</button>
+                </form>
+                 break;
             case StatusPedido.EmEntrega:
-                <button type="button" class="pedido-btn">Confirmar Entrega</button>
+               <form asp-area="Gerencia" asp-controller ="Pedidos" asp-action="AlterarStatus" method="post" >
+                   <input type="hidden" name="idPedido" value="@Model.IdPedido"/>
+                   <input type="hidden" name="status" value="@((int)StatusPedido.Entregue)"/>
+                   <button type="submit" class="pedido-btn">Confirmar Entrega</button >
+               </form>
                 break;
-        }
+         }
     </div>
 </dialog>
