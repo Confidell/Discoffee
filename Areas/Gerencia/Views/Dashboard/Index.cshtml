@@ -9,6 +9,7 @@
 
     var dataAtual = DateTime.Now;
 
+    @* CONTA O TOTAL FATURADO EM CADA MÊS ATRAVES DOS PAGAMENTOS *@
     var meses = Enumerable.Range(1, 12)
         .Select(m => new
         {
@@ -21,6 +22,41 @@
                 .Sum(p => p.ValorPago ?? 0)
         })
         .ToList();
+
+    var faturamentoMensal = meses[dataAtual.Month - 1].Total;
+
+    @* PEGA OS 5 PRODUTOS MAIS VENDIDOS *@
+    var produtosMaisVendidos = Model.pedidos
+        .Where(p => p.Pagamento?.Status == EnumStatusPagamento.Pago)
+        .SelectMany(p => p.Itens)
+        .GroupBy(i => new { i.IdProduto, i.NomeProduto })
+        .Select(g => new
+        {
+            NomeProduto = g.Key.NomeProduto,
+            Quantidade = g.Sum(i => i.Quantidade ?? 0)
+        })
+        .OrderByDescending(p => p.Quantidade)
+        .Take(5)
+        .ToList();
+
+    @* PEGA O TOTAL DE PEDIDOS QUE JÁ FORAM PAGOS DE CADA TIPO *@
+    var pedidosRetirada = Model.pedidos
+    .Count(p => p.Tipo == TipoPedido.Retirada && p.Pagamento?.IdPagamento != null);
+
+    var pedidosEntrega = Model.pedidos
+        .Count(p => p.Tipo == TipoPedido.Entrega && p.Pagamento?.IdPagamento != null);
+
+    var pedidosPendentes = Model.pedidos
+        .Count(p => p.Status == StatusPedido.Preparando);
+
+    var pedidosHoje = Model.pedidos
+        .Count(p => p.DataHora.Date == DateTime.Now.Date);
+
+    var produtosAtivos = Model.produtos
+        .Count(p => p.Disponibilidade == true);
+
+    var clientesAtivos = Model.usuarios
+        .Count(u => u.Perfil == EnumPerfil.Cliente && u.Status == "Ativo");
 }
 
 @section Styles{
@@ -64,17 +100,59 @@
 </section>
 
 <section class="resumo">
-    @* <h2>Resumo do mês</h2> *@
+    
+    <div class="cards-dados">
+
+        <div class="card-dado">
+
+            <h3>Pedidos em Preparo</h3>
+            <hr>
+            <p>@pedidosPendentes</p>
+        </div>
+
+        <div class="card-dado">
+            <h3>Pedidos de Hoje</h3>
+            <hr>
+            <p>@pedidosHoje</p>
+        </div>
+
+        <div class="card-dado">
+            <h3>Produtos Ativos</h3>
+            <hr>
+            <p>@produtosAtivos</p>
+        </div>   
+
+        <div class="card-dado">
+            <h3>Clientes Ativos</h3>
+            <hr>
+            <p>@clientesAtivos</p>
+        </div>
+
+        <div class="card-dado">
+            <h3>Faturamento do Mês</h3>
+            <hr>
+            <p>R$ @faturamentoMensal</p>
+        </div>
+
+    </div>
 
     <div class="graficos-primarios">
+
         <div class="faturamento-anual">
             <canvas id="graficoVendas"></canvas>
         </div>
 
-        <div class="tipos-pedido">
-            @* <canvas id="graficoPedidos"></canvas> *@
+        <div class="produtos-mais-vendidos">
+            <canvas id="graficoProdutos"></canvas>
         </div>
+    </div>
 
+    <div class="graficos-secundarios">
+
+
+                <div class="tipos-pedido">
+            <canvas id="graficoPedidos"></canvas>
+        </div>
     </div>
     
 </section>
@@ -92,54 +170,176 @@
             meses.Select(x => x.Total)
         ));
 
+        const totalAnual = valores.reduce((total, valor) => total + valor, 0);
+
+        const formatarMoeda = valor => valor.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+
         new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
 
             data: {
                 labels: meses,
 
                 datasets: [{
-                    label: 'Faturamento mensal',
+                    label: 'Total anual: ' + formatarMoeda(totalAnual),
                     data: valores,
-                    backgroundColor: '#0056FF',
-                    borderRadius: 5,
-                    barThickness: 35
+
+                    borderColor: '#0056FF',
+                    backgroundColor: 'rgba(0, 86, 255, 0.12)',
+
+                    borderWidth: 3,
+                    pointBackgroundColor: '#0056FF',
+                    pointBorderColor: '#FFFFFF',
+                    pointBorderWidth: 2,
+                    pointRadius: 5,
+                    pointHoverRadius: 7,
+
+                    tension: 0.3,
+                    fill: true
                 }]
             },
 
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
 
                 plugins: {
                     legend: {
-                        display: false
+                        display: true,
                     },
+
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                return context.parsed.y.toLocaleString('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                });
+                                return formatarMoeda(context.parsed.y);
                             }
                         }
                     }
                 },
 
                 scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+
                     y: {
                         beginAtZero: true,
+
                         ticks: {
                             callback: function(value) {
-                                return value.toLocaleString('pt-BR', {
-                                    style: 'currency',
-                                    currency: 'BRL'
-                                });
+                                return formatarMoeda(value);
                             }
                         }
                     }
                 }
             }
         });
+
+    const ctxPedidos = document.getElementById('graficoPedidos');
+
+    const pedidosRetirada = @pedidosRetirada;
+    const pedidosEntrega = @pedidosEntrega;
+
+    new Chart(ctxPedidos, {
+        type: 'doughnut',
+
+        data: {
+            labels: ['Retirada', 'Entrega'],
+
+            datasets: [{
+                data: [pedidosRetirada, pedidosEntrega],
+
+                backgroundColor: [
+                    '#0056FF',
+                    '#35E68E'
+                ],
+
+                borderWidth: 0,
+                hoverOffset: 8
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.raw + ' pedidos';
+                        }
+                    }
+                }
+            },
+
+            cutout: '65%'
+        }
+    });
+
+    const ctxProdutos = document.getElementById('graficoProdutos');
+
+    const nomesProdutos = @Html.Raw(JsonSerializer.Serialize(
+        produtosMaisVendidos.Select(p => p.NomeProduto)
+    ));
+
+    const quantidadesProdutos = @Html.Raw(JsonSerializer.Serialize(
+        produtosMaisVendidos.Select(p => p.Quantidade)
+    ));
+
+    new Chart(ctxProdutos, {
+        type: 'pie',
+
+        data: {
+            labels: nomesProdutos,
+
+            datasets: [{
+                label: 'Unidades vendidas',
+                data: quantidadesProdutos,
+
+                backgroundColor: [
+                    '#0056FF',
+                    '#35E68E',
+                    '#FF7900',
+                    '#9747FF',
+                    '#C7DFC5'
+                ],
+
+                borderWidth: 2,
+                borderColor: '#FFFFFF',
+
+                hoverOffset: 8
+            }]
+        },
+
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.label + ': ' + context.raw + ' unidades';
+                        }
+                    }
+                }
+            }
+        }
+    });
     </script>
 }

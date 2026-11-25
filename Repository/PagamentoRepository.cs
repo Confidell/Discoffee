@@ -94,8 +94,6 @@ namespace Discoffee.Repository
                 }
             }
 
-            Console.WriteLine($"PAGAMENTOS ENCONTRADOS {pagamentos[0].IdPagamento} {pagamentos[0].ValorPago}");
-
             return pagamentos;
         }
     }
