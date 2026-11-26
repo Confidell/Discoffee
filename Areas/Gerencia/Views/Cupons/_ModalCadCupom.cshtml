@@ -1,0 +1,19 @@
+﻿<dialog id="modal-cadastro" class="modal-cupom">
+    <form method="post" asp-area="Gerencia" asp-controller="Cupons" asp-action="Cadastrar">
+        <div class="modal-topo">
+            <h2>Cadastrar Cupom</h2>
+            <p>Preencha as informações do cupom</p>
+        </div>
+
+        <div class="modal-corpo">
+            <label>Código <input type="text" name="Codigo" maxlength="10" required /></label>
+            <label>Desconto (R$) <input type="number" name="Desconto" step="0.01" min="0.01" required /></label>
+            <label>Validade <input type="datetime-local" name="DataValidade" required /></label>
+        </div>
+
+        <div class="modal-botoes">
+            <button type="button" data-fechar>Cancelar</button>
+            <button type="submit">Cadastrar Cupom</button>
+        </div>
+    </form>
+</dialog>

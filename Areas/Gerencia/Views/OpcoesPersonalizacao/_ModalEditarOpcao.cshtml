@@ -1,0 +1,41 @@
+﻿@using Discoffee.Models.Constants
+@model Discoffee.Models.OpcaoPersonalizacao
+
+<dialog id="modal-editar-@Model.IdOpcao" class="modal-opcao">
+    <form method="post" asp-area="Gerencia" asp-controller="OpcoesPersonalizacao" asp-action="Editar">
+        <input type="hidden" name="IdOpcao" value="@Model.IdOpcao" />
+
+        <div class="modal-topo">
+            <h2>Editar Opção</h2>
+            <p>Altere as informações da opção</p>
+        </div>
+
+        <div class="modal-corpo">
+            <label>
+                Tipo
+                <select name="Tipo" required>
+                    <option value="Leite" selected="@(Model.Tipo == TipoOpcao.Leite)">Leite</option>
+                    <option value="Acucar" selected="@(Model.Tipo == TipoOpcao.Acucar)">Açúcar</option>
+                    <option value="Adicional" selected="@(Model.Tipo == TipoOpcao.Adicional)">Adicional</option>
+                </select>
+            </label>
+            <label>Opção <input type="text" name="Opcao" value="@Model.Opcao" minlength="2" maxlength="50" required /></label>
+            <label>Preço extra (R$) <input type="number" name="precoExtra" step="0.01" min="0" required
+                   value="@Model.PrecoExtra.ToString(System.Globalization.CultureInfo.InvariantCulture)" /></label>
+            <label>
+                Categoria
+                <select name="idCategoria" required>
+                    @foreach (var categoria in (List<Discoffee.Models.Categoria>)ViewBag.Categorias)
+                    {
+                        <option value="@categoria.IdCategoria" selected="@(categoria.IdCategoria == Model.Categoria?.IdCategoria)">@categoria.NomeCategoria</option>
+                    }
+                </select>
+            </label>
+        </div>
+
+        <div class="modal-botoes">
+            <button type="button" data-fechar>Cancelar</button>
+            <button type="submit">Salvar Opção</button>
+        </div>
+    </form>
+</dialog>

@@ -171,7 +171,6 @@
     margin-bottom: 0;
 }
 
-/* "Produto" ocupa a coluna da imagem + a do nome */
 .prod-header > :first-child {
     grid-column: 1 / 3;
 }
@@ -183,7 +182,6 @@
     font-size: 1.5rem;
 }
 
-/*CARDS PRODUTOS*/
 .lista-produtos {
     display: flex;
     flex-direction: column;
