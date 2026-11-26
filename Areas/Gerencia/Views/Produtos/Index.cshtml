@@ -47,20 +47,34 @@
             </div>
 
             <div class="categoria-status">
-                <div class="cat-status">
+                <div class="cat-status filtro" data-filtro="categoria">
                     <div class="categoria-selecao">
                         <h5>Categorias</h5>
-                        <h6>Todas</h6>
+                        <h6 class="filtro-escolhido">Todas</h6>
                     </div>
                     <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
+
+                    <ul class="filtro-menu" hidden>
+                        <li><button type="button" data-valor="">Todas</button></li>
+                        @foreach (var categoria in (IEnumerable<Discoffee.Models.Categoria>)ViewBag.Categorias)
+                        {
+                            <li><button type="button" data-valor="@categoria.NomeCategoria">@categoria.NomeCategoria</button></li>
+                        }
+                    </ul>
                 </div>
 
-                <div class="cat-status">
+                <div class="cat-status filtro" data-filtro="status">
                     <div class="categoria-selecao">
                         <h5>Status</h5>
-                        <h6>Todos</h6>
+                        <h6 class="filtro-escolhido">Todos</h6>
                     </div>
                     <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
+
+                    <ul class="filtro-menu" hidden>
+                        <li><button type="button" data-valor="">Todos</button></li>
+                        <li><button type="button" data-valor="Ativo">Ativo</button></li>
+                        <li><button type="button" data-valor="Inativo">Inativo</button></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -89,4 +103,5 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/produto.js" asp-append-version="true"></script>
+    <script src="~/js/filtro.js" asp-append-version="true"></script>
 }

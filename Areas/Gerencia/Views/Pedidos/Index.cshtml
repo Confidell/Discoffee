@@ -35,12 +35,22 @@
                 <input type="search" placeholder="Buscar produto..." />
             </div>
 
-            <div class="filtro-status">
-                <div class="cat-status"> 
+            <div class="filtro-status filtro" data-filtro="status">
+                <div class="cat-status">
                     <h5>Status</h5>
-                    <h6>Todos</h6>
+                    <h6 class="filtro-escolhido">Todos</h6>
                 </div>
                 <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
+
+                <ul class="filtro-menu" hidden>
+                    <li><button type="button" data-valor="">Todos</button></li>
+                    <li><button type="button" data-valor="Pendente">Pendente</button></li>
+                    <li><button type="button" data-valor="Preparando">Preparando</button></li>
+                    <li><button type="button" data-valor="Finalizado">Finalizado</button></li>
+                    <li><button type="button" data-valor="EmEntrega">Em entrega</button></li>
+                    <li><button type="button" data-valor="Entregue">Entregue</button></li>
+                    <li><button type="button" data-valor="Cancelado">Cancelado</button></li>
+                </ul>
             </div>
         </div>
 
@@ -67,4 +77,5 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/pedidosDashboard.js" asp-append-version="true"></script>
+    <script src="~/js/filtro.js" asp-append-version="true"></script>
 }

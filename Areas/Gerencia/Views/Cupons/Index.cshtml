@@ -46,12 +46,18 @@
                 <input type="search" placeholder="Buscar cupom..." />
             </div>
 
-            <div class="filtro-status">
+            <div class="filtro-status filtro" data-filtro="status">
                 <div class="cat-status">
                     <h5>Status</h5>
-                    <h6>Todos</h6>
+                    <h6 class="filtro-escolhido">Todos</h6>
                 </div>
                 <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
+
+                <ul class="filtro-menu" hidden>
+                    <li><button type="button" data-valor="">Todos</button></li>
+                    <li><button type="button" data-valor="Ativo">Ativo</button></li>
+                    <li><button type="button" data-valor="Expirado">Expirado</button></li>
+                </ul>
             </div>
 
         </div>
@@ -82,4 +88,5 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial"/>
     <script src="~/js/cupom.js" asp-append-version="true"></script>
+    <script src="~/js/filtro.js" asp-append-version="true"></script>
 }

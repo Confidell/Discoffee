@@ -7,7 +7,7 @@
     var perfil = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 }
 
-<div class="card-opcao">
+<div class="card-opcao" data-item data-categoria="@Model.Categoria?.NomeCategoria">
     <h4>@Model.Tipo</h4>
 
     <h4>@Model.Opcao</h4>

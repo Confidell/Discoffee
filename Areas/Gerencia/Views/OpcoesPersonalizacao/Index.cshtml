@@ -47,12 +47,20 @@
                 <input type="search" placeholder="Buscar cupom..." />
             </div>
 
-            <div class="filtro-status">
+            <div class="filtro-status filtro" data-filtro="categoria">
                 <div class="cat-status">
-                    <h5>Status</h5>
-                    <h6>Todos</h6>
+                    <h5>Categorias</h5>
+                    <h6 class="filtro-escolhido">Todas</h6>
                 </div>
                 <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
+
+                <ul class="filtro-menu" hidden>
+                    <li><button type="button" data-valor="">Todas</button></li>
+                    @foreach (var categoria in (IEnumerable<Discoffee.Models.Categoria>)ViewBag.Categorias)
+                    {
+                        <li><button type="button" data-valor="@categoria.NomeCategoria">@categoria.NomeCategoria</button></li>
+                    }
+                </ul>
             </div>
 
         </div>
@@ -82,4 +90,5 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/opcoesPersonalizacao.js" asp-append-version="true"></script>
+    <script src="~/js/filtro.js" asp-append-version="true"></script>
 }

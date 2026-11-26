@@ -1,6 +1,6 @@
 ﻿@model Discoffee.Models.Usuario
 
-<div class="card-usu">
+<div class="card-usu" data-item data-nivel="@Model.Perfil" data-status="@(Model.Status == "Ativo" ? "Ativo" : "Inativo")">
 
     <h4>@Model.NomeCompleto</h4>
     

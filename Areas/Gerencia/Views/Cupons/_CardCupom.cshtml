@@ -10,7 +10,7 @@
     var classeStatus = ativo ? "cupom-ativo" : "cupom-expirado";
 }
 
-<div class="card-cupom">
+<div class="card-cupom" data-item data-status="@textoStatus">
     <h4>@Model.IdCupom</h4>
     
     <h4>@Model.Codigo</h4>
