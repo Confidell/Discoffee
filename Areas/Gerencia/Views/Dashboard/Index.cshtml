@@ -117,6 +117,19 @@
             Quantidade = Model.pedidos.Count(p => p.Status == StatusPedido.Cancelado)
         }
     };
+
+    // Validações dos gráficos
+    var temProdutosVendidos = produtosMaisVendidos.Any();
+
+    var temPedidos = Model.pedidos.Any();
+
+    var temPedidosPorStatus = pedidosPorStatus.Any(p => p.Quantidade > 0);
+
+    var temDadosPagamento = statusPagamentoPorPedido.Any(p => p.Quantidade > 0);
+
+    var temDadosFormaPagamento = formaPagamentoPorPedido.Any(p => p.Quantidade > 0);
+
+    var temDadosTipoPedido = pedidosRetirada > 0 || pedidosEntrega > 0;
 }
 
 @section Styles{
@@ -139,18 +152,6 @@
                 <img src="/Assets/Icons/Icon_Calendario.png" alt="" class="icone-calendario" />
                 <span id="textoDataSelecionada">@dataAtual.ToString("dd/MMMM/yyyy")</span>
             </button>
-
-            @* <div class="dropdown-data" id="dropdownData">
-                <div class="dropdown-navegacao-ano">
-                    <button type="button" id="btnAnoAnterior">&lt;</button>
-                    <span id="anoAtual">2026</span>
-                    <button type="button" id="btnProximoAno">&gt;</button>
-                </div>
-                <div class="dropdown-meses" id="dropdownMeses">
-                    
-
-                </div>
-            </div> *@
         </div>
     </div>
 
@@ -241,10 +242,18 @@
 
         <div class="cards-graficos produtos-mais-vendidos">
             <h3>Mais vendidos</h3>
-            <canvas id="graficoProdutos"
+
+            @if (temProdutosVendidos)
+            {
+                <canvas id="graficoProdutos"
                     data-nomes='@Html.Raw(JsonSerializer.Serialize(produtosMaisVendidos.Select(p => p.NomeProduto)))'
                     data-quantidades='@Html.Raw(JsonSerializer.Serialize(produtosMaisVendidos.Select(p => p.Quantidade)))'>
-            </canvas>
+                </canvas>
+            }
+            else
+            {
+                <p>Nenhum produto vendido</p>
+            }
         </div>
     </div>
 
@@ -253,18 +262,35 @@
         <div class="graficos">
             <div class="cards-graficos tipos-pedido">
                 <h3>Tipo de pedido</h3>
-                <canvas id="graficoPedidos"
+
+
+                @if (temDadosTipoPedido)
+                {
+                    <canvas id="graficoPedidos"
                         data-retirada="@pedidosRetirada"
                         data-entrega="@pedidosEntrega">
-                </canvas>
+                    </canvas>
+                }
+                else
+                {
+                    <p>Nenhum pedido encontrado</p>
+                }
             </div>
 
             <div class="cards-graficos pedidos-por-status">
                 <h3>Status de pedido</h3>
-                <canvas id="graficoStatus"
+
+                @if (temPedidosPorStatus)
+                {
+                    <canvas id="graficoStatus"
                         data-nomes='@Html.Raw(JsonSerializer.Serialize(pedidosPorStatus.Select(p => p.Status)) )'
                         data-quantidades='@Html.Raw(JsonSerializer.Serialize(pedidosPorStatus.Select(p => p.Quantidade)) )'>
-                </canvas>
+                    </canvas>
+                }
+                else
+                {
+                    <p>Nenhum pedido encontrado</p>
+                }
             </div>
 
             <div class="cards-pag">
@@ -274,45 +300,59 @@
                     <hr>
                     <article>
 
-                        <p>
-                            <svg style="color: var(--azul);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
-                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
-                            </svg>
+                        
+                        @if (temDadosPagamento)
+                        {
+                            <p>
+                                <svg style="color: var(--azul);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                                </svg>
 
-                            @statusPagamentoPorPedido[0].Quantidade
-                            @statusPagamentoPorPedido[0].Status
-                        </p>
-                        <p>
-                            <svg style="color: var(--vermelho);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
-                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
-                            </svg>
+                                @statusPagamentoPorPedido[0].Quantidade
+                                @statusPagamentoPorPedido[0].Status
+                            </p>
+                            <p>
+                                <svg style="color: var(--vermelho);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                                </svg>
 
-                            @statusPagamentoPorPedido[1].Quantidade
-                            @statusPagamentoPorPedido[1].Status
-                        </p>
+                                @statusPagamentoPorPedido[1].Quantidade
+                                @statusPagamentoPorPedido[1].Status
+                            </p>
+                        }
+                        else
+                        {
+                            <p>Nenhum pagamento registrado</p>
+                        }
                     </article>
                 </div>
                 <div class="cards-graficos formas-pag">
                     <h3>Formas de pagamento</h3>
                     <hr>
                     <article>
+                        @if (temDadosFormaPagamento)
+                        {
+                            <p>
+                                <svg style="color: var(--rosa);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                                </svg>
 
-                        <p>
-                            <svg style="color: var(--rosa);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
-                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
-                            </svg>
+                                @formaPagamentoPorPedido[0].Quantidade
+                                @formaPagamentoPorPedido[0].Forma
+                            </p>
+                            <p>
+                                <svg style="color: var(--roxo);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                                </svg>
 
-                            @formaPagamentoPorPedido[0].Quantidade
-                            @formaPagamentoPorPedido[0].Forma
-                        </p>
-                        <p>
-                            <svg style="color: var(--roxo);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
-                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
-                            </svg>
-
-                            @formaPagamentoPorPedido[1].Quantidade
-                            @formaPagamentoPorPedido[1].Forma
-                        </p>
+                                @formaPagamentoPorPedido[1].Quantidade
+                                @formaPagamentoPorPedido[1].Forma
+                            </p>
+                        }
+                        else
+                        {
+                            <p>Nenhum pagamento registrado</p>
+                        }
                     </article>
                 </div>
 
