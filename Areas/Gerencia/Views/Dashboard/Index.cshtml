@@ -232,14 +232,14 @@
 
     <div class="graficos-primarios">
 
-        <div class="faturamento-anual">
+        <div class="cards-graficos faturamento-anual">
             <canvas id="graficoVendas"
                     data-meses='@Html.Raw(JsonSerializer.Serialize(meses.Select(x => x.Mes)))'
                     data-valores='@Html.Raw(JsonSerializer.Serialize(meses.Select(x => x.Total)))'>
             </canvas>
         </div>
 
-        <div class="produtos-mais-vendidos">
+        <div class="cards-graficos produtos-mais-vendidos">
             <h3>Mais vendidos</h3>
             <canvas id="graficoProdutos"
                     data-nomes='@Html.Raw(JsonSerializer.Serialize(produtosMaisVendidos.Select(p => p.NomeProduto)))'
@@ -250,10 +250,8 @@
 
     <div class="graficos-secundarios">
 
-        <h2>VISÃO GERAL DE PEDIDOS</h2>
-
         <div class="graficos">
-            <div class="tipos-pedido">
+            <div class="cards-graficos tipos-pedido">
                 <h3>Tipo de pedido</h3>
                 <canvas id="graficoPedidos"
                         data-retirada="@pedidosRetirada"
@@ -261,7 +259,8 @@
                 </canvas>
             </div>
 
-            <div class="pedidos-por-status">
+            <div class="cards-graficos pedidos-por-status">
+                <h3>Status de pedido</h3>
                 <canvas id="graficoStatus"
                         data-nomes='@Html.Raw(JsonSerializer.Serialize(pedidosPorStatus.Select(p => p.Status)) )'
                         data-quantidades='@Html.Raw(JsonSerializer.Serialize(pedidosPorStatus.Select(p => p.Quantidade)) )'>
@@ -270,7 +269,7 @@
 
             <div class="cards-pag">
 
-                <div class="status-pag">
+                <div class="cards-graficos status-pag">
                     <h3>Pagamento de Pedidos</h3>
                     <hr>
                     <article>
@@ -293,7 +292,7 @@
                         </p>
                     </article>
                 </div>
-                <div class="formas-pag">
+                <div class="cards-graficos formas-pag">
                     <h3>Formas de pagamento</h3>
                     <hr>
                     <article>
