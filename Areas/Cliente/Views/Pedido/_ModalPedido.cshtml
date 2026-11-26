@@ -87,10 +87,13 @@
                     <span class="rodape-rotulo">Subtotal</span>
                     <span class="rodape-numero">@Model.Subtotal.ToString("C", pt)</span>
                 </div>
-                <div class="rodape-valor">
-                    <span class="rodape-rotulo">Frete</span>
-                    <span class="rodape-numero">@Model.Frete.ToString("C", pt)</span>
-                </div>
+                @if (Model.Pagamento?.Pedido?.Tipo == TipoPedido.Retirada)
+                {
+                    <div class="rodape-valor">
+                        <span class="rodape-rotulo">Frete</span>
+                        <span class="rodape-numero">@Model.Frete.ToString("C", pt)</span>
+                    </div>
+                }
 
                 @if (Model.Pagamento?.Cupom != null)
                 {

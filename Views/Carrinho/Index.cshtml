@@ -1,5 +1,4 @@
 ﻿@model List<Discoffee.ViewModels.ItemPedidoViewModel>
-@using System.Diagnostics.Eventing.Reader
 @using System.Globalization
 @using Discoffee.Models.Constants
 
@@ -54,13 +53,15 @@
 
             <div class="buttons-radio">
                 <div class="btn-tipo">
-                    <input type="radio" id="tipo-entrega" name="Tipo" form="form-finalizar-compra" value="2" checked>
-                    <label>@TipoPedido.Entrega</label>
+                    <input type="radio" id="tipo-entrega" name="Tipo"
+                        form="form-finalizar-compra" value="2" checked>
+                    <label for="tipo-entrega">@TipoPedido.Entrega</label>
                 </div>
 
                 <div class="btn-tipo">
-                    <input type="radio" id="tipo-retirada" name="Tipo" form="form-finalizar-compra" value="1">
-                    <label>@TipoPedido.Retirada</label>
+                    <input type="radio" id="tipo-retirada" name="Tipo"
+                        form="form-finalizar-compra" value="1">
+                    <label for="tipo-retirada">@TipoPedido.Retirada</label>
                 </div>
             </div>
         </div>
@@ -118,18 +119,19 @@
 
                     <div style="width: 100%; display: flex; justify-content: space-between;">
                         <h4>Entrega</h4>
-                        <span>R$ @ViewBag.Frete</span>
+                        <span id="valor-frete">R$ @ViewBag.Frete</span>
                     </div>
                 </div>
 
                 <div class="txt-total">
                     <h4>Total</h4>
-                    <span>R$ @ViewBag.Total</span>
+                    <span id="valor-total">R$ @ViewBag.Total</span>
                 </div>
 
                 <form id="form-finalizar-compra" asp-area="Cliente" asp-controller="Pedido" asp-action="FinalizarCompra" method="post">
-                    <input hidden id="frete" name="Frete" form="form-finalizar-compra" value="@ViewBag.Frete">
-                    <input hidden id="desconto" name="Desconto" form="form-finalizar-compra" value="@ViewBag.Cupom?.Desconto">
+                    <input type="hidden" id="frete" name="Frete" value="@ViewBag.Frete">
+                    <input type="hidden" id="desconto" name="Desconto" value="@ViewBag.Cupom?.Desconto">
+                    <input type="hidden" id="subtotal" value="@ViewBag.Subtotal">
 
                     <button type="submit" class="botao botao-realizar-pedido" @(itensCarrinho == 0 ? "disabled" : "" )>
                         Realizar Pedido
