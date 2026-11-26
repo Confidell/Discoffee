@@ -7,14 +7,15 @@
 
     var perfil = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 }
-
-<link rel="stylesheet" href="~/css/produtos.css" asp-append-version="true" />
+@section Styles{
+    <link rel="stylesheet" href="~/css/produtos.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbarGerencia.css" asp-append-version="true" />
+}
 
 <section class="sessao-produtos">
 
     @await Html.PartialAsync(
         "~/Areas/Gerencia/Views/Dashboard/_NavbarDashboard.cshtml"
-
     )
 
     <div class="catalogo-header">

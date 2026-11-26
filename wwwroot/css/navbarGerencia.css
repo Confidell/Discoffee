@@ -1,0 +1,11 @@
+.menu{
+    width: fit-content;
+    height: 50px;
+    border-radius: 100px;
+}
+.menu a{
+    font-size: 1.2rem;
+}
+.menu a.ativo{
+    height: 40px;
+}

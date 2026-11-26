@@ -1,11 +1,128 @@
+@using System.Text.Json
+@using Discoffee.Models.Constants
+@using Discoffee.ViewModels
+@model DashboardViewModel
+
 @{
     ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var dataAtual = DateTime.Now;
+
+    @* CONTA O TOTAL FATURADO EM CADA MÊS ATRAVES DOS PAGAMENTOS *@
+    var meses = Enumerable.Range(1, 12)
+        .Select(m => new
+        {
+            Mes = new DateTime(dataAtual.Year, m, 1).ToString("MMMM"),
+            Total = Model.pagamentos
+                .Where(p => p.DataHora.HasValue
+                    && p.DataHora.Value.Month == m
+                    && p.DataHora.Value.Year == dataAtual.Year
+                    && p.Status == EnumStatusPagamento.Pago)
+                .Sum(p => p.ValorPago ?? 0)
+        })
+        .ToList();
+
+    var faturamentoMensal = meses[dataAtual.Month - 1].Total;
+
+    @* PEGA OS 5 PRODUTOS MAIS VENDIDOS *@
+    var produtosMaisVendidos = Model.pedidos
+        .Where(p => p.Pagamento?.Status == EnumStatusPagamento.Pago)
+        .SelectMany(p => p.Itens)
+        .GroupBy(i => new { i.IdProduto, i.NomeProduto })
+        .Select(g => new
+        {
+            NomeProduto = g.Key.NomeProduto,
+            Quantidade = g.Sum(i => i.Quantidade ?? 0)
+        })
+        .OrderByDescending(p => p.Quantidade)
+        .Take(5)
+        .ToList();
+
+    @* PEGA O TOTAL DE PEDIDOS QUE JÁ FORAM PAGOS DE CADA TIPO *@
+    var pedidosRetirada = Model.pedidos
+    .Count(p => p.Tipo == TipoPedido.Retirada && p.Pagamento?.IdPagamento != null);
+
+    var pedidosEntrega = Model.pedidos
+        .Count(p => p.Tipo == TipoPedido.Entrega && p.Pagamento?.IdPagamento != null);
+
+    var pedidosHoje = Model.pedidos
+        .Count(p => p.DataHora.Date == DateTime.Now.Date);
+
+    var produtosAtivos = Model.produtos
+        .Count(p => p.Disponibilidade == true);
+
+    var clientesAtivos = Model.usuarios
+        .Count(u => u.Perfil == EnumPerfil.Cliente && u.Status == "Ativo");
+
+    var statusPagamentoPorPedido = new[]
+    {
+        new
+        {
+            Status = "Pago",
+            Quantidade = Model.pedidos.Count(p => p.Pagamento?.Status == EnumStatusPagamento.Pago)
+        },
+        new
+        {
+            Status = "Cancelado",
+            Quantidade = Model.pedidos.Count(p => p.Pagamento?.Status == EnumStatusPagamento.Recusado)
+        },
+    };
+
+    var formaPagamentoPorPedido = new[]
+    {
+        new
+        {
+            Forma = "PIX",
+            Quantidade = Model.pedidos.Count(p => p.Pagamento?.FormaPagamento == EnumFormaPagamento.Pix)
+        },
+        new
+        {
+            Forma = "Cartão",
+            Quantidade = Model.pedidos.Count(p => p.Pagamento?.FormaPagamento == EnumFormaPagamento.Cartao)
+        },
+    };
+
+    @* QUANTIDADE DE PEDIDOS POR STATUS *@
+    var pedidosPorStatus = new[]
+    {
+        new
+        {
+            Status = "Pendente",
+            Quantidade = Model.pedidos.Count(p => p.Status == StatusPedido.Pendente)
+        },
+        new
+        {
+            Status = "Preparando",
+            Quantidade = Model.pedidos.Count(p => p.Status == StatusPedido.Preparando)
+        },
+        new
+        {
+            Status = "Finalizado",
+            Quantidade = Model.pedidos.Count(p => p.Status == StatusPedido.Finalizado)
+        },
+        new
+        {
+            Status = "Em Entrega",
+            Quantidade = Model.pedidos.Count(p => p.Status == StatusPedido.EmEntrega)
+        },
+        new
+        {
+            Status = "Entregue",
+            Quantidade = Model.pedidos.Count(p => p.Status == StatusPedido.Entregue)
+        },
+        new
+        {
+            Status = "Cancelado",
+            Quantidade = Model.pedidos.Count(p => p.Status == StatusPedido.Cancelado)
+        }
+    };
 }
 
-<link rel="stylesheet" href="~/css/dashboard.css" />
+@section Styles{
+    <link rel="stylesheet" href="~/css/dashboard.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbarGerencia.css" asp-append-version="true" />
+}
 
 <section class="sessao-padrao bem-vindo">
 
@@ -13,7 +130,7 @@
         <img src="~/Assets/Icons/Logo.svg" id="logo">
 
         <div class="nome">
-            <h3>Olá, bem-vindo(a) de volta!</h3>
+            <h3>Olá, seja bem-vindo(a)!</h3>
             <h2>@string.Join(" ", (User.Identity.Name ?? "N/A").Split(' ').Take(2))</h2>
         </div>
 
@@ -40,15 +157,171 @@
     @* NAVBAR DA GERENCIA *@
     <partial name="_NavbarDashboard" />
 
-
 </section>
 
-<section class="resumo-mensal">
-    <h2>Resumo do mês</h2>
+<section class="resumo">
+    
+    <div class="cards-dados">
 
-    <div class="graficos">
-        <div class="grafico1"></div>
-        <div class="grafico2"></div>
+        <div class="card-dado">
+            <article class="titulo-card">
+                <div class="container-titulo-svg">
+                    <h3>Faturamento do Mês</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cash-coin" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M11 15a4 4 0 1 0 0-8 4 4 0 0 0 0 8m5-4a5 5 0 1 1-10 0 5 5 0 0 1 10 0"/>
+                        <path d="M9.438 11.944c.047.596.518 1.06 1.363 1.116v.44h.375v-.443c.875-.061 1.386-.529 1.386-1.207 0-.618-.39-.936-1.09-1.1l-.296-.07v-1.2c.376.043.614.248.671.532h.658c-.047-.575-.54-1.024-1.329-1.073V8.5h-.375v.45c-.747.073-1.255.522-1.255 1.158 0 .562.378.92 1.007 1.066l.248.061v1.272c-.384-.058-.639-.27-.696-.563h-.668zm1.36-1.354c-.369-.085-.569-.26-.569-.522 0-.294.216-.514.572-.578v1.1zm.432.746c.449.104.655.272.655.569 0 .339-.257.571-.709.614v-1.195z"/>
+                        <path d="M1 0a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h4.083q.088-.517.258-1H3a2 2 0 0 0-2-2V3a2 2 0 0 0 2-2h10a2 2 0 0 0 2 2v3.528c.38.34.717.728 1 1.154V1a1 1 0 0 0-1-1z"/>
+                        <path d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 6 6 0 0 1 3.13-1.567"/>
+                    </svg>
+                </div>
+
+                <hr>
+            </article>
+            
+            <p>R$ @faturamentoMensal</p>
+        </div>
+
+        <div class="card-dado">
+            <article class="titulo-card">
+                <div class="container-titulo-svg">
+                    <h3>Pedidos de Hoje</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-receipt-cutoff" viewBox="0 0 16 16">
+                        <path d="M3 4.5a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 1 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5M11.5 4a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zm0 2a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1z"/>
+                        <path d="M2.354.646a.5.5 0 0 0-.801.13l-.5 1A.5.5 0 0 0 1 2v13H.5a.5.5 0 0 0 0 1h15a.5.5 0 0 0 0-1H15V2a.5.5 0 0 0-.053-.224l-.5-1a.5.5 0 0 0-.8-.13L13 1.293l-.646-.647a.5.5 0 0 0-.708 0L11 1.293l-.646-.647a.5.5 0 0 0-.708 0L9 1.293 8.354.646a.5.5 0 0 0-.708 0L7 1.293 6.354.646a.5.5 0 0 0-.708 0L5 1.293 4.354.646a.5.5 0 0 0-.708 0L3 1.293zm-.217 1.198.51.51a.5.5 0 0 0 .707 0L4 1.707l.646.647a.5.5 0 0 0 .708 0L6 1.707l.646.647a.5.5 0 0 0 .708 0L8 1.707l.646.647a.5.5 0 0 0 .708 0L10 1.707l.646.647a.5.5 0 0 0 .708 0L12 1.707l.646.647a.5.5 0 0 0 .708 0l.509-.51.137.274V15H2V2.118z"/>
+                    </svg>
+                </div>
+                
+                <hr>
+            </article>
+            
+            <p>@pedidosHoje</p>
+        </div>
+
+        <div class="card-dado">
+            <article class="titulo-card">
+                <div class="container-titulo-svg">
+                    <h3>Produtos Ativos</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-check" viewBox="0 0 16 16">
+                        <path d="M11.354 6.354a.5.5 0 0 0-.708-.708L8 8.293 6.854 7.146a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0z"/>
+                        <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1zm3.915 10L3.102 4h10.796l-1.313 7zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                    </svg>
+                </div>
+                
+                <hr>
+            </article>
+            
+            <p>@produtosAtivos</p>
+        </div>
+
+        <div class="card-dado">
+            <article class="titulo-card">
+                <div class="container-titulo-svg">
+                    <h3>Clientes Ativos</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-check" viewBox="0 0 16 16">
+                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m1.679-4.493-1.335 2.226a.75.75 0 0 1-1.174.144l-.774-.773a.5.5 0 0 1 .708-.708l.547.548 1.17-1.951a.5.5 0 1 1 .858.514M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0M8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4"/>
+                        <path d="M8.256 14a4.5 4.5 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10q.39 0 .74.025c.226-.341.496-.65.804-.918Q8.844 9.002 8 9c-5 0-6 3-6 4s1 1 1 1z"/>
+                    </svg>
+                </div>
+                
+                <hr>
+            </article>
+            
+            <p>@clientesAtivos</p>
+        </div>
+    </div>
+
+    <div class="graficos-primarios">
+
+        <div class="cards-graficos faturamento-anual">
+            <canvas id="graficoVendas"
+                    data-meses='@Html.Raw(JsonSerializer.Serialize(meses.Select(x => x.Mes)))'
+                    data-valores='@Html.Raw(JsonSerializer.Serialize(meses.Select(x => x.Total)))'>
+            </canvas>
+        </div>
+
+        <div class="cards-graficos produtos-mais-vendidos">
+            <h3>Mais vendidos</h3>
+            <canvas id="graficoProdutos"
+                    data-nomes='@Html.Raw(JsonSerializer.Serialize(produtosMaisVendidos.Select(p => p.NomeProduto)))'
+                    data-quantidades='@Html.Raw(JsonSerializer.Serialize(produtosMaisVendidos.Select(p => p.Quantidade)))'>
+            </canvas>
+        </div>
+    </div>
+
+    <div class="graficos-secundarios">
+
+        <div class="graficos">
+            <div class="cards-graficos tipos-pedido">
+                <h3>Tipo de pedido</h3>
+                <canvas id="graficoPedidos"
+                        data-retirada="@pedidosRetirada"
+                        data-entrega="@pedidosEntrega">
+                </canvas>
+            </div>
+
+            <div class="cards-graficos pedidos-por-status">
+                <h3>Status de pedido</h3>
+                <canvas id="graficoStatus"
+                        data-nomes='@Html.Raw(JsonSerializer.Serialize(pedidosPorStatus.Select(p => p.Status)) )'
+                        data-quantidades='@Html.Raw(JsonSerializer.Serialize(pedidosPorStatus.Select(p => p.Quantidade)) )'>
+                </canvas>
+            </div>
+
+            <div class="cards-pag">
+
+                <div class="cards-graficos status-pag">
+                    <h3>Pagamento de Pedidos</h3>
+                    <hr>
+                    <article>
+
+                        <p>
+                            <svg style="color: var(--azul);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                            </svg>
+
+                            @statusPagamentoPorPedido[0].Quantidade
+                            @statusPagamentoPorPedido[0].Status
+                        </p>
+                        <p>
+                            <svg style="color: var(--vermelho);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                            </svg>
+
+                            @statusPagamentoPorPedido[1].Quantidade
+                            @statusPagamentoPorPedido[1].Status
+                        </p>
+                    </article>
+                </div>
+                <div class="cards-graficos formas-pag">
+                    <h3>Formas de pagamento</h3>
+                    <hr>
+                    <article>
+
+                        <p>
+                            <svg style="color: var(--rosa);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                            </svg>
+
+                            @formaPagamentoPorPedido[0].Quantidade
+                            @formaPagamentoPorPedido[0].Forma
+                        </p>
+                        <p>
+                            <svg style="color: var(--roxo);" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                            <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3"/>
+                            </svg>
+
+                            @formaPagamentoPorPedido[1].Quantidade
+                            @formaPagamentoPorPedido[1].Forma
+                        </p>
+                    </article>
+                </div>
+
+            </div>
+        </div>
     </div>
     
 </section>
+
+@section Scripts {
+    <script src="~/js/graficosDashboard.js" asp-append-version="true"></script>
+}
