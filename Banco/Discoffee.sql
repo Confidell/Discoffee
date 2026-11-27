@@ -13,8 +13,6 @@ insert into tbPerfil(Tipo) values(1);
 insert into tbPerfil(Tipo) values(2);
 insert into tbPerfil(Tipo) values(3);
 
-select * from tbPerfil;
-
 create table tbCEP(
 Id_CEP int primary key auto_increment,
 CEP varchar(9) unique
@@ -57,8 +55,6 @@ insert into tbCEP(CEP)
 
 insert into tbUsuario(NomeCompleto, Email, Senha, CPF, Telefone, DataNasc, Numero_Casa, Complemento, Id_Perfil, Id_CEP)
 	values('Nilson Alcides', 'nilson@discoffee.com', 'AQAAAAIAAYagAAAAEGZFYRWr/y5Twx6fCARsld9a+ArXG7nY/rm6Wls0mJU8Qg9I+S19le9gT4/Wzk+4ug==',  '54909258841', '11940407946', '1980-04-03', '67', null, 3, 1);
-    
-select * from tbUsuario;
 
 create table tbCupom_Utilizado(
 Id_Cupom_Utilizado int primary key auto_increment,
@@ -274,30 +270,27 @@ call cadastrarCategoria('Shake', @catShake);
 
 -- PRODUTOS
 -- CAFÉS QUENTES
-call inserirProduto('Expresso', 8.90, 'Café encorpado e intenso, preparado com grãos selecionados e extração sob pressão, proporcionando sabor marcante e aroma irresistível.', 'd9168c614497450d8901bd4f31814440.jpg', true, @catTradicional, @idProd);
-call inserirProduto('Cappuccino', 14.90, 'Combinação equilibrada de café expresso, leite vaporizado e espuma cremosa, finalizada com um toque de chocolate e canela.', 'd5762aa7551245aaa87914a7b0070bff.jpg', true, @catTradicional, @idProd);
-call inserirProduto('Latte', 15.90, 'Café expresso combinado com leite vaporizado e uma fina camada de espuma, oferecendo uma bebida suave, cremosa e delicadamente aromática.', '3bae7ae4e1d340c48f44defb04033628.jpg', true, @catTradicional, @idProd);
+call inserirProduto('Expresso', 8.90, 'Café encorpado e intenso, preparado com grãos selecionados e extração sob pressão, proporcionando sabor marcante e aroma irresistível.', 'Expresso.webp', true, @catTradicional, @idProd);
+call inserirProduto('Cappuccino', 14.90, 'Combinação equilibrada de café expresso, leite vaporizado e espuma cremosa, finalizada com um toque de chocolate e canela.', 'Cappuccino.webp', true, @catTradicional, @idProd);
+call inserirProduto('Latte', 15.90, 'Café expresso combinado com leite vaporizado e uma fina camada de espuma, oferecendo uma bebida suave, cremosa e delicadamente aromática.', 'Latte.webp', true, @catTradicional, @idProd);
 
 -- DRINKS DE CAFÉ
-call inserirProduto('Cold Brew', 16.90, 'Café extraído lentamente em água fria por várias horas, resultando em uma bebida refrescante, suave e com notas naturalmente adocicadas.', '85f48309843446f1a9856e9350f3399d.jpg', true, @catDrink, @idProd);
-call inserirProduto('Frappuccino', 19.90, 'Bebida gelada preparada com café, leite e gelo triturado, proporcionando uma textura cremosa e refrescante, finalizada com chantilly.', 'ee0ea1c15d5f498e918554f5fd3dab60.jpg', true, @catDrink, @idProd);
-call inserirProduto('Affogato', 17.90, 'Sobremesa italiana que combina uma bola de sorvete de creme com uma dose de café expresso quente, criando um contraste irresistível de temperaturas e sabores.', 'bba0caf137f04b099707aafa21d915da.jpg', true, @catDrink, @idProd);
+call inserirProduto('Cold Brew', 16.90, 'Café extraído lentamente em água fria por várias horas, resultando em uma bebida refrescante, suave e com notas naturalmente adocicadas.', 'ColdBrew.webp', true, @catDrink, @idProd);
+call inserirProduto('Affogato', 17.90, 'Sobremesa italiana que combina uma bola de sorvete de creme com uma dose de café expresso quente, criando um contraste irresistível de temperaturas e sabores.', 'Affogato.webp', true, @catDrink, @idProd);
 
 -- BEBIDAS E REFRESCOS
-call inserirProduto('Suco de Laranja', 10.90, 'Suco natural de laranjas selecionadas, preparado na hora para preservar seu frescor, sabor cítrico e toque naturalmente adocicado.', 'd3da37718f3748b5ad32b9190cd4f305.jpg', true, @catRefresco, @idProd);
-call inserirProduto('Suco de Maracujá', 11.90, 'Suco refrescante de maracujá, com sabor tropical e equilíbrio perfeito entre acidez e doçura, ideal para qualquer momento do dia.', '920368c613d84ae68d7b84020311dfb3.jpg', true, @catRefresco, @idProd);
-call inserirProduto('Shake de Morango', 17.90, 'Shake preparado com leite, sorvete de creme e morangos selecionados, proporcionando uma bebida gelada, doce e extremamente cremosa.', 'cba4ec9d935a4c76b2af29c873d327ba.jpg', true, @catShake, @idProd);
-call inserirProduto('Shake de Ovomaltine', 19.90, 'Combinação irresistível de leite, sorvete de creme e Ovomaltine, com textura cremosa e pedacinhos crocantes que intensificam o sabor.', '49160391962b4769829fcb4cc5cb6a8c.jpg', true, @catShake, @idProd);
+call inserirProduto('Suco de Laranja', 10.90, 'Suco natural de laranjas selecionadas, preparado na hora para preservar seu frescor, sabor cítrico e toque naturalmente adocicado.', 'SucoLaranja.webp', true, @catRefresco, @idProd);
+call inserirProduto('Suco de Maracujá', 11.90, 'Suco refrescante de maracujá, com sabor tropical e equilíbrio perfeito entre acidez e doçura, ideal para qualquer momento do dia.', 'SucoMaracuja.webp', true, @catRefresco, @idProd);
+call inserirProduto('Shake de Morango', 17.90, 'Shake preparado com leite, sorvete de creme e morangos selecionados, proporcionando uma bebida gelada, doce e extremamente cremosa.', 'ShakeMorango.webp', true, @catShake, @idProd);
+call inserirProduto('Shake de Ovomaltine', 19.90, 'Combinação irresistível de leite, sorvete de creme e Ovomaltine, com textura cremosa e pedacinhos crocantes que intensificam o sabor.', 'ShakeOvomaltine.webp', true, @catShake, @idProd);
 
 -- ACOMPANHAMENTOS DOCES
-call inserirProduto('Bolo de Cenoura', 9.90, 'Bolo de cenoura fofinho e preparado artesanalmente, coberto com uma generosa camada de calda de chocolate cremosa.', 'abae530a46804924b7f62a8f9d99f77d.jpg', true, @catDoce, @idProd);
-call inserirProduto('Torta de Limão', 12.90, 'Torta com base crocante de biscoito, recheio cremoso de limão e cobertura delicada de merengue, equilibrando perfeitamente o doce e o cítrico.', '3f822f123b944de8945b4c70243e6c8f.jpg', true, @catDoce, @idProd);
-call inserirProduto('Brownie de Chocolate', 11.90, 'Brownie artesanal com interior macio e úmido, casquinha levemente crocante e sabor intenso de chocolate.', '8a2f03916837437e9ffcce7386dc5b2e.jpg', true, @catDoce, @idProd);
+call inserirProduto('Bolo de Cenoura', 9.90, 'Bolo de cenoura fofinho e preparado artesanalmente, coberto com uma generosa camada de calda de chocolate cremosa.', 'BoloCenoura.webp', true, @catDoce, @idProd);
+call inserirProduto('Brownie de Chocolate', 11.90, 'Brownie artesanal com interior macio e úmido, casquinha levemente crocante e sabor intenso de chocolate.', 'Brownie.webp', true, @catDoce, @idProd);
 
 -- ACOMPANHAMENTOS SALGADOS
-call inserirProduto('Pão de Queijo', 7.90, 'Tradicional pão de queijo mineiro, preparado com massa macia por dentro, casquinha levemente crocante e sabor marcante de queijo.', 'e1875c8a8a1440cebfcb021ac6a1e194.jpg', true, @catSalgado, @idProd);
-call inserirProduto('Coxinha de Frango', 8.90, 'Coxinha artesanal com massa macia e recheio generoso de frango desfiado temperado, finalizada com uma crosta dourada e crocante.', '329d32e7c6564a25896b3b367204683b.jpg', true, @catSalgado, @idProd);
-call inserirProduto('Empada de Palmito', 9.90, 'Empada preparada com massa amanteigada e delicada, recheada com palmito temperado e ingredientes selecionados.', 'ff1e007689d44516a86ebbecd8941b64.jpg', true, @catSalgado, @idProd);
+call inserirProduto('Pão de Queijo', 7.90, 'Tradicional pão de queijo mineiro, preparado com massa macia por dentro, casquinha levemente crocante e sabor marcante de queijo.', 'PaoDeQueijo.webp', true, @catSalgado, @idProd);
+call inserirProduto('Coxinha de Frango', 8.90, 'Coxinha artesanal com massa macia e recheio generoso de frango desfiado temperado, finalizada com uma crosta dourada e crocante.', 'Coxinha.webp', true, @catSalgado, @idProd);
 
 -- ATIVA OU DESATIVA UM PRODUTO (ALTERA SÓ A DISPONIBILIDADE)
 delimiter $$
@@ -375,8 +368,6 @@ call cadastrarOpcaoPersonalizacao(3, 'Calda de Chocolate', 3.50, 'Shake');
 call cadastrarOpcaoPersonalizacao(3, 'Calda de Morango', 3.50, 'Shake');
 call cadastrarOpcaoPersonalizacao(3, 'Ovomaltine', 4.00, 'Shake');
 call cadastrarOpcaoPersonalizacao(3, 'Granulado', 1.50, 'Shake');
-
--- select * from tbOpcao_Personalizacao;
 
 -- PEDIDOS
 delimiter $$
@@ -475,12 +466,6 @@ begin
 end $$
 delimiter ;
 
--- select * from tbOpcao_Personalizacao;
--- select * from tbProduto;
--- select * from tbCategoria;
--- select * from tbPedido;
--- select * from tbItem_Pedido;
-
 delimiter $$
 create procedure registrarPagamento(
 	vId_Usuario int,
@@ -514,11 +499,6 @@ begin
 end $$
 delimiter ;
 
--- select * from tbPedido;
--- select * from tbUsuario;
--- select * from tbPagamento;
--- select * from tbCupom_Utilizado;
-
 delimiter $$
 create procedure cadastrarCartao(
 	vNome_Titular varchar(75),
@@ -538,8 +518,6 @@ end;
 $$
 delimiter ;
 
--- select * from tbCartao;
- 
 delimiter $$
 create procedure cadastrarCupom(
     vCodigo_Cupom varchar(10),
@@ -559,12 +537,10 @@ end;
 $$
 delimiter ;
  
-call cadastrarCupom('DESC15', 15.00, '19/11/2026 23:59:59');
+call cadastrarCupom('DESC15', 15.00, '25/12/2026 23:59:59');
 call cadastrarCupom('FRT26', 12.50, '25/11/2026 23:59:59');
-call cadastrarCupom('REP88', 7.50, '15/11/2026 23:59:59');
--- select * from tbCupom;
--- select * from tbPedido;
--- select * from tbPagamento;
+call cadastrarCupom('REP88', 7.50, '18/12/2026 23:59:59');
+
 /*
 --------------------------------------------------------------------------------------------
 --------------------------------- PROCEDURES DE BUSCA --------------------------------------
@@ -699,7 +675,6 @@ begin
 end $$
 delimiter ;
 
--- select * from tbOpcao_Personalizacao; 
 call buscarOpcoesPersonalizacaoPorProduto('1');
 
 delimiter $$
@@ -792,6 +767,7 @@ begin
         p.Nome as Nome_Produto,
         ip.Quantidade,
         ip.Preco_Unitario,
+        p.Imagem,
 
         -- PERSONALIZACAO
         ipo.Id_Opcao,
@@ -839,8 +815,6 @@ delimiter ;
 
 -- drop procedure BuscarPedidosPorUsuario;
 call buscarPedidosPorUsuario(1);
-
--- select * from tbPedido;
 
 /*
 --------------------------------------------------------------------------------------------

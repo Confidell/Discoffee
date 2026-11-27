@@ -5,7 +5,7 @@
 }
 
 <div class="card-prod">
-    <img src="~/Assets/Imagens/@Model.Imagem" alt="@Model.Nome" class="prod-img" loading="lazy" />
+    <img src="~/Assets/Imagens/@Model.Imagem" alt="@Model.Nome" class="prod-img" decoding="async" loading="lazy" />
     <div class="nome-preco">
         <h4>@Model.Nome</h4>
         <span>@Model.Preco.ToString("C2", ptBR)</span>

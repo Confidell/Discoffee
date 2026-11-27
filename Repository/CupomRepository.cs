@@ -58,7 +58,7 @@ namespace Discoffee.Repository
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@vCodigo_Cupom", cupom.Codigo);
+                    cmd.Parameters.AddWithValue("@vCodigo_Cupom", cupom.Codigo?.ToUpper());
                     cmd.Parameters.AddWithValue("@vDesconto", cupom.Desconto);
                     cmd.Parameters.AddWithValue("@vDataValidade",
                         cupom.DataValidade?.ToString("dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));

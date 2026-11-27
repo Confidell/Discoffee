@@ -9,8 +9,9 @@
 
 <article class="item-pedido">
     <img class="item-pedido-imagem" 
-        @* src="@Url.Content(item.ImagemUrl)" 
-        alt="@Model.Nome"  *@
+        src="~/Assets/Imagens/@Model.Imagem" 
+        decoding="async"
+        loading="lazy" 
     />
 
     <div class="item-pedido-detalhes">

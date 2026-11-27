@@ -89,7 +89,8 @@ namespace Discoffee.Repository
                         IdPedido = idPedido,
                         NomeProduto = Convert.ToString(reader["Nome_Produto"]),
                         Quantidade = Convert.ToInt32(reader["Quantidade"]),
-                        PrecoUnitario = Convert.ToDecimal(reader["Preco_Unitario"])
+                        PrecoUnitario = Convert.ToDecimal(reader["Preco_Unitario"]),
+                        Imagem = Convert.ToString(reader["Imagem"])
                     };
 
                     // ADICIONA O ITEM À LISTA DE ITENS DO PEDIDO
@@ -326,6 +327,7 @@ namespace Discoffee.Repository
                     p.Nome AS Nome_Produto,
                     ip.Quantidade,
                     ip.Preco_Unitario,
+                    p.Imagem,
 
                     -- PERSONALIZACAO
                     ipo.Id_Opcao,
@@ -429,7 +431,8 @@ namespace Discoffee.Repository
                         IdProduto = Convert.ToInt32(reader["Id_Produto"]),
                         NomeProduto = reader["Nome_Produto"].ToString()!,
                         Quantidade = Convert.ToInt32(reader["Quantidade"]),
-                        PrecoUnitario = Convert.ToDecimal(reader["Preco_Unitario"])
+                        PrecoUnitario = Convert.ToDecimal(reader["Preco_Unitario"]),
+                        Imagem = Convert.ToString(reader["Imagem"])
                     };
 
                     pedido.Itens.Add(item);
