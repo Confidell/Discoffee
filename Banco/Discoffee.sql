@@ -537,9 +537,9 @@ end;
 $$
 delimiter ;
  
-call cadastrarCupom('DESC15', 15.00, '19/11/2026 23:59:59');
+call cadastrarCupom('DESC15', 15.00, '25/12/2026 23:59:59');
 call cadastrarCupom('FRT26', 12.50, '25/11/2026 23:59:59');
-call cadastrarCupom('REP88', 7.50, '15/11/2026 23:59:59');
+call cadastrarCupom('REP88', 7.50, '18/12/2026 23:59:59');
 
 /*
 --------------------------------------------------------------------------------------------
@@ -767,6 +767,7 @@ begin
         p.Nome as Nome_Produto,
         ip.Quantidade,
         ip.Preco_Unitario,
+        p.Imagem,
 
         -- PERSONALIZACAO
         ipo.Id_Opcao,

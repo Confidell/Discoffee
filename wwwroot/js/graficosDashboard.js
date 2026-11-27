@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
 
     const ctx = document.getElementById('graficoVendas');
@@ -93,8 +92,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 data: [pedidosRetirada, pedidosEntrega],
 
                 backgroundColor: [
-                    '#00cd93',
-                    '#00aecd'
+                    '#9007DA',
+                    '#0015B8'
                 ],
 
                 borderWidth: 0,
