@@ -19,7 +19,7 @@ namespace Discoffee.Models
         
         [Display(Name = "Apelido", Description = "Apelido do titular do cartão.")]  
         [RegularExpression(@"^[A-Za-zÀ-ÿ0-9\s]{0,50}$", ErrorMessage = "Apelido contém caracteres inválidos.")]
-        public string Apelido { get; set; }
+        public string? Apelido { get; set; }
 
         [Display(Name = "Status", Description = "Status do cartão.")]
         [Required(ErrorMessage = "O status do cartão é obrigatório.")]
@@ -27,7 +27,7 @@ namespace Discoffee.Models
         public string DataValidade { get; set; }
 
         [Display(Name = "Usuário", Description = "Usuário proprietário do cartão.")]
-        public Usuario Usuario { get; set; }
+        public Usuario? Usuario { get; set; }
 
         public int? CVV { get; set; }
     }

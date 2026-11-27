@@ -47,6 +47,6 @@ namespace Discoffee.ViewModels
 
         public List<Cartao>? Cartoes { get; set; }
 
-        public Cartao? NovoCartao { get; set; }
+        //public Cartao? NovoCartao { get; set; }
     }
 }
