@@ -71,7 +71,7 @@ namespace Discoffee.Areas.Gerencia.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrador")]
+        [Authorize(Roles = "Administrador, Funcionario")]
         public IActionResult Editar(EditarUsuarioViewModel form)
         {
             // O PERFIL É CONFERIDO NO BANCO, NÃO NO FORMULÁRIO
@@ -80,6 +80,13 @@ namespace Discoffee.Areas.Gerencia.Controllers
             if (atual == null)
             {
                 TempData["Erro"] = "Usuário não encontrado.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // FUNCIONÁRIO SÓ PODE ALTERAR CLIENTES
+            if (User.IsInRole(EnumPerfil.Funcionario.ToString()) && atual.Perfil != EnumPerfil.Cliente)
+            {
+                TempData["Erro"] = "Você só pode alterar o status de clientes.";
                 return RedirectToAction(nameof(Index));
             }
 
