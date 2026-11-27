@@ -48,4 +48,9 @@
 - JavaScript
 - Git e GitHub
 
+##OBSERVAÇÃO:
+Administrador Raiz
+Email: nilson@discoffee.com
+Senha: Nilson@123_
+
 # ©2026 - CONFIDELL
