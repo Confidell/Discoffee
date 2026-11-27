@@ -80,36 +80,6 @@
     padding: 0 0 3.5rem 0;
 }
 
-.buscar {
-    position: relative; 
-    width: 40%;
-}
-
-.buscar input{
-    width: 100%;
-    height: 50px;
-    padding: 1rem 1rem 1rem 3.5rem; 
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 1.2rem;
-    outline: none;
-}
-
-.buscar input:focus{
-    border-color: var(--roxo);
-}
-
-.icone-busca {
-    position: absolute;
-    left: 1rem;
-    top: 28%;
-    width: 28px;
-    height: 28px;
-    color: #888;
-    align-items: center;
-    pointer-events: none;
-}
-
 .nivelAcesso-status {
     display: flex;
     gap: 1rem;
