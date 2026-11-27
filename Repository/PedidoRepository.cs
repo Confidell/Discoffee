@@ -151,14 +151,18 @@ namespace Discoffee.Repository
                         CPF = reader["CPF"].ToString()!,
                         Tipo = Enum.Parse<TipoPedido>(reader["Tipo_Pedido"].ToString()!, true),
                         Status = Enum.Parse<StatusPedido>(reader["Status_Pedido"].ToString().Replace(" ", "")!, true),
+                        Telefone = reader["Telefone"].ToString()!,
+                        CEP = reader["CEP"].ToString()!,
+                        NumeroCasa = reader["Numero_Casa"].ToString()!,
+                        Complemento = reader["Complemento"].ToString(),
                         Pagamento = new Pagamento
                         {
                             IdPagamento = reader["Id_Pagamento"] != DBNull.Value ? Convert.ToInt32(reader["Id_Pagamento"]) : null,
-                            FormaPagamento = reader["FormaPagamento"] != DBNull.Value ? 
+                            FormaPagamento = reader["FormaPagamento"] != DBNull.Value ?
                                 Enum.Parse<EnumFormaPagamento>(reader.GetString("FormaPagamento"), true) : null,
                             DataHora = reader["DataHora_Pagamento"] != DBNull.Value
                                 ? Convert.ToDateTime(reader["DataHora_Pagamento"]) : null,
-                            Status = reader["Status_Pagamento"] != DBNull.Value ? 
+                            Status = reader["Status_Pagamento"] != DBNull.Value ?
                                 Enum.Parse<EnumStatusPagamento>(reader.GetString("Status_Pagamento"), true) : null,
                             Cupom = reader["Id_Cupom"] != DBNull.Value
                             ? new Cupom
@@ -168,7 +172,7 @@ namespace Discoffee.Repository
                                 Desconto = reader["Desconto"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["Desconto"])
                             } : null
                         }
-                        
+
                     };
 
                     pedidos.Add(pedido);

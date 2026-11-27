@@ -677,6 +677,8 @@ delimiter ;
 
 call buscarOpcoesPersonalizacaoPorProduto('1');
 
+use dbDiscoffee;
+
 delimiter $$
 create procedure buscarTodosPedidos()
 begin
@@ -685,6 +687,10 @@ begin
         pe.Id_Usuario,
         us.NomeCompleto,
         us.CPF,
+        us.Telefone,
+        us.Numero_Casa,
+        us.Complemento,
+        cep.CEP,
 
         -- PEDIDO
         pe.Id_Pedido,
@@ -708,40 +714,35 @@ begin
         op.Tipo as Tipo_Personalizacao,
         op.Opcao,
         ipo.Preco as Preco_Extra,
-        
-		-- PAGAMENTO
+
+        -- PAGAMENTO
         pg.Id_Pagamento,
         pg.FormaPagamento,
         pg.DataHora as DataHora_Pagamento,
         pg.Stats as Status_Pagamento,
         pg.Id_Cupom,
-        
+
         -- CUPOM
         cup.Codigo_Cupom as Codigo,
         cup.Desconto
 
     from tbPedido as pe
-
     inner join tbUsuario as us
         ON pe.Id_Usuario = us.Id_Usuario
-
+    left join tbCEP as cep
+        ON us.Id_CEP = cep.Id_CEP
     inner join tbItem_Pedido as ip
         ON pe.Id_Pedido = ip.Id_Pedido
-
     inner join tbProduto as p
         ON ip.Id_Produto = p.Id_Produto
-
     left join tbItemPedido_Opcao as ipo
         ON ip.Id_Item = ipo.Id_Item
-
     left join tbOpcao_Personalizacao as op
         ON ipo.Id_Opcao = op.Id_Opcao
-        
-	left join tbPagamento as pg
-		ON pe.Id_Pedido = pg.Id_Pedido
-        
-	left join tbCupom as cup
-		on pg.Id_Cupom = cup.Id_Cupom;
+    left join tbPagamento as pg
+        ON pe.Id_Pedido = pg.Id_Pedido
+    left join tbCupom as cup
+        on pg.Id_Cupom = cup.Id_Cupom;
 end $$
 delimiter ;
 
