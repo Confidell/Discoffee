@@ -2,8 +2,10 @@
 
 namespace Discoffee.Models
 {
+
     public class Cupom
     {
+
         [Display(Name = "IdCupom", Description = "Código do cupom.")]
         public int? IdCupom { get; set; }
 

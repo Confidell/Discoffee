@@ -1,0 +1,25 @@
+﻿@model Discoffee.Models.Cupom
+
+<dialog id="modal-editar-@Model.IdCupom" class="modal-cupom">
+    <form method="post" asp-area="Gerencia" asp-controller="Cupons" asp-action="Editar">
+        <input type="hidden" name="IdCupom" value="@Model.IdCupom" />
+
+        <div class="modal-topo">
+            <h2>Editar Cupom</h2>
+            <p>Altere as informações do cupom</p>
+        </div>
+
+        <div class="modal-corpo">
+            <label>Código <input type="text" name="Codigo" value="@Model.Codigo" maxlength="10" required /></label>
+            <label>Desconto (R$) <input type="number" name="Desconto" step="0.01" min="0.01" required
+                   value="@Model.Desconto?.ToString(System.Globalization.CultureInfo.InvariantCulture)" /></label>
+            <label>Validade <input type="datetime-local" name="DataValidade" required
+                   value="@Model.DataValidade?.ToString("yyyy-MM-ddTHH:mm")" /></label>
+        </div>
+
+        <div class="modal-botoes">
+            <button type="button" data-fechar>Cancelar</button>
+            <button type="submit">Salvar Cupom</button>
+        </div>
+    </form>
+</dialog>

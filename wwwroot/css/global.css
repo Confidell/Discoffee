@@ -198,7 +198,7 @@ header nav ul li a:hover::after{
     display: flex;
     justify-content: space-between;
     gap: 5rem;
-    width: 80%;
+    width: 95%;
     height: 80px;
     background: var(--branco-escuro);
     padding: 1rem 3rem;
@@ -227,4 +227,46 @@ header nav ul li a:hover::after{
     color: var(--cinza-escuro);
     text-align: center;
     align-items: center;
+}
+
+/* FILTROS DAS TELAS DA GERENCIA */
+.filtro {
+    position: relative;
+    cursor: pointer;
+    min-width: 180px;
+}
+
+.filtro-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 100%;
+    width: max-content;
+    margin: 0;
+    padding: .5rem;
+    list-style: none;
+    background: var(--branco);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+
+.filtro-menu button {
+    width: 100%;
+    padding: .5rem;
+    text-align: left;
+    color: var(--cinza-escuro);
+    background: none;
+    border: none;
+    border-radius: 6px;
+}
+
+.filtro-menu button:hover {
+    background: var(--offwhite);
+}
+
+/* os cards usam display:grid, então precisam disto para sumir */
+[data-item][hidden] {
+    display: none !important;
 }

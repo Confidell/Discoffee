@@ -15,7 +15,10 @@
     </div>
 }
 
-<link rel="stylesheet" href="~/css/usuarios.css" asp-append-version="true" />
+@section Styles{
+    <link rel="stylesheet" href="~/css/usuarios.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbarGerencia.css" />
+}
 
 <section class="sessao-padrao sessao-usuarios">
 
@@ -54,20 +57,33 @@
             </div>
 
             <div class="nivelAcesso-status">
-                <div class="niv-status">
+                <div class="niv-status filtro" data-filtro="nivel">
                     <div class="nivelAcesso-selecao">
                         <h5>Nível de Acesso</h5>
-                        <h6>Todos</h6>
+                        <h6 class="filtro-escolhido">Todos</h6>
                     </div>
                     <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
+
+                    <ul class="filtro-menu" hidden>
+                        <li><button type="button" data-valor="">Todos</button></li>
+                        <li><button type="button" data-valor="Administrador">Administrador</button></li>
+                        <li><button type="button" data-valor="Funcionario">Funcionário</button></li>
+                        <li><button type="button" data-valor="Cliente">Cliente</button></li>
+                    </ul>
                 </div>
 
-                <div class="niv-status">
+                <div class="niv-status filtro" data-filtro="status">
                     <div class="nivelAcesso-selecao">
                         <h5>Status</h5>
-                        <h6>Todos</h6>
+                        <h6 class="filtro-escolhido">Todos</h6>
                     </div>
                     <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
+
+                    <ul class="filtro-menu" hidden>
+                        <li><button type="button" data-valor="">Todos</button></li>
+                        <li><button type="button" data-valor="Ativo">Ativo</button></li>
+                        <li><button type="button" data-valor="Inativo">Inativo</button></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -105,6 +121,7 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script src="~/js/usuarios.js" asp-append-version="true"></script>
+    <script src="~/js/filtro.js" asp-append-version="true"></script>
     @if (ViewData["AbrirModal"] is true)
     {
         <script>document.getElementById("modal-cadastro").showModal();</script>

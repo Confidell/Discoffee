@@ -1,0 +1,37 @@
+﻿<dialog id="modal-cadastro" class="modal-opcao">
+    <form method="post" asp-area="Gerencia" asp-controller="OpcoesPersonalizacao" asp-action="Cadastrar">
+        <div class="modal-topo">
+            <h2>Cadastrar Opção</h2>
+            <p>Preencha as informações da opção</p>
+        </div>
+
+        <div class="modal-corpo">
+            <label>
+                Tipo
+                <select name="Tipo" required>
+                    <option value="">Selecione o tipo</option>
+                    <option value="Leite">Leite</option>
+                    <option value="Acucar">Açúcar</option>
+                    <option value="Adicional">Adicional</option>
+                </select>
+            </label>
+            <label>Opção <input type="text" name="Opcao" minlength="2" maxlength="50" required /></label>
+            <label>Preço extra (R$) <input type="number" name="precoExtra" step="0.01" min="0" required /></label>
+            <label>
+                Categoria
+                <select name="nomeCategoria" required>
+                    <option value="">Selecione a categoria</option>
+                    @foreach (var categoria in (List<Discoffee.Models.Categoria>)ViewBag.Categorias)
+                    {
+                        <option value="@categoria.NomeCategoria">@categoria.NomeCategoria</option>
+                    }
+                </select>
+            </label>
+        </div>
+
+        <div class="modal-botoes">
+            <button type="button" data-fechar>Cancelar</button>
+            <button type="submit">Cadastrar Opção</button>
+        </div>
+    </form>
+</dialog>

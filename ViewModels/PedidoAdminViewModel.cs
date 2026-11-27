@@ -21,6 +21,9 @@ namespace Discoffee.ViewModels
         public string CPF { get; set; } = string.Empty;
         public string Telefone { get; set; } = string.Empty;
         public string Endereco { get; set; } = string.Empty;
+        public string CEP { get; set; } = string.Empty;
+        public string NumeroCasa { get; set; } = string.Empty;
+        public string? Complemento { get; set; }
 
         public List<ItemPedidoViewModel> Itens { get; set; } = new();
         public Pagamento? Pagamento { get; set; } = new();

@@ -1,0 +1,332 @@
+﻿.sessao-cupons {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-direction: column;
+    gap: 5rem;
+    padding: 10rem 5rem 0 5rem;
+}
+
+.cupons-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    padding-top: 5rem;
+}
+
+.cupons-desc {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.descricao {
+    display: flex;
+    flex-direction: column;
+}
+
+.descricao h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.descricao h4 {
+    font-size: 1.5rem;
+    color: var(--cinza-claro);
+    margin: 0;
+}
+
+.btn-cadastrar {
+    display: flex;
+    width: 17%;
+    height: 8vh;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--vermelho);
+    color: var(--branco);
+    border: none;
+    border-radius: 10px;
+    gap: .5rem;
+    padding: 0.5rem;
+}
+
+ .btn-cadastrar h3 {
+     margin: 0;
+     font-size: 1.5rem;
+ }
+
+.container-cupons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.sessao-busca {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 0 3.5rem 0;
+}
+
+.buscar {
+    position: relative;
+    width: 40%;
+}
+
+    .buscar input {
+        width: 100%;
+        height: 10%;
+        padding: 1rem 1rem 1rem 3.5rem;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        outline: none;
+    }
+
+        .buscar input:focus {
+            border-color: var(--roxo);
+        }
+
+.icone-busca {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    color: #888;
+    pointer-events: none;
+}
+
+.filtro-status {
+    display: flex;
+    width: 10%;
+    height: 60px;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 8px;
+    padding: 1rem;
+    border: 1px solid color-mix(in srgb, var(--cinza-claro) 20%, transparent);
+    background-color: color-mix(in srgb, var(--cinza-claro) 10%, transparent);
+}
+
+.cat-status {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+
+.icone-seta {
+    display: flex;
+    width: 30px;
+    height: 15px;
+    align-items: center;
+}
+
+/*CARDS CUPONS*/
+.cards-cupons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-bottom: 40px;
+}
+
+.cup-header {
+    background: var(--vermelho); 
+    border-radius: 8px;
+}
+
+.cup-header h2 {
+    margin-bottom: 0;
+    color: var(--branco);
+}
+
+.lista-cupons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 1rem;
+}
+
+.cup-header,
+.card-cupom {
+    display: grid;
+    grid-template-columns: 1fr 0.8fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    width: 100%;
+    padding: 12px 40px;
+}
+
+.card-cupom {
+    min-height: 100px;
+    color: black;
+    background: var(--branco-escuro);
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.cup-header > :not(:first-child),
+.card-cupom > :not(:first-child) {
+    text-align: center;
+    justify-self: center;
+    font-size: 1.5rem;
+}
+
+.cupom-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1.6rem;
+}
+
+.cupom-status p {
+    margin-bottom: 0;
+}
+
+.cupom-status .bolinha {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: currentColor;
+}
+
+.cupom-ativo {
+    color: limegreen;
+}
+
+.cupom-expirado {
+    color: var(--vermelho);
+}
+
+.btn-acoes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+}
+
+.btn-editar {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 46px;
+    background-color: transparent;
+    color: var(--azul);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-excluir {
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 46px;
+    background-color: transparent;
+    color: var(--vermelho);
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.card-cupom h4 {
+    margin-bottom: 0;
+    font-weight: 500;
+    font-size: 1.7rem
+}
+
+.card-cupom span {
+    font-size: 1.6rem
+}
+
+/*MODAIS*/
+.modal-cupom {
+    border: none;
+    border-radius: 15px;
+    padding: 30px;
+    width: min(550px, 92%);
+    margin: auto;
+}
+
+.modal-cupom::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-cupom .modal-topo h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0;
+    color: var(--vermelho);
+}
+
+.modal-cupom .modal-topo p {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--cinza-claro);
+    margin-bottom: 0;
+}
+
+.modal-cupom .modal-corpo {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-top: 18px;
+    padding: 17px;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: black;
+    background-color: var(--offwhite);
+    border-radius: 12px;
+    box-shadow: 6px 6px 0 0 var(--vermelho);
+}
+
+.modal-cupom label {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-cupom input {
+    width: 100%;
+    height: 2.8rem;
+    padding: 10px;
+    font-size: 1.1rem;
+    border-radius: 10px;
+    border: 1px solid #AEAEAE;
+    color: var(--cinza-claro);
+}
+
+.modal-cupom .modal-botoes {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    height: 50px;
+}
+
+.modal-cupom .modal-botoes button {
+    border: none;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    color: var(--branco);
+    padding: 0 1.5rem;
+}
+
+.modal-cupom .modal-botoes button:nth-child(1) {
+    background-color: var(--cinza-claro);
+}
+
+.modal-cupom .modal-botoes button:nth-child(2) {
+    background-color: var(--vermelho);
+}

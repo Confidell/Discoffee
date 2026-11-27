@@ -72,6 +72,25 @@ namespace Discoffee.Areas.Cliente.Controllers
                 IdUsuario = idUsuario
             };
 
+            // CALCULA O SUBTOTAL REAL
+            decimal subtotal = itensCarrinho.Sum(item =>
+                (
+                    item.PrecoUnitario.GetValueOrDefault() +
+                    (item.Opcoes?.Sum(opcao => opcao.PrecoExtra) ?? 0)
+                ) * item.Quantidade.GetValueOrDefault()
+            );
+            
+            // CALCULA O FRETE DE ACORDO COM O TIPO DE PEDIDO
+            if (pedido.Tipo == TipoPedido.Retirada)
+            {
+                pedido.Frete = 0;
+            }
+            else
+            {
+                pedido.Frete = subtotal >= 80 ? 0 : 12.50m;
+            }
+
+
             // CRIA O PEDIDO NO BANCO
             int idPedido = _pedidoRepository.CriarPedido(pedido);
 

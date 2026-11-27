@@ -3,8 +3,9 @@
 
     var imagens = new List<string>
     {
-        "~/Assets/Imagens/Banner_Inicial.jpg",
-        "~/Assets/Imagens/Banner_cardapio.png"
+        "~/Assets/Imagens/Banner_Discoffee.jpg",
+        "~/Assets/Imagens/Banner_Jogo.jpg",
+        "~/Assets/Imagens/Banner_Musica.jpg"
     };
 }
 @section Styles{
@@ -13,13 +14,13 @@
 }
 
 <section class="banner-inicial">
-    <div class="overlay"></div>
+    @* <div class="overlay"></div> *@
 
     <partial name="_Carrossel" model="imagens" />
     
-    <article>
+    @* <article>
         <p class="slogan">SIRVA-SE DE <span style="color: var(--amarelo);">RITMO</span></p>
-    </article>
+    </article> *@
 </section>
 
 <section class="sessao-intro sessao-padrao">

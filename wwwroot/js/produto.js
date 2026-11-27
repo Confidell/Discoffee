@@ -115,6 +115,10 @@ document.addEventListener('change', async e => {
             body: dados
         });
         if (!resposta.ok) throw new Error();
+
+        // Salvou: atualiza o status do card e refaz o filtro
+        toggle.closest('[data-item]').dataset.status = toggle.checked ? 'Ativo' : 'Inativo';
+        aplicarFiltros();
     } catch {
         // Não salvou: volta o interruptor para o estado anterior
         toggle.checked = !toggle.checked;

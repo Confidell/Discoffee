@@ -111,8 +111,8 @@ namespace Discoffee.Areas.Gerencia.Controllers
                 var ext = Path.GetExtension(arquivo.FileName).ToLower();
                 if (!ExtensoesValidas.Contains(ext))
                     ModelState.AddModelError("", "A imagem deve ser .jpg, .jpeg, .png ou .webp.");
-                if (arquivo.Length > 5 * 1024 * 1024)
-                    ModelState.AddModelError("", "A imagem deve ter no máximo 5 MB.");
+                if (arquivo.Length > 10 * 1024 * 1024)
+                    ModelState.AddModelError("", "A imagem deve ter no máximo 10 MB.");
             }
 
             return ModelState.IsValid;

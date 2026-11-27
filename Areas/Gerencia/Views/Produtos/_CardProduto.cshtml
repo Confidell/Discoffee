@@ -7,7 +7,7 @@
     var perfil = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
 }
 
-<div class="card-prod">
+<div class="card-prod" data-item data-categoria="@Model.Categoria?.NomeCategoria" data-status="@(Model.Disponibilidade ? "Ativo" : "Inativo")">
     <img src="~/Assets/Imagens/@Model.Imagem" alt="@Model.Nome" class="prod-img" />
     <div class="nome-cat">
         <h4>@Model.Nome</h4>

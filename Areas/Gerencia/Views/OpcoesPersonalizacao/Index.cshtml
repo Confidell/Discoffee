@@ -1,0 +1,95 @@
+﻿@using System.Security.Claims
+@using Discoffee.Models.Constants
+@model List<Discoffee.Models.OpcaoPersonalizacao>
+@{
+    ViewData["Title"] = "Opções";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var perfil = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/opcoesPersonalizacao.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/navbarGerencia.css" asp-append-version="true" /> 
+}
+
+<section class="sessao-opcoes">
+
+    @await Html.PartialAsync(
+        "~/Areas/Gerencia/Views/Dashboard/_NavbarDashboard.cshtml"
+    )
+
+    <div class="opcoes-header">
+
+        <div class="opcoes-desc">
+            <div class="descricao">
+                <h2>Gestão de Opções de Personalização</h2>
+                <h4>Visualize, edite, cadastre ou exclua opções de personalização</h4>
+            </div>
+
+            @if (perfil == EnumPerfil.Administrador.ToString())
+            {
+                <button type="button" class="btn-cadastrar" data-modal="modal-cadastro">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" class="btn-qtd" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
+                    </svg>
+                    <h3>Nova Opção</h3>
+                </button>
+            }
+        </div>
+    </div>
+
+    <div class="container-opcoes">
+        <div class="sessao-busca">
+            <div class="buscar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="icone-busca" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                </svg>
+                <input type="search" placeholder="Buscar cupom..." />
+            </div>
+
+            <div class="filtro-status filtro" data-filtro="categoria">
+                <div class="cat-status">
+                    <h5>Categorias</h5>
+                    <h6 class="filtro-escolhido">Todas</h6>
+                </div>
+                <img src="/Assets/Icons/Icon_SetaBaixoPreta.png" alt="" class="icone-seta" />
+
+                <ul class="filtro-menu" hidden>
+                    <li><button type="button" data-valor="">Todas</button></li>
+                    @foreach (var categoria in (IEnumerable<Discoffee.Models.Categoria>)ViewBag.Categorias)
+                    {
+                        <li><button type="button" data-valor="@categoria.NomeCategoria">@categoria.NomeCategoria</button></li>
+                    }
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="cards-opcoes">
+            <div class="op-header">
+                <h2>Tipo</h2>
+                <h2>Opção</h2>
+                <h2>Preço</h2>
+                <h2>Categoria</h2>
+                <h2>Ações</h2>
+            </div>
+
+            <div class="lista-opcoes">
+                @foreach (var opcoes in Model)
+                {
+                    <partial name="_CardOpcoes" model="opcoes" />
+                    <partial name="_ModalEditarOpcao" model="opcoes" />
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<partial name="_ModalCadOpcoes" />
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/opcoesPersonalizacao.js" asp-append-version="true"></script>
+    <script src="~/js/filtro.js" asp-append-version="true"></script>
+}

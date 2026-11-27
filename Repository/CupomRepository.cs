@@ -14,19 +14,54 @@ namespace Discoffee.Repository
             _conexaoMySQL = config.GetConnectionString("ConexaoMySQL");
         }
 
+        public List<Cupom> BuscarTodosCupons()
+        {
+            var cupons = new List<Cupom>();
+
+            using (var conexao = new MySqlConnection(_conexaoMySQL))
+            {
+                conexao.Open();
+
+                const string sql = @"
+                   SELECT Id_Cupom, Codigo_Cupom, Desconto, DataValidade
+                   FROM tbCupom
+                   ORDER BY Id_Cupom ASC;";
+
+                using (var cmd = new MySqlCommand(sql, conexao))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        cupons.Add(new Cupom
+                        {
+                            IdCupom = reader.GetInt32("Id_Cupom"),
+                            Codigo = reader.GetString("Codigo_Cupom"),
+                            Desconto = reader.GetDecimal("Desconto"),
+                            DataValidade = reader.IsDBNull(reader.GetOrdinal("DataValidade"))
+                                ? (DateTime?)null
+                                : reader.GetDateTime("DataValidade")
+                        });
+                    }
+                }
+            }
+
+            return cupons;
+        }
+
         public void AdicionarCupom(Cupom cupom)
         {
             using (var conexao = new MySqlConnection(_conexaoMySQL))
             {
                 conexao.Open();
 
-                using (var cmd = new MySqlCommand("insertTbCupom", conexao))
+                using (var cmd = new MySqlCommand("cadastrarCupom", conexao))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@vCodigo_Cupom", cupom.Codigo);
                     cmd.Parameters.AddWithValue("@vDesconto", cupom.Desconto);
-                    cmd.Parameters.AddWithValue("@vDataValidade", cupom.DataValidade);
+                    cmd.Parameters.AddWithValue("@vDataValidade",
+                        cupom.DataValidade?.ToString("dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture));
 
                     cmd.ExecuteNonQuery();
                 }
