@@ -166,6 +166,8 @@
 .prod-img {
     width: 15%;
     height: 100%;
+    object-fit: cover;
+    object-position: center;
     background-color: var(--cinza-claro);
 }
 
@@ -304,13 +306,13 @@
 }
 
 .btn-imagem .prod-img {
-    width: 100%;
-    height: 100%;
-    flex-shrink: 0;
+    width: 400px;
+    height: 400px;
+    border: 8px solid var(--amarelo);
     display: flex;
     object-fit: cover;
-    border-radius: 4px;
-    /* margin-left: 120px; */
+    object-position: center;
+    border-radius: 10px;
 }
 
 .avaliacoes {
@@ -345,6 +347,7 @@
     height: 95%;
     box-shadow: -8px -8px 0px var(--laranja);
     border-radius: 20px;
+    overflow: hidden;
 }
 
 .card-produto {
@@ -396,7 +399,7 @@
     flex-shrink: 1;
     flex-direction: column;
     justify-content: space-between;
-    max-height: 50vh;
+    max-height: 45vh;
     overflow-y: scroll;
 }
 
@@ -511,13 +514,15 @@ input[type="checkbox"] {
 
 .qtd-adicionar {
     width: 100%;
+    height: fit-content;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 25px;
     gap: 3rem;
-    position: absolute;
-    bottom: 5%;
+    position: relative;
+    bottom: 0%;
+    background-color: var(--branco);
+    padding: 1rem;
 }
 
 .add-carrinho {
