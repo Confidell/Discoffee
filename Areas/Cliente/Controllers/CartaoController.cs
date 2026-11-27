@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Discoffee.Areas.Cliente.Controllers
 {
     [Area("Cliente")]
-    [Authorize(Roles = "Cliente, Administrador")]
+    [Authorize(Roles = "Cliente, Administrador, Funcionario")]
     public class CartaoController : Controller
     {
         private readonly ICartaoRepository _cartaoRepository;
