@@ -274,13 +274,13 @@ call cadastrarCategoria('Shake', @catShake);
 
 -- PRODUTOS
 -- CAFÉS QUENTES
-call inserirProduto('Expresso', 8.90, 'Café encorpado e intenso, preparado com grãos selecionados e extração sob pressão, proporcionando sabor marcante e aroma irresistível.', 'd5762aa7551245aaa87914a7b0070bff.jpg', true, @catTradicional, @idProd);
-call inserirProduto('Cappuccino', 14.90, 'Combinação equilibrada de café expresso, leite vaporizado e espuma cremosa, finalizada com um toque de chocolate e canela.', 'd9168c614497450d8901bd4f31814440.jpg', true, @catTradicional, @idProd);
+call inserirProduto('Expresso', 8.90, 'Café encorpado e intenso, preparado com grãos selecionados e extração sob pressão, proporcionando sabor marcante e aroma irresistível.', 'd9168c614497450d8901bd4f31814440.jpg', true, @catTradicional, @idProd);
+call inserirProduto('Cappuccino', 14.90, 'Combinação equilibrada de café expresso, leite vaporizado e espuma cremosa, finalizada com um toque de chocolate e canela.', 'd5762aa7551245aaa87914a7b0070bff.jpg', true, @catTradicional, @idProd);
 call inserirProduto('Latte', 15.90, 'Café expresso combinado com leite vaporizado e uma fina camada de espuma, oferecendo uma bebida suave, cremosa e delicadamente aromática.', '3bae7ae4e1d340c48f44defb04033628.jpg', true, @catTradicional, @idProd);
 
 -- DRINKS DE CAFÉ
 call inserirProduto('Cold Brew', 16.90, 'Café extraído lentamente em água fria por várias horas, resultando em uma bebida refrescante, suave e com notas naturalmente adocicadas.', '85f48309843446f1a9856e9350f3399d.jpg', true, @catDrink, @idProd);
-call inserirProduto('Frappuccino', 19.90, 'Bebida gelada preparada com café, leite e gelo triturado, proporcionando uma textura cremosa e refrescante, finalizada com chantilly.', 'ff1e007689d44516a86ebbeed8941b64.jpg', true, @catDrink, @idProd);
+call inserirProduto('Frappuccino', 19.90, 'Bebida gelada preparada com café, leite e gelo triturado, proporcionando uma textura cremosa e refrescante, finalizada com chantilly.', 'ee0ea1c15d5f498e918554f5fd3dab60.jpg', true, @catDrink, @idProd);
 call inserirProduto('Affogato', 17.90, 'Sobremesa italiana que combina uma bola de sorvete de creme com uma dose de café expresso quente, criando um contraste irresistível de temperaturas e sabores.', 'bba0caf137f04b099707aafa21d915da.jpg', true, @catDrink, @idProd);
 
 -- BEBIDAS E REFRESCOS
