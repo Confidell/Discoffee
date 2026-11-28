@@ -22,9 +22,14 @@ namespace Discoffee.Controllers
         [HttpPost]
         public IActionResult BuscarCupomPeloCodigo(string codigo)
         {
-            var idUsuario = int.Parse(
-                User.FindFirstValue(ClaimTypes.NameIdentifier)!
-            ); 
+            var idUsuario = 0;
+
+            if (User.FindFirstValue(ClaimTypes.NameIdentifier) != null)
+            {
+                idUsuario = int.Parse(
+                    User.FindFirstValue(ClaimTypes.NameIdentifier)!
+                );    
+            }
 
             if(string.IsNullOrWhiteSpace(codigo))
             {
@@ -42,7 +47,7 @@ namespace Discoffee.Controllers
                 return RedirectToAction("Index", "Carrinho");
             }
 
-            if(_cupomRepository.CupomUtilizado(idUsuario, Convert.ToInt32(cupom.IdCupom)))
+            if(idUsuario != 0 && _cupomRepository.CupomUtilizado(idUsuario, Convert.ToInt32(cupom.IdCupom)))
             {
                 TempData["Aviso"] = "Cupom já utilizado!";
                 return RedirectToAction("Index", "Carrinho");
